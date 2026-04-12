@@ -37,6 +37,12 @@ steps:
           "labs.etsi.org:5050/tfs/controller/service:latest"
           "labs.etsi.org:5050/tfs/controller/monitoring:latest"
           "labs.etsi.org:5050/tfs/controller/compute:latest"
+          "labs.etsi.org:5050/tfs/controller/slice:latest"
+          "labs.etsi.org:5050/tfs/controller/policy:latest"
+          "labs.etsi.org:5050/tfs/controller/automation:latest"
+          "labs.etsi.org:5050/tfs/controller/pathcomp:latest"
+          "labs.etsi.org:5050/tfs/controller/dlt:latest"
+          "labs.etsi.org:5050/tfs/controller/kpi_manager:latest"
         )
         
         REGISTRY="us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs"

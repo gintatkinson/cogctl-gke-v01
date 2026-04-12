@@ -103,3 +103,10 @@ This ledger acts as the "Persistent Memory" of the Sovereign environment. Per th
 - **Action:** Refactored `infra/genesis.sh` to v2.0 (The Immutable Engine).
 - **Result:** Successful Ignition `1776017190`. Sovereignty confirmed with NAT and Private Handshake.
 - **Status:** **MISSION SUCCESS.** Total Restoration Complete.
+
+### LOG-025: Sovereign Vault & Identity (SOP-VAULT Stage I)
+- **Issue:** Blocked by environment pathing (`gcloud` missing) and missing in-cluster identity secrets.
+- **Action:** Corrected `PATH` integrity in `.bashrc`. Successfully synced `ETSI_GITLAB_PAT` from Secret Manager to cluster.
+- **Action:** Generated and secured high-entropy credentials for Database and Keycloak in K8s.
+- **Decision:** Expanded the "Immutable Snapshot" (Artifact Sync) list to include `slice`, `policy`, `automation`, `pathcomp`, `dlt`, and `kpi_manager` to ensure compliance with the 13-screen UI Audit (SOP-AUDIT).
+- **Status:** **VAULT SECURED.** Ready for Stage II (Identity Bootstrap).

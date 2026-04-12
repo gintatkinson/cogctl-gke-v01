@@ -1,0 +1,29 @@
+[2026-04-13T02:05:42+0800] STAGE 1: VALIDATING IDENTITY [1776017142]...
+Updated property [core/project].
+[2026-04-13T02:05:44+0800] STAGE 2: ENABLING SOVEREIGN APIs...
+Operation "operations/acat.p2-476494278754-2d0bc385-a8f8-4471-af14-470ed7457452" finished successfully.
+[2026-04-13T02:05:48+0800] STAGE 3: BUILDING IMMUTABLE VPC [sovereign-vpc-1776017142]...
+Created [https://www.googleapis.com/compute/v1/projects/cogctl-gke-v01/global/networks/sovereign-vpc-1776017142].
+NAME                      SUBNET_MODE  BGP_ROUTING_MODE  IPV4_RANGE  GATEWAY_IPV4
+sovereign-vpc-1776017142  CUSTOM       REGIONAL
+
+Instances on this network will not be reachable until firewall rules
+are created. As an example, you can allow all internal traffic between
+instances as well as SSH, RDP, and ICMP by running:
+
+$ gcloud compute firewall-rules create <FIREWALL_NAME> --network sovereign-vpc-1776017142 --allow tcp,udp,icmp --source-ranges <IP_RANGE>
+$ gcloud compute firewall-rules create <FIREWALL_NAME> --network sovereign-vpc-1776017142 --allow tcp:22,tcp:3389,icmp
+
+[2026-04-13T02:05:59+0800] STAGE 4: BUILDING SUBNET FABRIC (RANGE-AWARE)...
+Created [https://www.googleapis.com/compute/v1/projects/cogctl-gke-v01/regions/us-central1/subnetworks/sovereign-subnet-1776017142].
+NAME                         REGION       NETWORK                   RANGE         STACK_TYPE  IPV6_ACCESS_TYPE  INTERNAL_IPV6_PREFIX  EXTERNAL_IPV6_PREFIX
+sovereign-subnet-1776017142  us-central1  sovereign-vpc-1776017142  10.10.0.0/24  IPV4_ONLY
+[2026-04-13T02:06:17+0800] STAGE 5: PROVISIONING SOVEREIGN EGRESS (CLOUD NAT)...
+Creating router [sovereign-router-1776017142]...
+............done.
+NAME                         REGION       NETWORK
+sovereign-router-1776017142  us-central1  sovereign-vpc-1776017142
+ERROR: (gcloud.compute.routers.nats.create) unrecognized arguments: --auto-allocate-nat-external-ip-ranges (did you mean '--auto-allocate-nat-external-ips'?) 
+
+To search the help text of gcloud commands, run:
+  gcloud help -- SEARCH_TERMS
