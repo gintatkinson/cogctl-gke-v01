@@ -21,6 +21,14 @@ The Sovereign Domain requires absolute topological isolation and **Infrastructur
 
 ## 3. Deployment Logic (The Vacuum Shift)
 - **Model:** Deployment follows an "Immutable Birth" pattern. A new environment is birthed on a fresh identifier while old environments are background-decommissioned.
+
+## 4. Operational Requirements
+
+### 4.1: Workbench Authorization (The Succession Gate)
+To maintain the **Succession Log** and achieve **Persistence Checkpoints**, the workbench MUST be authenticated with GitHub via a verified SSH key. 
+- **Requirement:** Active SSH handshake (`ssh -T git@github.com`).
+- **Dependency:** Valid Ed25519 key registered in GitHub account settings.
+- **Fail-Safe:** No infrastructure modifications are permitted unless this trust bond is confirmed.
 - **Persistence:** Mandatory commit of architecture state (VPC IDs) to the Succession Log.
 
 ---
