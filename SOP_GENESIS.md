@@ -3,6 +3,13 @@
 ## PURPOSE
 To establish a "Certified Pure" GKE Sovereignty using an immutable, atomic bootstrap process.
 
+## STAGE 0: WORKBENCH AUTHORIZATION
+Before any infrastructure work begins, the agent MUST verify the persistent trust bond with the remote repository.
+
+1. **Verify Handshake:** `ssh -T git@github.com`
+2. **Identity Handshake:** Confirm authentication as `gintatkinson`.
+3. **Restoration Rule:** If authentication fails, generate a new SSH key (`ssh-keygen`) and request authorization at [github.com/settings/keys](https://github.com/settings/keys).
+
 ## PREREQUISITES
 1. **High-Entropy Identity:** Every ignition MUST generate a unique `$IDENTIFIER` (timestamp).
 2. **Path Integrity:** Ensure `gcloud` is sourced from `/home/parallels/google-cloud-sdk/bin`.
