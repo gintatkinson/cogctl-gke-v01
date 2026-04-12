@@ -39,17 +39,15 @@ steps:
           "labs.etsi.org:5050/tfs/controller/compute:latest"
         )
         
-        REGISTRY="us-central1-docker.pkg.dev/$PROJECT_ID/sovereign-tfs"
+        REGISTRY="us-central1-docker.pkg.dev/$$PROJECT_ID/sovereign-tfs"
         
-        for IMAGE in "${IMAGES[@]}"; do
-          echo "Mirroring ${IMAGE}..."
-          TARGET="${REGISTRY}/$(basename ${IMAGE})"
-          docker pull --platform linux/amd64 ${IMAGE}
-          docker tag ${IMAGE} ${TARGET}
-          docker push ${TARGET}
+        for IMAGE in "$${IMAGES[@]}"; do
+          echo "Mirroring $${IMAGE}..."
+          TARGET="$${REGISTRY}/$$(basename $${IMAGE})"
+          docker pull --platform linux/amd64 $${IMAGE}
+          docker tag $${IMAGE} $${TARGET}
+          docker push $${TARGET}
         done
 
 options:
   logging: CLOUD_LOGGING_ONLY
-  pool:
-    name: 'projects/cogctl-gke-v01/locations/us-central1/networkConfig/default' # Optional: if using private workers
