@@ -90,3 +90,16 @@ This ledger acts as the "Persistent Memory" of the Sovereign environment. Per th
 - **Endpoint:** 34.44.85.105
 - **Status:** Total Sovereignty Restored.
 
+
+### LOG-021: Total Ground Zero Success
+- **Action:** Atomic Genesis v4 completed successfully.
+- **Status:** Sovereignty Restored.
+
+
+### LOG-024: Immutable Resilience (v5b Succession)
+- **Issue:** Orphaned infrastructure poisoning and "Blind Birth" (stalled cluster) in Attempt 4.
+- **Decision:** Establish the **"Vacuum Shift"** (High-Entropy Identity Mandate) to bypass project-level metadata deadlocks.
+- **Decision:** Provision **Cloud NAT** and **Private Node Fabric** to satisfy connectivity prerequisites for isolated clusters.
+- **Action:** Refactored `infra/genesis.sh` to v2.0 (The Immutable Engine).
+- **Result:** Successful Ignition `1776017190`. Sovereignty confirmed with NAT and Private Handshake.
+- **Status:** **MISSION SUCCESS.** Total Restoration Complete.
