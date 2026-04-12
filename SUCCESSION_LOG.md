@@ -1,0 +1,59 @@
+# THE SUCCESSION LOG
+
+## Purpose
+This ledger acts as the "Persistent Memory" of the Sovereign environment. Per the **Succession Law**, every bug encountered, dependency added, or architectural decision MUST be documented here BEFORE execution.
+
+---
+
+## I. Genesis Phase (Log)
+
+### LOG-001: Bootstrap Script Implementation
+- **Issue:** GKE Standard vs. Autopilot choice for cost optimization.
+- **Decision:** Use GKE Autopilot for "Pay-per-Pod" billing to satisfy the Cost Stewardship directive.
+- **Implementation:** Added `gcloud container clusters create-auto` to `infra/bootstrap.sh`.
+
+### LOG-002: Security - Secret Migration
+- **Issue:** Plaintext PAT in markdown files violates Operational Sovereignty.
+- **Decision:** Migrate all secrets to GCP Secret Manager.
+- **Fix:** Created `ETSI_GITLAB_PAT` secret and updated directives to reference the secret.
+
+
+### LOG-003: Portable Documentation
+- **Issue:** Absolute file URIs (`file:///`) are non-portable.
+- **Decision:** Use relative repository links to maintain GitHub as the first Source of Truth.
+- **Fix:** Updated all `.md` files to use relative links.
+
+### LOG-004: Meta-Cognitive Integration
+- **Issue:** Lack of formal recovery and verification standards for safety-critical operations.
+- **Decision:** Integrated Succession, Ground Zero, Audit-First, and Ground Truth laws into the Bible and Directives.
+- **Implementation:** Updated `SOVEREIGN_BIBLE.md` and `SOVEREIGN DIRECTIVES.MD`.
+
+### LOG-005: Minimalism & In-Cluster Hosting
+- **Issue:** Complexity of manual manifest hacking and risk of upstream flux.
+- **Decision:** Adopted the **Minimalism Lock** (Config over Modification) and the **Snapshot Strategy** (Host binaries in-cluster).
+- **Implementation:** Updated `SOVEREIGN_BIBLE.md` and `SOVEREIGN DIRECTIVES.MD`. Identified GKE/Artifact Registry as the destination for the "Immutable Snapshot".
+
+### LOG-006: Recovery Law & Context Persistence
+- **Issue:** Risk of building on a corrupted or "Dirty" environment state after restarts.
+- **Decision:** Integrated the **Recovery Law** requiring a mandatory "Ground Truth" verification at the start of every session.
+- **Implementation:** Updated `SOVEREIGN_BIBLE.md`, `SOVEREIGN DIRECTIVES.MD`, and prepended STAGE 0 to `SOP_GENESIS.md`.
+
+### LOG-007: Explicit Authorization Lock
+- **Issue:** Risk of AI Agent performing autonomous, system-modifying actions based on ambiguous user input.
+- **Decision:** Integrated the **Explicit Authorization Lock** (Execution Guard) as the master gate for all deployments, resets, and infrastructure changes.
+- **Implementation:** Updated `SOVEREIGN_BIBLE.md` and the PROLOGUE of `SOVEREIGN DIRECTIVES.MD`. Recommitted to a "Halt-by-Default" stance for all non-informational tasks.
+
+### LOG-008: Persistence Checkpoint (Sovereign Save)
+- **Issue:** Risk of mission-state loss during session transitions or agent failures.
+- **Decision:** Mandated a **Persistence Checkpoint** (Git Push) after every successful SOP transition.
+- **Implementation:** Updated `SOVEREIGN DIRECTIVES.MD` and `SOP_GENESIS.md` with the standard commit pattern: `CHECKPOINT: SOP-XX COMPLETE`.
+
+### LOG-009: SBOM Integrity Law
+- **Issue:** Risk of "Garbage" accumulation and unauthorized software injection compromising safety-critical predictably.
+- **Decision:** Established the **SBOM Integrity Law** (No External Garbage). Mandated a pure stack limited to official TFS components and sanctioned addons.
+- **Implementation:** Updated `SOVEREIGN_BIBLE.md` (Rule 7) and `SOVEREIGN DIRECTIVES.MD` (Section 9).
+
+### LOG-010: Baseline Fidelity Lock
+- **Issue:** Tendency of AI Agents to deviate from official scripts and "hack" fixes, leading to complex state drift.
+- **Decision:** Integrated the **Baseline Fidelity Lock**. Mandated strict adherence to official ETSI TFS scripts (`tfs.sh`). Prohibited manual overrides unless explicitly approved.
+- **Implementation:** Updated `SOVEREIGN_BIBLE.md` (Rule 8) and `SOVEREIGN DIRECTIVES.MD` (Section 2).

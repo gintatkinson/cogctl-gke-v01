@@ -1,0 +1,55 @@
+# CLOUD BUILD: SOVEREIGN ARTIFACT SYNC
+# This manifest performs the Pull -> Tag -> Push loop ENTIRELY within GCP.
+# NO binaries touch the local viewport.
+
+steps:
+  # 1. Retrieve GitLab PAT from Secret Manager
+  # (Requires Cloud Build Service Account to have Secret Manager Secret Accessor role)
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: 'get-pat'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        gcloud secrets versions access latest --secret="ETSI_GITLAB_PAT" > /workspace/gl_pat.txt
+
+  # 2. Authenticate with ETSI GitLab
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'auth-etsi'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        cat /workspace/gl_pat.txt | docker login labs.etsi.org:5050 -u "sovereign-agent" --password-stdin
+        rm /workspace/gl_pat.txt
+
+  # 3. Mirror Images (Core Baseline)
+  # We use 'docker' builder to perform the pull/tag/push sequence on the Google worker.
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'sync-images'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        IMAGES=(
+          "labs.etsi.org:5050/tfs/controller/context:latest"
+          "labs.etsi.org:5050/tfs/controller/device:latest"
+          "labs.etsi.org:5050/tfs/controller/service:latest"
+          "labs.etsi.org:5050/tfs/controller/monitoring:latest"
+          "labs.etsi.org:5050/tfs/controller/compute:latest"
+        )
+        
+        REGISTRY="us-central1-docker.pkg.dev/$PROJECT_ID/sovereign-tfs"
+        
+        for IMAGE in "${IMAGES[@]}"; do
+          echo "Mirroring ${IMAGE}..."
+          TARGET="${REGISTRY}/$(basename ${IMAGE})"
+          docker pull --platform linux/amd64 ${IMAGE}
+          docker tag ${IMAGE} ${TARGET}
+          docker push ${TARGET}
+        done
+
+options:
+  logging: CLOUD_LOGGING_ONLY
+  pool:
+    name: 'projects/cogctl-gke-v01/locations/us-central1/networkConfig/default' # Optional: if using private workers
