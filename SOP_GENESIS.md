@@ -2,11 +2,9 @@
 
 ## STAGE 0: Recovery Checkpoint (Mandatory)
 Every new session or restart MUST begin here:
-1. **Verfy Black Box:** Read `SUCCESSION_LOG_BLACKBOX.md` for any mid-SOP tactical discoveries or recent failures.
-2. **Verify Source of Truth:** `git status` must show no unauthorized deviations.
-3. **Verify Last SOP:** Check `SUCCESSION_LOG.md` for the last successful entry.
-4. **Verify Runtime:** Reconcile active resources against the **Architectural Whitelist.**
-5. **State Check:** If any verification fails, mark state as **"Dirty"** and perform a Forensic Audit or **Ground Zero Reset.**
+1. **Verify Black Box:** Read `SUCCESSION_LOG_BLACKBOX.md` for any mid-SOP tactical discoveries or recent failures.
+2. **Verify Network Purity:** Audit `gcloud compute networks subnets list`. Any existing `sovereign-genesis` secondary ranges on the target network MUST be purged or the network abandoned before ignition.
+3. **Verify State:** If any verification fails, mark state as **"Dirty"** and perform a **Ground Zero Reset.**
 
 ## I. Pre-Flight Configuration
 1. **Identify Target Project:** `cogctl-gke-v01`.
@@ -39,9 +37,13 @@ The `infra/bootstrap.sh` script automates the following steps:
 
 ## V. Artifact Sync (Binary Locking)
 1. **Identify Registry:** Select `us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs`.
-2. **Pull ETSI Binaries:** Extract image tags from the official `tfs.sh`.
-3. **Locking:** Pull images from ETSI GitLab, re-tag as local Sovereign artifacts, and push to GCP Artifact Registry.
-4. **Validation:** Ensure `docker images` list matches the ETSI baseline manifests exactly.
+2. **Execute Mirror Job:** Run `gcloud builds submit --config infra/cloudbuild_sync.yaml .`.
+3. **Validation:** Ensure `docker images` list matches the ETSI baseline manifests exactly.
+
+> [!IMPORTANT]
+> **Prerequisites & Gotchas:**
+> - **IAM:** The default Compute Engine Service Account (`[PROJECT_NUMBER]-compute@developer.gserviceaccount.com`) MUST have the **Secret Manager Secret Accessor** role for the `ETSI_GITLAB_PAT`.
+> - **Syntax:** Cloud Build YAML reserves `${VAR}` for its own substitutions. Bash variables in scripts MUST use the double-dollar `$$IMAGE` syntax.
 
 ## VI. Persistence Checkpoint (Sovereign Save)
 1. **Commit:** `git commit -m "CHECKPOINT: SOP-GENESIS COMPLETE"`.

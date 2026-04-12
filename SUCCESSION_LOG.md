@@ -57,3 +57,36 @@ This ledger acts as the "Persistent Memory" of the Sovereign environment. Per th
 - **Issue:** Tendency of AI Agents to deviate from official scripts and "hack" fixes, leading to complex state drift.
 - **Decision:** Integrated the **Baseline Fidelity Lock**. Mandated strict adherence to official ETSI TFS scripts (`tfs.sh`). Prohibited manual overrides unless explicitly approved.
 - **Implementation:** Updated `SOVEREIGN_BIBLE.md` (Rule 8) and `SOVEREIGN DIRECTIVES.MD` (Section 2).
+
+### LOG-015: Binary Sync Hardening
+- **Issue:** Image path corruption and IAM permission denials during Cloud Build sync.
+- **Decision:** Hardcoded project paths and explicitly delegated IAM to the Default Compute Service Account.
+- **Status:** Integrated into SOP_GENESIS.md and cloudbuild_sync.yaml.
+
+
+### LOG-016: Sovereign Vault Locked
+- **Status:** Cloud Build e230a262 successful. All core baseline images mirrored.
+- **Action:** Proceeding to Stage VI (Cluster Bootstrap).
+
+
+### LOG-018: The Purge (Stage 1)
+- **Action:** Initiated deletion of the stalled 'sovereign-genesis' cluster.
+- **Status:** Pending GCP termination.
+
+
+### LOG-020: First Light of the Sovereignty
+- **Action:** Sovereign Genesis v2 is confirmed RUNNING.
+- **Endpoint:** 35.224.223.15
+- **Status:** Foundation Complete.
+
+
+### LOG-019: Genesis v2 Ignition
+- **Action:** Re-ignited GKE Genesis on the isolated 'sovereign-vpc' foundation.
+- **Status:** Cluster creation in progress on pure infrastructure.
+
+
+### LOG-023: Atomic Genesis Success
+- **Action:** Sovereign Genesis v4 is confirmed RUNNING.
+- **Endpoint:** 34.44.85.105
+- **Status:** Total Sovereignty Restored.
+

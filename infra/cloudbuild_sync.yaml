@@ -39,7 +39,7 @@ steps:
           "labs.etsi.org:5050/tfs/controller/compute:latest"
         )
         
-        REGISTRY="us-central1-docker.pkg.dev/$$PROJECT_ID/sovereign-tfs"
+        REGISTRY="us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs"
         
         for IMAGE in "$${IMAGES[@]}"; do
           echo "Mirroring $${IMAGE}..."

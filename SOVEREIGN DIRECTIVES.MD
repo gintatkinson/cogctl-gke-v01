@@ -99,6 +99,11 @@ The following endpoints must be provided:
     - Any tool that caches production binaries or cluster credentials on the local host.
 - **Delegated Processing:** All heavy-lifting operations (Syncing, Building, Massive Data Processing) must be delegated to Cloud-Native workers (e.g., Cloud Build) or in-cluster jobs.
 
+### 12. NETWORK ISOLATION (THE AIR-GAP LAW)
+1. **Mandatory Dedication:** No Sovereign Production cluster shall rely on the `default` VPC or any shared network infrastructure.
+2. **Ground Zero Reset:** The official rollback point for any network-level failure or "Orphaned State" is the total destruction and recreation of the dedicated VPC.
+3. **Internal Only:** All Sovereignty subnets must be configured with Private Google Access. Public endpoints are permitted only via governed Ingress Gateways.
+
 ---
 
 ### YOUR FIRST TASK: THE GKE GENESIS

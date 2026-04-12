@@ -36,3 +36,19 @@ Knowledge acquired during failure is the most critical asset for recovery. This 
 - **Status:** origin/main is confirmed at 1fb6774. Sync is successful.
 - **Action:** Executing git reset to satisfy IDE state.
 
+
+### BB-010: Image Path Corruption
+- **Discovery:** Cloud Build failed because $$PROJECT_ID failed to resolve in the internal bash environmental scope. Target path result was //sovereign-tfs.
+- **Action:** Hardcoded project ID in cloudbuild_sync.yaml.
+
+
+### BB-011: Bootstrap Path Failure
+- **Discovery:** infra/bootstrap.sh failed because gcloud was not in the shell $PATH.
+- **Action:** Injected absolute SDK path into infra/bootstrap.sh.
+
+### BB-012: Orphaned Infrastructure State (Ghost Cluster)
+- **Failure Mode:** GKE status remains `PROVISIONING` indefinitely with health-checks at 0/2.
+- **Root Cause:** Conflict between overlapping creation requests. The background `gcloud` process sent a request, crashed locally, and a subsequent retry created a "Poisoned Network Range" conflict in the VPC.
+- **Effect:** The `default` subnet became "polluted" with secondary ranges tied to a zombie cluster ID.
+- **Recovery:** Abandon the polluted network. Establish a dedicated, isolated VPC for the Sovereign Production environment.
+

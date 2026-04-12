@@ -3,11 +3,14 @@ set -e
 
 # THE SOVEREIGN GENESIS BOOTSTRAP
 # Project: cogctl-gke-v01
-
+# CONFIGURATION
 PROJECT_ID="cogctl-gke-v01"
 CLUSTER_NAME="sovereign-genesis"
 REGION="us-central1"
 ZONE="us-central1-a"
+
+# ENSURE GCLOUD IS IN PATH
+export PATH="/home/parallels/google-cloud-sdk/bin:$PATH"
 
 log() {
     echo "[$(date +'%Y-%m-%dT%H:%M:%S%z')] $1"
@@ -33,11 +36,13 @@ gcloud services enable \
     --project ${PROJECT_ID}
 
 # 2. Infrastructure Creation
-log "Phase 2: Creating Sovereign GKE Cluster..."
+log "Phase 2: Creating Sovereign GKE Cluster (Isolated Genesis)..."
 # Using GKE Autopilot for Phase 1 to ensure production-grade security defaults (Shielded Nodes, Workload Identity, etc.)
 gcloud container clusters create-auto ${CLUSTER_NAME} \
     --project ${PROJECT_ID} \
     --region ${REGION} \
+    --network "sovereign-vpc" \
+    --subnetwork "sovereign-subnet-us-central" \
     --release-channel "regular"
 
 # 3. Connectivity Hand-off
