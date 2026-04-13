@@ -2,17 +2,13 @@
 
 This is a mandatory operational guardrail for all mission participants (AI or Human).
 
-## 1. Environment Readiness (Zero Trust)
+## 1. Foundational Health Check (The Node Fabric)
+- **Node Readiness**: BEFORE starting any Turn/SOP, you MUST verify the cluster fabric via `/home/parallels/google-cloud-sdk/bin/kubectl get nodes`. 
+- **The Blind Birth Gate**: If nodes are not present or 'Ready,' you MUST halt. This prevents 'Phantom Deployments' onto a ghost foundation.
+
+## 2. Environment Readiness (Zero Trust)
 - **Identity Bond**: Verify access via `/home/parallels/google-cloud-sdk/bin/gh auth status`.
-- **Absolute Pathing**: ALWAYS use absolute paths for system tools:
-  - `/home/parallels/google-cloud-sdk/bin/gcloud`
-  - `/home/parallels/google-cloud-sdk/bin/kubectl`
-  - `/home/parallels/google-cloud-sdk/bin/gh`
+- **Absolute Pathing**: ALWAYS use absolute paths for system tools.
 
-## 2. Purity & Pollution Control
-- **Temporary Scripts**: All tactical/debug scripts MUST be created in the `scratch/` directory.
-- **Log Hygiene**: Standalone `.log` files are prohibited in the repository root. Log directly to the **Succession Log**.
-- **Issue Tracking**: Use native GitHub Issues. Local `ISSUES.md` files are forbidden.
-
-## 3. The "Absolute Beginning" Disposal
-In the event of a "Genesis Reset," this SOP must be archived in `.sovereign_archive/` to restore the repository to a state of absolute purity.
+## 3. Purity & Pollution Control
+- **Temporary Scripts**: Use the `scratch/` directory for all tactical logic.
