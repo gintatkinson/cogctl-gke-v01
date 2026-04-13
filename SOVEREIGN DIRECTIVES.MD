@@ -112,3 +112,9 @@ The following endpoints must be provided:
 3. Initiate the **GKE Genesis** autonomously via [infra/bootstrap.sh](infra/bootstrap.sh).
 
 **AUTHORIZATION GRANTED. "EXECUTE."**
+---
+
+### 13. THE VIEWPORT LOCK ENFORCEMENT
+1. **Hard Protocol:** The browser_subagent and search_web tools are strictly blacklisted.
+2. **Halt-on-Gap:** If a dependency or documentation gap cannot be resolved using the Sanctioned Toolchain (git, gcloud, kubectl, gh), the agent MUST halt and report it as a Critical Blocker to the User.
+3. **Remote-Only Research:** All external research is delegated to the User or must be performed via authenticated CLI-native tools that do not cache local state.
