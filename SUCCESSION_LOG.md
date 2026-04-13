@@ -127,8 +127,8 @@ This ledger acts as the "Persistent Memory" of the Sovereign environment. Per th
 
 ---
 
-### LOG-028: SOVEREIGN INTEGRITY PURIFIED (2026-04-13)
-1. **Architectural Fix**: Established native **Identity Bond** using `GH_TOKEN` environment variable linked to GCP Secret Manager. This eliminates "Shadow Bridges" and OIDC-handshake blockers in headless viewports.
-2. **Path Hardening**: SDK bin path locked into `~/.bashrc` to prevent "Command Not Found" regressions.
-3. **Repository Purification**: Purged all tactical debug scripts and logs into the hidden `.sovereign_archive/` directory. 
-4. **Guardrail Initialization**: Codified **SOP_BOOTSTRAP.md** as the mandatory entry skill for all mission participants.
+### LOG-029: FOUNDATION STALL & REBIRTH INITIATION (2026-04-13)
+1. **Issue**: GKE Genesis Attempt 4 resulted in a 'Ghost Cluster' (zero nodes) due to missing Cloud NAT in the Private VPC.
+2. **Identification**: Verified via Issue #27. Audit confirmed nodes were 'Born Blind' (no outbound path).
+3. **Decision**: Total Foundation Reset (SOP-GENESIS-IMMUTABLE). 
+4. **Action**: Purging ghost cluster and re-birthing foundation v3.0 with NAT-first sequencing.
