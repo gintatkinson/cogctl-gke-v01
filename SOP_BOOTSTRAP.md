@@ -12,3 +12,7 @@ This is a mandatory operational guardrail for all mission participants (AI or Hu
 
 ## 3. Purity & Pollution Control
 - **Temporary Scripts**: Use the `scratch/` directory for all tactical logic.
+
+## 4. Knowledge Anchoring (Fidelity Gate)
+- **Problem/Solution Mapping**: Before executing any major architectural fix, follow [SOP_KNOWLEDGE_ANCHORING.md](SOP_KNOWLEDGE_ANCHORING.md). 
+- **Requirement**: Create a high-fidelity GitHub Issue and link it to a standalone Solution Specification.
