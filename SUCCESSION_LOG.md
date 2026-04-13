@@ -116,3 +116,19 @@ This ledger acts as the "Persistent Memory" of the Sovereign environment. Per th
 - **Root Cause:** Prioritizing "shortcut" information retrieval over strict operational protocol.
 - **Correction:** Implemented the **Viewport Lock Enforcement** (Directives Section 13). Formalized a "Halt-on-Gap" policy requiring human intervention or sanctioned CLI tools for all information gaps.
 - **Status:** **INTEGRITY RECOVERED.** Protocol Hardened.
+
+---
+
+### LOG-028: SOVEREIGN INTEGRITY PURIFIED (2026-04-13)
+1. **Architectural Fix**: Established native **Identity Bond** using `GH_TOKEN` environment variable linked to GCP Secret Manager. This eliminates "Shadow Bridges" and OIDC-handshake blockers in headless viewports.
+2. **Path Hardening**: SDK bin path locked into `~/.bashrc` to prevent "Command Not Found" regressions.
+3. **Repository Purification**: Purged all tactical debug scripts and logs into the hidden `.sovereign_archive/` directory. 
+4. **Guardrail Initialization**: Codified **SOP_BOOTSTRAP.md** as the mandatory entry skill for all mission participants to prevent future repo pollution.
+
+---
+
+### LOG-028: SOVEREIGN INTEGRITY PURIFIED (2026-04-13)
+1. **Architectural Fix**: Established native **Identity Bond** using `GH_TOKEN` environment variable linked to GCP Secret Manager. This eliminates "Shadow Bridges" and OIDC-handshake blockers in headless viewports.
+2. **Path Hardening**: SDK bin path locked into `~/.bashrc` to prevent "Command Not Found" regressions.
+3. **Repository Purification**: Purged all tactical debug scripts and logs into the hidden `.sovereign_archive/` directory. 
+4. **Guardrail Initialization**: Codified **SOP_BOOTSTRAP.md** as the mandatory entry skill for all mission participants.
