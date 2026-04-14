@@ -22,7 +22,7 @@ Provision GKE Autopilot cluster utilizing high-entropy naming (e.g., `sovereign-
 
 ## Phase 3: Fabric Readiness (The Gateway)
 - **Mandatory verification gate**: Minimum 5-minute wait post-creation.
-- **Blocking Guardrail**: `kubectl get nodes` MUST return at least 2 `Ready` nodes. 
-- **System Service Health**: `kubectl get pods -n kube-system` MUST show `Running` status for `kube-dns` and `konnectivity-agent`. 
+- **Blocking Guardrail**: Fabric audit (via Cloud Console or Cloud Build) MUST return at least 2 `Ready` nodes. 
+- **System Service Health**: System pods in `kube-system` MUST show `Running` status for `kube-dns` and `konnectivity-agent` (Verify via Console). 
 
 **DO NOT proceed to application-layer deployment (TFS) until Phase 3 is 100% Green.**

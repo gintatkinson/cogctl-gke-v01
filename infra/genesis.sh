@@ -88,4 +88,4 @@ gcloud container clusters create-auto $CLUSTER_NAME \
     --services-secondary-range-name gke-services \
     --project $PROJECT_ID
 
-log "MISSION SUCCESS: Sovereign Genesis [$ID] is RUNNING."
+echo "$CLUSTER_NAME" > /tmp/last_cluster_name.txt && echo "$CLUSTER_NAME" > /tmp/last_cluster_name.txt && echo "[$(date +%Y-%m-%dT%H:%M:%S%z)] MISSION SUCCESS: Sovereign Genesis [$ID] is RUNNING."
