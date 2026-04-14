@@ -1,0 +1,10 @@
+{
+  "project_id": "cogctl-gke-v01",
+  "cluster_name": "sovereign-genesis-1776160802",
+  "region": "us-central1",
+  "ingress_ip": "34.123.195.174",
+  "identity_birth": "1776116802",
+  "architecture": "Hardened Native (v3.0)",
+  "status": "OPERATIONAL",
+  "agent_handover_timestamp": "2026-04-14T11:30:00Z"
+}
