@@ -1,0 +1,17 @@
+steps:
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - |
+      set -e
+      echo "[INGRESS] Authenticating to cluster: $_CLUSTER_NAME..."
+      gcloud container clusters get-credentials "$_CLUSTER_NAME" --region us-central1
+      
+      echo "[INGRESS] Restarting NGINX Controller..."
+      kubectl rollout restart deployment nginx-ingress-microk8s-controller-opt -n ingress
+      
+      echo "[INGRESS] Waiting for rollout..."
+      kubectl rollout status deployment nginx-ingress-microk8s-controller-opt -n ingress --timeout=120s
+substitutions:
+  _CLUSTER_NAME: "sovereign-genesis-1776160802"

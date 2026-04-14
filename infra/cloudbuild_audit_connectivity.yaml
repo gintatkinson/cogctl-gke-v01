@@ -1,0 +1,16 @@
+steps:
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - |
+      set -e
+      gcloud container clusters get-credentials "$_CLUSTER_NAME" --region us-central1
+      
+      echo "[AUDIT] VERIFYING SERVICE ENDPOINTS (DEFAULT NAMESPACE):"
+      kubectl get endpoints -n default
+      
+      echo "[AUDIT] VERIFYING INGRESS CONTROLLER LOGS:"
+      kubectl logs -l app.kubernetes.io/name=ingress-nginx -n ingress --tail=50
+substitutions:
+  _CLUSTER_NAME: "sovereign-genesis-1776160802"
