@@ -1,0 +1,43 @@
+steps:
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - |
+      set -e
+      # 1. Fetch GitLab PAT (Secret Manager -> K8s)
+      echo "[VAULT] Fetching ETSI_GITLAB_PAT..."
+      GITLAB_PAT=$(gcloud secrets versions access latest --secret="ETSI_GITLAB_PAT")
+      
+      # 2. Authenticate to GKE
+      echo "[VAULT] Authenticating to cluster: $_CLUSTER_NAME..."
+      gcloud container clusters get-credentials $_CLUSTER_NAME --region $_REGION
+      
+      # 3. Secure Registry Credentials
+      echo "[VAULT] Syncing registry secrets..."
+      kubectl create secret generic tfs-gitlab-auth --from-literal=token="$GITLAB_PAT" --dry-run=client -o yaml | kubectl apply -f -
+      
+      # 4. Generate & Secure Infrastructure Credentials
+      echo "[VAULT] Generating infrastructure secrets..."
+      DB_PASS=$(openssl rand -base64 32)
+      KC_ADMIN_PASS=$(openssl rand -base64 32)
+      
+      kubectl create secret generic tfs-database-creds --from-literal=password="$DB_PASS" --dry-run=client -o yaml | kubectl apply -f -
+      kubectl create secret generic tfs-keycloak-creds --from-literal=admin-password="$KC_ADMIN_PASS" --dry-run=client -o yaml | kubectl apply -f -
+      
+      # 5. Recovery of Metadata Secrets
+      echo "[VAULT] Restoring metadata secrets..."
+      kubectl create secret generic qdb-data \
+        --from-literal=username=admin \
+        --from-literal=password=quest \
+        --from-literal=METRICSDB_USER=admin \
+        --from-literal=METRICSDB_PASS=quest \
+        --dry-run=client -o yaml | kubectl apply -f -
+        
+      kubectl create secret docker-registry regcred \
+        --docker-server=labs.etsi.org:5050 \
+        --docker-username=antigravity \
+        --docker-password="$GITLAB_PAT" \
+        --dry-run=client -o yaml | kubectl apply -f -
+
+      echo "[VAULT] Mission Success: Secrets established in-cluster."
