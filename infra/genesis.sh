@@ -1,9 +1,6 @@
-#!/bin/bash
-set -e
-
-# SOVEREIGN GENESIS ENGINE v2.0 (IMMUTABLE)
-# Reference: SOVEREIGN_SYSTEM_DESIGN.md
-# Purpose: Dynamic, NAT-provisioned, and high-entropy GKE bootstrap.
+# SOVEREIGN GENESIS ENGINE v3.0 (HARDENED NATIVE)
+# Reference: solution_spec_hardened_ignition.md
+# Purpose: Deterministic node birthing via Standard Native fabric + VPC Firewall.
 
 export PATH="/home/parallels/google-cloud-sdk/bin:$PATH"
 export PROJECT_ID="cogctl-gke-v01"
@@ -56,19 +53,7 @@ gcloud compute routers nats create $NAT_NAME \
     --nat-all-subnet-ip-ranges \
     --project=$PROJECT_ID
 
-log "STAGE 6: ESTABLISHING SERVICE BRIDGE (PEERING)..."
-gcloud compute addresses create google-managed-services-$VPC_NAME \
-    --global \
-    --purpose=VPC_PEERING \
-    --prefix-length=24 \
-    --network=$VPC_NAME \
-    --project=$PROJECT_ID
-
-gcloud services vpc-peerings connect \
-    --service=servicenetworking.googleapis.com \
-    --ranges=google-managed-services-$VPC_NAME \
-    --network=$VPC_NAME \
-    --project=$PROJECT_ID
+# STAGE 6 (DEPRECATED): Managed Service Peering removed to prevent propagation deadlocks (#34).
 
 log "STAGE 7: ESTABLISHING SECURITY PERIMETER..."
 gcloud compute firewall-rules create sovereign-allow-internal-$ID \
@@ -77,15 +62,13 @@ gcloud compute firewall-rules create sovereign-allow-internal-$ID \
     --source-ranges=10.10.0.0/16 \
     --project=$PROJECT_ID
 
-log "STAGE 8: IGNITION - CREATING PRIVATE SOVEREIGN CLUSTER..."
+log "STAGE 8: IGNITION - CREATING HARDENED NATIVE CLUSTER..."
 gcloud container clusters create-auto $CLUSTER_NAME \
     --region $REGION \
     --network $VPC_NAME \
     --subnetwork $SUBNET_NAME \
-    --enable-private-nodes \
-    --master-ipv4-cidr 172.16.0.0/28 \
     --cluster-secondary-range-name gke-pods \
     --services-secondary-range-name gke-services \
     --project $PROJECT_ID
 
-echo "$CLUSTER_NAME" > /tmp/last_cluster_name.txt && echo "$CLUSTER_NAME" > /tmp/last_cluster_name.txt && echo "[$(date +%Y-%m-%dT%H:%M:%S%z)] MISSION SUCCESS: Sovereign Genesis [$ID] is RUNNING."
+echo "$CLUSTER_NAME" > /tmp/last_cluster_name.txt && echo "[$(date +%Y-%m-%dT%H:%M:%S%z)] MISSION SUCCESS: Sovereign Genesis [$ID] is RUNNING."

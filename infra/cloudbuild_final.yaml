@@ -1,0 +1,31 @@
+steps:
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - |
+      set -e
+      # The following variable is populated by sed in master_ignition.sh
+      CLUSTER_NAME="sovereign-genesis-1776160802"
+      
+      echo "[FINAL] Authenticating to cluster: sovereign-genesis-1776160802..."
+      gcloud container clusters get-credentials "sovereign-genesis-1776160802" --region us-central1
+      
+      echo "[FINAL] Ensuring Ingress Namespace exists..."
+      kubectl create namespace ingress --dry-run=client -o yaml | kubectl apply -f -
+      
+      echo "[FINAL] Applying Ingress RBAC and Service Bridge..."
+      kubectl apply -f infra/nginx_ingress_rbac.yaml
+      kubectl apply -f infra/nginx_ingress_service.yaml
+      
+      echo "[FINAL] Applying Hardened Ingress Controller..."
+      # This manifest was refactored for Autopilot compliance (Deployment vs DaemonSet)
+      kubectl apply -f baseline/tfs-controller/src/tests/ofc25/nginx-ingress-controller-opt.yaml
+      
+      echo "[FINAL] Applying Ingress Routing..."
+      kubectl apply -f baseline/tfs-controller/src/tests/ofc25/tfs-ingress-opt.yaml
+      
+      echo "[FINAL] Verification of fabric existence..."
+      kubectl get nodes --no-headers
+      
+      echo "[FINAL] Deployment sequence complete. Pending Ingress IP birth."

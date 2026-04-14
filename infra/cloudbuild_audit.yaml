@@ -1,0 +1,16 @@
+steps:
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - |
+      set -e
+      gcloud container clusters get-credentials $_CLUSTER_NAME --region us-central1
+      echo "[AUDIT] NODE STATUS:"
+      kubectl get nodes
+      echo "[AUDIT] SYSTEM PODS:"
+      kubectl get pods -n kube-system
+      echo "[AUDIT] INGRESS PODS:"
+      kubectl get pods -n ingress
+      echo "[AUDIT] INGRESS SERVICES:"
+      kubectl get svc -n ingress

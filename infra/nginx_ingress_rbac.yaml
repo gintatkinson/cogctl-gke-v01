@@ -18,8 +18,12 @@ rules:
   - pods
   - secrets
   verbs:
+  - get
   - list
   - watch
+  - create
+  - update
+  - patch
 - apiGroups:
   - ""
   resources:

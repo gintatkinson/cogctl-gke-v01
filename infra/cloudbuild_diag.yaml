@@ -1,0 +1,12 @@
+steps:
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - |
+      set -e
+      gcloud container clusters get-credentials $_CLUSTER_NAME --region us-central1
+      echo "[DIAG] DESCRIBING INGRESS POD:"
+      kubectl describe pod -l $_LABEL -n ingress
+      echo "[DIAG] INGRESS POD LOGS:"
+      kubectl logs -l $_LABEL -n ingress --tail=100

@@ -18,6 +18,7 @@ gcloud container clusters get-credentials "$CLUSTER_NAME" --region "$REGION" --p
 
 log "PHASE 4: SECRET BOOTSTRAP..."
 sleep 60
+export CLUSTER_NAME=$CLUSTER_NAME
 bash infra/vault_bootstrap.sh
 
 log "PHASE 5: FINAL DEPLOYMENT..."

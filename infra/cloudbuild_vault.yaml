@@ -15,15 +15,15 @@ steps:
       
       # 3. Secure Registry Credentials
       echo "[VAULT] Syncing registry secrets..."
-      kubectl create secret generic tfs-gitlab-auth --from-literal=token="$GITLAB_PAT" --dry-run=client -o yaml | kubectl apply -f -
+      kubectl create secret generic tfs-gitlab-auth --from-literal=token="$$GITLAB_PAT" --dry-run=client -o yaml | kubectl apply -f -
       
       # 4. Generate & Secure Infrastructure Credentials
       echo "[VAULT] Generating infrastructure secrets..."
       DB_PASS=$(openssl rand -base64 32)
       KC_ADMIN_PASS=$(openssl rand -base64 32)
       
-      kubectl create secret generic tfs-database-creds --from-literal=password="$DB_PASS" --dry-run=client -o yaml | kubectl apply -f -
-      kubectl create secret generic tfs-keycloak-creds --from-literal=admin-password="$KC_ADMIN_PASS" --dry-run=client -o yaml | kubectl apply -f -
+      kubectl create secret generic tfs-database-creds --from-literal=password="$$DB_PASS" --dry-run=client -o yaml | kubectl apply -f -
+      kubectl create secret generic tfs-keycloak-creds --from-literal=admin-password="$$KC_ADMIN_PASS" --dry-run=client -o yaml | kubectl apply -f -
       
       # 5. Recovery of Metadata Secrets
       echo "[VAULT] Restoring metadata secrets..."
@@ -37,7 +37,7 @@ steps:
       kubectl create secret docker-registry regcred \
         --docker-server=labs.etsi.org:5050 \
         --docker-username=antigravity \
-        --docker-password="$GITLAB_PAT" \
+        --docker-password="$$GITLAB_PAT" \
         --dry-run=client -o yaml | kubectl apply -f -
 
       echo "[VAULT] Mission Success: Secrets established in-cluster."

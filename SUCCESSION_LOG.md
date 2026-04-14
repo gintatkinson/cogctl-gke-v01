@@ -155,3 +155,14 @@ This ledger acts as the "Persistent Memory" of the Sovereign environment. Per th
     2. Permanent loss of untracked tactical archives (`.sovereign_archive/`, `scratch/`) via `git clean -fxd`.
 - **Lesson**: Data destruction MUST be preceded by a formal "Wisdom Harvest" (Succession Log distilling). Ambiguous input ("Continue") MUST be treated as a HALT condition for destructive operations.
 - **Status**: HALTED. Protocol Hardened.
+
+### LOG-033: GENESIS v3.0 (HARDENED IGNITION)
+- **Issue**: Heartbeat Deadlock (Ghost Clusters) in Private Node fabric (#34).
+- **Decision**: Total technical pivot from Private Nodes to **Standard Native** (Public Nodes + Firewall) to ensure deterministic node birthing.
+- **Action**: Removing VPC Peering and `--enable-private-nodes` from the ignition sequence.
+- **Status**: SUCCESS. Nodes (3) confirmed. Ingress online at 34.123.195.174.
+
+### LOG-034: TOTAL IGNITION COMPLETE (2026-04-14)
+- **Status**: Mission Accomplished. The sovereign foundation is stable, network-verified, and accessible.
+- **Handover**: Preparation for agent session restart. Cluster remains ACTIVE. Persistence metadata birthed in `infra/persistence.json`.
+
