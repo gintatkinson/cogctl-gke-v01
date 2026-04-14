@@ -1,0 +1,84 @@
+{
+    "contexts": [
+        {"context_id": {"context_uuid": {"uuid": "admin"}}}
+    ],
+    "topologies": [
+        {"topology_id": {"context_id": {"context_uuid": {"uuid": "admin"}}, "topology_uuid": {"uuid": "admin"}}},
+        {"topology_id": {"context_id": {"context_uuid": {"uuid": "admin"}}, "topology_uuid": {"uuid": "D2"   }}},
+        {"topology_id": {"context_id": {"context_uuid": {"uuid": "admin"}}, "topology_uuid": {"uuid": "inter"}}}
+    ],
+    "devices": [
+        {
+            "device_id": {"device_uuid": {"uuid": "R1@D2"}}, "device_type": "emu-packet-router", "device_drivers": [0],
+            "device_endpoints": [], "device_operational_status": 2, "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "127.0.0.1"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "0"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {"endpoints": [
+                    {"uuid": "2", "context_uuid": "admin", "topology_uuid": "D2", "type": "copper/internal"},
+                    {"uuid": "3", "context_uuid": "admin", "topology_uuid": "D2", "type": "copper/internal"}
+                ]}}},
+                {"action": 1, "custom": {"resource_key": "/settings", "resource_value": {"router_id": "10.0.2.1"}}},
+                {"action": 1, "custom": {"resource_key": "/endpoints/endpoint[2]/settings", "resource_value": {"remote_router": "10.0.2.2"}}},
+                {"action": 1, "custom": {"resource_key": "/endpoints/endpoint[3]/settings", "resource_value": {"remote_router": "10.0.2.3"}}}
+            ]}
+        },
+        {
+            "device_id": {"device_uuid": {"uuid": "R2@D2"}}, "device_type": "emu-packet-router", "device_drivers": [0],
+            "device_endpoints": [], "device_operational_status": 2, "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "127.0.0.1"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "0"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {"endpoints": [
+                    {"uuid": "1",  "context_uuid": "admin", "topology_uuid": "D2", "type": "copper/internal"},
+                    {"uuid": "3",  "context_uuid": "admin", "topology_uuid": "D2", "type": "copper/internal"},
+                    {"uuid": "D1", "context_uuid": "admin", "topology_uuid": "D2", "type": "copper/border"  }
+                ]}}},
+                {"action": 1, "custom": {"resource_key": "/settings", "resource_value": {"router_id": "10.0.2.2"}}},
+                {"action": 1, "custom": {"resource_key": "/endpoints/endpoint[1]/settings", "resource_value": {"remote_router": "10.0.2.1"}}},
+                {"action": 1, "custom": {"resource_key": "/endpoints/endpoint[3]/settings", "resource_value": {"remote_router": "10.0.2.3"}}},
+                {"action": 1, "custom": {"resource_key": "/endpoints/endpoint[D1]/settings", "resource_value": {"remote_router": "10.0.1.4"}}}
+            ]}
+        },
+        {
+            "device_id": {"device_uuid": {"uuid": "R3@D2"}}, "device_type": "emu-packet-router", "device_drivers": [0],
+            "device_endpoints": [], "device_operational_status": 2, "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "127.0.0.1"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "0"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {"endpoints": [
+                    {"uuid": "1",   "context_uuid": "admin", "topology_uuid": "D2", "type": "copper/internal"},
+                    {"uuid": "2",   "context_uuid": "admin", "topology_uuid": "D2", "type": "copper/internal"},
+                    {"uuid": "DC2", "context_uuid": "admin", "topology_uuid": "D2", "type": "copper/border"  }
+                ]}}},
+                {"action": 1, "custom": {"resource_key": "/settings", "resource_value": {"router_id": "10.0.2.3"}}},
+                {"action": 1, "custom": {"resource_key": "/endpoints/endpoint[1]/settings", "resource_value": {"remote_router": "10.0.2.1"}}},
+                {"action": 1, "custom": {"resource_key": "/endpoints/endpoint[2]/settings", "resource_value": {"remote_router": "10.0.2.2"}}},
+                {"action": 1, "custom": {"resource_key": "/endpoints/endpoint[DC2]/settings", "resource_value": {"remote_router": "10.0.0.2"}}}
+            ]}
+        }
+    ],
+    "links": [
+        {"link_id": {"link_uuid": {"uuid": "R1@D2/2==R2@D2/1"}}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "R1@D2"}}, "endpoint_uuid": {"uuid": "2"}, "topology_id": {"context_id": {"context_uuid": {"uuid": "admin"}}, "topology_uuid": {"uuid": "D2"}}},
+            {"device_id": {"device_uuid": {"uuid": "R2@D2"}}, "endpoint_uuid": {"uuid": "1"}, "topology_id": {"context_id": {"context_uuid": {"uuid": "admin"}}, "topology_uuid": {"uuid": "D2"}}}
+        ]},
+        {"link_id": {"link_uuid": {"uuid": "R1@D2/3==R3@D2/1"}}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "R1@D2"}}, "endpoint_uuid": {"uuid": "3"}, "topology_id": {"context_id": {"context_uuid": {"uuid": "admin"}}, "topology_uuid": {"uuid": "D2"}}},
+            {"device_id": {"device_uuid": {"uuid": "R3@D2"}}, "endpoint_uuid": {"uuid": "1"}, "topology_id": {"context_id": {"context_uuid": {"uuid": "admin"}}, "topology_uuid": {"uuid": "D2"}}}
+        ]},
+        {"link_id": {"link_uuid": {"uuid": "R2@D2/1==R1@D2/2"}}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "R2@D2"}}, "endpoint_uuid": {"uuid": "1"}, "topology_id": {"context_id": {"context_uuid": {"uuid": "admin"}}, "topology_uuid": {"uuid": "D2"}}},
+            {"device_id": {"device_uuid": {"uuid": "R1@D2"}}, "endpoint_uuid": {"uuid": "2"}, "topology_id": {"context_id": {"context_uuid": {"uuid": "admin"}}, "topology_uuid": {"uuid": "D2"}}}
+        ]},
+        {"link_id": {"link_uuid": {"uuid": "R2@D2/3==R3@D2/2"}}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "R2@D2"}}, "endpoint_uuid": {"uuid": "3"}, "topology_id": {"context_id": {"context_uuid": {"uuid": "admin"}}, "topology_uuid": {"uuid": "D2"}}},
+            {"device_id": {"device_uuid": {"uuid": "R3@D2"}}, "endpoint_uuid": {"uuid": "2"}, "topology_id": {"context_id": {"context_uuid": {"uuid": "admin"}}, "topology_uuid": {"uuid": "D2"}}}
+        ]},
+        {"link_id": {"link_uuid": {"uuid": "R3@D2/1==R1@D2/3"}}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "R3@D2"}}, "endpoint_uuid": {"uuid": "1"}, "topology_id": {"context_id": {"context_uuid": {"uuid": "admin"}}, "topology_uuid": {"uuid": "D2"}}},
+            {"device_id": {"device_uuid": {"uuid": "R1@D2"}}, "endpoint_uuid": {"uuid": "3"}, "topology_id": {"context_id": {"context_uuid": {"uuid": "admin"}}, "topology_uuid": {"uuid": "D2"}}}
+        ]},
+        {"link_id": {"link_uuid": {"uuid": "R3@D2/2==R2@D2/3"}}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "R3@D2"}}, "endpoint_uuid": {"uuid": "2"}, "topology_id": {"context_id": {"context_uuid": {"uuid": "admin"}}, "topology_uuid": {"uuid": "D2"}}},
+            {"device_id": {"device_uuid": {"uuid": "R2@D2"}}, "endpoint_uuid": {"uuid": "3"}, "topology_id": {"context_id": {"context_uuid": {"uuid": "admin"}}, "topology_uuid": {"uuid": "D2"}}}
+        ]}
+    ]
+}

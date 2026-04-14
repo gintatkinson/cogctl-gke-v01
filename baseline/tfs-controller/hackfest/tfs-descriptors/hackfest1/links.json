@@ -1,0 +1,63 @@
+{
+    "links": [
+        {
+            "link_id": {"link_uuid": {"uuid": "R1/1/1==OLS/node-1-port-15-input"}},
+            "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "R1"}}, "endpoint_uuid": {"uuid": "1/1"}},
+                {"device_id": {"device_uuid": {"uuid": "OLS"}}, "endpoint_uuid": {"uuid": "node-1-port-15-input"}}
+            ]
+        },
+        {
+            "link_id": {"link_uuid": {"uuid": "OLS/node-1-port-15-output==R1/1/1"}},
+            "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "OLS"}}, "endpoint_uuid": {"uuid": "node-1-port-15-output"}},
+                {"device_id": {"device_uuid": {"uuid": "R1"}}, "endpoint_uuid": {"uuid": "1/1"}}
+            ]
+        },
+
+        {
+            "link_id": {"link_uuid": {"uuid": "R2/1/1==OLS/node-2-port-15-input"}},
+            "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "R2"}}, "endpoint_uuid": {"uuid": "1/1"}},
+                {"device_id": {"device_uuid": {"uuid": "OLS"}}, "endpoint_uuid": {"uuid": "node-2-port-15-input"}}
+            ]
+        },
+        {
+            "link_id": {"link_uuid": {"uuid": "OLS/node-2-port-15-output==R2/1/1"}},
+            "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "OLS"}}, "endpoint_uuid": {"uuid": "node-2-port-15-output"}},
+                {"device_id": {"device_uuid": {"uuid": "R2"}}, "endpoint_uuid": {"uuid": "1/1"}}
+            ]
+        },
+
+        {
+            "link_id": {"link_uuid": {"uuid": "R3/1/1==OLS/node-3-port-15-input"}},
+            "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "R3"}}, "endpoint_uuid": {"uuid": "1/1"}},
+                {"device_id": {"device_uuid": {"uuid": "OLS"}}, "endpoint_uuid": {"uuid": "node-3-port-15-input"}}
+            ]
+        },
+        {
+            "link_id": {"link_uuid": {"uuid": "OLS/node-3-port-15-output==R3/1/1"}},
+            "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "OLS"}}, "endpoint_uuid": {"uuid": "node-3-port-15-output"}},
+                {"device_id": {"device_uuid": {"uuid": "R3"}}, "endpoint_uuid": {"uuid": "1/1"}}
+            ]
+        },
+
+        {
+            "link_id": {"link_uuid": {"uuid": "R4/1/1==OLS/node-4-port-15-input"}},
+            "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "R4"}}, "endpoint_uuid": {"uuid": "1/1"}},
+                {"device_id": {"device_uuid": {"uuid": "OLS"}}, "endpoint_uuid": {"uuid": "node-4-port-15-input"}}
+            ]
+        },
+        {
+            "link_id": {"link_uuid": {"uuid": "OLS/node-4-port-15-output==R4/1/1"}},
+            "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "OLS"}}, "endpoint_uuid": {"uuid": "node-4-port-15-output"}},
+                {"device_id": {"device_uuid": {"uuid": "R4"}}, "endpoint_uuid": {"uuid": "1/1"}}
+            ]
+        }
+    ]
+}

@@ -64,6 +64,13 @@ This ledger acts as the "Persistent Memory" of the Sovereign environment. Per th
 - **Status:** Integrated into SOP_GENESIS.md and cloudbuild_sync.yaml.
 
 
+### LOG-036: Connectivity Restoration (SOP-READINESS-DEADLOCK)
+- **Incident:** Ingress IP birthed but unreachable via browser (`ERR_CONNECTION_REFUSED`).
+- **Diagnosis:** Pods stuck in `1/2 READY` state due to GKE Autopilot probe failures on sidecars.
+- **Solution:** Scaled the **Relaxation Patch** to all 11 core deployments.
+- **Status:** OPERATIONAL (Verification Phase).
+
+
 ### LOG-016: Sovereign Vault Locked
 - **Status:** Cloud Build e230a262 successful. All core baseline images mirrored.
 - **Action:** Proceeding to Stage VI (Cluster Bootstrap).

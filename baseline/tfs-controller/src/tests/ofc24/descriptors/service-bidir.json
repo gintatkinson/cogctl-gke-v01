@@ -1,0 +1,22 @@
+{
+    "services": [
+        {
+            "service_id": {
+                "context_id": {"context_uuid": {"uuid": "admin"}},
+                "service_uuid": {"uuid": "optical-connection-bidir"}
+            },
+            "service_type": 6,
+            "service_status": {"service_status": 1},
+            "service_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "T1.1"}}, "endpoint_uuid": {"uuid": "1"}},
+                {"device_id": {"device_uuid": {"uuid": "T2.1"}}, "endpoint_uuid": {"uuid": "6"}}
+            ],
+            "service_constraints": [
+                {"custom": {"constraint_type": "bandwidth[gbps]", "constraint_value": "100.0"}},
+                {"custom": {"constraint_type": "bidirectionality", "constraint_value": "1"}},
+                {"custom": {"constraint_type": "optical-band-width[GHz]", "constraint_value": "200"}}
+            ],
+            "service_config": {"config_rules": []}
+        }
+    ]
+}

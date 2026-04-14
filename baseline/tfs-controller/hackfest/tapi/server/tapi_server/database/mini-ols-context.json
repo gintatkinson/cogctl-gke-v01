@@ -1,0 +1,728 @@
+{
+    "uuid": "ols-ctx",
+    "service-interface-point": [
+        {
+            "uuid": "node-4-port-16-output",
+            "layer-protocol-name": "PHOTONIC_MEDIA",
+            "supported-layer-protocol-qualifier": ["tapi-photonic-media:PHOTONIC_LAYER_QUALIFIER_NMC"],
+            "administrative-state": "UNLOCKED",
+            "operational-state": "ENABLED",
+            "direction": "OUTPUT"
+        },
+        {
+            "uuid": "node-3-port-16-output",
+            "layer-protocol-name": "PHOTONIC_MEDIA",
+            "supported-layer-protocol-qualifier": ["tapi-photonic-media:PHOTONIC_LAYER_QUALIFIER_NMC"],
+            "administrative-state": "UNLOCKED",
+            "operational-state": "ENABLED",
+            "direction": "OUTPUT"
+        },
+        {
+            "uuid": "node-1-port-14-output",
+            "layer-protocol-name": "PHOTONIC_MEDIA",
+            "supported-layer-protocol-qualifier": ["tapi-photonic-media:PHOTONIC_LAYER_QUALIFIER_NMC"],
+            "administrative-state": "UNLOCKED",
+            "operational-state": "ENABLED",
+            "direction": "OUTPUT"
+        },
+        {
+            "uuid": "node-4-port-14-input",
+            "layer-protocol-name": "PHOTONIC_MEDIA",
+            "supported-layer-protocol-qualifier": ["tapi-photonic-media:PHOTONIC_LAYER_QUALIFIER_NMC"],
+            "administrative-state": "UNLOCKED",
+            "operational-state": "ENABLED",
+            "direction": "INPUT"
+        },
+        {
+            "uuid": "node-3-port-13-input",
+            "layer-protocol-name": "PHOTONIC_MEDIA",
+            "supported-layer-protocol-qualifier": ["tapi-photonic-media:PHOTONIC_LAYER_QUALIFIER_NMC"],
+            "administrative-state": "UNLOCKED",
+            "operational-state": "ENABLED",
+            "direction": "INPUT"
+        },
+        {
+            "uuid": "node-3-port-18-output",
+            "layer-protocol-name": "PHOTONIC_MEDIA",
+            "supported-layer-protocol-qualifier": ["tapi-photonic-media:PHOTONIC_LAYER_QUALIFIER_NMC"],
+            "administrative-state": "UNLOCKED",
+            "operational-state": "ENABLED",
+            "direction": "OUTPUT"
+        },
+        {
+            "uuid": "node-2-port-15-input",
+            "layer-protocol-name": "PHOTONIC_MEDIA",
+            "supported-layer-protocol-qualifier": ["tapi-photonic-media:PHOTONIC_LAYER_QUALIFIER_NMC"],
+            "administrative-state": "UNLOCKED",
+            "operational-state": "ENABLED",
+            "direction": "INPUT"
+        },
+        {
+            "uuid": "node-2-port-17-output",
+            "layer-protocol-name": "PHOTONIC_MEDIA",
+            "supported-layer-protocol-qualifier": ["tapi-photonic-media:PHOTONIC_LAYER_QUALIFIER_NMC"],
+            "administrative-state": "UNLOCKED",
+            "operational-state": "ENABLED",
+            "direction": "OUTPUT"
+        },
+        {
+            "uuid": "node-1-port-15-input",
+            "layer-protocol-name": "PHOTONIC_MEDIA",
+            "supported-layer-protocol-qualifier": ["tapi-photonic-media:PHOTONIC_LAYER_QUALIFIER_NMC"],
+            "administrative-state": "UNLOCKED",
+            "operational-state": "ENABLED",
+            "direction": "INPUT"
+        },
+        {
+            "uuid": "node-2-port-13-output",
+            "layer-protocol-name": "PHOTONIC_MEDIA",
+            "supported-layer-protocol-qualifier": ["tapi-photonic-media:PHOTONIC_LAYER_QUALIFIER_NMC"],
+            "administrative-state": "UNLOCKED",
+            "operational-state": "ENABLED",
+            "direction": "OUTPUT"
+        },
+        {
+            "uuid": "node-4-port-13-output",
+            "layer-protocol-name": "PHOTONIC_MEDIA",
+            "supported-layer-protocol-qualifier": ["tapi-photonic-media:PHOTONIC_LAYER_QUALIFIER_NMC"],
+            "administrative-state": "UNLOCKED",
+            "operational-state": "ENABLED",
+            "direction": "OUTPUT"
+        },
+        {
+            "uuid": "node-4-port-13-input",
+            "layer-protocol-name": "PHOTONIC_MEDIA",
+            "supported-layer-protocol-qualifier": ["tapi-photonic-media:PHOTONIC_LAYER_QUALIFIER_NMC"],
+            "administrative-state": "UNLOCKED",
+            "operational-state": "ENABLED",
+            "direction": "INPUT"
+        },
+        {
+            "uuid": "node-1-port-17-input",
+            "layer-protocol-name": "PHOTONIC_MEDIA",
+            "supported-layer-protocol-qualifier": ["tapi-photonic-media:PHOTONIC_LAYER_QUALIFIER_NMC"],
+            "administrative-state": "UNLOCKED",
+            "operational-state": "ENABLED",
+            "direction": "INPUT"
+        },
+        {
+            "uuid": "node-3-port-13-output",
+            "layer-protocol-name": "PHOTONIC_MEDIA",
+            "supported-layer-protocol-qualifier": ["tapi-photonic-media:PHOTONIC_LAYER_QUALIFIER_NMC"],
+            "administrative-state": "UNLOCKED",
+            "operational-state": "ENABLED",
+            "direction": "OUTPUT"
+        },
+        {
+            "uuid": "node-3-port-17-output",
+            "layer-protocol-name": "PHOTONIC_MEDIA",
+            "supported-layer-protocol-qualifier": ["tapi-photonic-media:PHOTONIC_LAYER_QUALIFIER_NMC"],
+            "administrative-state": "UNLOCKED",
+            "operational-state": "ENABLED",
+            "direction": "OUTPUT"
+        },
+        {
+            "uuid": "node-1-port-13-output",
+            "layer-protocol-name": "PHOTONIC_MEDIA",
+            "supported-layer-protocol-qualifier": ["tapi-photonic-media:PHOTONIC_LAYER_QUALIFIER_NMC"],
+            "administrative-state": "UNLOCKED",
+            "operational-state": "ENABLED",
+            "direction": "OUTPUT"
+        },
+        {
+            "uuid": "node-4-port-15-output",
+            "layer-protocol-name": "PHOTONIC_MEDIA",
+            "supported-layer-protocol-qualifier": ["tapi-photonic-media:PHOTONIC_LAYER_QUALIFIER_NMC"],
+            "administrative-state": "UNLOCKED",
+            "operational-state": "ENABLED",
+            "direction": "OUTPUT"
+        },
+        {
+            "uuid": "node-4-port-14-output",
+            "layer-protocol-name": "PHOTONIC_MEDIA",
+            "supported-layer-protocol-qualifier": ["tapi-photonic-media:PHOTONIC_LAYER_QUALIFIER_NMC"],
+            "administrative-state": "UNLOCKED",
+            "operational-state": "ENABLED",
+            "direction": "OUTPUT"
+        },
+        {
+            "uuid": "node-4-port-17-output",
+            "layer-protocol-name": "PHOTONIC_MEDIA",
+            "supported-layer-protocol-qualifier": ["tapi-photonic-media:PHOTONIC_LAYER_QUALIFIER_NMC"],
+            "administrative-state": "UNLOCKED",
+            "operational-state": "ENABLED",
+            "direction": "OUTPUT"
+        },
+        {
+            "uuid": "node-2-port-14-input",
+            "layer-protocol-name": "PHOTONIC_MEDIA",
+            "supported-layer-protocol-qualifier": ["tapi-photonic-media:PHOTONIC_LAYER_QUALIFIER_NMC"],
+            "administrative-state": "UNLOCKED",
+            "operational-state": "ENABLED",
+            "direction": "INPUT"
+        },
+        {
+            "uuid": "node-3-port-14-input",
+            "layer-protocol-name": "PHOTONIC_MEDIA",
+            "supported-layer-protocol-qualifier": ["tapi-photonic-media:PHOTONIC_LAYER_QUALIFIER_NMC"],
+            "administrative-state": "UNLOCKED",
+            "operational-state": "ENABLED",
+            "direction": "INPUT"
+        },
+        {
+            "uuid": "node-3-port-17-input",
+            "layer-protocol-name": "PHOTONIC_MEDIA",
+            "supported-layer-protocol-qualifier": ["tapi-photonic-media:PHOTONIC_LAYER_QUALIFIER_NMC"],
+            "administrative-state": "UNLOCKED",
+            "operational-state": "ENABLED",
+            "direction": "INPUT"
+        },
+        {
+            "uuid": "node-1-port-17-output",
+            "layer-protocol-name": "PHOTONIC_MEDIA",
+            "supported-layer-protocol-qualifier": ["tapi-photonic-media:PHOTONIC_LAYER_QUALIFIER_NMC"],
+            "administrative-state": "UNLOCKED",
+            "operational-state": "ENABLED",
+            "direction": "OUTPUT"
+        },
+        {
+            "uuid": "node-4-port-16-input",
+            "layer-protocol-name": "PHOTONIC_MEDIA",
+            "supported-layer-protocol-qualifier": ["tapi-photonic-media:PHOTONIC_LAYER_QUALIFIER_NMC"],
+            "administrative-state": "UNLOCKED",
+            "operational-state": "ENABLED",
+            "direction": "INPUT"
+        },
+        {
+            "uuid": "node-3-port-14-output",
+            "layer-protocol-name": "PHOTONIC_MEDIA",
+            "supported-layer-protocol-qualifier": ["tapi-photonic-media:PHOTONIC_LAYER_QUALIFIER_NMC"],
+            "administrative-state": "UNLOCKED",
+            "operational-state": "ENABLED",
+            "direction": "OUTPUT"
+        },
+        {
+            "uuid": "node-1-port-14-input",
+            "layer-protocol-name": "PHOTONIC_MEDIA",
+            "supported-layer-protocol-qualifier": ["tapi-photonic-media:PHOTONIC_LAYER_QUALIFIER_NMC"],
+            "administrative-state": "UNLOCKED",
+            "operational-state": "ENABLED",
+            "direction": "INPUT"
+        },
+        {
+            "uuid": "node-1-port-13-input",
+            "layer-protocol-name": "PHOTONIC_MEDIA",
+            "supported-layer-protocol-qualifier": ["tapi-photonic-media:PHOTONIC_LAYER_QUALIFIER_NMC"],
+            "administrative-state": "UNLOCKED",
+            "operational-state": "ENABLED",
+            "direction": "INPUT"
+        },
+        {
+            "uuid": "node-2-port-14-output",
+            "layer-protocol-name": "PHOTONIC_MEDIA",
+            "supported-layer-protocol-qualifier": ["tapi-photonic-media:PHOTONIC_LAYER_QUALIFIER_NMC"],
+            "administrative-state": "UNLOCKED",
+            "operational-state": "ENABLED",
+            "direction": "OUTPUT"
+        },
+        {
+            "uuid": "node-3-port-15-output",
+            "layer-protocol-name": "PHOTONIC_MEDIA",
+            "supported-layer-protocol-qualifier": ["tapi-photonic-media:PHOTONIC_LAYER_QUALIFIER_NMC"],
+            "administrative-state": "UNLOCKED",
+            "operational-state": "ENABLED",
+            "direction": "OUTPUT"
+        },
+        {
+            "uuid": "node-3-port-16-input",
+            "layer-protocol-name": "PHOTONIC_MEDIA",
+            "supported-layer-protocol-qualifier": ["tapi-photonic-media:PHOTONIC_LAYER_QUALIFIER_NMC"],
+            "administrative-state": "UNLOCKED",
+            "operational-state": "ENABLED",
+            "direction": "INPUT"
+        },
+        {
+            "uuid": "node-3-port-18-input",
+            "layer-protocol-name": "PHOTONIC_MEDIA",
+            "supported-layer-protocol-qualifier": ["tapi-photonic-media:PHOTONIC_LAYER_QUALIFIER_NMC"],
+            "administrative-state": "UNLOCKED",
+            "operational-state": "ENABLED",
+            "direction": "INPUT"
+        },
+        {
+            "uuid": "node-4-port-17-input",
+            "layer-protocol-name": "PHOTONIC_MEDIA",
+            "supported-layer-protocol-qualifier": ["tapi-photonic-media:PHOTONIC_LAYER_QUALIFIER_NMC"],
+            "administrative-state": "UNLOCKED",
+            "operational-state": "ENABLED",
+            "direction": "INPUT"
+        },
+        {
+            "uuid": "node-3-port-15-input",
+            "layer-protocol-name": "PHOTONIC_MEDIA",
+            "supported-layer-protocol-qualifier": ["tapi-photonic-media:PHOTONIC_LAYER_QUALIFIER_NMC"],
+            "administrative-state": "UNLOCKED",
+            "operational-state": "ENABLED",
+            "direction": "INPUT"
+        },
+        {
+            "uuid": "node-2-port-15-output",
+            "layer-protocol-name": "PHOTONIC_MEDIA",
+            "supported-layer-protocol-qualifier": ["tapi-photonic-media:PHOTONIC_LAYER_QUALIFIER_NMC"],
+            "administrative-state": "UNLOCKED",
+            "operational-state": "ENABLED",
+            "direction": "OUTPUT"
+        },
+        {
+            "uuid": "node-2-port-17-input",
+            "layer-protocol-name": "PHOTONIC_MEDIA",
+            "supported-layer-protocol-qualifier": ["tapi-photonic-media:PHOTONIC_LAYER_QUALIFIER_NMC"],
+            "administrative-state": "UNLOCKED",
+            "operational-state": "ENABLED",
+            "direction": "INPUT"
+        },
+        {
+            "uuid": "node-2-port-13-input",
+            "layer-protocol-name": "PHOTONIC_MEDIA",
+            "supported-layer-protocol-qualifier": ["tapi-photonic-media:PHOTONIC_LAYER_QUALIFIER_NMC"],
+            "administrative-state": "UNLOCKED",
+            "operational-state": "ENABLED",
+            "direction": "INPUT"
+        },
+        {
+            "uuid": "node-4-port-15-input",
+            "layer-protocol-name": "PHOTONIC_MEDIA",
+            "supported-layer-protocol-qualifier": ["tapi-photonic-media:PHOTONIC_LAYER_QUALIFIER_NMC"],
+            "administrative-state": "UNLOCKED",
+            "operational-state": "ENABLED",
+            "direction": "INPUT"
+        },
+        {
+            "uuid": "node-1-port-15-output",
+            "layer-protocol-name": "PHOTONIC_MEDIA",
+            "supported-layer-protocol-qualifier": ["tapi-photonic-media:PHOTONIC_LAYER_QUALIFIER_NMC"],
+            "administrative-state": "UNLOCKED",
+            "operational-state": "ENABLED",
+            "direction": "OUTPUT"
+        }
+    ],
+    "topology-context": {
+        "nw-topology-service": {
+            "uuid": "ols-ctx",
+            "topology": [{"topology-uuid": "ols-topo"}]
+        },
+        "topology": [
+            {
+                "uuid": "ols-topo",
+                "layer-protocol-name": ["PHOTONIC_MEDIA", "DSR"],
+                "node": [
+                    {
+                        "uuid": "node-1",
+                        "owned-node-edge-point": [
+                            {
+                                "uuid": "node-1-port-13",
+                                "link-port-direction": "UNIDIRECTIONAL",
+                                "link-port-role": "SYMMETRIC",
+                                "mapped-service-interface-point": [
+                                    {"service-interface-point-uuid": "node-1-port-13-output"},
+                                    {"service-interface-point-uuid": "node-1-port-13-input"}
+                                ],
+                                "layer-protocol-name": "PHOTONIC_MEDIA",
+                                "supported-cep-layer-protocol-qualifier": ["tapi-photonic-media:PHOTONIC_LAYER_QUALIFIER_NMC"]
+                            },
+                            {
+                                "uuid": "node-1-port-14",
+                                "link-port-direction": "UNIDIRECTIONAL",
+                                "link-port-role": "SYMMETRIC",
+                                "mapped-service-interface-point": [
+                                    {"service-interface-point-uuid": "node-1-port-14-output"},
+                                    {"service-interface-point-uuid": "node-1-port-14-input"}
+                                ],
+                                "layer-protocol-name": "PHOTONIC_MEDIA",
+                                "supported-cep-layer-protocol-qualifier": ["tapi-photonic-media:PHOTONIC_LAYER_QUALIFIER_NMC"]
+                            },
+                            {
+                                "uuid": "node-1-port-15",
+                                "link-port-direction": "UNIDIRECTIONAL",
+                                "link-port-role": "SYMMETRIC",
+                                "mapped-service-interface-point": [
+                                    {"service-interface-point-uuid": "node-1-port-15-input"},
+                                    {"service-interface-point-uuid": "node-1-port-15-output"}
+                                ],
+                                "layer-protocol-name": "PHOTONIC_MEDIA",
+                                "supported-cep-layer-protocol-qualifier": ["tapi-photonic-media:PHOTONIC_LAYER_QUALIFIER_NMC"]
+                            },
+                            {
+                                "uuid": "node-1-port-17",
+                                "link-port-direction": "UNIDIRECTIONAL",
+                                "link-port-role": "SYMMETRIC",
+                                "mapped-service-interface-point": [
+                                    {"service-interface-point-uuid": "node-1-port-17-input"},
+                                    {"service-interface-point-uuid": "node-1-port-17-output"}
+                                ],
+                                "layer-protocol-name": "PHOTONIC_MEDIA",
+                                "supported-cep-layer-protocol-qualifier": ["tapi-photonic-media:PHOTONIC_LAYER_QUALIFIER_NMC"]
+                            },
+                            {
+                                "uuid": "node-1-port-3",
+                                "layer-protocol-name": "PHOTONIC_MEDIA",
+                                "supported-cep-layer-protocol-qualifier": ["tapi-photonic-media:PHOTONIC_LAYER_QUALIFIER_NMC"],
+                                "link-port-direction": "UNIDIRECTIONAL",
+                                "link-port-role": "SYMMETRIC"
+                            },
+                            {
+                                "uuid": "node-1-port-4",
+                                "layer-protocol-name": "PHOTONIC_MEDIA",
+                                "supported-cep-layer-protocol-qualifier": ["tapi-photonic-media:PHOTONIC_LAYER_QUALIFIER_NMC"],
+                                "link-port-direction": "UNIDIRECTIONAL",
+                                "link-port-role": "SYMMETRIC"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "node-2",
+                        "owned-node-edge-point": [
+                            {
+                                "uuid": "node-2-port-13",
+                                "link-port-direction": "UNIDIRECTIONAL",
+                                "link-port-role": "SYMMETRIC",
+                                "mapped-service-interface-point": [
+                                    {"service-interface-point-uuid": "node-2-port-13-output"},
+                                    {"service-interface-point-uuid": "node-2-port-13-input"}
+                                ],
+                                "layer-protocol-name": "PHOTONIC_MEDIA",
+                                "supported-cep-layer-protocol-qualifier": ["tapi-photonic-media:PHOTONIC_LAYER_QUALIFIER_NMC"]
+                            },
+                            {
+                                "uuid": "node-2-port-14",
+                                "link-port-direction": "UNIDIRECTIONAL",
+                                "link-port-role": "SYMMETRIC",
+                                "mapped-service-interface-point": [
+                                    {"service-interface-point-uuid": "node-2-port-14-input"},
+                                    {"service-interface-point-uuid": "node-2-port-14-output"}
+                                ],
+                                "layer-protocol-name": "PHOTONIC_MEDIA",
+                                "supported-cep-layer-protocol-qualifier": ["tapi-photonic-media:PHOTONIC_LAYER_QUALIFIER_NMC"]
+                            },
+                            {
+                                "uuid": "node-2-port-15",
+                                "link-port-direction": "UNIDIRECTIONAL",
+                                "link-port-role": "SYMMETRIC",
+                                "mapped-service-interface-point": [
+                                    {"service-interface-point-uuid": "node-2-port-15-input"},
+                                    {"service-interface-point-uuid": "node-2-port-15-output"}
+                                ],
+                                "layer-protocol-name": "PHOTONIC_MEDIA",
+                                "supported-cep-layer-protocol-qualifier": ["tapi-photonic-media:PHOTONIC_LAYER_QUALIFIER_NMC"]
+                            },
+                            {
+                                "uuid": "node-2-port-17",
+                                "link-port-direction": "UNIDIRECTIONAL",
+                                "link-port-role": "SYMMETRIC",
+                                "mapped-service-interface-point": [
+                                    {"service-interface-point-uuid": "node-2-port-17-output"},
+                                    {"service-interface-point-uuid": "node-2-port-17-input"}
+                                ],
+                                "layer-protocol-name": "PHOTONIC_MEDIA",
+                                "supported-cep-layer-protocol-qualifier": ["tapi-photonic-media:PHOTONIC_LAYER_QUALIFIER_NMC"]
+                            },
+                            {
+                                "uuid": "node-2-port-3",
+                                "layer-protocol-name": "PHOTONIC_MEDIA",
+                                "supported-cep-layer-protocol-qualifier": ["tapi-photonic-media:PHOTONIC_LAYER_QUALIFIER_NMC"],
+                                "link-port-direction": "UNIDIRECTIONAL",
+                                "link-port-role": "SYMMETRIC"
+                            },
+                            {
+                                "uuid": "node-2-port-4",
+                                "layer-protocol-name": "PHOTONIC_MEDIA",
+                                "supported-cep-layer-protocol-qualifier": ["tapi-photonic-media:PHOTONIC_LAYER_QUALIFIER_NMC"],
+                                "link-port-direction": "UNIDIRECTIONAL",
+                                "link-port-role": "SYMMETRIC"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "node-3",
+                        "owned-node-edge-point": [
+                            {
+                                "uuid": "node-3-port-13",
+                                "link-port-direction": "UNIDIRECTIONAL",
+                                "link-port-role": "SYMMETRIC",
+                                "mapped-service-interface-point": [
+                                    {"service-interface-point-uuid": "node-3-port-13-input"},
+                                    {"service-interface-point-uuid": "node-3-port-13-output"}
+                                ],
+                                "layer-protocol-name": "PHOTONIC_MEDIA",
+                                "supported-cep-layer-protocol-qualifier": ["tapi-photonic-media:PHOTONIC_LAYER_QUALIFIER_NMC"]
+                            },
+                            {
+                                "uuid": "node-3-port-14",
+                                "link-port-direction": "UNIDIRECTIONAL",
+                                "link-port-role": "SYMMETRIC",
+                                "mapped-service-interface-point": [
+                                    {"service-interface-point-uuid": "node-3-port-14-input"},
+                                    {"service-interface-point-uuid": "node-3-port-14-output"}
+                                ],
+                                "layer-protocol-name": "PHOTONIC_MEDIA",
+                                "supported-cep-layer-protocol-qualifier": ["tapi-photonic-media:PHOTONIC_LAYER_QUALIFIER_NMC"]
+                            },
+                            {
+                                "uuid": "node-3-port-15",
+                                "link-port-direction": "UNIDIRECTIONAL",
+                                "link-port-role": "SYMMETRIC",
+                                "mapped-service-interface-point": [
+                                    {"service-interface-point-uuid": "node-3-port-15-output"},
+                                    {"service-interface-point-uuid": "node-3-port-15-input"}
+                                ],
+                                "layer-protocol-name": "PHOTONIC_MEDIA",
+                                "supported-cep-layer-protocol-qualifier": ["tapi-photonic-media:PHOTONIC_LAYER_QUALIFIER_NMC"]
+                            },
+                            {
+                                "uuid": "node-3-port-16",
+                                "link-port-direction": "UNIDIRECTIONAL",
+                                "link-port-role": "SYMMETRIC",
+                                "mapped-service-interface-point": [
+                                    {"service-interface-point-uuid": "node-3-port-16-output"},
+                                    {"service-interface-point-uuid": "node-3-port-16-input"}
+                                ],
+                                "layer-protocol-name": "PHOTONIC_MEDIA",
+                                "supported-cep-layer-protocol-qualifier": ["tapi-photonic-media:PHOTONIC_LAYER_QUALIFIER_NMC"]
+                            },
+                            {
+                                "uuid": "node-3-port-17",
+                                "link-port-direction": "UNIDIRECTIONAL",
+                                "link-port-role": "SYMMETRIC",
+                                "mapped-service-interface-point": [
+                                    {"service-interface-point-uuid": "node-3-port-17-output"},
+                                    {"service-interface-point-uuid": "node-3-port-17-input"}
+                                ],
+                                "layer-protocol-name": "PHOTONIC_MEDIA",
+                                "supported-cep-layer-protocol-qualifier": ["tapi-photonic-media:PHOTONIC_LAYER_QUALIFIER_NMC"]
+                            },
+                            {
+                                "uuid": "node-3-port-18",
+                                "link-port-direction": "UNIDIRECTIONAL",
+                                "link-port-role": "SYMMETRIC",
+                                "mapped-service-interface-point": [
+                                    {"service-interface-point-uuid": "node-3-port-18-output"},
+                                    {"service-interface-point-uuid": "node-3-port-18-input"}
+                                ],
+                                "layer-protocol-name": "PHOTONIC_MEDIA",
+                                "supported-cep-layer-protocol-qualifier": ["tapi-photonic-media:PHOTONIC_LAYER_QUALIFIER_NMC"]
+                            },
+                            {
+                                "uuid": "node-3-port-1",
+                                "layer-protocol-name": "PHOTONIC_MEDIA",
+                                "supported-cep-layer-protocol-qualifier": ["tapi-photonic-media:PHOTONIC_LAYER_QUALIFIER_NMC"],
+                                "link-port-direction": "UNIDIRECTIONAL",
+                                "link-port-role": "SYMMETRIC"
+                            },
+                            {
+                                "uuid": "node-3-port-2",
+                                "layer-protocol-name": "PHOTONIC_MEDIA",
+                                "supported-cep-layer-protocol-qualifier": ["tapi-photonic-media:PHOTONIC_LAYER_QUALIFIER_NMC"],
+                                "link-port-direction": "UNIDIRECTIONAL",
+                                "link-port-role": "SYMMETRIC"
+                            },
+                            {
+                                "uuid": "node-3-port-4",
+                                "layer-protocol-name": "PHOTONIC_MEDIA",
+                                "supported-cep-layer-protocol-qualifier": ["tapi-photonic-media:PHOTONIC_LAYER_QUALIFIER_NMC"],
+                                "link-port-direction": "UNIDIRECTIONAL",
+                                "link-port-role": "SYMMETRIC"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "node-4",
+                        "owned-node-edge-point": [
+                            {
+                                "uuid": "node-4-port-13",
+                                "link-port-direction": "UNIDIRECTIONAL",
+                                "link-port-role": "SYMMETRIC",
+                                "mapped-service-interface-point": [
+                                    {"service-interface-point-uuid": "node-4-port-13-output"},
+                                    {"service-interface-point-uuid": "node-4-port-13-input"}
+                                ],
+                                "layer-protocol-name": "PHOTONIC_MEDIA",
+                                "supported-cep-layer-protocol-qualifier": ["tapi-photonic-media:PHOTONIC_LAYER_QUALIFIER_NMC"]
+                            },
+                            {
+                                "uuid": "node-4-port-14",
+                                "link-port-direction": "UNIDIRECTIONAL",
+                                "link-port-role": "SYMMETRIC",
+                                "mapped-service-interface-point": [
+                                    {"service-interface-point-uuid": "node-4-port-14-input"},
+                                    {"service-interface-point-uuid": "node-4-port-14-output"}
+                                ],
+                                "layer-protocol-name": "PHOTONIC_MEDIA",
+                                "supported-cep-layer-protocol-qualifier": ["tapi-photonic-media:PHOTONIC_LAYER_QUALIFIER_NMC"]
+                            },
+                            {
+                                "uuid": "node-4-port-15",
+                                "link-port-direction": "UNIDIRECTIONAL",
+                                "link-port-role": "SYMMETRIC",
+                                "mapped-service-interface-point": [
+                                    {"service-interface-point-uuid": "node-4-port-15-output"},
+                                    {"service-interface-point-uuid": "node-4-port-15-input"}
+                                ],
+                                "layer-protocol-name": "PHOTONIC_MEDIA",
+                                "supported-cep-layer-protocol-qualifier": ["tapi-photonic-media:PHOTONIC_LAYER_QUALIFIER_NMC"]
+                            },
+                            {
+                                "uuid": "node-4-port-16",
+                                "link-port-direction": "UNIDIRECTIONAL",
+                                "link-port-role": "SYMMETRIC",
+                                "mapped-service-interface-point": [
+                                    {"service-interface-point-uuid": "node-4-port-16-output"},
+                                    {"service-interface-point-uuid": "node-4-port-16-input"}
+                                ],
+                                "layer-protocol-name": "PHOTONIC_MEDIA",
+                                "supported-cep-layer-protocol-qualifier": ["tapi-photonic-media:PHOTONIC_LAYER_QUALIFIER_NMC"]
+                            },
+                            {
+                                "uuid": "node-4-port-17",
+                                "link-port-direction": "UNIDIRECTIONAL",
+                                "link-port-role": "SYMMETRIC",
+                                "mapped-service-interface-point": [
+                                    {"service-interface-point-uuid": "node-4-port-17-output"},
+                                    {"service-interface-point-uuid": "node-4-port-17-input"}
+                                ],
+                                "layer-protocol-name": "PHOTONIC_MEDIA",
+                                "supported-cep-layer-protocol-qualifier": ["tapi-photonic-media:PHOTONIC_LAYER_QUALIFIER_NMC"]
+                            },
+                            {
+                                "uuid": "node-4-port-1",
+                                "layer-protocol-name": "PHOTONIC_MEDIA",
+                                "supported-cep-layer-protocol-qualifier": ["tapi-photonic-media:PHOTONIC_LAYER_QUALIFIER_NMC"],
+                                "link-port-direction": "UNIDIRECTIONAL",
+                                "link-port-role": "SYMMETRIC"
+                            },
+                            {
+                                "uuid": "node-4-port-2",
+                                "layer-protocol-name": "PHOTONIC_MEDIA",
+                                "supported-cep-layer-protocol-qualifier": ["tapi-photonic-media:PHOTONIC_LAYER_QUALIFIER_NMC"],
+                                "link-port-direction": "UNIDIRECTIONAL",
+                                "link-port-role": "SYMMETRIC"
+                            },
+                            {
+                                "uuid": "node-4-port-3",
+                                "layer-protocol-name": "PHOTONIC_MEDIA",
+                                "supported-cep-layer-protocol-qualifier": ["tapi-photonic-media:PHOTONIC_LAYER_QUALIFIER_NMC"],
+                                "link-port-direction": "UNIDIRECTIONAL",
+                                "link-port-role": "SYMMETRIC"
+                            }
+                        ]
+                    }
+                ],
+                "link": [
+                    {
+                        "uuid": "link-1:3-3:1",
+                        "direction": "UNIDIRECTIONAL",
+                        "cost-characteristic": [{"cost-name": "te-metric", "cost-value": 1}],
+                        "node-edge-point": [
+                            {"topology-uuid": "ols-topo", "node-uuid": "node-1", "node-edge-point-uuid": "node-1-port-3"},
+                            {"topology-uuid": "ols-topo", "node-uuid": "node-3", "node-edge-point-uuid": "node-3-port-1"}
+                        ],
+                        "layer-protocol-name": ["PHOTONIC_MEDIA"]
+                    },
+                    {
+                        "uuid": "link-1:4-4:1",
+                        "direction": "UNIDIRECTIONAL",
+                        "cost-characteristic": [{"cost-name": "te-metric", "cost-value": 1}],
+                        "node-edge-point": [
+                            {"topology-uuid": "ols-topo", "node-uuid": "node-1", "node-edge-point-uuid": "node-1-port-4"},
+                            {"topology-uuid": "ols-topo", "node-uuid": "node-4", "node-edge-point-uuid": "node-4-port-1"}
+                        ],
+                        "layer-protocol-name": ["PHOTONIC_MEDIA"]
+                    },
+                    {
+                        "uuid": "link-2:3-3:2",
+                        "direction": "UNIDIRECTIONAL",
+                        "cost-characteristic": [{"cost-name": "te-metric", "cost-value": 1}],
+                        "node-edge-point": [
+                            {"topology-uuid": "ols-topo", "node-uuid": "node-2", "node-edge-point-uuid": "node-2-port-3"},
+                            {"topology-uuid": "ols-topo", "node-uuid": "node-3", "node-edge-point-uuid": "node-3-port-2"}
+                        ],
+                        "layer-protocol-name": ["PHOTONIC_MEDIA"]
+                    },
+                    {
+                        "uuid": "link-2:4-4:2",
+                        "direction": "UNIDIRECTIONAL",
+                        "cost-characteristic": [{"cost-name": "te-metric", "cost-value": 1}],
+                        "node-edge-point": [
+                            {"topology-uuid": "ols-topo", "node-uuid": "node-2", "node-edge-point-uuid": "node-2-port-4"},
+                            {"topology-uuid": "ols-topo", "node-uuid": "node-4", "node-edge-point-uuid": "node-4-port-2"}
+                        ],
+                        "layer-protocol-name": ["PHOTONIC_MEDIA"]
+                    },
+                    {
+                        "uuid": "link-3:1-1:3",
+                        "direction": "UNIDIRECTIONAL",
+                        "cost-characteristic": [{"cost-name": "te-metric", "cost-value": 1}],
+                        "node-edge-point": [
+                            {"topology-uuid": "ols-topo", "node-uuid": "node-3", "node-edge-point-uuid": "node-3-port-1"},
+                            {"topology-uuid": "ols-topo", "node-uuid": "node-1", "node-edge-point-uuid": "node-1-port-3"}
+                        ],
+                        "layer-protocol-name": ["PHOTONIC_MEDIA"]
+                    },
+                    {
+                        "uuid": "link-3:2-2:3",
+                        "direction": "UNIDIRECTIONAL",
+                        "cost-characteristic": [{"cost-name": "te-metric", "cost-value": 1}],
+                        "node-edge-point": [
+                            {"topology-uuid": "ols-topo", "node-uuid": "node-3", "node-edge-point-uuid": "node-3-port-2"},
+                            {"topology-uuid": "ols-topo", "node-uuid": "node-2", "node-edge-point-uuid": "node-2-port-3"}
+                        ],
+                        "layer-protocol-name": ["PHOTONIC_MEDIA"]
+                    },
+                    {
+                        "uuid": "link-3:4-4:3",
+                        "direction": "UNIDIRECTIONAL",
+                        "cost-characteristic": [{"cost-name": "te-metric", "cost-value": 1}],
+                        "node-edge-point": [
+                            {"topology-uuid": "ols-topo", "node-uuid": "node-3", "node-edge-point-uuid": "node-3-port-4"},
+                            {"topology-uuid": "ols-topo", "node-uuid": "node-4", "node-edge-point-uuid": "node-4-port-3"}
+                        ],
+                        "layer-protocol-name": ["PHOTONIC_MEDIA"]
+                    },
+                    {
+                        "uuid": "link-4:1-1:4",
+                        "direction": "UNIDIRECTIONAL",
+                        "cost-characteristic": [{"cost-name": "te-metric", "cost-value": 1}],
+                        "node-edge-point": [
+                            {"topology-uuid": "ols-topo", "node-uuid": "node-4", "node-edge-point-uuid": "node-4-port-1"},
+                            {"topology-uuid": "ols-topo", "node-uuid": "node-1", "node-edge-point-uuid": "node-1-port-4"}
+                        ],
+                        "layer-protocol-name": ["PHOTONIC_MEDIA"]
+                    },
+                    {
+                        "uuid": "link-4:2-2:4",
+                        "direction": "UNIDIRECTIONAL",
+                        "cost-characteristic": [{"cost-name": "te-metric", "cost-value": 1}],
+                        "node-edge-point": [
+                            {"topology-uuid": "ols-topo", "node-uuid": "node-4", "node-edge-point-uuid": "node-4-port-2"},
+                            {"topology-uuid": "ols-topo", "node-uuid": "node-2", "node-edge-point-uuid": "node-2-port-4"}
+                        ],
+                        "layer-protocol-name": ["PHOTONIC_MEDIA"]
+                    },
+                    {
+                        "uuid": "link-4:3-3:4",
+                        "direction": "UNIDIRECTIONAL",
+                        "cost-characteristic": [{"cost-name": "te-metric", "cost-value": 1}],
+                        "node-edge-point": [
+                            {"topology-uuid": "ols-topo", "node-uuid": "node-4", "node-edge-point-uuid": "node-4-port-3"},
+                            {"topology-uuid": "ols-topo", "node-uuid": "node-3", "node-edge-point-uuid": "node-3-port-4"}
+                        ],
+                        "layer-protocol-name": ["PHOTONIC_MEDIA"]
+                    }
+                ]
+            }
+        ]
+    },
+    "connectivity-context": {
+        "connectivity-service": [],
+        "connection": []
+    }
+}

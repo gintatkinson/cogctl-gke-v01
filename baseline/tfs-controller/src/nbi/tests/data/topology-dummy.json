@@ -1,0 +1,3134 @@
+{
+    "contexts": [
+        {
+            "context_id": {
+                "context_uuid": {
+                    "uuid": "admin"
+                }
+            },
+            "name": "admin",
+            "service_ids": [],
+            "slice_ids": [],
+            "topology_ids": [
+                {
+                    "context_id": {
+                        "context_uuid": {
+                            "uuid": "admin"
+                        }
+                    },
+                    "topology_uuid": {
+                        "uuid": "admin"
+                    }
+                }
+            ]
+        }
+    ],
+    "devices": [
+        {
+            "components": [],
+            "controller_id": {},
+            "device_config": {
+                "config_rules": [
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "_connect/address",
+                            "resource_value": "127.0.0.1"
+                        }
+                    },
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "_connect/port",
+                            "resource_value": 0
+                        }
+                    },
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "_connect/settings",
+                            "resource_value": {
+                                "endpoints": [
+                                    {
+                                        "name": "mgmt",
+                                        "type": "mgmt",
+                                        "uuid": "mgmt"
+                                    },
+                                    {
+                                        "name": "200",
+                                        "type": "copper",
+                                        "uuid": "200"
+                                    },
+                                    {
+                                        "name": "500",
+                                        "type": "optical",
+                                        "uuid": "500"
+                                    },
+                                    {
+                                        "name": "501",
+                                        "type": "optical",
+                                        "uuid": "501"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "/endpoints/endpoint[mgmt]",
+                            "resource_value": {
+                                "name": "mgmt",
+                                "type": "mgmt",
+                                "uuid": "mgmt"
+                            }
+                        }
+                    },
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "/endpoints/endpoint[200]",
+                            "resource_value": {
+                                "name": "200",
+                                "type": "copper",
+                                "uuid": "200"
+                            }
+                        }
+                    },
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "/endpoints/endpoint[500]",
+                            "resource_value": {
+                                "name": "500",
+                                "type": "optical",
+                                "uuid": "500"
+                            }
+                        }
+                    },
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "/endpoints/endpoint[501]",
+                            "resource_value": {
+                                "name": "501",
+                                "type": "optical",
+                                "uuid": "501"
+                            }
+                        }
+                    }
+                ]
+            },
+            "device_drivers": [
+                0
+            ],
+            "device_endpoints": [
+                {
+                    "endpoint_id": {
+                        "device_id": {
+                            "device_uuid": {
+                                "uuid": "0392c251-b5d3-526b-8f3b-a3d4137829fa"
+                            }
+                        },
+                        "endpoint_uuid": {
+                            "uuid": "161ad889-3839-5dfb-a4a9-95a1de8c3ad5"
+                        },
+                        "topology_id": {
+                            "context_id": {
+                                "context_uuid": {
+                                    "uuid": "admin"
+                                }
+                            },
+                            "topology_uuid": {
+                                "uuid": "admin"
+                            }
+                        }
+                    },
+                    "endpoint_location": {},
+                    "endpoint_type": "optical",
+                    "kpi_sample_types": [],
+                    "name": "500"
+                },
+                {
+                    "endpoint_id": {
+                        "device_id": {
+                            "device_uuid": {
+                                "uuid": "0392c251-b5d3-526b-8f3b-a3d4137829fa"
+                            }
+                        },
+                        "endpoint_uuid": {
+                            "uuid": "1e35cf03-d55d-5648-9cb6-fca37bfbf23a"
+                        },
+                        "topology_id": {
+                            "context_id": {
+                                "context_uuid": {
+                                    "uuid": "admin"
+                                }
+                            },
+                            "topology_uuid": {
+                                "uuid": "admin"
+                            }
+                        }
+                    },
+                    "endpoint_location": {},
+                    "endpoint_type": "copper",
+                    "kpi_sample_types": [],
+                    "name": "200"
+                },
+                {
+                    "endpoint_id": {
+                        "device_id": {
+                            "device_uuid": {
+                                "uuid": "0392c251-b5d3-526b-8f3b-a3d4137829fa"
+                            }
+                        },
+                        "endpoint_uuid": {
+                            "uuid": "859813e0-24c1-518e-ba77-44a4f392e321"
+                        },
+                        "topology_id": {
+                            "context_id": {
+                                "context_uuid": {
+                                    "uuid": "admin"
+                                }
+                            },
+                            "topology_uuid": {
+                                "uuid": "admin"
+                            }
+                        }
+                    },
+                    "endpoint_location": {},
+                    "endpoint_type": "optical",
+                    "kpi_sample_types": [],
+                    "name": "501"
+                },
+                {
+                    "endpoint_id": {
+                        "device_id": {
+                            "device_uuid": {
+                                "uuid": "0392c251-b5d3-526b-8f3b-a3d4137829fa"
+                            }
+                        },
+                        "endpoint_uuid": {
+                            "uuid": "b72983bd-57d8-5cf8-8ec7-da9084382d7a"
+                        },
+                        "topology_id": {
+                            "context_id": {
+                                "context_uuid": {
+                                    "uuid": "admin"
+                                }
+                            },
+                            "topology_uuid": {
+                                "uuid": "admin"
+                            }
+                        }
+                    },
+                    "endpoint_location": {},
+                    "endpoint_type": "mgmt",
+                    "kpi_sample_types": [],
+                    "name": "mgmt"
+                }
+            ],
+            "device_id": {
+                "device_uuid": {
+                    "uuid": "0392c251-b5d3-526b-8f3b-a3d4137829fa"
+                }
+            },
+            "device_operational_status": 2,
+            "device_type": "emu-packet-router",
+            "name": "10.0.30.1"
+        },
+        {
+            "components": [],
+            "controller_id": {},
+            "device_config": {
+                "config_rules": [
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "_connect/address",
+                            "resource_value": "127.0.0.1"
+                        }
+                    },
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "_connect/port",
+                            "resource_value": 0
+                        }
+                    },
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "_connect/settings",
+                            "resource_value": {
+                                "endpoints": [
+                                    {
+                                        "name": "200",
+                                        "type": "copper",
+                                        "uuid": "200"
+                                    },
+                                    {
+                                        "name": "500",
+                                        "type": "copper",
+                                        "uuid": "500"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "/endpoints/endpoint[200]",
+                            "resource_value": {
+                                "name": "200",
+                                "type": "copper",
+                                "uuid": "200"
+                            }
+                        }
+                    },
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "/endpoints/endpoint[500]",
+                            "resource_value": {
+                                "name": "500",
+                                "type": "copper",
+                                "uuid": "500"
+                            }
+                        }
+                    }
+                ]
+            },
+            "device_drivers": [
+                0
+            ],
+            "device_endpoints": [
+                {
+                    "endpoint_id": {
+                        "device_id": {
+                            "device_uuid": {
+                                "uuid": "118295c8-318a-52ec-a394-529fc4b70f2f"
+                            }
+                        },
+                        "endpoint_uuid": {
+                            "uuid": "207ef8a3-18fd-5a63-ac24-4a1cc6af3e92"
+                        },
+                        "topology_id": {
+                            "context_id": {
+                                "context_uuid": {
+                                    "uuid": "admin"
+                                }
+                            },
+                            "topology_uuid": {
+                                "uuid": "admin"
+                            }
+                        }
+                    },
+                    "endpoint_location": {},
+                    "endpoint_type": "copper",
+                    "kpi_sample_types": [],
+                    "name": "200"
+                },
+                {
+                    "endpoint_id": {
+                        "device_id": {
+                            "device_uuid": {
+                                "uuid": "118295c8-318a-52ec-a394-529fc4b70f2f"
+                            }
+                        },
+                        "endpoint_uuid": {
+                            "uuid": "6fad7bc2-4ce5-5794-8bf0-ddd06cde20a6"
+                        },
+                        "topology_id": {
+                            "context_id": {
+                                "context_uuid": {
+                                    "uuid": "admin"
+                                }
+                            },
+                            "topology_uuid": {
+                                "uuid": "admin"
+                            }
+                        }
+                    },
+                    "endpoint_location": {},
+                    "endpoint_type": "copper",
+                    "kpi_sample_types": [],
+                    "name": "500"
+                }
+            ],
+            "device_id": {
+                "device_uuid": {
+                    "uuid": "118295c8-318a-52ec-a394-529fc4b70f2f"
+                }
+            },
+            "device_operational_status": 2,
+            "device_type": "emu-packet-router",
+            "name": "128.32.10.1"
+        },
+        {
+            "components": [],
+            "controller_id": {},
+            "device_config": {
+                "config_rules": [
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "_connect/address",
+                            "resource_value": "127.0.0.1"
+                        }
+                    },
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "_connect/port",
+                            "resource_value": 0
+                        }
+                    },
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "_connect/settings",
+                            "resource_value": {
+                                "endpoints": [
+                                    {
+                                        "name": "200",
+                                        "type": "copper",
+                                        "uuid": "200"
+                                    },
+                                    {
+                                        "name": "201",
+                                        "type": "copper",
+                                        "uuid": "201"
+                                    },
+                                    {
+                                        "name": "500",
+                                        "type": "copper",
+                                        "uuid": "500"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "/endpoints/endpoint[200]",
+                            "resource_value": {
+                                "name": "200",
+                                "type": "copper",
+                                "uuid": "200"
+                            }
+                        }
+                    },
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "/endpoints/endpoint[201]",
+                            "resource_value": {
+                                "name": "201",
+                                "type": "copper",
+                                "uuid": "201"
+                            }
+                        }
+                    },
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "/endpoints/endpoint[500]",
+                            "resource_value": {
+                                "name": "500",
+                                "type": "copper",
+                                "uuid": "500"
+                            }
+                        }
+                    }
+                ]
+            },
+            "device_drivers": [
+                0
+            ],
+            "device_endpoints": [
+                {
+                    "endpoint_id": {
+                        "device_id": {
+                            "device_uuid": {
+                                "uuid": "4c367472-545c-544d-935d-829f0a0e1c72"
+                            }
+                        },
+                        "endpoint_uuid": {
+                            "uuid": "227b6bb2-dacf-5b3d-84e9-c1d0c107bcd8"
+                        },
+                        "topology_id": {
+                            "context_id": {
+                                "context_uuid": {
+                                    "uuid": "admin"
+                                }
+                            },
+                            "topology_uuid": {
+                                "uuid": "admin"
+                            }
+                        }
+                    },
+                    "endpoint_location": {},
+                    "endpoint_type": "copper",
+                    "kpi_sample_types": [],
+                    "name": "201"
+                },
+                {
+                    "endpoint_id": {
+                        "device_id": {
+                            "device_uuid": {
+                                "uuid": "4c367472-545c-544d-935d-829f0a0e1c72"
+                            }
+                        },
+                        "endpoint_uuid": {
+                            "uuid": "3d0c36bb-80dc-5bab-8a7d-c47cce8d474f"
+                        },
+                        "topology_id": {
+                            "context_id": {
+                                "context_uuid": {
+                                    "uuid": "admin"
+                                }
+                            },
+                            "topology_uuid": {
+                                "uuid": "admin"
+                            }
+                        }
+                    },
+                    "endpoint_location": {},
+                    "endpoint_type": "copper",
+                    "kpi_sample_types": [],
+                    "name": "500"
+                },
+                {
+                    "endpoint_id": {
+                        "device_id": {
+                            "device_uuid": {
+                                "uuid": "4c367472-545c-544d-935d-829f0a0e1c72"
+                            }
+                        },
+                        "endpoint_uuid": {
+                            "uuid": "d8528b70-9215-59ed-851d-b9590ab0c94b"
+                        },
+                        "topology_id": {
+                            "context_id": {
+                                "context_uuid": {
+                                    "uuid": "admin"
+                                }
+                            },
+                            "topology_uuid": {
+                                "uuid": "admin"
+                            }
+                        }
+                    },
+                    "endpoint_location": {},
+                    "endpoint_type": "copper",
+                    "kpi_sample_types": [],
+                    "name": "200"
+                }
+            ],
+            "device_id": {
+                "device_uuid": {
+                    "uuid": "4c367472-545c-544d-935d-829f0a0e1c72"
+                }
+            },
+            "device_operational_status": 2,
+            "device_type": "emu-datacenter",
+            "name": "172.10.33.5"
+        },
+        {
+            "components": [],
+            "controller_id": {},
+            "device_config": {
+                "config_rules": [
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "_connect/address",
+                            "resource_value": "127.0.0.1"
+                        }
+                    },
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "_connect/port",
+                            "resource_value": 0
+                        }
+                    },
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "_connect/settings",
+                            "resource_value": {
+                                "endpoints": [
+                                    {
+                                        "name": "mgmt",
+                                        "type": "mgmt",
+                                        "uuid": "mgmt"
+                                    },
+                                    {
+                                        "name": "500",
+                                        "type": "optical",
+                                        "uuid": "500"
+                                    },
+                                    {
+                                        "name": "501",
+                                        "type": "optical",
+                                        "uuid": "501"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "/endpoints/endpoint[mgmt]",
+                            "resource_value": {
+                                "name": "mgmt",
+                                "type": "mgmt",
+                                "uuid": "mgmt"
+                            }
+                        }
+                    },
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "/endpoints/endpoint[500]",
+                            "resource_value": {
+                                "name": "500",
+                                "type": "optical",
+                                "uuid": "500"
+                            }
+                        }
+                    },
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "/endpoints/endpoint[501]",
+                            "resource_value": {
+                                "name": "501",
+                                "type": "optical",
+                                "uuid": "501"
+                            }
+                        }
+                    }
+                ]
+            },
+            "device_drivers": [
+                0
+            ],
+            "device_endpoints": [
+                {
+                    "endpoint_id": {
+                        "device_id": {
+                            "device_uuid": {
+                                "uuid": "4f2234d0-a9b8-5a86-b1dd-9139d86e3925"
+                            }
+                        },
+                        "endpoint_uuid": {
+                            "uuid": "75e62edc-a0f9-53f9-821b-023045db1551"
+                        },
+                        "topology_id": {
+                            "context_id": {
+                                "context_uuid": {
+                                    "uuid": "admin"
+                                }
+                            },
+                            "topology_uuid": {
+                                "uuid": "admin"
+                            }
+                        }
+                    },
+                    "endpoint_location": {},
+                    "endpoint_type": "optical",
+                    "kpi_sample_types": [],
+                    "name": "501"
+                },
+                {
+                    "endpoint_id": {
+                        "device_id": {
+                            "device_uuid": {
+                                "uuid": "4f2234d0-a9b8-5a86-b1dd-9139d86e3925"
+                            }
+                        },
+                        "endpoint_uuid": {
+                            "uuid": "b5efeee2-5062-5d8f-ae06-f901fed7a7d7"
+                        },
+                        "topology_id": {
+                            "context_id": {
+                                "context_uuid": {
+                                    "uuid": "admin"
+                                }
+                            },
+                            "topology_uuid": {
+                                "uuid": "admin"
+                            }
+                        }
+                    },
+                    "endpoint_location": {},
+                    "endpoint_type": "optical",
+                    "kpi_sample_types": [],
+                    "name": "500"
+                },
+                {
+                    "endpoint_id": {
+                        "device_id": {
+                            "device_uuid": {
+                                "uuid": "4f2234d0-a9b8-5a86-b1dd-9139d86e3925"
+                            }
+                        },
+                        "endpoint_uuid": {
+                            "uuid": "ede34dea-6b51-5787-88d2-553fe548f540"
+                        },
+                        "topology_id": {
+                            "context_id": {
+                                "context_uuid": {
+                                    "uuid": "admin"
+                                }
+                            },
+                            "topology_uuid": {
+                                "uuid": "admin"
+                            }
+                        }
+                    },
+                    "endpoint_location": {},
+                    "endpoint_type": "mgmt",
+                    "kpi_sample_types": [],
+                    "name": "mgmt"
+                }
+            ],
+            "device_id": {
+                "device_uuid": {
+                    "uuid": "4f2234d0-a9b8-5a86-b1dd-9139d86e3925"
+                }
+            },
+            "device_operational_status": 2,
+            "device_type": "emu-packet-router",
+            "name": "10.0.40.1"
+        },
+        {
+            "components": [],
+            "controller_id": {},
+            "device_config": {
+                "config_rules": [
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "_connect/address",
+                            "resource_value": "127.0.0.1"
+                        }
+                    },
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "_connect/port",
+                            "resource_value": 0
+                        }
+                    },
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "_connect/settings",
+                            "resource_value": {
+                                "endpoints": [
+                                    {
+                                        "name": "200",
+                                        "type": "copper",
+                                        "uuid": "200"
+                                    },
+                                    {
+                                        "name": "201",
+                                        "type": "copper",
+                                        "uuid": "201"
+                                    },
+                                    {
+                                        "name": "500",
+                                        "type": "copper",
+                                        "uuid": "500"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "/endpoints/endpoint[200]",
+                            "resource_value": {
+                                "name": "200",
+                                "type": "copper",
+                                "uuid": "200"
+                            }
+                        }
+                    },
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "/endpoints/endpoint[201]",
+                            "resource_value": {
+                                "name": "201",
+                                "type": "copper",
+                                "uuid": "201"
+                            }
+                        }
+                    },
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "/endpoints/endpoint[500]",
+                            "resource_value": {
+                                "name": "500",
+                                "type": "copper",
+                                "uuid": "500"
+                            }
+                        }
+                    }
+                ]
+            },
+            "device_drivers": [
+                0
+            ],
+            "device_endpoints": [
+                {
+                    "endpoint_id": {
+                        "device_id": {
+                            "device_uuid": {
+                                "uuid": "97d846b3-d0ba-5b4d-b12e-a9365eda205c"
+                            }
+                        },
+                        "endpoint_uuid": {
+                            "uuid": "387f7f12-3168-5c75-801e-f06c8afdbf88"
+                        },
+                        "topology_id": {
+                            "context_id": {
+                                "context_uuid": {
+                                    "uuid": "admin"
+                                }
+                            },
+                            "topology_uuid": {
+                                "uuid": "admin"
+                            }
+                        }
+                    },
+                    "endpoint_location": {},
+                    "endpoint_type": "copper",
+                    "kpi_sample_types": [],
+                    "name": "201"
+                },
+                {
+                    "endpoint_id": {
+                        "device_id": {
+                            "device_uuid": {
+                                "uuid": "97d846b3-d0ba-5b4d-b12e-a9365eda205c"
+                            }
+                        },
+                        "endpoint_uuid": {
+                            "uuid": "9095f6af-6381-54fa-9a0e-b1ef5720d163"
+                        },
+                        "topology_id": {
+                            "context_id": {
+                                "context_uuid": {
+                                    "uuid": "admin"
+                                }
+                            },
+                            "topology_uuid": {
+                                "uuid": "admin"
+                            }
+                        }
+                    },
+                    "endpoint_location": {},
+                    "endpoint_type": "copper",
+                    "kpi_sample_types": [],
+                    "name": "500"
+                },
+                {
+                    "endpoint_id": {
+                        "device_id": {
+                            "device_uuid": {
+                                "uuid": "97d846b3-d0ba-5b4d-b12e-a9365eda205c"
+                            }
+                        },
+                        "endpoint_uuid": {
+                            "uuid": "c6435612-3aca-590f-89ba-e606f54df474"
+                        },
+                        "topology_id": {
+                            "context_id": {
+                                "context_uuid": {
+                                    "uuid": "admin"
+                                }
+                            },
+                            "topology_uuid": {
+                                "uuid": "admin"
+                            }
+                        }
+                    },
+                    "endpoint_location": {},
+                    "endpoint_type": "copper",
+                    "kpi_sample_types": [],
+                    "name": "200"
+                }
+            ],
+            "device_id": {
+                "device_uuid": {
+                    "uuid": "97d846b3-d0ba-5b4d-b12e-a9365eda205c"
+                }
+            },
+            "device_operational_status": 2,
+            "device_type": "emu-optical-transponder",
+            "name": "128.32.33.5"
+        },
+        {
+            "components": [],
+            "controller_id": {},
+            "device_config": {
+                "config_rules": [
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "_connect/address",
+                            "resource_value": "127.0.0.1"
+                        }
+                    },
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "_connect/port",
+                            "resource_value": 0
+                        }
+                    },
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "_connect/settings",
+                            "resource_value": {
+                                "endpoints": [
+                                    {
+                                        "name": "mgmt",
+                                        "type": "mgmt",
+                                        "uuid": "mgmt"
+                                    },
+                                    {
+                                        "name": "200",
+                                        "type": "copper",
+                                        "uuid": "200"
+                                    },
+                                    {
+                                        "name": "500",
+                                        "type": "optical",
+                                        "uuid": "500"
+                                    },
+                                    {
+                                        "name": "501",
+                                        "type": "optical",
+                                        "uuid": "501"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "/endpoints/endpoint[mgmt]",
+                            "resource_value": {
+                                "name": "mgmt",
+                                "type": "mgmt",
+                                "uuid": "mgmt"
+                            }
+                        }
+                    },
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "/endpoints/endpoint[200]",
+                            "resource_value": {
+                                "name": "200",
+                                "type": "copper",
+                                "uuid": "200"
+                            }
+                        }
+                    },
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "/endpoints/endpoint[500]",
+                            "resource_value": {
+                                "name": "500",
+                                "type": "optical",
+                                "uuid": "500"
+                            }
+                        }
+                    },
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "/endpoints/endpoint[501]",
+                            "resource_value": {
+                                "name": "501",
+                                "type": "optical",
+                                "uuid": "501"
+                            }
+                        }
+                    }
+                ]
+            },
+            "device_drivers": [
+                0
+            ],
+            "device_endpoints": [
+                {
+                    "endpoint_id": {
+                        "device_id": {
+                            "device_uuid": {
+                                "uuid": "bf749ed2-fcc4-5bfc-9116-4ea18b722069"
+                            }
+                        },
+                        "endpoint_uuid": {
+                            "uuid": "59e1e30f-ea65-5e04-8a91-760a648a02c6"
+                        },
+                        "topology_id": {
+                            "context_id": {
+                                "context_uuid": {
+                                    "uuid": "admin"
+                                }
+                            },
+                            "topology_uuid": {
+                                "uuid": "admin"
+                            }
+                        }
+                    },
+                    "endpoint_location": {},
+                    "endpoint_type": "mgmt",
+                    "kpi_sample_types": [],
+                    "name": "mgmt"
+                },
+                {
+                    "endpoint_id": {
+                        "device_id": {
+                            "device_uuid": {
+                                "uuid": "bf749ed2-fcc4-5bfc-9116-4ea18b722069"
+                            }
+                        },
+                        "endpoint_uuid": {
+                            "uuid": "70cbb732-8149-59ee-939b-011828e4292b"
+                        },
+                        "topology_id": {
+                            "context_id": {
+                                "context_uuid": {
+                                    "uuid": "admin"
+                                }
+                            },
+                            "topology_uuid": {
+                                "uuid": "admin"
+                            }
+                        }
+                    },
+                    "endpoint_location": {},
+                    "endpoint_type": "copper",
+                    "kpi_sample_types": [],
+                    "name": "200"
+                },
+                {
+                    "endpoint_id": {
+                        "device_id": {
+                            "device_uuid": {
+                                "uuid": "bf749ed2-fcc4-5bfc-9116-4ea18b722069"
+                            }
+                        },
+                        "endpoint_uuid": {
+                            "uuid": "a2579e11-2e86-5e53-a235-3dd6ba92bb9a"
+                        },
+                        "topology_id": {
+                            "context_id": {
+                                "context_uuid": {
+                                    "uuid": "admin"
+                                }
+                            },
+                            "topology_uuid": {
+                                "uuid": "admin"
+                            }
+                        }
+                    },
+                    "endpoint_location": {},
+                    "endpoint_type": "optical",
+                    "kpi_sample_types": [],
+                    "name": "500"
+                },
+                {
+                    "endpoint_id": {
+                        "device_id": {
+                            "device_uuid": {
+                                "uuid": "bf749ed2-fcc4-5bfc-9116-4ea18b722069"
+                            }
+                        },
+                        "endpoint_uuid": {
+                            "uuid": "ad2e136d-a981-5c9a-8427-07352ac03351"
+                        },
+                        "topology_id": {
+                            "context_id": {
+                                "context_uuid": {
+                                    "uuid": "admin"
+                                }
+                            },
+                            "topology_uuid": {
+                                "uuid": "admin"
+                            }
+                        }
+                    },
+                    "endpoint_location": {},
+                    "endpoint_type": "optical",
+                    "kpi_sample_types": [],
+                    "name": "501"
+                }
+            ],
+            "device_id": {
+                "device_uuid": {
+                    "uuid": "bf749ed2-fcc4-5bfc-9116-4ea18b722069"
+                }
+            },
+            "device_operational_status": 2,
+            "device_type": "emu-packet-router",
+            "name": "10.0.10.1"
+        },
+        {
+            "components": [],
+            "controller_id": {},
+            "device_config": {
+                "config_rules": [
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "_connect/address",
+                            "resource_value": "127.0.0.1"
+                        }
+                    },
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "_connect/port",
+                            "resource_value": 0
+                        }
+                    },
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "_connect/settings",
+                            "resource_value": {
+                                "endpoints": [
+                                    {
+                                        "name": "mgmt",
+                                        "type": "mgmt",
+                                        "uuid": "mgmt"
+                                    },
+                                    {
+                                        "name": "500",
+                                        "type": "optical",
+                                        "uuid": "500"
+                                    },
+                                    {
+                                        "name": "501",
+                                        "type": "optical",
+                                        "uuid": "501"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "/endpoints/endpoint[mgmt]",
+                            "resource_value": {
+                                "name": "mgmt",
+                                "type": "mgmt",
+                                "uuid": "mgmt"
+                            }
+                        }
+                    },
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "/endpoints/endpoint[500]",
+                            "resource_value": {
+                                "name": "500",
+                                "type": "optical",
+                                "uuid": "500"
+                            }
+                        }
+                    },
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "/endpoints/endpoint[501]",
+                            "resource_value": {
+                                "name": "501",
+                                "type": "optical",
+                                "uuid": "501"
+                            }
+                        }
+                    }
+                ]
+            },
+            "device_drivers": [
+                0
+            ],
+            "device_endpoints": [
+                {
+                    "endpoint_id": {
+                        "device_id": {
+                            "device_uuid": {
+                                "uuid": "cf9c4a78-f019-5023-aa0f-4fdba909473b"
+                            }
+                        },
+                        "endpoint_uuid": {
+                            "uuid": "23c04144-5ad3-5419-8b96-cf4eb329ca96"
+                        },
+                        "topology_id": {
+                            "context_id": {
+                                "context_uuid": {
+                                    "uuid": "admin"
+                                }
+                            },
+                            "topology_uuid": {
+                                "uuid": "admin"
+                            }
+                        }
+                    },
+                    "endpoint_location": {},
+                    "endpoint_type": "optical",
+                    "kpi_sample_types": [],
+                    "name": "501"
+                },
+                {
+                    "endpoint_id": {
+                        "device_id": {
+                            "device_uuid": {
+                                "uuid": "cf9c4a78-f019-5023-aa0f-4fdba909473b"
+                            }
+                        },
+                        "endpoint_uuid": {
+                            "uuid": "356378dd-952b-5032-912d-37fc21284b4c"
+                        },
+                        "topology_id": {
+                            "context_id": {
+                                "context_uuid": {
+                                    "uuid": "admin"
+                                }
+                            },
+                            "topology_uuid": {
+                                "uuid": "admin"
+                            }
+                        }
+                    },
+                    "endpoint_location": {},
+                    "endpoint_type": "optical",
+                    "kpi_sample_types": [],
+                    "name": "500"
+                },
+                {
+                    "endpoint_id": {
+                        "device_id": {
+                            "device_uuid": {
+                                "uuid": "cf9c4a78-f019-5023-aa0f-4fdba909473b"
+                            }
+                        },
+                        "endpoint_uuid": {
+                            "uuid": "da826790-a4b0-5317-b30b-e1370918a644"
+                        },
+                        "topology_id": {
+                            "context_id": {
+                                "context_uuid": {
+                                    "uuid": "admin"
+                                }
+                            },
+                            "topology_uuid": {
+                                "uuid": "admin"
+                            }
+                        }
+                    },
+                    "endpoint_location": {},
+                    "endpoint_type": "mgmt",
+                    "kpi_sample_types": [],
+                    "name": "mgmt"
+                }
+            ],
+            "device_id": {
+                "device_uuid": {
+                    "uuid": "cf9c4a78-f019-5023-aa0f-4fdba909473b"
+                }
+            },
+            "device_operational_status": 2,
+            "device_type": "emu-packet-router",
+            "name": "10.0.20.1"
+        },
+        {
+            "components": [],
+            "controller_id": {},
+            "device_config": {
+                "config_rules": [
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "_connect/address",
+                            "resource_value": "127.0.0.1"
+                        }
+                    },
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "_connect/port",
+                            "resource_value": 0
+                        }
+                    },
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "_connect/settings",
+                            "resource_value": {
+                                "endpoints": [
+                                    {
+                                        "name": "eth1",
+                                        "type": "copper",
+                                        "uuid": "eth1"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "/endpoints/endpoint[eth1]",
+                            "resource_value": {
+                                "name": "eth1",
+                                "type": "copper",
+                                "uuid": "eth1"
+                            }
+                        }
+                    }
+                ]
+            },
+            "device_drivers": [
+                0
+            ],
+            "device_endpoints": [
+                {
+                    "endpoint_id": {
+                        "device_id": {
+                            "device_uuid": {
+                                "uuid": "df4be2f2-a4a2-587d-b3ed-61a53cae3aa6"
+                            }
+                        },
+                        "endpoint_uuid": {
+                            "uuid": "0701f406-633f-53e7-a44d-c93384745df8"
+                        },
+                        "topology_id": {
+                            "context_id": {
+                                "context_uuid": {
+                                    "uuid": "admin"
+                                }
+                            },
+                            "topology_uuid": {
+                                "uuid": "admin"
+                            }
+                        }
+                    },
+                    "endpoint_location": {},
+                    "endpoint_type": "copper",
+                    "kpi_sample_types": [],
+                    "name": "eth1"
+                }
+            ],
+            "device_id": {
+                "device_uuid": {
+                    "uuid": "df4be2f2-a4a2-587d-b3ed-61a53cae3aa6"
+                }
+            },
+            "device_operational_status": 2,
+            "device_type": "emu-client",
+            "name": "128.32.20.5"
+        },
+        {
+            "components": [],
+            "controller_id": {},
+            "device_config": {
+                "config_rules": [
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "_connect/address",
+                            "resource_value": "127.0.0.1"
+                        }
+                    },
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "_connect/port",
+                            "resource_value": 0
+                        }
+                    },
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "_connect/settings",
+                            "resource_value": {
+                                "endpoints": [
+                                    {
+                                        "name": "200",
+                                        "type": "copper",
+                                        "uuid": "200"
+                                    },
+                                    {
+                                        "name": "500",
+                                        "type": "copper",
+                                        "uuid": "500"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "/endpoints/endpoint[200]",
+                            "resource_value": {
+                                "name": "200",
+                                "type": "copper",
+                                "uuid": "200"
+                            }
+                        }
+                    },
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "/endpoints/endpoint[500]",
+                            "resource_value": {
+                                "name": "500",
+                                "type": "copper",
+                                "uuid": "500"
+                            }
+                        }
+                    }
+                ]
+            },
+            "device_drivers": [
+                0
+            ],
+            "device_endpoints": [
+                {
+                    "endpoint_id": {
+                        "device_id": {
+                            "device_uuid": {
+                                "uuid": "e15007fb-aae4-50d6-b686-b6dc4ae504e2"
+                            }
+                        },
+                        "endpoint_uuid": {
+                            "uuid": "852a3fd3-3f55-5e31-865d-c52984efb186"
+                        },
+                        "topology_id": {
+                            "context_id": {
+                                "context_uuid": {
+                                    "uuid": "admin"
+                                }
+                            },
+                            "topology_uuid": {
+                                "uuid": "admin"
+                            }
+                        }
+                    },
+                    "endpoint_location": {},
+                    "endpoint_type": "copper",
+                    "kpi_sample_types": [],
+                    "name": "500"
+                },
+                {
+                    "endpoint_id": {
+                        "device_id": {
+                            "device_uuid": {
+                                "uuid": "e15007fb-aae4-50d6-b686-b6dc4ae504e2"
+                            }
+                        },
+                        "endpoint_uuid": {
+                            "uuid": "bbbec9f8-618a-591a-bc3e-c188ee31008e"
+                        },
+                        "topology_id": {
+                            "context_id": {
+                                "context_uuid": {
+                                    "uuid": "admin"
+                                }
+                            },
+                            "topology_uuid": {
+                                "uuid": "admin"
+                            }
+                        }
+                    },
+                    "endpoint_location": {},
+                    "endpoint_type": "copper",
+                    "kpi_sample_types": [],
+                    "name": "200"
+                }
+            ],
+            "device_id": {
+                "device_uuid": {
+                    "uuid": "e15007fb-aae4-50d6-b686-b6dc4ae504e2"
+                }
+            },
+            "device_operational_status": 2,
+            "device_type": "emu-packet-router",
+            "name": "128.32.20.1"
+        },
+        {
+            "components": [],
+            "controller_id": {},
+            "device_config": {
+                "config_rules": [
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "_connect/address",
+                            "resource_value": "127.0.0.1"
+                        }
+                    },
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "_connect/port",
+                            "resource_value": 0
+                        }
+                    },
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "_connect/settings",
+                            "resource_value": {
+                                "endpoints": [
+                                    {
+                                        "name": "eth1",
+                                        "type": "copper",
+                                        "uuid": "eth1"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "/endpoints/endpoint[eth1]",
+                            "resource_value": {
+                                "name": "eth1",
+                                "type": "copper",
+                                "uuid": "eth1"
+                            }
+                        }
+                    }
+                ]
+            },
+            "device_drivers": [
+                0
+            ],
+            "device_endpoints": [
+                {
+                    "endpoint_id": {
+                        "device_id": {
+                            "device_uuid": {
+                                "uuid": "f3840f4a-6ea2-551a-8afd-0f3faa8ac1e6"
+                            }
+                        },
+                        "endpoint_uuid": {
+                            "uuid": "16d56d61-63cd-5704-9d2a-5515e633b64b"
+                        },
+                        "topology_id": {
+                            "context_id": {
+                                "context_uuid": {
+                                    "uuid": "admin"
+                                }
+                            },
+                            "topology_uuid": {
+                                "uuid": "admin"
+                            }
+                        }
+                    },
+                    "endpoint_location": {},
+                    "endpoint_type": "copper",
+                    "kpi_sample_types": [],
+                    "name": "eth1"
+                }
+            ],
+            "device_id": {
+                "device_uuid": {
+                    "uuid": "f3840f4a-6ea2-551a-8afd-0f3faa8ac1e6"
+                }
+            },
+            "device_operational_status": 2,
+            "device_type": "emu-client",
+            "name": "128.32.10.5"
+        },
+        {
+            "components": [],
+            "controller_id": {},
+            "device_config": {
+                "config_rules": [
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "_connect/address",
+                            "resource_value": "127.0.0.1"
+                        }
+                    },
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "_connect/port",
+                            "resource_value": 0
+                        }
+                    },
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "_connect/settings",
+                            "resource_value": {
+                                "endpoints": [
+                                    {
+                                        "name": "mgmt",
+                                        "type": "mgmt",
+                                        "uuid": "mgmt"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "/endpoints/endpoint[mgmt]",
+                            "resource_value": {
+                                "name": "mgmt",
+                                "type": "mgmt",
+                                "uuid": "mgmt"
+                            }
+                        }
+                    }
+                ]
+            },
+            "device_drivers": [
+                0
+            ],
+            "device_endpoints": [
+                {
+                    "endpoint_id": {
+                        "device_id": {
+                            "device_uuid": {
+                                "uuid": "fe0dc2e8-b9ce-555f-8f28-a1a4468fabde"
+                            }
+                        },
+                        "endpoint_uuid": {
+                            "uuid": "086906ec-fd3b-55e1-b9bb-5a9e5bb5daff"
+                        },
+                        "topology_id": {
+                            "context_id": {
+                                "context_uuid": {
+                                    "uuid": "admin"
+                                }
+                            },
+                            "topology_uuid": {
+                                "uuid": "admin"
+                            }
+                        }
+                    },
+                    "endpoint_location": {},
+                    "endpoint_type": "mgmt",
+                    "kpi_sample_types": [],
+                    "name": "mgmt"
+                }
+            ],
+            "device_id": {
+                "device_uuid": {
+                    "uuid": "fe0dc2e8-b9ce-555f-8f28-a1a4468fabde"
+                }
+            },
+            "device_operational_status": 2,
+            "device_type": "emu-open-line-system",
+            "name": "nce-t"
+        }
+    ],
+    "dummy_mode": true,
+    "links": [
+        {
+            "attributes": {
+                "total_capacity_gbps": 10.0,
+                "used_capacity_gbps": 0.0
+            },
+            "link_endpoint_ids": [
+                {
+                    "device_id": {
+                        "device_uuid": {
+                            "uuid": "bf749ed2-fcc4-5bfc-9116-4ea18b722069"
+                        }
+                    },
+                    "endpoint_uuid": {
+                        "uuid": "70cbb732-8149-59ee-939b-011828e4292b"
+                    },
+                    "topology_id": {
+                        "context_id": {
+                            "context_uuid": {
+                                "uuid": "admin"
+                            }
+                        },
+                        "topology_uuid": {
+                            "uuid": "admin"
+                        }
+                    }
+                },
+                {
+                    "device_id": {
+                        "device_uuid": {
+                            "uuid": "97d846b3-d0ba-5b4d-b12e-a9365eda205c"
+                        }
+                    },
+                    "endpoint_uuid": {
+                        "uuid": "9095f6af-6381-54fa-9a0e-b1ef5720d163"
+                    },
+                    "topology_id": {
+                        "context_id": {
+                            "context_uuid": {
+                                "uuid": "admin"
+                            }
+                        },
+                        "topology_uuid": {
+                            "uuid": "admin"
+                        }
+                    }
+                }
+            ],
+            "link_id": {
+                "link_uuid": {
+                    "uuid": "0b3d5943-c2bf-595f-a805-dc29c2be2f52"
+                }
+            },
+            "name": "10.0.10.1-200"
+        },
+        {
+            "attributes": {
+                "total_capacity_gbps": 10.0,
+                "used_capacity_gbps": 0.0
+            },
+            "link_endpoint_ids": [
+                {
+                    "device_id": {
+                        "device_uuid": {
+                            "uuid": "4f2234d0-a9b8-5a86-b1dd-9139d86e3925"
+                        }
+                    },
+                    "endpoint_uuid": {
+                        "uuid": "b5efeee2-5062-5d8f-ae06-f901fed7a7d7"
+                    },
+                    "topology_id": {
+                        "context_id": {
+                            "context_uuid": {
+                                "uuid": "admin"
+                            }
+                        },
+                        "topology_uuid": {
+                            "uuid": "admin"
+                        }
+                    }
+                },
+                {
+                    "device_id": {
+                        "device_uuid": {
+                            "uuid": "bf749ed2-fcc4-5bfc-9116-4ea18b722069"
+                        }
+                    },
+                    "endpoint_uuid": {
+                        "uuid": "a2579e11-2e86-5e53-a235-3dd6ba92bb9a"
+                    },
+                    "topology_id": {
+                        "context_id": {
+                            "context_uuid": {
+                                "uuid": "admin"
+                            }
+                        },
+                        "topology_uuid": {
+                            "uuid": "admin"
+                        }
+                    }
+                }
+            ],
+            "link_id": {
+                "link_uuid": {
+                    "uuid": "1490e70f-472c-5e4c-8280-21c48ed03477"
+                }
+            },
+            "name": "10.0.40.1-500"
+        },
+        {
+            "attributes": {
+                "total_capacity_gbps": 10.0,
+                "used_capacity_gbps": 0.0
+            },
+            "link_endpoint_ids": [
+                {
+                    "device_id": {
+                        "device_uuid": {
+                            "uuid": "118295c8-318a-52ec-a394-529fc4b70f2f"
+                        }
+                    },
+                    "endpoint_uuid": {
+                        "uuid": "6fad7bc2-4ce5-5794-8bf0-ddd06cde20a6"
+                    },
+                    "topology_id": {
+                        "context_id": {
+                            "context_uuid": {
+                                "uuid": "admin"
+                            }
+                        },
+                        "topology_uuid": {
+                            "uuid": "admin"
+                        }
+                    }
+                },
+                {
+                    "device_id": {
+                        "device_uuid": {
+                            "uuid": "97d846b3-d0ba-5b4d-b12e-a9365eda205c"
+                        }
+                    },
+                    "endpoint_uuid": {
+                        "uuid": "c6435612-3aca-590f-89ba-e606f54df474"
+                    },
+                    "topology_id": {
+                        "context_id": {
+                            "context_uuid": {
+                                "uuid": "admin"
+                            }
+                        },
+                        "topology_uuid": {
+                            "uuid": "admin"
+                        }
+                    }
+                }
+            ],
+            "link_id": {
+                "link_uuid": {
+                    "uuid": "18ba8eb2-342b-5a73-aeae-7288ea9bb28b"
+                }
+            },
+            "name": "128.32.10.1-500"
+        },
+        {
+            "attributes": {
+                "total_capacity_gbps": 10.0,
+                "used_capacity_gbps": 0.0
+            },
+            "link_endpoint_ids": [
+                {
+                    "device_id": {
+                        "device_uuid": {
+                            "uuid": "118295c8-318a-52ec-a394-529fc4b70f2f"
+                        }
+                    },
+                    "endpoint_uuid": {
+                        "uuid": "207ef8a3-18fd-5a63-ac24-4a1cc6af3e92"
+                    },
+                    "topology_id": {
+                        "context_id": {
+                            "context_uuid": {
+                                "uuid": "admin"
+                            }
+                        },
+                        "topology_uuid": {
+                            "uuid": "admin"
+                        }
+                    }
+                },
+                {
+                    "device_id": {
+                        "device_uuid": {
+                            "uuid": "f3840f4a-6ea2-551a-8afd-0f3faa8ac1e6"
+                        }
+                    },
+                    "endpoint_uuid": {
+                        "uuid": "16d56d61-63cd-5704-9d2a-5515e633b64b"
+                    },
+                    "topology_id": {
+                        "context_id": {
+                            "context_uuid": {
+                                "uuid": "admin"
+                            }
+                        },
+                        "topology_uuid": {
+                            "uuid": "admin"
+                        }
+                    }
+                }
+            ],
+            "link_id": {
+                "link_uuid": {
+                    "uuid": "1901b0dc-1b5e-5fdf-b9ac-9168787464c1"
+                }
+            },
+            "name": "128.32.10.1-200"
+        },
+        {
+            "attributes": {
+                "total_capacity_gbps": 10.0,
+                "used_capacity_gbps": 0.0
+            },
+            "link_endpoint_ids": [
+                {
+                    "device_id": {
+                        "device_uuid": {
+                            "uuid": "97d846b3-d0ba-5b4d-b12e-a9365eda205c"
+                        }
+                    },
+                    "endpoint_uuid": {
+                        "uuid": "9095f6af-6381-54fa-9a0e-b1ef5720d163"
+                    },
+                    "topology_id": {
+                        "context_id": {
+                            "context_uuid": {
+                                "uuid": "admin"
+                            }
+                        },
+                        "topology_uuid": {
+                            "uuid": "admin"
+                        }
+                    }
+                },
+                {
+                    "device_id": {
+                        "device_uuid": {
+                            "uuid": "bf749ed2-fcc4-5bfc-9116-4ea18b722069"
+                        }
+                    },
+                    "endpoint_uuid": {
+                        "uuid": "70cbb732-8149-59ee-939b-011828e4292b"
+                    },
+                    "topology_id": {
+                        "context_id": {
+                            "context_uuid": {
+                                "uuid": "admin"
+                            }
+                        },
+                        "topology_uuid": {
+                            "uuid": "admin"
+                        }
+                    }
+                }
+            ],
+            "link_id": {
+                "link_uuid": {
+                    "uuid": "1afdae8b-a281-53aa-99c2-205afb8f4ee7"
+                }
+            },
+            "name": "128.32.33.5-500"
+        },
+        {
+            "attributes": {
+                "total_capacity_gbps": 10.0,
+                "used_capacity_gbps": 0.0
+            },
+            "link_endpoint_ids": [
+                {
+                    "device_id": {
+                        "device_uuid": {
+                            "uuid": "cf9c4a78-f019-5023-aa0f-4fdba909473b"
+                        }
+                    },
+                    "endpoint_uuid": {
+                        "uuid": "356378dd-952b-5032-912d-37fc21284b4c"
+                    },
+                    "topology_id": {
+                        "context_id": {
+                            "context_uuid": {
+                                "uuid": "admin"
+                            }
+                        },
+                        "topology_uuid": {
+                            "uuid": "admin"
+                        }
+                    }
+                },
+                {
+                    "device_id": {
+                        "device_uuid": {
+                            "uuid": "0392c251-b5d3-526b-8f3b-a3d4137829fa"
+                        }
+                    },
+                    "endpoint_uuid": {
+                        "uuid": "161ad889-3839-5dfb-a4a9-95a1de8c3ad5"
+                    },
+                    "topology_id": {
+                        "context_id": {
+                            "context_uuid": {
+                                "uuid": "admin"
+                            }
+                        },
+                        "topology_uuid": {
+                            "uuid": "admin"
+                        }
+                    }
+                }
+            ],
+            "link_id": {
+                "link_uuid": {
+                    "uuid": "30ca0f8f-b150-57f2-ae5e-8a6844944783"
+                }
+            },
+            "name": "10.0.20.1-500"
+        },
+        {
+            "attributes": {
+                "total_capacity_gbps": 10.0,
+                "used_capacity_gbps": 0.0
+            },
+            "link_endpoint_ids": [
+                {
+                    "device_id": {
+                        "device_uuid": {
+                            "uuid": "cf9c4a78-f019-5023-aa0f-4fdba909473b"
+                        }
+                    },
+                    "endpoint_uuid": {
+                        "uuid": "23c04144-5ad3-5419-8b96-cf4eb329ca96"
+                    },
+                    "topology_id": {
+                        "context_id": {
+                            "context_uuid": {
+                                "uuid": "admin"
+                            }
+                        },
+                        "topology_uuid": {
+                            "uuid": "admin"
+                        }
+                    }
+                },
+                {
+                    "device_id": {
+                        "device_uuid": {
+                            "uuid": "bf749ed2-fcc4-5bfc-9116-4ea18b722069"
+                        }
+                    },
+                    "endpoint_uuid": {
+                        "uuid": "ad2e136d-a981-5c9a-8427-07352ac03351"
+                    },
+                    "topology_id": {
+                        "context_id": {
+                            "context_uuid": {
+                                "uuid": "admin"
+                            }
+                        },
+                        "topology_uuid": {
+                            "uuid": "admin"
+                        }
+                    }
+                }
+            ],
+            "link_id": {
+                "link_uuid": {
+                    "uuid": "34c9c6c3-0dcf-54e5-ba67-da33eb2d3c1a"
+                }
+            },
+            "name": "10.0.20.1-501"
+        },
+        {
+            "attributes": {
+                "total_capacity_gbps": 10.0,
+                "used_capacity_gbps": 0.0
+            },
+            "link_endpoint_ids": [
+                {
+                    "device_id": {
+                        "device_uuid": {
+                            "uuid": "0392c251-b5d3-526b-8f3b-a3d4137829fa"
+                        }
+                    },
+                    "endpoint_uuid": {
+                        "uuid": "161ad889-3839-5dfb-a4a9-95a1de8c3ad5"
+                    },
+                    "topology_id": {
+                        "context_id": {
+                            "context_uuid": {
+                                "uuid": "admin"
+                            }
+                        },
+                        "topology_uuid": {
+                            "uuid": "admin"
+                        }
+                    }
+                },
+                {
+                    "device_id": {
+                        "device_uuid": {
+                            "uuid": "cf9c4a78-f019-5023-aa0f-4fdba909473b"
+                        }
+                    },
+                    "endpoint_uuid": {
+                        "uuid": "356378dd-952b-5032-912d-37fc21284b4c"
+                    },
+                    "topology_id": {
+                        "context_id": {
+                            "context_uuid": {
+                                "uuid": "admin"
+                            }
+                        },
+                        "topology_uuid": {
+                            "uuid": "admin"
+                        }
+                    }
+                }
+            ],
+            "link_id": {
+                "link_uuid": {
+                    "uuid": "35801e61-45f3-564e-ad5c-09baf4aae906"
+                }
+            },
+            "name": "10.0.30.1-500"
+        },
+        {
+            "attributes": {
+                "total_capacity_gbps": 10.0,
+                "used_capacity_gbps": 0.0
+            },
+            "link_endpoint_ids": [
+                {
+                    "device_id": {
+                        "device_uuid": {
+                            "uuid": "4c367472-545c-544d-935d-829f0a0e1c72"
+                        }
+                    },
+                    "endpoint_uuid": {
+                        "uuid": "3d0c36bb-80dc-5bab-8a7d-c47cce8d474f"
+                    },
+                    "topology_id": {
+                        "context_id": {
+                            "context_uuid": {
+                                "uuid": "admin"
+                            }
+                        },
+                        "topology_uuid": {
+                            "uuid": "admin"
+                        }
+                    }
+                },
+                {
+                    "device_id": {
+                        "device_uuid": {
+                            "uuid": "0392c251-b5d3-526b-8f3b-a3d4137829fa"
+                        }
+                    },
+                    "endpoint_uuid": {
+                        "uuid": "1e35cf03-d55d-5648-9cb6-fca37bfbf23a"
+                    },
+                    "topology_id": {
+                        "context_id": {
+                            "context_uuid": {
+                                "uuid": "admin"
+                            }
+                        },
+                        "topology_uuid": {
+                            "uuid": "admin"
+                        }
+                    }
+                }
+            ],
+            "link_id": {
+                "link_uuid": {
+                    "uuid": "36643dba-e8fa-5fb7-952d-dff313db957b"
+                }
+            },
+            "name": "172.10.33.5-500"
+        },
+        {
+            "link_endpoint_ids": [
+                {
+                    "device_id": {
+                        "device_uuid": {
+                            "uuid": "fe0dc2e8-b9ce-555f-8f28-a1a4468fabde"
+                        }
+                    },
+                    "endpoint_uuid": {
+                        "uuid": "086906ec-fd3b-55e1-b9bb-5a9e5bb5daff"
+                    },
+                    "topology_id": {
+                        "context_id": {
+                            "context_uuid": {
+                                "uuid": "admin"
+                            }
+                        },
+                        "topology_uuid": {
+                            "uuid": "admin"
+                        }
+                    }
+                },
+                {
+                    "device_id": {
+                        "device_uuid": {
+                            "uuid": "4f2234d0-a9b8-5a86-b1dd-9139d86e3925"
+                        }
+                    },
+                    "endpoint_uuid": {
+                        "uuid": "ede34dea-6b51-5787-88d2-553fe548f540"
+                    },
+                    "topology_id": {
+                        "context_id": {
+                            "context_uuid": {
+                                "uuid": "admin"
+                            }
+                        },
+                        "topology_uuid": {
+                            "uuid": "admin"
+                        }
+                    }
+                }
+            ],
+            "link_id": {
+                "link_uuid": {
+                    "uuid": "36856920-3387-5384-b1b1-dbc9e54da226"
+                }
+            },
+            "name": "nce-t/mgmt==10.0.40.1/mgmt"
+        },
+        {
+            "link_endpoint_ids": [
+                {
+                    "device_id": {
+                        "device_uuid": {
+                            "uuid": "fe0dc2e8-b9ce-555f-8f28-a1a4468fabde"
+                        }
+                    },
+                    "endpoint_uuid": {
+                        "uuid": "086906ec-fd3b-55e1-b9bb-5a9e5bb5daff"
+                    },
+                    "topology_id": {
+                        "context_id": {
+                            "context_uuid": {
+                                "uuid": "admin"
+                            }
+                        },
+                        "topology_uuid": {
+                            "uuid": "admin"
+                        }
+                    }
+                },
+                {
+                    "device_id": {
+                        "device_uuid": {
+                            "uuid": "0392c251-b5d3-526b-8f3b-a3d4137829fa"
+                        }
+                    },
+                    "endpoint_uuid": {
+                        "uuid": "b72983bd-57d8-5cf8-8ec7-da9084382d7a"
+                    },
+                    "topology_id": {
+                        "context_id": {
+                            "context_uuid": {
+                                "uuid": "admin"
+                            }
+                        },
+                        "topology_uuid": {
+                            "uuid": "admin"
+                        }
+                    }
+                }
+            ],
+            "link_id": {
+                "link_uuid": {
+                    "uuid": "46ba12f9-dd17-5f2a-9558-e4611515a6b9"
+                }
+            },
+            "name": "nce-t/mgmt==10.0.30.1/mgmt"
+        },
+        {
+            "attributes": {
+                "total_capacity_gbps": 10.0,
+                "used_capacity_gbps": 0.0
+            },
+            "link_endpoint_ids": [
+                {
+                    "device_id": {
+                        "device_uuid": {
+                            "uuid": "0392c251-b5d3-526b-8f3b-a3d4137829fa"
+                        }
+                    },
+                    "endpoint_uuid": {
+                        "uuid": "859813e0-24c1-518e-ba77-44a4f392e321"
+                    },
+                    "topology_id": {
+                        "context_id": {
+                            "context_uuid": {
+                                "uuid": "admin"
+                            }
+                        },
+                        "topology_uuid": {
+                            "uuid": "admin"
+                        }
+                    }
+                },
+                {
+                    "device_id": {
+                        "device_uuid": {
+                            "uuid": "4f2234d0-a9b8-5a86-b1dd-9139d86e3925"
+                        }
+                    },
+                    "endpoint_uuid": {
+                        "uuid": "75e62edc-a0f9-53f9-821b-023045db1551"
+                    },
+                    "topology_id": {
+                        "context_id": {
+                            "context_uuid": {
+                                "uuid": "admin"
+                            }
+                        },
+                        "topology_uuid": {
+                            "uuid": "admin"
+                        }
+                    }
+                }
+            ],
+            "link_id": {
+                "link_uuid": {
+                    "uuid": "4dfe28dd-ac28-53d5-b330-1707e350d772"
+                }
+            },
+            "name": "10.0.30.1-501"
+        },
+        {
+            "attributes": {
+                "total_capacity_gbps": 10.0,
+                "used_capacity_gbps": 0.0
+            },
+            "link_endpoint_ids": [
+                {
+                    "device_id": {
+                        "device_uuid": {
+                            "uuid": "e15007fb-aae4-50d6-b686-b6dc4ae504e2"
+                        }
+                    },
+                    "endpoint_uuid": {
+                        "uuid": "852a3fd3-3f55-5e31-865d-c52984efb186"
+                    },
+                    "topology_id": {
+                        "context_id": {
+                            "context_uuid": {
+                                "uuid": "admin"
+                            }
+                        },
+                        "topology_uuid": {
+                            "uuid": "admin"
+                        }
+                    }
+                },
+                {
+                    "device_id": {
+                        "device_uuid": {
+                            "uuid": "97d846b3-d0ba-5b4d-b12e-a9365eda205c"
+                        }
+                    },
+                    "endpoint_uuid": {
+                        "uuid": "387f7f12-3168-5c75-801e-f06c8afdbf88"
+                    },
+                    "topology_id": {
+                        "context_id": {
+                            "context_uuid": {
+                                "uuid": "admin"
+                            }
+                        },
+                        "topology_uuid": {
+                            "uuid": "admin"
+                        }
+                    }
+                }
+            ],
+            "link_id": {
+                "link_uuid": {
+                    "uuid": "644ab377-572c-53a4-8ab5-f5cf45591d88"
+                }
+            },
+            "name": "128.32.20.1-500"
+        },
+        {
+            "attributes": {
+                "total_capacity_gbps": 10.0,
+                "used_capacity_gbps": 0.0
+            },
+            "link_endpoint_ids": [
+                {
+                    "device_id": {
+                        "device_uuid": {
+                            "uuid": "97d846b3-d0ba-5b4d-b12e-a9365eda205c"
+                        }
+                    },
+                    "endpoint_uuid": {
+                        "uuid": "c6435612-3aca-590f-89ba-e606f54df474"
+                    },
+                    "topology_id": {
+                        "context_id": {
+                            "context_uuid": {
+                                "uuid": "admin"
+                            }
+                        },
+                        "topology_uuid": {
+                            "uuid": "admin"
+                        }
+                    }
+                },
+                {
+                    "device_id": {
+                        "device_uuid": {
+                            "uuid": "118295c8-318a-52ec-a394-529fc4b70f2f"
+                        }
+                    },
+                    "endpoint_uuid": {
+                        "uuid": "6fad7bc2-4ce5-5794-8bf0-ddd06cde20a6"
+                    },
+                    "topology_id": {
+                        "context_id": {
+                            "context_uuid": {
+                                "uuid": "admin"
+                            }
+                        },
+                        "topology_uuid": {
+                            "uuid": "admin"
+                        }
+                    }
+                }
+            ],
+            "link_id": {
+                "link_uuid": {
+                    "uuid": "661ac531-4309-58cc-b70e-2a79492c2488"
+                }
+            },
+            "name": "128.32.33.5-200"
+        },
+        {
+            "attributes": {
+                "total_capacity_gbps": 10.0,
+                "used_capacity_gbps": 0.0
+            },
+            "link_endpoint_ids": [
+                {
+                    "device_id": {
+                        "device_uuid": {
+                            "uuid": "97d846b3-d0ba-5b4d-b12e-a9365eda205c"
+                        }
+                    },
+                    "endpoint_uuid": {
+                        "uuid": "387f7f12-3168-5c75-801e-f06c8afdbf88"
+                    },
+                    "topology_id": {
+                        "context_id": {
+                            "context_uuid": {
+                                "uuid": "admin"
+                            }
+                        },
+                        "topology_uuid": {
+                            "uuid": "admin"
+                        }
+                    }
+                },
+                {
+                    "device_id": {
+                        "device_uuid": {
+                            "uuid": "e15007fb-aae4-50d6-b686-b6dc4ae504e2"
+                        }
+                    },
+                    "endpoint_uuid": {
+                        "uuid": "852a3fd3-3f55-5e31-865d-c52984efb186"
+                    },
+                    "topology_id": {
+                        "context_id": {
+                            "context_uuid": {
+                                "uuid": "admin"
+                            }
+                        },
+                        "topology_uuid": {
+                            "uuid": "admin"
+                        }
+                    }
+                }
+            ],
+            "link_id": {
+                "link_uuid": {
+                    "uuid": "6a236e01-853c-51d0-8915-2d09b45923b0"
+                }
+            },
+            "name": "128.32.33.5-201"
+        },
+        {
+            "link_endpoint_ids": [
+                {
+                    "device_id": {
+                        "device_uuid": {
+                            "uuid": "fe0dc2e8-b9ce-555f-8f28-a1a4468fabde"
+                        }
+                    },
+                    "endpoint_uuid": {
+                        "uuid": "086906ec-fd3b-55e1-b9bb-5a9e5bb5daff"
+                    },
+                    "topology_id": {
+                        "context_id": {
+                            "context_uuid": {
+                                "uuid": "admin"
+                            }
+                        },
+                        "topology_uuid": {
+                            "uuid": "admin"
+                        }
+                    }
+                },
+                {
+                    "device_id": {
+                        "device_uuid": {
+                            "uuid": "cf9c4a78-f019-5023-aa0f-4fdba909473b"
+                        }
+                    },
+                    "endpoint_uuid": {
+                        "uuid": "da826790-a4b0-5317-b30b-e1370918a644"
+                    },
+                    "topology_id": {
+                        "context_id": {
+                            "context_uuid": {
+                                "uuid": "admin"
+                            }
+                        },
+                        "topology_uuid": {
+                            "uuid": "admin"
+                        }
+                    }
+                }
+            ],
+            "link_id": {
+                "link_uuid": {
+                    "uuid": "6c802ae7-59d1-55e7-9498-146c465bcab5"
+                }
+            },
+            "name": "nce-t/mgmt==10.0.20.1/mgmt"
+        },
+        {
+            "attributes": {
+                "total_capacity_gbps": 10.0,
+                "used_capacity_gbps": 0.0
+            },
+            "link_endpoint_ids": [
+                {
+                    "device_id": {
+                        "device_uuid": {
+                            "uuid": "e15007fb-aae4-50d6-b686-b6dc4ae504e2"
+                        }
+                    },
+                    "endpoint_uuid": {
+                        "uuid": "bbbec9f8-618a-591a-bc3e-c188ee31008e"
+                    },
+                    "topology_id": {
+                        "context_id": {
+                            "context_uuid": {
+                                "uuid": "admin"
+                            }
+                        },
+                        "topology_uuid": {
+                            "uuid": "admin"
+                        }
+                    }
+                },
+                {
+                    "device_id": {
+                        "device_uuid": {
+                            "uuid": "df4be2f2-a4a2-587d-b3ed-61a53cae3aa6"
+                        }
+                    },
+                    "endpoint_uuid": {
+                        "uuid": "0701f406-633f-53e7-a44d-c93384745df8"
+                    },
+                    "topology_id": {
+                        "context_id": {
+                            "context_uuid": {
+                                "uuid": "admin"
+                            }
+                        },
+                        "topology_uuid": {
+                            "uuid": "admin"
+                        }
+                    }
+                }
+            ],
+            "link_id": {
+                "link_uuid": {
+                    "uuid": "6fa77ad9-e4d7-5830-bf84-ab206eff613a"
+                }
+            },
+            "name": "128.32.20.1-200"
+        },
+        {
+            "attributes": {
+                "total_capacity_gbps": 10.0,
+                "used_capacity_gbps": 0.0
+            },
+            "link_endpoint_ids": [
+                {
+                    "device_id": {
+                        "device_uuid": {
+                            "uuid": "0392c251-b5d3-526b-8f3b-a3d4137829fa"
+                        }
+                    },
+                    "endpoint_uuid": {
+                        "uuid": "1e35cf03-d55d-5648-9cb6-fca37bfbf23a"
+                    },
+                    "topology_id": {
+                        "context_id": {
+                            "context_uuid": {
+                                "uuid": "admin"
+                            }
+                        },
+                        "topology_uuid": {
+                            "uuid": "admin"
+                        }
+                    }
+                },
+                {
+                    "device_id": {
+                        "device_uuid": {
+                            "uuid": "4c367472-545c-544d-935d-829f0a0e1c72"
+                        }
+                    },
+                    "endpoint_uuid": {
+                        "uuid": "3d0c36bb-80dc-5bab-8a7d-c47cce8d474f"
+                    },
+                    "topology_id": {
+                        "context_id": {
+                            "context_uuid": {
+                                "uuid": "admin"
+                            }
+                        },
+                        "topology_uuid": {
+                            "uuid": "admin"
+                        }
+                    }
+                }
+            ],
+            "link_id": {
+                "link_uuid": {
+                    "uuid": "808b54e8-3d5a-5e03-a42e-d6c2a57cf6f3"
+                }
+            },
+            "name": "10.0.30.1-200"
+        },
+        {
+            "link_endpoint_ids": [
+                {
+                    "device_id": {
+                        "device_uuid": {
+                            "uuid": "fe0dc2e8-b9ce-555f-8f28-a1a4468fabde"
+                        }
+                    },
+                    "endpoint_uuid": {
+                        "uuid": "086906ec-fd3b-55e1-b9bb-5a9e5bb5daff"
+                    },
+                    "topology_id": {
+                        "context_id": {
+                            "context_uuid": {
+                                "uuid": "admin"
+                            }
+                        },
+                        "topology_uuid": {
+                            "uuid": "admin"
+                        }
+                    }
+                },
+                {
+                    "device_id": {
+                        "device_uuid": {
+                            "uuid": "bf749ed2-fcc4-5bfc-9116-4ea18b722069"
+                        }
+                    },
+                    "endpoint_uuid": {
+                        "uuid": "59e1e30f-ea65-5e04-8a91-760a648a02c6"
+                    },
+                    "topology_id": {
+                        "context_id": {
+                            "context_uuid": {
+                                "uuid": "admin"
+                            }
+                        },
+                        "topology_uuid": {
+                            "uuid": "admin"
+                        }
+                    }
+                }
+            ],
+            "link_id": {
+                "link_uuid": {
+                    "uuid": "85a18715-3ce0-57f9-8025-5634fe622a06"
+                }
+            },
+            "name": "nce-t/mgmt==10.0.10.1/mgmt"
+        },
+        {
+            "attributes": {
+                "total_capacity_gbps": 10.0,
+                "used_capacity_gbps": 0.0
+            },
+            "link_endpoint_ids": [
+                {
+                    "device_id": {
+                        "device_uuid": {
+                            "uuid": "4f2234d0-a9b8-5a86-b1dd-9139d86e3925"
+                        }
+                    },
+                    "endpoint_uuid": {
+                        "uuid": "75e62edc-a0f9-53f9-821b-023045db1551"
+                    },
+                    "topology_id": {
+                        "context_id": {
+                            "context_uuid": {
+                                "uuid": "admin"
+                            }
+                        },
+                        "topology_uuid": {
+                            "uuid": "admin"
+                        }
+                    }
+                },
+                {
+                    "device_id": {
+                        "device_uuid": {
+                            "uuid": "0392c251-b5d3-526b-8f3b-a3d4137829fa"
+                        }
+                    },
+                    "endpoint_uuid": {
+                        "uuid": "859813e0-24c1-518e-ba77-44a4f392e321"
+                    },
+                    "topology_id": {
+                        "context_id": {
+                            "context_uuid": {
+                                "uuid": "admin"
+                            }
+                        },
+                        "topology_uuid": {
+                            "uuid": "admin"
+                        }
+                    }
+                }
+            ],
+            "link_id": {
+                "link_uuid": {
+                    "uuid": "8e8d1a2b-beae-5624-8826-9235bd73a3a8"
+                }
+            },
+            "name": "10.0.40.1-501"
+        },
+        {
+            "attributes": {
+                "total_capacity_gbps": 10.0,
+                "used_capacity_gbps": 0.0
+            },
+            "link_endpoint_ids": [
+                {
+                    "device_id": {
+                        "device_uuid": {
+                            "uuid": "bf749ed2-fcc4-5bfc-9116-4ea18b722069"
+                        }
+                    },
+                    "endpoint_uuid": {
+                        "uuid": "a2579e11-2e86-5e53-a235-3dd6ba92bb9a"
+                    },
+                    "topology_id": {
+                        "context_id": {
+                            "context_uuid": {
+                                "uuid": "admin"
+                            }
+                        },
+                        "topology_uuid": {
+                            "uuid": "admin"
+                        }
+                    }
+                },
+                {
+                    "device_id": {
+                        "device_uuid": {
+                            "uuid": "4f2234d0-a9b8-5a86-b1dd-9139d86e3925"
+                        }
+                    },
+                    "endpoint_uuid": {
+                        "uuid": "b5efeee2-5062-5d8f-ae06-f901fed7a7d7"
+                    },
+                    "topology_id": {
+                        "context_id": {
+                            "context_uuid": {
+                                "uuid": "admin"
+                            }
+                        },
+                        "topology_uuid": {
+                            "uuid": "admin"
+                        }
+                    }
+                }
+            ],
+            "link_id": {
+                "link_uuid": {
+                    "uuid": "e9c5b57e-de50-509c-9f5a-0107ff233703"
+                }
+            },
+            "name": "10.0.10.1-500"
+        },
+        {
+            "attributes": {
+                "total_capacity_gbps": 10.0,
+                "used_capacity_gbps": 0.0
+            },
+            "link_endpoint_ids": [
+                {
+                    "device_id": {
+                        "device_uuid": {
+                            "uuid": "df4be2f2-a4a2-587d-b3ed-61a53cae3aa6"
+                        }
+                    },
+                    "endpoint_uuid": {
+                        "uuid": "0701f406-633f-53e7-a44d-c93384745df8"
+                    },
+                    "topology_id": {
+                        "context_id": {
+                            "context_uuid": {
+                                "uuid": "admin"
+                            }
+                        },
+                        "topology_uuid": {
+                            "uuid": "admin"
+                        }
+                    }
+                },
+                {
+                    "device_id": {
+                        "device_uuid": {
+                            "uuid": "e15007fb-aae4-50d6-b686-b6dc4ae504e2"
+                        }
+                    },
+                    "endpoint_uuid": {
+                        "uuid": "bbbec9f8-618a-591a-bc3e-c188ee31008e"
+                    },
+                    "topology_id": {
+                        "context_id": {
+                            "context_uuid": {
+                                "uuid": "admin"
+                            }
+                        },
+                        "topology_uuid": {
+                            "uuid": "admin"
+                        }
+                    }
+                }
+            ],
+            "link_id": {
+                "link_uuid": {
+                    "uuid": "effca6e0-acf3-5c02-ba9a-d82c17a3f006"
+                }
+            },
+            "name": "128.32.20.5-eth1"
+        },
+        {
+            "attributes": {
+                "total_capacity_gbps": 10.0,
+                "used_capacity_gbps": 0.0
+            },
+            "link_endpoint_ids": [
+                {
+                    "device_id": {
+                        "device_uuid": {
+                            "uuid": "bf749ed2-fcc4-5bfc-9116-4ea18b722069"
+                        }
+                    },
+                    "endpoint_uuid": {
+                        "uuid": "ad2e136d-a981-5c9a-8427-07352ac03351"
+                    },
+                    "topology_id": {
+                        "context_id": {
+                            "context_uuid": {
+                                "uuid": "admin"
+                            }
+                        },
+                        "topology_uuid": {
+                            "uuid": "admin"
+                        }
+                    }
+                },
+                {
+                    "device_id": {
+                        "device_uuid": {
+                            "uuid": "cf9c4a78-f019-5023-aa0f-4fdba909473b"
+                        }
+                    },
+                    "endpoint_uuid": {
+                        "uuid": "23c04144-5ad3-5419-8b96-cf4eb329ca96"
+                    },
+                    "topology_id": {
+                        "context_id": {
+                            "context_uuid": {
+                                "uuid": "admin"
+                            }
+                        },
+                        "topology_uuid": {
+                            "uuid": "admin"
+                        }
+                    }
+                }
+            ],
+            "link_id": {
+                "link_uuid": {
+                    "uuid": "f45b4432-4ae2-5719-b4e8-a5e8baa1ccd2"
+                }
+            },
+            "name": "10.0.10.1-501"
+        },
+        {
+            "attributes": {
+                "total_capacity_gbps": 10.0,
+                "used_capacity_gbps": 0.0
+            },
+            "link_endpoint_ids": [
+                {
+                    "device_id": {
+                        "device_uuid": {
+                            "uuid": "f3840f4a-6ea2-551a-8afd-0f3faa8ac1e6"
+                        }
+                    },
+                    "endpoint_uuid": {
+                        "uuid": "16d56d61-63cd-5704-9d2a-5515e633b64b"
+                    },
+                    "topology_id": {
+                        "context_id": {
+                            "context_uuid": {
+                                "uuid": "admin"
+                            }
+                        },
+                        "topology_uuid": {
+                            "uuid": "admin"
+                        }
+                    }
+                },
+                {
+                    "device_id": {
+                        "device_uuid": {
+                            "uuid": "118295c8-318a-52ec-a394-529fc4b70f2f"
+                        }
+                    },
+                    "endpoint_uuid": {
+                        "uuid": "207ef8a3-18fd-5a63-ac24-4a1cc6af3e92"
+                    },
+                    "topology_id": {
+                        "context_id": {
+                            "context_uuid": {
+                                "uuid": "admin"
+                            }
+                        },
+                        "topology_uuid": {
+                            "uuid": "admin"
+                        }
+                    }
+                }
+            ],
+            "link_id": {
+                "link_uuid": {
+                    "uuid": "fd005f34-39f5-550e-b2c0-c6e6f8c16325"
+                }
+            },
+            "name": "128.32.10.5-eth1"
+        }
+    ],
+    "topologies": [
+        {
+            "device_ids": [
+                {
+                    "device_uuid": {
+                        "uuid": "0392c251-b5d3-526b-8f3b-a3d4137829fa"
+                    }
+                },
+                {
+                    "device_uuid": {
+                        "uuid": "118295c8-318a-52ec-a394-529fc4b70f2f"
+                    }
+                },
+                {
+                    "device_uuid": {
+                        "uuid": "4c367472-545c-544d-935d-829f0a0e1c72"
+                    }
+                },
+                {
+                    "device_uuid": {
+                        "uuid": "4f2234d0-a9b8-5a86-b1dd-9139d86e3925"
+                    }
+                },
+                {
+                    "device_uuid": {
+                        "uuid": "97d846b3-d0ba-5b4d-b12e-a9365eda205c"
+                    }
+                },
+                {
+                    "device_uuid": {
+                        "uuid": "bf749ed2-fcc4-5bfc-9116-4ea18b722069"
+                    }
+                },
+                {
+                    "device_uuid": {
+                        "uuid": "cf9c4a78-f019-5023-aa0f-4fdba909473b"
+                    }
+                },
+                {
+                    "device_uuid": {
+                        "uuid": "df4be2f2-a4a2-587d-b3ed-61a53cae3aa6"
+                    }
+                },
+                {
+                    "device_uuid": {
+                        "uuid": "e15007fb-aae4-50d6-b686-b6dc4ae504e2"
+                    }
+                },
+                {
+                    "device_uuid": {
+                        "uuid": "f3840f4a-6ea2-551a-8afd-0f3faa8ac1e6"
+                    }
+                },
+                {
+                    "device_uuid": {
+                        "uuid": "fe0dc2e8-b9ce-555f-8f28-a1a4468fabde"
+                    }
+                }
+            ],
+            "link_ids": [
+                {
+                    "link_uuid": {
+                        "uuid": "0b3d5943-c2bf-595f-a805-dc29c2be2f52"
+                    }
+                },
+                {
+                    "link_uuid": {
+                        "uuid": "1490e70f-472c-5e4c-8280-21c48ed03477"
+                    }
+                },
+                {
+                    "link_uuid": {
+                        "uuid": "18ba8eb2-342b-5a73-aeae-7288ea9bb28b"
+                    }
+                },
+                {
+                    "link_uuid": {
+                        "uuid": "1901b0dc-1b5e-5fdf-b9ac-9168787464c1"
+                    }
+                },
+                {
+                    "link_uuid": {
+                        "uuid": "1afdae8b-a281-53aa-99c2-205afb8f4ee7"
+                    }
+                },
+                {
+                    "link_uuid": {
+                        "uuid": "30ca0f8f-b150-57f2-ae5e-8a6844944783"
+                    }
+                },
+                {
+                    "link_uuid": {
+                        "uuid": "34c9c6c3-0dcf-54e5-ba67-da33eb2d3c1a"
+                    }
+                },
+                {
+                    "link_uuid": {
+                        "uuid": "35801e61-45f3-564e-ad5c-09baf4aae906"
+                    }
+                },
+                {
+                    "link_uuid": {
+                        "uuid": "36643dba-e8fa-5fb7-952d-dff313db957b"
+                    }
+                },
+                {
+                    "link_uuid": {
+                        "uuid": "36856920-3387-5384-b1b1-dbc9e54da226"
+                    }
+                },
+                {
+                    "link_uuid": {
+                        "uuid": "46ba12f9-dd17-5f2a-9558-e4611515a6b9"
+                    }
+                },
+                {
+                    "link_uuid": {
+                        "uuid": "4dfe28dd-ac28-53d5-b330-1707e350d772"
+                    }
+                },
+                {
+                    "link_uuid": {
+                        "uuid": "644ab377-572c-53a4-8ab5-f5cf45591d88"
+                    }
+                },
+                {
+                    "link_uuid": {
+                        "uuid": "661ac531-4309-58cc-b70e-2a79492c2488"
+                    }
+                },
+                {
+                    "link_uuid": {
+                        "uuid": "6a236e01-853c-51d0-8915-2d09b45923b0"
+                    }
+                },
+                {
+                    "link_uuid": {
+                        "uuid": "6c802ae7-59d1-55e7-9498-146c465bcab5"
+                    }
+                },
+                {
+                    "link_uuid": {
+                        "uuid": "6fa77ad9-e4d7-5830-bf84-ab206eff613a"
+                    }
+                },
+                {
+                    "link_uuid": {
+                        "uuid": "808b54e8-3d5a-5e03-a42e-d6c2a57cf6f3"
+                    }
+                },
+                {
+                    "link_uuid": {
+                        "uuid": "85a18715-3ce0-57f9-8025-5634fe622a06"
+                    }
+                },
+                {
+                    "link_uuid": {
+                        "uuid": "8e8d1a2b-beae-5624-8826-9235bd73a3a8"
+                    }
+                },
+                {
+                    "link_uuid": {
+                        "uuid": "e9c5b57e-de50-509c-9f5a-0107ff233703"
+                    }
+                },
+                {
+                    "link_uuid": {
+                        "uuid": "effca6e0-acf3-5c02-ba9a-d82c17a3f006"
+                    }
+                },
+                {
+                    "link_uuid": {
+                        "uuid": "f45b4432-4ae2-5719-b4e8-a5e8baa1ccd2"
+                    }
+                },
+                {
+                    "link_uuid": {
+                        "uuid": "fd005f34-39f5-550e-b2c0-c6e6f8c16325"
+                    }
+                }
+            ],
+            "name": "admin",
+            "topology_id": {
+                "context_id": {
+                    "context_uuid": {
+                        "uuid": "admin"
+                    }
+                },
+                "topology_uuid": {
+                    "uuid": "admin"
+                }
+            }
+        }
+    ]
+}

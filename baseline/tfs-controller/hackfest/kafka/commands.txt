@@ -1,0 +1,27 @@
+== KAFKA
+$ cd ~/tfs-ctrl/hackfest/kafka
+
+(INSTALL)
+$ pip3 install kafka-python
+$ wget https://ftp.cixug.es/apache/kafka/2.8.0/kafka_2.13-2.8.0.tgz
+$ tar -xzf kafka_2.13-2.8.0.tgz
+(RUN)
+$ cd kafka_2.13-2.8.0
+$ bin/zookeeper-server-start.sh config/zookeeper.properties
+(In new window)
+$ cd ~/tfs-ctrl/hackfest/kafka/kafka_2.13-2.8.0
+$ bin/kafka-server-start.sh config/server.properties
+
+CREATE TOPIC
+(In new window)
+$ cd ~/tfs-ctrl/hackfest/kafka/kafka_2.13-2.8.0
+$ bin/kafka-topics.sh --create --topic my-topic --bootstrap-server localhost:9092
+
+(In new window)
+$ cd ~/tfs-ctrl/hackfest/kafka
+$ python3 sub.py
+ 
+(In new window)
+$ cd ~/tfs-ctrl/hackfest/kafka
+$ python3 pub.py
+

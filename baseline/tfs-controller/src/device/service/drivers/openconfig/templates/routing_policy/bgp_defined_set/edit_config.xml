@@ -1,0 +1,17 @@
+<routing-policy xmlns="http://openconfig.net/yang/routing-policy">
+    <defined-sets>
+        <bgp-defined-sets xmlns="http://openconfig.net/yang/bgp-policy">
+            <ext-community-sets>
+                <ext-community-set{% if operation is defined %} xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" nc:operation="{{operation}}"{% endif %}>
+                    <ext-community-set-name>{{ext_community_set_name}}</ext-community-set-name>
+                    {% if operation is not defined or operation != 'delete' %}
+                        <config>
+                            <ext-community-set-name>{{ext_community_set_name}}</ext-community-set-name>
+                            <ext-community-member>{{ext_community_member}}</ext-community-member>
+                        </config>
+                    {% endif %}
+                </ext-community-set>
+            </ext-community-sets>
+        </bgp-defined-sets>
+    </defined-sets>
+</routing-policy>

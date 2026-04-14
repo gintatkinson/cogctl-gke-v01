@@ -1,0 +1,43 @@
+{
+    "contexts": [
+        {"context_id": {"context_uuid": {"uuid": "admin"}}}
+    ],
+    "topologies": [
+        {"topology_id": {"context_id": {"context_uuid": {"uuid": "admin"}}, "topology_uuid": {"uuid": "admin"}}},
+        {"topology_id": {"context_id": {"context_uuid": {"uuid": "admin"}}, "topology_uuid": {"uuid": "e2e"}}}
+    ],
+    "devices": [
+        {"device_id": {"device_uuid": {"uuid": "TFS-AGG"}}, "device_type": "teraflowsdn",
+        "device_drivers": ["DEVICEDRIVER_IETF_SLICE"],
+        "device_config": {"config_rules": [
+            {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/address",  "resource_value": "10.254.0.11"}},
+            {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/port",     "resource_value": "80"          }},
+            {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/settings", "resource_value": {
+                "scheme": "http", "username": "admin", "password": "admin", "base_url": "/restconf/v2/data",
+                "timeout": 120, "verify_certs": false, "import_topology": "topology"
+            }}}
+        ]}},
+        {"device_id": {"device_uuid": {"uuid": "NCE-FAN"}}, "device_type": "nce",
+        "device_drivers": ["DEVICEDRIVER_NCE"],
+        "device_config": {"config_rules": [
+            {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/address",  "resource_value": "10.254.0.9"}},
+            {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/port",     "resource_value": "8081"      }},
+            {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/settings", "resource_value": {
+                "scheme": "http", "username": "admin", "password": "admin", "base_url": "/restconf/v2/data",
+                "timeout": 120, "verify_certs": false, "import_topology": "topology"
+            }}}
+        ]}}
+    ],
+    "links": [
+        {"link_id": {"link_uuid": {"uuid": "L3"}}, "link_type" : "LINKTYPE_COPPER",
+            "attributes": {"is_bidirectional": true, "total_capacity_gbps": 10, "used_capacity_gbps": 0}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "OLT"  }}, "endpoint_uuid": {"uuid": "501"}},
+            {"device_id": {"device_uuid": {"uuid": "P-PE1"}}, "endpoint_uuid": {"uuid": "200"}}
+        ]},
+        {"link_id": {"link_uuid": {"uuid": "L4"}}, "link_type" : "LINKTYPE_COPPER",
+            "attributes": {"is_bidirectional": true, "total_capacity_gbps": 10, "used_capacity_gbps": 0}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "OLT"  }}, "endpoint_uuid": {"uuid": "500"}},
+            {"device_id": {"device_uuid": {"uuid": "O-PE1"}}, "endpoint_uuid": {"uuid": "200"}}
+        ]}
+    ]
+}

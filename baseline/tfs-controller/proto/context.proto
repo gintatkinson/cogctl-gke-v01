@@ -1,0 +1,821 @@
+// Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+package context;
+
+//import "any.proto";
+import "google/protobuf/any.proto";
+
+import "acl.proto";
+import "ipowdm.proto";
+import "ip_link.proto";
+import "kpi_sample_types.proto";
+import "tapi_lsp.proto";
+
+service ContextService {
+  rpc ListContextIds     (Empty         ) returns (       ContextIdList   ) {}
+  rpc ListContexts       (Empty         ) returns (       ContextList     ) {}
+  rpc GetContext         (ContextId     ) returns (       Context         ) {}
+  rpc SetContext         (Context       ) returns (       ContextId       ) {}
+  rpc RemoveContext      (ContextId     ) returns (       Empty           ) {}
+  rpc GetContextEvents   (Empty         ) returns (stream ContextEvent    ) {}
+
+  rpc ListTopologyIds    (ContextId     ) returns (       TopologyIdList  ) {}
+  rpc ListTopologies     (ContextId     ) returns (       TopologyList    ) {}
+  rpc GetTopology        (TopologyId    ) returns (       Topology        ) {}
+  rpc GetTopologyDetails (TopologyId    ) returns (       TopologyDetails ) {}
+  rpc SetTopology        (Topology      ) returns (       TopologyId      ) {}
+  rpc RemoveTopology     (TopologyId    ) returns (       Empty           ) {}
+  rpc GetTopologyEvents  (Empty         ) returns (stream TopologyEvent   ) {}
+
+  rpc ListDeviceIds      (Empty         ) returns (       DeviceIdList    ) {}
+  rpc ListDevices        (Empty         ) returns (       DeviceList      ) {}
+  rpc GetDevice          (DeviceId      ) returns (       Device          ) {}
+  rpc SetDevice          (Device        ) returns (       DeviceId        ) {}
+  rpc RemoveDevice       (DeviceId      ) returns (       Empty           ) {}
+  rpc GetDeviceEvents    (Empty         ) returns (stream DeviceEvent     ) {}
+  rpc SelectDevice       (DeviceFilter  ) returns (       DeviceList      ) {}
+  rpc ListEndPointNames  (EndPointIdList) returns (       EndPointNameList) {}
+
+  rpc ListLinkIds        (Empty         ) returns (       LinkIdList      ) {}
+  rpc ListLinks          (Empty         ) returns (       LinkList        ) {}
+  rpc GetLink            (LinkId        ) returns (       Link            ) {}
+  rpc SetLink            (Link          ) returns (       LinkId          ) {}
+  rpc RemoveLink         (LinkId        ) returns (       Empty           ) {}
+  rpc GetLinkEvents      (Empty         ) returns (stream LinkEvent       ) {}
+
+  rpc ListServiceIds     (ContextId     ) returns (       ServiceIdList   ) {}
+  rpc ListServices       (ContextId     ) returns (       ServiceList     ) {}
+  rpc GetService         (ServiceId     ) returns (       Service         ) {}
+  rpc SetService         (Service       ) returns (       ServiceId       ) {}
+  rpc UnsetService       (Service       ) returns (       ServiceId       ) {}
+  rpc RemoveService      (ServiceId     ) returns (       Empty           ) {}
+  rpc GetServiceEvents   (Empty         ) returns (stream ServiceEvent    ) {}
+  rpc SelectService      (ServiceFilter ) returns (       ServiceList     ) {}
+
+  rpc ListSliceIds       (ContextId     ) returns (       SliceIdList     ) {}
+  rpc ListSlices         (ContextId     ) returns (       SliceList       ) {}
+  rpc GetSlice           (SliceId       ) returns (       Slice           ) {}
+  rpc SetSlice           (Slice         ) returns (       SliceId         ) {}
+  rpc UnsetSlice         (Slice         ) returns (       SliceId         ) {}
+  rpc RemoveSlice        (SliceId       ) returns (       Empty           ) {}
+  rpc GetSliceEvents     (Empty         ) returns (stream SliceEvent      ) {}
+  rpc SelectSlice        (SliceFilter   ) returns (       SliceList       ) {}
+
+  rpc ListConnectionIds  (ServiceId     ) returns (       ConnectionIdList) {}
+  rpc ListConnections    (ServiceId     ) returns (       ConnectionList  ) {}
+  rpc GetConnection      (ConnectionId  ) returns (       Connection      ) {}
+  rpc SetConnection      (Connection    ) returns (       ConnectionId    ) {}
+  rpc RemoveConnection   (ConnectionId  ) returns (       Empty           ) {}
+  rpc GetConnectionEvents(Empty         ) returns (stream ConnectionEvent ) {}
+
+  rpc GetAllEvents       (Empty         ) returns (stream AnyEvent        ) {}
+
+  // ------------------------------ Experimental -----------------------------
+  rpc GetOpticalConfig       (Empty            ) returns (OpticalConfigList) {}
+  rpc SetOpticalConfig       (OpticalConfig    ) returns (OpticalConfigId  ) {}
+  rpc UpdateOpticalConfig    (OpticalConfig    ) returns (OpticalConfigId  ) {}
+  rpc SelectOpticalConfig    (OpticalConfigId  ) returns (OpticalConfig    ) {}
+  rpc DeleteOpticalConfig    (OpticalConfigId  ) returns (Empty            ) {}
+  rpc DeleteOpticalChannel   (OpticalConfig    ) returns (Empty            ) {}
+
+  rpc SetOpticalLink         (OpticalLink      ) returns (Empty            ) {}
+  rpc GetOpticalLink         (LinkId           ) returns (OpticalLink      ) {}
+  rpc DeleteOpticalLink      (LinkId           ) returns (Empty            ) {}
+  rpc GetOpticalLinkList     (Empty            ) returns (OpticalLinkList  ) {}
+
+  rpc GetOpticalBand         (Empty            ) returns (OpticalBandList)  {}
+  rpc SelectOpticalBand      (OpticalBandId    ) returns (OpticalBand)  {}
+
+
+  rpc DeleteServiceConfigRule(ServiceConfigRule) returns (Empty            ) {}
+}
+
+// ----- Generic -------------------------------------------------------------------------------------------------------
+message Empty {}
+
+message Uuid {
+  string uuid = 1;
+}
+
+enum EventTypeEnum {
+  EVENTTYPE_UNDEFINED = 0;
+  EVENTTYPE_CREATE = 1;
+  EVENTTYPE_UPDATE = 2;
+  EVENTTYPE_REMOVE = 3;
+}
+
+message Timestamp {
+  double timestamp = 1;
+}
+
+message Event {
+  Timestamp timestamp = 1;
+  EventTypeEnum event_type = 2;
+}
+
+message AnyEvent {
+  oneof event {
+    ContextEvent    context    = 1;
+    TopologyEvent   topology   = 2;
+    DeviceEvent     device     = 3;
+    LinkEvent       link       = 4;
+    ServiceEvent    service    = 5;
+    SliceEvent      slice      = 6;
+    ConnectionEvent connection = 7;
+  }
+}
+
+// ----- Context -------------------------------------------------------------------------------------------------------
+message ContextId {
+  Uuid context_uuid = 1;
+}
+
+message Context {
+  ContextId context_id = 1;
+  string name = 2;
+  repeated TopologyId topology_ids = 3;
+  repeated ServiceId service_ids = 4;
+  repeated SliceId slice_ids = 5;
+  TeraFlowController controller = 6;
+}
+
+message ContextIdList {
+  repeated ContextId context_ids = 1;
+}
+
+message ContextList {
+  repeated Context contexts = 1;
+}
+
+message ContextEvent {
+  Event event = 1;
+  ContextId context_id = 2;
+}
+
+
+// ----- Topology ------------------------------------------------------------------------------------------------------
+message TopologyId {
+  ContextId context_id = 1;
+  Uuid topology_uuid = 2;
+}
+
+message Topology {
+  TopologyId topology_id = 1;
+  string name = 2;
+  repeated DeviceId device_ids = 3;
+  repeated LinkId link_ids = 4;
+  repeated LinkId optical_link_ids = 5;
+}
+
+message TopologyDetails {
+  TopologyId topology_id = 1;
+  string name = 2;
+  repeated Device devices = 3;
+  repeated Link links = 4;
+  repeated OpticalLink optical_links = 5;
+}
+
+message TopologyIdList {
+  repeated TopologyId topology_ids = 1;
+}
+
+message TopologyList {
+  repeated Topology topologies = 1;
+}
+
+message TopologyEvent {
+  Event event = 1;
+  TopologyId topology_id = 2;
+}
+
+
+// ----- Device --------------------------------------------------------------------------------------------------------
+message DeviceId {
+  Uuid device_uuid = 1;
+}
+
+message Device {
+  DeviceId device_id = 1;
+  string name = 2;
+  string device_type = 3;
+  DeviceConfig device_config = 4;
+  DeviceOperationalStatusEnum device_operational_status = 5;
+  repeated DeviceDriverEnum device_drivers = 6;
+  repeated EndPoint device_endpoints = 7;
+  repeated Component components = 8; // Used for inventory
+  DeviceId controller_id = 9; // Identifier of node controlling the actual device
+}
+
+message Component {                         // Defined previously in this section
+  Uuid component_uuid = 1;
+  string name         = 2;
+  string type         = 3;
+
+  map<string, string> attributes = 4; // dict[attr.name => json.dumps(attr.value)]
+  string parent       = 5;
+}
+
+message DeviceConfig {
+  repeated ConfigRule config_rules = 1;
+}
+
+enum DeviceDriverEnum {
+  DEVICEDRIVER_UNDEFINED = 0; // also used for emulated
+  DEVICEDRIVER_OPENCONFIG = 1;
+  DEVICEDRIVER_TRANSPORT_API = 2;
+  DEVICEDRIVER_P4 = 3;
+  DEVICEDRIVER_IETF_NETWORK_TOPOLOGY = 4;
+  DEVICEDRIVER_ONF_TR_532 = 5;
+  DEVICEDRIVER_XR = 6;
+  DEVICEDRIVER_IETF_L2VPN = 7;
+  DEVICEDRIVER_GNMI_OPENCONFIG = 8;
+  DEVICEDRIVER_OPTICAL_TFS = 9;
+  DEVICEDRIVER_IETF_ACTN = 10;
+  DEVICEDRIVER_OC = 11;
+  DEVICEDRIVER_QKD = 12;
+  DEVICEDRIVER_IETF_L3VPN = 13;
+  DEVICEDRIVER_IETF_SLICE = 14;
+  DEVICEDRIVER_NCE = 15;
+  DEVICEDRIVER_SMARTNIC = 16;
+  DEVICEDRIVER_MORPHEUS = 17;
+  DEVICEDRIVER_RYU = 18;
+  DEVICEDRIVER_GNMI_NOKIA_SRLINUX = 19;
+  DEVICEDRIVER_OPENROADM = 20;
+  DEVICEDRIVER_RESTCONF_OPENCONFIG = 21;
+}
+
+enum DeviceOperationalStatusEnum {
+  DEVICEOPERATIONALSTATUS_UNDEFINED = 0;
+  DEVICEOPERATIONALSTATUS_DISABLED = 1;
+  DEVICEOPERATIONALSTATUS_ENABLED = 2;
+}
+
+message DeviceIdList {
+  repeated DeviceId device_ids = 1;
+}
+
+message DeviceList {
+  repeated Device devices = 1;
+}
+
+message DeviceFilter {
+  DeviceIdList device_ids = 1;
+  bool include_endpoints = 2;
+  bool include_config_rules = 3;
+  bool include_components = 4;
+}
+
+message DeviceEvent {
+  Event event = 1;
+  DeviceId device_id = 2;
+  DeviceConfig device_config = 3;
+}
+
+
+// ----- Link ----------------------------------------------------------------------------------------------------------
+message LinkId {
+  Uuid link_uuid = 1;
+}
+
+enum LinkTypeEnum {
+  LINKTYPE_UNKNOWN    = 0;
+  LINKTYPE_COPPER     = 1;
+  LINKTYPE_FIBER      = 2;
+  LINKTYPE_RADIO      = 3;
+  LINKTYPE_VIRTUAL    = 4;
+  LINKTYPE_MANAGEMENT = 5;
+  LINKTYPE_REMOTE     = 6;  // imported from remote topology
+}
+
+message LinkAttributes {
+  bool  is_bidirectional    = 1;
+  float total_capacity_gbps = 2;
+  float used_capacity_gbps  = 3;
+}
+
+message Link {
+  LinkId link_id = 1;
+  string name = 2;
+  LinkTypeEnum link_type = 3;
+  repeated EndPointId link_endpoint_ids = 4;
+  LinkAttributes attributes = 5;
+}
+
+message LinkIdList {
+  repeated LinkId link_ids = 1;
+}
+
+message LinkList {
+  repeated Link links = 1;
+}
+
+message LinkEvent {
+  Event event = 1;
+  LinkId link_id = 2;
+}
+
+// ----- Service -------------------------------------------------------------------------------------------------------
+message ServiceId {
+  ContextId context_id = 1;
+  Uuid service_uuid = 2;
+}
+
+message Service {
+  ServiceId service_id = 1;
+  string name = 2;
+  ServiceTypeEnum service_type = 3;
+  repeated EndPointId service_endpoint_ids = 4;
+  repeated Constraint service_constraints = 5;
+  ServiceStatus service_status = 6;
+  ServiceConfig service_config = 7;
+  Timestamp timestamp = 8;
+}
+
+enum ServiceTypeEnum {
+  SERVICETYPE_UNKNOWN = 0;
+  SERVICETYPE_L3NM = 1;
+  SERVICETYPE_L2NM = 2;
+  SERVICETYPE_TAPI_CONNECTIVITY_SERVICE = 3;
+  SERVICETYPE_TE = 4;
+  SERVICETYPE_E2E = 5;
+  SERVICETYPE_OPTICAL_CONNECTIVITY = 6;
+  SERVICETYPE_QKD = 7;
+  SERVICETYPE_L1NM = 8;
+  SERVICETYPE_INT = 9;
+  SERVICETYPE_ACL = 10;
+  SERVICETYPE_IP_LINK = 11;
+  SERVICETYPE_TAPI_LSP = 12;
+  SERVICETYPE_IPOWDM = 13;
+}
+
+enum ServiceStatusEnum {
+  SERVICESTATUS_UNDEFINED = 0;
+  SERVICESTATUS_PLANNED = 1;
+  SERVICESTATUS_ACTIVE = 2;
+  SERVICESTATUS_UPDATING = 3;
+  SERVICESTATUS_PENDING_REMOVAL = 4;
+  SERVICESTATUS_SLA_VIOLATED = 5;
+}
+
+message ServiceStatus {
+  ServiceStatusEnum service_status = 1;
+}
+
+message ServiceConfig {
+  repeated ConfigRule config_rules = 1;
+}
+
+message ServiceIdList {
+  repeated ServiceId service_ids = 1;
+}
+
+message ServiceList {
+  repeated Service services = 1;
+}
+
+message ServiceFilter {
+  ServiceIdList service_ids = 1;
+  bool include_endpoint_ids = 2;
+  bool include_constraints = 3;
+  bool include_config_rules = 4;
+}
+
+message ServiceEvent {
+  Event event = 1;
+  ServiceId service_id = 2;
+}
+
+// ----- Slice ---------------------------------------------------------------------------------------------------------
+message SliceId {
+  ContextId context_id = 1;
+  Uuid slice_uuid = 2;
+}
+
+message Slice {
+  SliceId slice_id = 1;
+  string name = 2;
+  repeated EndPointId slice_endpoint_ids = 3;
+  repeated Constraint slice_constraints = 4;
+  repeated ServiceId slice_service_ids = 5;
+  repeated SliceId slice_subslice_ids = 6;
+  SliceStatus slice_status = 7;
+  SliceConfig slice_config = 8;
+  SliceOwner slice_owner = 9;
+  Timestamp timestamp = 10;
+}
+
+message SliceOwner {
+  Uuid owner_uuid = 1;
+  string owner_string = 2;
+}
+
+enum SliceStatusEnum {
+  SLICESTATUS_UNDEFINED    = 0;
+  SLICESTATUS_PLANNED      = 1;
+  SLICESTATUS_INIT         = 2;
+  SLICESTATUS_ACTIVE       = 3;
+  SLICESTATUS_DEINIT       = 4;
+  SLICESTATUS_SLA_VIOLATED = 5;
+}
+
+message SliceStatus {
+  SliceStatusEnum slice_status = 1;
+}
+
+message SliceConfig {
+  repeated ConfigRule config_rules = 1;
+}
+
+message SliceIdList {
+  repeated SliceId slice_ids = 1;
+}
+
+message SliceList {
+  repeated Slice slices = 1;
+}
+
+message SliceFilter {
+  SliceIdList slice_ids = 1;
+  bool include_endpoint_ids = 2;
+  bool include_constraints = 3;
+  bool include_service_ids = 4;
+  bool include_subslice_ids = 5;
+  bool include_config_rules = 6;
+}
+
+message SliceEvent {
+  Event event = 1;
+  SliceId slice_id = 2;
+}
+
+// ----- Connection ----------------------------------------------------------------------------------------------------
+message ConnectionId {
+  Uuid connection_uuid = 1;
+}
+
+message ConnectionSettings_L0 {
+  string lsp_symbolic_name = 1;
+}
+
+message ConnectionSettings_L2 {
+  string src_mac_address = 1;
+  string dst_mac_address = 2;
+  uint32 ether_type = 3;
+  uint32 vlan_id = 4;
+  uint32 mpls_label = 5;
+  uint32 mpls_traffic_class = 6;
+}
+
+message ConnectionSettings_L3 {
+  string src_ip_address = 1;
+  string dst_ip_address = 2;
+  uint32 dscp = 3;
+  uint32 protocol = 4;
+  uint32 ttl = 5;
+}
+
+message ConnectionSettings_L4 {
+  uint32 src_port = 1;
+  uint32 dst_port = 2;
+  uint32 tcp_flags = 3;
+  uint32 ttl = 4;
+}
+
+message ConnectionSettings {
+  ConnectionSettings_L0 l0 = 1;
+  ConnectionSettings_L2 l2 = 2;
+  ConnectionSettings_L3 l3 = 3;
+  ConnectionSettings_L4 l4 = 4;
+}
+
+message Connection {
+  ConnectionId connection_id = 1;
+  ServiceId service_id = 2;
+  repeated EndPointId path_hops_endpoint_ids = 3;
+  repeated ServiceId sub_service_ids = 4;
+  ConnectionSettings settings = 5;
+}
+
+message ConnectionIdList {
+  repeated ConnectionId connection_ids = 1;
+}
+
+message ConnectionList {
+  repeated Connection connections = 1;
+}
+
+message ConnectionEvent {
+  Event event = 1;
+  ConnectionId connection_id = 2;
+}
+
+
+// ----- Endpoint ------------------------------------------------------------------------------------------------------
+message EndPointId {
+  TopologyId topology_id = 1;
+  DeviceId device_id = 2;
+  Uuid endpoint_uuid = 3;
+}
+
+message EndPoint {
+  EndPointId endpoint_id = 1;
+  string name = 2;
+  string endpoint_type = 3;
+  repeated kpi_sample_types.KpiSampleType kpi_sample_types = 4;
+  Location endpoint_location = 5;
+  map<string, google.protobuf.Any> capabilities = 6;
+}
+
+message EndPointName {
+  EndPointId endpoint_id = 1;
+  string device_name = 2;
+  string endpoint_name = 3;
+  string endpoint_type = 4;
+}
+
+message EndPointIdList {
+  repeated EndPointId endpoint_ids = 1;
+}
+
+message EndPointNameList {
+  repeated EndPointName endpoint_names = 1;
+}
+
+
+// ----- Configuration -------------------------------------------------------------------------------------------------
+enum ConfigActionEnum {
+  CONFIGACTION_UNDEFINED = 0;
+  CONFIGACTION_SET       = 1;
+  CONFIGACTION_DELETE    = 2;
+}
+
+message ConfigRule_Custom {
+  string resource_key = 1;
+  string resource_value = 2;
+}
+
+enum AclDirectionEnum {
+  ACLDIRECTION_BOTH    = 0;
+  ACLDIRECTION_INGRESS = 1;
+  ACLDIRECTION_EGRESS  = 2;
+}
+
+message ConfigRule_ACL {
+  EndPointId       endpoint_id = 1;
+  AclDirectionEnum direction   = 2;
+  acl.AclRuleSet   rule_set    = 3;
+}
+
+message ConfigRule_IPOWDM {
+  EndPointId endpoint_id        = 1;
+  ipowdm.IpowdmRuleSet rule_set = 2;
+}
+
+message ConfigRule_TAPI_LSP {
+  EndPointId endpoint_id           = 1;
+  repeated tapi_lsp.TapiLspRuleSet rule_set = 2;
+}
+
+message ConfigRule_IP_LINK {
+  EndPointId endpoint_id           = 1;
+  ip_link.IpLinkRuleSet rule_set = 2;
+}
+
+message ConfigRule {
+  ConfigActionEnum action = 1;
+  oneof config_rule {
+    ConfigRule_Custom custom = 2;
+    ConfigRule_ACL acl = 3;
+    ConfigRule_IP_LINK ip_link = 4;
+    ConfigRule_TAPI_LSP tapi_lsp = 5;
+    ConfigRule_IPOWDM ipowdm = 6;
+  }
+}
+
+
+// ----- Constraint ----------------------------------------------------------------------------------------------------
+enum ConstraintActionEnum {
+  CONSTRAINTACTION_UNDEFINED = 0;
+  CONSTRAINTACTION_SET       = 1;
+  CONSTRAINTACTION_DELETE    = 2;
+}
+
+message Constraint_Custom {
+  string constraint_type = 1;
+  string constraint_value = 2;
+}
+
+message Constraint_Schedule {
+  double start_timestamp = 1;
+  float duration_days = 2;
+}
+
+message GPS_Position {
+  float latitude = 1;
+  float longitude = 2;
+}
+
+message Location {
+  oneof location {
+    string region = 1;
+    GPS_Position gps_position = 2;
+
+    string interface=3;
+    string circuit_pack=4;
+  }
+}
+
+message Constraint_EndPointLocation {
+  EndPointId endpoint_id = 1;
+  Location location = 2;
+}
+
+message Constraint_EndPointPriority {
+  EndPointId endpoint_id = 1;
+  uint32 priority = 2;
+}
+
+message Constraint_SLA_Latency {
+  float e2e_latency_ms = 1;
+}
+
+message Constraint_SLA_Capacity {
+  float capacity_gbps = 1;
+}
+
+message Constraint_SLA_Availability {
+  uint32 num_disjoint_paths = 1;
+  bool all_active = 2;
+  float availability = 3; // 0.0 .. 100.0 percentage of availability
+}
+
+enum IsolationLevelEnum {
+  NO_ISOLATION = 0;
+  PHYSICAL_ISOLATION = 1;
+  LOGICAL_ISOLATION = 2;
+  PROCESS_ISOLATION = 3;
+  PHYSICAL_MEMORY_ISOLATION = 4;
+  PHYSICAL_NETWORK_ISOLATION = 5;
+  VIRTUAL_RESOURCE_ISOLATION = 6;
+  NETWORK_FUNCTIONS_ISOLATION = 7;
+  SERVICE_ISOLATION = 8;
+}
+
+message Constraint_SLA_Isolation_level {
+  repeated IsolationLevelEnum isolation_level = 1;
+}
+
+message Constraint_Exclusions {
+  bool is_permanent = 1;
+  repeated DeviceId device_ids = 2;
+  repeated EndPointId endpoint_ids = 3;
+  repeated LinkId link_ids = 4;
+}
+
+
+message QoSProfileId {
+  context.Uuid qos_profile_id = 1;
+}
+
+message Constraint_QoSProfile {
+  QoSProfileId qos_profile_id = 1;
+  string qos_profile_name = 2;
+}
+
+message Constraint {
+  ConstraintActionEnum action = 1;
+  oneof constraint {
+    Constraint_Custom custom = 2;
+    Constraint_Schedule schedule = 3;
+    Constraint_EndPointLocation endpoint_location = 4;
+    Constraint_EndPointPriority endpoint_priority = 5;
+    Constraint_SLA_Capacity sla_capacity = 6;
+    Constraint_SLA_Latency sla_latency = 7;
+    Constraint_SLA_Availability sla_availability = 8;
+    Constraint_SLA_Isolation_level sla_isolation = 9;
+    Constraint_Exclusions exclusions = 10;
+    Constraint_QoSProfile qos_profile = 11;
+  }
+}
+
+
+// ----- Miscellaneous -------------------------------------------------------------------------------------------------
+message TeraFlowController {
+  ContextId context_id = 1;
+  string ip_address = 2;
+  uint32 port = 3;
+}
+
+message AuthenticationResult {
+  ContextId context_id = 1;
+  bool authenticated = 2;
+}
+
+
+
+// ---------------- Experimental ------------------------
+message OpticalConfigId {
+  string opticalconfig_uuid = 1;
+}
+message OpticalConfig {
+  OpticalConfigId opticalconfig_id = 1;
+  string config = 2;
+  DeviceId device_id = 3;
+}
+
+message OpticalConfigList {
+  repeated OpticalConfig opticalconfigs = 1;
+}
+
+message OpticalConfigEvent {
+  Event event = 1;
+  OpticalConfigId opticalconfig_id = 2;
+}
+
+
+
+
+// ---- Optical Link ----
+
+message OpticalEndPointId {
+  DeviceId device_id = 2;
+  Uuid endpoint_uuid = 3;
+}
+
+
+message OpticalLinkList {
+  repeated OpticalLink optical_links = 1;
+}
+
+
+
+message OpticalLinkDetails {
+
+  float length = 1;
+  string src_port = 2;
+  string dst_port = 3;
+  string local_peer_port = 4;
+  string remote_peer_port = 5 ;
+  bool used = 6 ;
+  map<string, int32> c_slots = 7;
+  map<string, int32> l_slots = 8;
+  map<string, int32> s_slots = 9;
+
+}
+
+message OpticalLink {
+  string name = 1;
+  OpticalLinkDetails optical_details = 2;
+  LinkId link_id = 3;
+  repeated EndPointId link_endpoint_ids=4;
+}
+
+
+message ChannelId {
+  Uuid channel_uuid = 1;
+}
+
+message OpticalBandId {
+  Uuid opticalband_uuid = 1;
+}
+
+
+message OpticalBand {
+
+   OpticalBandId opticalband_id = 1 ;
+   ConnectionId connection_id =2 ;
+    ChannelId channel_id = 3;
+    ServiceId service_id =4;
+    oneof field {
+      Service service =5 ;
+      Connection connection =6 ;
+      string channel = 7;
+    }
+
+}
+
+message OpticalBandList {
+   repeated OpticalBand opticalbands =1 ;
+
+}
+
+
+////////////////// Config Rule Delete ////////////
+
+message ServiceConfigRule {
+  ServiceId service_id =1;
+  ConfigRule_Custom configrule_custom =2;
+}

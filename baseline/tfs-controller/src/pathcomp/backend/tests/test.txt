@@ -1,0 +1,236 @@
+{
+"serviceList": [
+{
+"algId": "KSP",
+"syncPaths": false,
+"serviceId": {
+"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"service_uuid": "651550d8-46a0-4f36-9fb9-21b8e4f1b8d2"
+},
+"serviceType": 1,
+"service_endpoints_ids": [
+{
+"topology_id": {
+"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "abf65601-a36b-496f-8e21-1708e5f96e2d"
+},
+"device_id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
+"endpoint_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaa1"
+},
+{
+"topology_id": {
+"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "abf65601-a36b-496f-8e21-1708e5f96e2d"
+},
+"device_id": "eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee",
+"endpoint_uuid": "eeeeeeee-eeee-eeee-eeee-eeeeeeeeeee1"
+}
+],
+"service_constraints": [
+{"constraint_type": "bandwidth", "constraint_value": "100"},
+{"constraint_type": "latency", "constraint_value": "10"}
+],
+"kPaths": 3
+}
+],
+"deviceList": [
+{"device_Id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa", "device_type": "L3", 
+"device_endpoints": [
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "abf65601-a36b-496f-8e21-1708e5f96e2d"}, "device_id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa", "endpoint_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaa1"},
+"endpoint_type": "termination", "link_port_direction": 0, "termination-direction": 0, "termination-state": 4, "total-potential-capacity": {"total-size": {"value": 200,
+"unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "abf65601-a36b-496f-8e21-1708e5f96e2d"}, "device_id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa", "endpoint_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaa2"},
+"endpoint_type": "termination", "link_port_direction": 0, "termination-direction": 0, "termination-state": 0, "total-potential-capacity": {"total-size": {"value": 200,
+"unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "abf65601-a36b-496f-8e21-1708e5f96e2d"}, "device_id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa", "endpoint_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaa3"},
+"endpoint_type": "termination", "link_port_direction": 0, "termination-direction": 0, "termination-state": 0, "total-potential-capacity": {"total-size": {"value": 200,
+"unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}}} 
+]
+},
+{"device_Id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb", "device_type": "L3", 
+"device_endpoints": [
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "abf65601-a36b-496f-8e21-1708e5f96e2d"}, "device_id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb", "endpoint_uuid": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbb2"},
+"endpoint_type": "termination", "link_port_direction": 0, "termination-direction": 0, "termination-state": 0, "total-potential-capacity": {"total-size": {"value": 200,
+"unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "abf65601-a36b-496f-8e21-1708e5f96e2d"}, "device_id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb", "endpoint_uuid": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbb3"},
+"endpoint_type": "termination", "link_port_direction": 0, "termination-direction": 0, "termination-state": 0, "total-potential-capacity": {"total-size": {"value": 200,
+"unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "abf65601-a36b-496f-8e21-1708e5f96e2d"}, "device_id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb", "endpoint_uuid": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbb4"},
+"endpoint_type": "termination", "link_port_direction": 0, "termination-direction": 0, "termination-state": 0, "total-potential-capacity": {"total-size": {"value": 200,
+"unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}}} 
+]
+},
+{"device_Id": "cccccccc-cccc-cccc-cccc-cccccccccccc", "device_type": "L3", 
+"device_endpoints": [
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "abf65601-a36b-496f-8e21-1708e5f96e2d"}, "device_id": "cccccccc-cccc-cccc-cccc-cccccccccccc", "endpoint_uuid": "cccccccc-cccc-cccc-cccc-ccccccccccc2"},
+"endpoint_type": "termination", "link_port_direction": 0, "termination-direction": 0, "termination-state": 0, "total-potential-capacity": {"total-size": {"value": 200,
+"unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "abf65601-a36b-496f-8e21-1708e5f96e2d"}, "device_id": "cccccccc-cccc-cccc-cccc-cccccccccccc", "endpoint_uuid": "cccccccc-cccc-cccc-cccc-ccccccccccc3"},
+"endpoint_type": "termination", "link_port_direction": 0, "termination-direction": 0, "termination-state": 0, "total-potential-capacity": {"total-size": {"value": 200,
+"unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "abf65601-a36b-496f-8e21-1708e5f96e2d"}, "device_id": "cccccccc-cccc-cccc-cccc-cccccccccccc", "endpoint_uuid": "cccccccc-cccc-cccc-cccc-ccccccccccc4"},
+"endpoint_type": "termination", "link_port_direction": 0, "termination-direction": 0, "termination-state": 0, "total-potential-capacity": {"total-size": {"value": 200,
+"unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}}} 
+]
+},
+{"device_Id": "dddddddd-dddd-dddd-dddd-dddddddddddd", "device_type": "L3", 
+"device_endpoints": [
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "abf65601-a36b-496f-8e21-1708e5f96e2d"}, "device_id": "dddddddd-dddd-dddd-dddd-dddddddddddd", "endpoint_uuid": "dddddddd-dddd-dddd-dddd-ddddddddddd2"},
+"endpoint_type": "termination", "link_port_direction": 0, "termination-direction": 0, "termination-state": 0, "total-potential-capacity": {"total-size": {"value": 200,
+"unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "abf65601-a36b-496f-8e21-1708e5f96e2d"}, "device_id": "dddddddd-dddd-dddd-dddd-dddddddddddd", "endpoint_uuid": "dddddddd-dddd-dddd-dddd-ddddddddddd3"},
+"endpoint_type": "termination", "link_port_direction": 0, "termination-direction": 0, "termination-state": 0, "total-potential-capacity": {"total-size": {"value": 200,
+"unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}}} 
+]
+},
+{"device_Id": "eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee", "device_type": "L3", 
+"device_endpoints": [
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "abf65601-a36b-496f-8e21-1708e5f96e2d"}, "device_id": "eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee", "endpoint_uuid": "eeeeeeee-eeee-eeee-eeee-eeeeeeeeeee1"},
+"endpoint_type": "termination", "link_port_direction": 0, "termination-direction": 0, "termination-state": 4, "total-potential-capacity": {"total-size": {"value": 200,
+"unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "abf65601-a36b-496f-8e21-1708e5f96e2d"}, "device_id": "eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee", "endpoint_uuid": "eeeeeeee-eeee-eeee-eeee-eeeeeeeeeee2"},
+"endpoint_type": "termination", "link_port_direction": 0, "termination-direction": 0, "termination-state": 0, "total-potential-capacity": {"total-size": {"value": 200,
+"unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "abf65601-a36b-496f-8e21-1708e5f96e2d"}, "device_id": "eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee", "endpoint_uuid": "eeeeeeee-eeee-eeee-eeee-eeeeeeeeeee3"},
+"endpoint_type": "termination", "link_port_direction": 0, "termination-direction": 0, "termination-state": 0, "total-potential-capacity": {"total-size": {"value": 200,
+"unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}}} 
+]
+}
+],
+"linkList": [
+{"link_Id": "ffffffff-ffff-ffff-ffff-ffffffffffab",
+"link_endpoint_ids": [
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "abf65601-a36b-496f-8e21-1708e5f96e2d"}, "device_id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa", "endpoint_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaa2"}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "abf65601-a36b-496f-8e21-1708e5f96e2d"}, "device_id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb", "endpoint_uuid": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbb2"}}
+],
+"forwarding_direction": 1, "total-potential-capacity": { "total-size": {"value": 200, "unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}},
+"cost-characteristics": {"cost-name": "linkcost","cost-value": "1","cost-algorithm": "0"},"latency-characteristics": {"fixed-latency-characteristic": "10"}
+},
+{"link_Id": "ffffffff-ffff-ffff-ffff-ffffffffffba",
+"link_endpoint_ids": [
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "abf65601-a36b-496f-8e21-1708e5f96e2d"}, "device_id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb", "endpoint_uuid": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbb2"}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "abf65601-a36b-496f-8e21-1708e5f96e2d"}, "device_id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa", "endpoint_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaa2"}}
+],
+"forwarding_direction": 1, "total-potential-capacity": { "total-size": {"value": 200, "unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}},
+"cost-characteristics": {"cost-name": "linkcost","cost-value": "1","cost-algorithm": "0"},"latency-characteristics": {"fixed-latency-characteristic": "2"}
+},
+{"link_Id": "ffffffff-ffff-ffff-ffff-ffffffffffac",
+"link_endpoint_ids": [
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "abf65601-a36b-496f-8e21-1708e5f96e2d"}, "device_id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa", "endpoint_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaa3"}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "abf65601-a36b-496f-8e21-1708e5f96e2d"}, "device_id": "cccccccc-cccc-cccc-cccc-cccccccccccc", "endpoint_uuid": "cccccccc-cccc-cccc-cccc-ccccccccccc2"}}
+],
+"forwarding_direction": 1, "total-potential-capacity": { "total-size": {"value": 200, "unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}},
+"cost-characteristics": {"cost-name": "linkcost","cost-value": "1","cost-algorithm": "0"},"latency-characteristics": {"fixed-latency-characteristic": "2"}
+},
+{"link_Id": "ffffffff-ffff-ffff-ffff-ffffffffffca",
+"link_endpoint_ids": [
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "abf65601-a36b-496f-8e21-1708e5f96e2d"}, "device_id": "cccccccc-cccc-cccc-cccc-cccccccccccc", "endpoint_uuid": "cccccccc-cccc-cccc-cccc-ccccccccccc2"}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "abf65601-a36b-496f-8e21-1708e5f96e2d"}, "device_id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa", "endpoint_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaa3"}}
+],
+"forwarding_direction": 1, "total-potential-capacity": { "total-size": {"value": 200, "unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}},
+"cost-characteristics": {"cost-name": "linkcost","cost-value": "1","cost-algorithm": "0"},"latency-characteristics": {"fixed-latency-characteristic": "2"}
+},
+{"link_Id": "ffffffff-ffff-ffff-ffff-ffffffffffcb",
+"link_endpoint_ids": [
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "abf65601-a36b-496f-8e21-1708e5f96e2d"}, "device_id": "cccccccc-cccc-cccc-cccc-cccccccccccc", "endpoint_uuid": "cccccccc-cccc-cccc-cccc-ccccccccccc3"}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "abf65601-a36b-496f-8e21-1708e5f96e2d"}, "device_id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb", "endpoint_uuid": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbb3"}}
+],
+"forwarding_direction": 1, "total-potential-capacity": { "total-size": {"value": 200, "unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}},
+"cost-characteristics": {"cost-name": "linkcost","cost-value": "1","cost-algorithm": "0"},"latency-characteristics": {"fixed-latency-characteristic": "2"}
+},
+{"link_Id": "ffffffff-ffff-ffff-ffff-ffffffffffbc",
+"link_endpoint_ids": [
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "abf65601-a36b-496f-8e21-1708e5f96e2d"}, "device_id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb", "endpoint_uuid": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbb3"}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "abf65601-a36b-496f-8e21-1708e5f96e2d"}, "device_id": "cccccccc-cccc-cccc-cccc-cccccccccccc", "endpoint_uuid": "cccccccc-cccc-cccc-cccc-ccccccccccc3"}}
+],
+"forwarding_direction": 1, "total-potential-capacity": { "total-size": {"value": 200, "unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}},
+"cost-characteristics": {"cost-name": "linkcost","cost-value": "1","cost-algorithm": "0"},"latency-characteristics": {"fixed-latency-characteristic": "2"}
+},
+{"link_Id": "ffffffff-ffff-ffff-ffff-ffffffffffcd",
+"link_endpoint_ids": [
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "abf65601-a36b-496f-8e21-1708e5f96e2d"}, "device_id": "cccccccc-cccc-cccc-cccc-cccccccccccc", "endpoint_uuid": "cccccccc-cccc-cccc-cccc-ccccccccccc4"}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "abf65601-a36b-496f-8e21-1708e5f96e2d"}, "device_id": "dddddddd-dddd-dddd-dddd-dddddddddddd", "endpoint_uuid": "dddddddd-dddd-dddd-dddd-ddddddddddd2"}}
+],
+"forwarding_direction": 1, "total-potential-capacity": { "total-size": {"value": 200, "unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}},
+"cost-characteristics": {"cost-name": "linkcost","cost-value": "1","cost-algorithm": "0"},"latency-characteristics": {"fixed-latency-characteristic": "2"}
+},
+{"link_Id": "ffffffff-ffff-ffff-ffff-ffffffffffdc",
+"link_endpoint_ids": [
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "abf65601-a36b-496f-8e21-1708e5f96e2d"}, "device_id": "dddddddd-dddd-dddd-dddd-dddddddddddd", "endpoint_uuid": "dddddddd-dddd-dddd-dddd-ddddddddddd2"}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "abf65601-a36b-496f-8e21-1708e5f96e2d"}, "device_id": "cccccccc-cccc-cccc-cccc-cccccccccccc", "endpoint_uuid": "cccccccc-cccc-cccc-cccc-ccccccccccc4"}}
+],
+"forwarding_direction": 1, "total-potential-capacity": { "total-size": {"value": 200, "unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}},
+"cost-characteristics": {"cost-name": "linkcost","cost-value": "1","cost-algorithm": "0"},"latency-characteristics": {"fixed-latency-characteristic": "2"}
+},
+{"link_Id": "ffffffff-ffff-ffff-ffff-ffffffffffbe",
+"link_endpoint_ids": [
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "abf65601-a36b-496f-8e21-1708e5f96e2d"}, "device_id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb", "endpoint_uuid": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbb4"}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "abf65601-a36b-496f-8e21-1708e5f96e2d"}, "device_id": "eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee", "endpoint_uuid": "eeeeeeee-eeee-eeee-eeee-eeeeeeeeeee2"}}
+],
+"forwarding_direction": 1, "total-potential-capacity": { "total-size": {"value": 200, "unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}},
+"cost-characteristics": {"cost-name": "linkcost","cost-value": "1","cost-algorithm": "0"},"latency-characteristics": {"fixed-latency-characteristic": "2"}
+},
+{"link_Id": "ffffffff-ffff-ffff-ffff-ffffffffffeb",
+"link_endpoint_ids": [
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "abf65601-a36b-496f-8e21-1708e5f96e2d"}, "device_id": "eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee", "endpoint_uuid": "eeeeeeee-eeee-eeee-eeee-eeeeeeeeeee2"}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "abf65601-a36b-496f-8e21-1708e5f96e2d"}, "device_id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb", "endpoint_uuid": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbb4"}}
+],
+"forwarding_direction": 1, "total-potential-capacity": { "total-size": {"value": 200, "unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}},
+"cost-characteristics": {"cost-name": "linkcost","cost-value": "1","cost-algorithm": "0"},"latency-characteristics": {"fixed-latency-characteristic": "2"}
+},
+{"link_Id": "ffffffff-ffff-ffff-ffff-ffffffffffde",
+"link_endpoint_ids": [
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "abf65601-a36b-496f-8e21-1708e5f96e2d"}, "device_id": "dddddddd-dddd-dddd-dddd-dddddddddddd", "endpoint_uuid": "dddddddd-dddd-dddd-dddd-ddddddddddd3"}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "abf65601-a36b-496f-8e21-1708e5f96e2d"}, "device_id": "eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee", "endpoint_uuid": "eeeeeeee-eeee-eeee-eeee-eeeeeeeeeee3"}}
+],
+"forwarding_direction": 1, "total-potential-capacity": { "total-size": {"value": 200, "unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}},
+"cost-characteristics": {"cost-name": "linkcost","cost-value": "1","cost-algorithm": "0"},"latency-characteristics": {"fixed-latency-characteristic": "2"}
+},
+{"link_Id": "ffffffff-ffff-ffff-ffff-ffffffffffed",
+"link_endpoint_ids": [
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "abf65601-a36b-496f-8e21-1708e5f96e2d"}, "device_id": "eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee", "endpoint_uuid": "eeeeeeee-eeee-eeee-eeee-eeeeeeeeeee3"}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "abf65601-a36b-496f-8e21-1708e5f96e2d"}, "device_id": "dddddddd-dddd-dddd-dddd-dddddddddddd", "endpoint_uuid": "dddddddd-dddd-dddd-dddd-ddddddddddd3"}}
+],
+"forwarding_direction": 1, "total-potential-capacity": { "total-size": {"value": 200, "unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}},
+"cost-characteristics": {"cost-name": "linkcost","cost-value": "1","cost-algorithm": "0"},"latency-characteristics": {"fixed-latency-characteristic": "2"}
+}
+]
+}

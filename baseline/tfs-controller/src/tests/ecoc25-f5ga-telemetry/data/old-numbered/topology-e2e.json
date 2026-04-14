@@ -1,0 +1,118 @@
+{
+    "contexts": [
+        {"context_id": {"context_uuid": {"uuid": "admin"}}}
+    ],
+    "topologies": [
+        {"topology_id": {"context_id": {"context_uuid": {"uuid": "admin"}}, "topology_uuid": {"uuid": "admin"}}}
+    ],
+    "devices": [
+        {"device_id": {"device_uuid": {"uuid": "TFS-AGG"}}, "name": "TFS-AGG", "device_type": "teraflowsdn",
+        "device_drivers": ["DEVICEDRIVER_IETF_L3VPN"], "device_config": {"config_rules": [
+            {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/address",  "resource_value": "10.254.0.11"}},
+            {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/port",     "resource_value": "80"          }},
+            {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/settings", "resource_value": {
+                "scheme": "http", "username": "admin", "password": "admin", "base_url": "/restconf/v2/data",
+                "timeout": 120, "verify": false
+            }}}
+        ]}},
+        {"device_id": {"device_uuid": {"uuid": "NCE-FAN"}}, "name": "NCE-FAN", "device_type": "ip-sdn-controller",
+        "device_drivers": ["DEVICEDRIVER_IETF_ACTN"], "device_config": {"config_rules": [
+            {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/address",  "resource_value": "10.254.0.9"}},
+            {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/port",     "resource_value": "8443"      }},
+            {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/settings", "resource_value": {
+                "scheme": "https", "username": "admin", "password": "admin", "base_url": "/restconf/v2/data",
+                "timeout": 120, "verify": false
+            }}}
+        ]}},
+
+        {"device_id": {"device_uuid": {"uuid": "172.16.204.220"}}, "device_type": "emu-datacenter",
+        "device_drivers": ["DEVICEDRIVER_UNDEFINED"], "device_config": {"config_rules": [
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/address",  "resource_value": "127.0.0.1"}},
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/port",     "resource_value": "0"        }},
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/settings", "resource_value": {"endpoints": [
+                    {"uuid": "lo",   "name": "lo",   "type": "loopback"},
+                    {"uuid": "500a", "name": "500a", "type": "copper"},
+                    {"uuid": "500b", "name": "500b", "type": "copper"}
+                ]}}}
+            ]}
+        },
+        {"device_id": {"device_uuid": {"uuid": "172.16.204.220"}}, "device_type": "emu-datacenter",
+        "device_drivers": ["DEVICEDRIVER_UNDEFINED"], "device_config": {"config_rules": [
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/address",  "resource_value": "127.0.0.1"}},
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/port",     "resource_value": "0"        }},
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/settings", "resource_value": {"endpoints": [
+                    {"uuid": "lo",   "name": "lo",   "type": "loopback"},
+                    {"uuid": "500a", "name": "500a", "type": "copper"},
+                    {"uuid": "500b", "name": "500b", "type": "copper"}
+                ]}}}
+            ]}
+        },
+        {"device_id": {"device_uuid": {"uuid": "172.16.204.220"}}, "device_type": "emu-datacenter",
+        "device_drivers": ["DEVICEDRIVER_UNDEFINED"], "device_config": {"config_rules": [
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/address",  "resource_value": "127.0.0.1"}},
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/port",     "resource_value": "0"        }},
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/settings", "resource_value": {"endpoints": [
+                    {"uuid": "lo",   "name": "lo",   "type": "loopback"},
+                    {"uuid": "500a", "name": "500a", "type": "copper"},
+                    {"uuid": "500b", "name": "500b", "type": "copper"}
+                ]}}}
+            ]}
+        },
+        {"device_id": {"device_uuid": {"uuid": "172.16.204.220"}}, "device_type": "emu-datacenter",
+        "device_drivers": ["DEVICEDRIVER_UNDEFINED"], "device_config": {"config_rules": [
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/address",  "resource_value": "127.0.0.1"}},
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/port",     "resource_value": "0"        }},
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/settings", "resource_value": {"endpoints": [
+                    {"uuid": "lo",   "name": "lo",   "type": "loopback"},
+                    {"uuid": "500a", "name": "500a", "type": "copper"},
+                    {"uuid": "500b", "name": "500b", "type": "copper"}
+                ]}}}
+            ]}
+        }
+    ],
+    "links": [
+        {"link_id": {"link_uuid": {"uuid": "172.16.58.10-501"}}, "name": "172.16.58.10-501",
+        "attributes": {"total_capacity_gbps": 10, "used_capacity_gbps": 0}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "172.16.58.10"}}, "endpoint_uuid": {"uuid": "501"}},
+            {"device_id": {"device_uuid": {"uuid": "172.16.125.25"}}, "endpoint_uuid": {"uuid": "200"}}
+        ]},
+        {"link_id": {"link_uuid": {"uuid": "172.16.125.25-200"}}, "name": "172.16.125.25-200",
+        "attributes": {"total_capacity_gbps": 10, "used_capacity_gbps": 0}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "172.16.125.25"}}, "endpoint_uuid": {"uuid": "200"}},
+            {"device_id": {"device_uuid": {"uuid": "172.16.58.10"}}, "endpoint_uuid": {"uuid": "501"}}
+        ]},
+
+        {"link_id": {"link_uuid": {"uuid": "172.16.58.10-500"}}, "name": "172.16.58.10-500",
+        "attributes": {"total_capacity_gbps": 10, "used_capacity_gbps": 0}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "172.16.58.10"}}, "endpoint_uuid": {"uuid": "500"}},
+            {"device_id": {"device_uuid": {"uuid": "172.16.182.25"}}, "endpoint_uuid": {"uuid": "200"}}
+        ]},
+        {"link_id": {"link_uuid": {"uuid": "172.16.182.25-200"}}, "name": "172.16.182.25-200",
+        "attributes": {"total_capacity_gbps": 10, "used_capacity_gbps": 0}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "172.16.182.25"}}, "endpoint_uuid": {"uuid": "200"}},
+            {"device_id": {"device_uuid": {"uuid": "172.16.58.10"}}, "endpoint_uuid": {"uuid": "500"}}
+        ]},
+
+        {"link_id": {"link_uuid": {"uuid": "172.16.125.32-200"}}, "name": "172.16.125.32-200",
+        "attributes": {"total_capacity_gbps": 10, "used_capacity_gbps": 0}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "172.16.125.32"}}, "endpoint_uuid": {"uuid": "200"}},
+            {"device_id": {"device_uuid": {"uuid": "172.16.204.22x"}}, "endpoint_uuid": {"uuid": "500a"}}
+        ]},
+        {"link_id": {"link_uuid": {"uuid": "172.16.204.22x-500a"}}, "name": "172.16.204.22x-500a",
+        "attributes": {"total_capacity_gbps": 10, "used_capacity_gbps": 0}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "172.16.204.22x"}}, "endpoint_uuid": {"uuid": "500a"}},
+            {"device_id": {"device_uuid": {"uuid": "172.16.125.32"}}, "endpoint_uuid": {"uuid": "200"}}
+        ]},
+
+        {"link_id": {"link_uuid": {"uuid": "172.16.204.22x-500b"}}, "name": "172.16.204.22x-500b",
+        "attributes": {"total_capacity_gbps": 10, "used_capacity_gbps": 0}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "172.16.204.22x"}}, "endpoint_uuid": {"uuid": "500b"}},
+            {"device_id": {"device_uuid": {"uuid": "172.16.185.32"}}, "endpoint_uuid": {"uuid": "200"}}
+        ]},
+        {"link_id": {"link_uuid": {"uuid": "172.16.185.32-200"}}, "name": "172.16.185.32-200",
+        "attributes": {"total_capacity_gbps": 10, "used_capacity_gbps": 0}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "172.16.185.32"}}, "endpoint_uuid": {"uuid": "200"}},
+            {"device_id": {"device_uuid": {"uuid": "172.16.204.22x"}}, "endpoint_uuid": {"uuid": "500b"}}
+        ]}
+    ]
+}

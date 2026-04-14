@@ -1,0 +1,115 @@
+# Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Directory used for Netgen's operation.
+# Default: "/tmp/netgen"
+# netgen_runstatedir:
+
+# Clean exit.
+# Default: 'false'
+# clean_exit:
+
+# Valgrind parameters.
+# Default: "--tool=memcheck"
+# valgrind_params: "--tool=memcheck --leak-check=full --trace-children=yes"
+# valgrind_params: "--tool=memcheck --leak-check=full"
+# valgrind_params: "--tool=memcheck --leak-check=full --show-leak-kinds=all"
+# valgrind_params: "--tool=callgrind --dump-instr=yes --collect-jumps=yes"
+
+# Perf directory
+# Default: [netgen_runstatedir]/perf
+# perf_dir:
+
+# Plugins configuration.
+plugins:
+  frr:
+    # FRR's sysconfdir (--sysconfdir).
+    # Default: "/etc/frr"
+    # sysconfdir:
+
+    # FRR's localstatedir (--localstatedir).
+    # Default: "/var/run/frr"
+    # localstatedir:
+
+    # FRR's user (--enable-user).
+    # Default: "frr"
+    # user:
+    user: "root"
+
+    # FRR's group (--enable-group).
+    # Default: "frr"
+    # group:
+    group: "root"
+
+    # Directory to store FRR logs.
+    # Default: [netgen_runstatedir]/frrlogs
+    # logdir:
+
+  tcpdump:
+    # Directory to store tcpdump captures.
+    # Default: [netgen_runstatedir]/pcaps
+    # pcap_dir:
+
+    # Filter on which nodes tcpdump should run.
+    # Default: []
+    # whitelist:
+
+    # Filter on which nodes tcpdump should not run.
+    # Default: []
+    # blacklist:
+
+  tmux:
+    # Path of tmux script used to open a shell on all routers.
+    # Default: [netgen_runstatedir]/tmux.sh
+    # file:
+
+    # Panels per node.
+    # Default: 1
+    # panels-per-node:
+
+  bird:
+    # BIRD's sysconfdir (--sysconfdir).
+    # Default: "/etc/bird"
+    # sysconfdir:
+
+    # BIRD's localstatedir (--localstatedir).
+    # Default: "/var/run/bird"
+    # localstatedir:
+
+    # BIRD's user (--enable-user).
+    # Default: "bird"
+    # user:
+
+    # BIRD's group (--enable-group).
+    # Default: "bird"
+    # group:
+
+    # Directory to store BIRD logs.
+    # Default: [netgen_runstatedir]/birdlogs
+    # logdir:
+
+  bgpsimple:
+    # Path to bgp_simple script
+    # Default: "bgp_simple.pl"
+    # path:
+
+  iou:
+    # IOU working directory.
+    # Default: [netgen_runstatedir]/iou
+    # dir:
+
+  dynamips:
+    # dynamips working directory.
+    # Default: [netgen_runstatedir]/dynamips
+    # dir:

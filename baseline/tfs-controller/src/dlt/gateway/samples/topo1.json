@@ -1,0 +1,96 @@
+{
+    "contexts": [
+        {"context_id": {"context_uuid": {"uuid": "admin"}}}
+    ],
+    "topologies": [
+        {"topology_id": {"context_id": {"context_uuid": {"uuid": "admin"}}, "topology_uuid": {"uuid": "admin"}}}
+    ],
+    "devices": [
+        {
+            "device_id": {"device_uuid": {"uuid": "DC1"}}, "device_type": "emu-datacenter", "device_drivers": [0],
+            "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "127.0.0.1"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "0"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {"endpoints": [
+                    {"uuid": "eth1", "type": "copper"}, {"uuid": "eth2", "type": "copper"}, {"uuid": "int", "type": "copper"}
+                ]}}}
+            ]}
+        },
+        {
+            "device_id": {"device_uuid": {"uuid": "DC2"}}, "device_type": "emu-datacenter", "device_drivers": [0],
+            "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "127.0.0.1"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "0"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {"endpoints": [
+                    {"uuid": "eth1", "type": "copper"}, {"uuid": "eth2", "type": "copper"}, {"uuid": "int", "type": "copper"}
+                ]}}}
+            ]}
+        },
+        {
+            "device_id": {"device_uuid": {"uuid": "SRL1"}}, "device_type": "packet-router", "device_drivers": [8],
+            "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "172.100.100.101"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "57400"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {
+                    "username": "admin", "password": "NokiaSrl1!", "use_tls": true
+                }}}
+            ]}
+        },
+        {
+            "device_id": {"device_uuid": {"uuid": "SRL2"}}, "device_type": "packet-router", "device_drivers": [8],
+            "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "172.100.100.102"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "57400"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {
+                    "username": "admin", "password": "NokiaSrl1!", "use_tls": true
+                }}}
+            ]}
+        }
+    ],
+    "links": [
+        {
+            "link_id": {"link_uuid": {"uuid": "DC1/eth1==SRL1/ethernet-1/2"}},
+            "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "DC1"}}, "endpoint_uuid": {"uuid": "eth1"}},
+                {"device_id": {"device_uuid": {"uuid": "SRL1"}}, "endpoint_uuid": {"uuid": "ethernet-1/2"}}
+            ]
+        },
+        {
+            "link_id": {"link_uuid": {"uuid": "SRL1/ethernet-1/2==DC1/eth1"}},
+            "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "SRL1"}}, "endpoint_uuid": {"uuid": "ethernet-1/2"}},
+                {"device_id": {"device_uuid": {"uuid": "DC1"}}, "endpoint_uuid": {"uuid": "eth1"}}
+            ]
+        },
+
+        {
+            "link_id": {"link_uuid": {"uuid": "SRL1/ethernet-1/1==SRL2/ethernet-1/1"}},
+            "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "SRL1"}}, "endpoint_uuid": {"uuid": "ethernet-1/1"}},
+                {"device_id": {"device_uuid": {"uuid": "SRL2"}}, "endpoint_uuid": {"uuid": "ethernet-1/1"}}
+            ]
+        },
+        {
+            "link_id": {"link_uuid": {"uuid": "SRL2/ethernet-1/1==SRL1/ethernet-1/1"}},
+            "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "SRL2"}}, "endpoint_uuid": {"uuid": "ethernet-1/1"}},
+                {"device_id": {"device_uuid": {"uuid": "SRL1"}}, "endpoint_uuid": {"uuid": "ethernet-1/1"}}
+            ]
+        },
+
+        {
+            "link_id": {"link_uuid": {"uuid": "DC2/eth1==SRL2/ethernet-1/2"}},
+            "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "DC2"}}, "endpoint_uuid": {"uuid": "eth1"}},
+                {"device_id": {"device_uuid": {"uuid": "SRL2"}}, "endpoint_uuid": {"uuid": "ethernet-1/2"}}
+            ]
+        },
+        {
+            "link_id": {"link_uuid": {"uuid": "SRL2/ethernet-1/2==DC2/eth1"}},
+            "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "SRL2"}}, "endpoint_uuid": {"uuid": "ethernet-1/2"}},
+                {"device_id": {"device_uuid": {"uuid": "DC2"}}, "endpoint_uuid": {"uuid": "eth1"}}
+            ]
+        }
+    ]
+}

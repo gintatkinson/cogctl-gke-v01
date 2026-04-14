@@ -1,0 +1,60 @@
+{
+    "contexts": [
+        {"context_id": {"context_uuid": {"uuid": "admin"}}}
+    ],
+    "topologies": [
+        {"topology_id": {"context_id": {"context_uuid": {"uuid": "admin"}}, "topology_uuid": {"uuid": "admin"}}}
+    ],
+    "devices": [
+        {
+            "device_id": {"device_uuid": {"uuid": "spine1"}}, "device_type": "packet-router", "device_drivers": [9],
+            "device_operational_status": 1, "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "172.20.20.101"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "57400"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {
+                    "protocol": "gnmi", "username": "admin", "password": "NokiaSrl1!", "use_tls": true
+                }}}
+            ]}
+        },
+        {
+            "device_id": {"device_uuid": {"uuid": "leaf1"}}, "device_type": "packet-router", "device_drivers": [9],
+            "device_operational_status": 1, "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "172.20.20.102"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "57400"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {
+                    "protocol": "gnmi", "username": "admin", "password": "NokiaSrl1!", "use_tls": true
+                }}}
+            ]}
+        },
+        {
+            "device_id": {"device_uuid": {"uuid": "leaf2"}}, "device_type": "packet-router", "device_drivers": [9],
+            "device_operational_status": 1, "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "172.20.20.103"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "57400"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {
+                    "protocol": "gnmi", "username": "admin", "password": "NokiaSrl1!", "use_tls": true
+                }}}
+            ]}
+        },
+        {
+            "device_id": {"device_uuid": {"uuid": "srv1"}}, "device_type": "emu-datacenter", "device_drivers": [0],
+            "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "127.0.0.1"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "0"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {"endpoints": [
+                    {"uuid": "eth1", "type": "copper"}, {"uuid": "int", "type": "copper"}
+                ]}}}
+            ]}
+        },
+        {
+            "device_id": {"device_uuid": {"uuid": "srv2"}}, "device_type": "emu-datacenter", "device_drivers": [0],
+            "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "127.0.0.1"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "0"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {"endpoints": [
+                    {"uuid": "eth1", "type": "copper"}, {"uuid": "int", "type": "copper"}
+                ]}}}
+            ]}
+        }
+    ]
+}

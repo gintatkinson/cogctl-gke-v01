@@ -1,0 +1,26 @@
+steps:
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - |
+      set -e
+      echo "[AUDIT] Authenticating to Cluster: $_CLUSTER_NAME..."
+      gcloud container clusters get-credentials "$_CLUSTER_NAME" --region "$_REGION"
+      
+      echo "[AUDIT] Listing all Namespaces..."
+      kubectl get namespaces
+      
+      echo "[AUDIT] Listing all Pods (All Namespaces)..."
+      kubectl get pods -A
+      
+      echo "[AUDIT] Listing Services (All Namespaces)..."
+      kubectl get svc -A
+      
+      echo "[AUDIT] Describing Ingress Status..."
+      kubectl get ingress -A
+      
+      echo "[AUDIT] Audit Complete."
+substitutions:
+  _CLUSTER_NAME: "sovereign-genesis-1776160802"
+  _REGION: "us-central1"

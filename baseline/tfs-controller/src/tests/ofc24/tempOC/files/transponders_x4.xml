@@ -1,0 +1,1055 @@
+<!--
+ Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<config xmlns:xc="urn:ietf:params:xml:ns:netconf:base:1.0">
+    <components xmlns="http://openconfig.net/yang/platform">
+        <component>
+            <name>device</name>
+            <config>
+                <name>device</name>
+            </config>
+            <state>
+				<name>MellanoxSwitch</name>
+				<mfg-name>SSSA-CNIT</mfg-name>
+				<hardware-version>1.0.0</hardware-version>
+				<firmware-version>1.0.0</firmware-version>
+				<software-version>1.0.0</software-version>
+				<serial-no>610610</serial-no>
+				<type xmlns:typex="http://openconfig.net/yang/platform-types">typex:OPERATING_SYSTEM</type>
+			</state>
+		</component>
+		<component>
+			<name>channel-1</name>
+			<config>
+					<name>channel-1</name>
+			</config>
+			<state>
+				<name>channel-1</name>
+				<type xmlns:typex="http://openconfig.net/yang/transport-types">typex:OPTICAL_CHANNEL</type>
+			</state>
+			<optical-channel xmlns="http://openconfig.net/yang/terminal-device">
+				<config>
+					<frequency>191600000</frequency>
+					<target-output-power>100</target-output-power>
+					<operational-mode>0</operational-mode>
+					<line-port>transceiver-1</line-port>
+				</config>
+				<state>
+					<frequency>191600000</frequency>
+					<target-output-power>0</target-output-power>
+					<operational-mode>0</operational-mode>
+					<line-port>transceiver-1</line-port>
+					<group-id>1</group-id>
+					<output-power>
+						<instant>0</instant>
+						<avg>0</avg>
+						<min>0</min>
+						<max>0</max>
+						<interval>0</interval>
+					</output-power>
+					<input-power>
+						<instant>0</instant>
+						<avg>0</avg>
+						<min>0</min>
+						<max>0</max>
+						<interval>0</interval>
+					</input-power>
+					<laser-bias-current>
+						<instant>0</instant>
+						<avg>0</avg>
+						<min>0</min>
+						<max>0</max>
+						<interval>0</interval>
+					</laser-bias-current>
+					<chromatic-dispersion>
+						<instant>0</instant>
+						<avg>0</avg>
+						<min>0</min>
+						<max>0</max>
+					</chromatic-dispersion>
+					<polarization-mode-dispersion>
+						<instant>0</instant>
+						<avg>0</avg>
+						<min>0</min>
+						<max>0</max>
+					</polarization-mode-dispersion>
+					<second-order-polarization-mode-dispersion>
+						<instant>0</instant>
+						<avg>0</avg>
+						<min>0</min>
+						<max>0</max>
+					</second-order-polarization-mode-dispersion>
+					<polarization-dependent-loss>
+						<instant>0</instant>
+						<avg>0</avg>
+						<min>0</min>
+						<max>0</max>
+						<interval>0</interval>
+					</polarization-dependent-loss>
+				</state>
+			</optical-channel>
+		</component>
+		<component>
+			<name>channel-2</name>
+			<config>
+					<name>channel-2</name>
+			</config>
+			<state>
+				<name>channel-2</name>
+				<type xmlns:typex="http://openconfig.net/yang/transport-types">typex:OPTICAL_CHANNEL</type>
+			</state>
+			<optical-channel xmlns="http://openconfig.net/yang/terminal-device">
+				<config>
+					<frequency>191600000</frequency>
+					<target-output-power>100</target-output-power>
+					<operational-mode>0</operational-mode>
+					<line-port>transceiver-2</line-port>
+				</config>
+				<state>
+					<frequency>191600000</frequency>
+					<target-output-power>0</target-output-power>
+					<operational-mode>0</operational-mode>
+					<line-port>transceiver-2</line-port>
+					<group-id>1</group-id>
+					<output-power>
+						<instant>0</instant>
+						<avg>0</avg>
+						<min>0</min>
+						<max>0</max>
+						<interval>0</interval>
+					</output-power>
+					<input-power>
+						<instant>0</instant>
+						<avg>0</avg>
+						<min>0</min>
+						<max>0</max>
+						<interval>0</interval>
+					</input-power>
+					<laser-bias-current>
+						<instant>0</instant>
+						<avg>0</avg>
+						<min>0</min>
+						<max>0</max>
+						<interval>0</interval>
+					</laser-bias-current>
+					<chromatic-dispersion>
+						<instant>0</instant>
+						<avg>0</avg>
+						<min>0</min>
+						<max>0</max>
+					</chromatic-dispersion>
+					<polarization-mode-dispersion>
+						<instant>0</instant>
+						<avg>0</avg>
+						<min>0</min>
+						<max>0</max>
+					</polarization-mode-dispersion>
+					<second-order-polarization-mode-dispersion>
+						<instant>0</instant>
+						<avg>0</avg>
+						<min>0</min>
+						<max>0</max>
+					</second-order-polarization-mode-dispersion>
+					<polarization-dependent-loss>
+						<instant>0</instant>
+						<avg>0</avg>
+						<min>0</min>
+						<max>0</max>
+						<interval>0</interval>
+					</polarization-dependent-loss>
+				</state>
+			</optical-channel>
+		</component>
+		<component>
+			<name>channel-3</name>
+			<config>
+					<name>channel-3</name>
+			</config>
+			<state>
+				<name>channel-3</name>
+				<type xmlns:typex="http://openconfig.net/yang/transport-types">typex:OPTICAL_CHANNEL</type>
+			</state>
+			<optical-channel xmlns="http://openconfig.net/yang/terminal-device">
+				<config>
+					<frequency>191600000</frequency>
+					<target-output-power>100</target-output-power>
+					<operational-mode>0</operational-mode>
+					<line-port>transceiver-3</line-port>
+				</config>
+				<state>
+					<frequency>191600000</frequency>
+					<target-output-power>0</target-output-power>
+					<operational-mode>0</operational-mode>
+					<line-port>transceiver-3</line-port>
+					<group-id>1</group-id>
+					<output-power>
+						<instant>0</instant>
+						<avg>0</avg>
+						<min>0</min>
+						<max>0</max>
+						<interval>0</interval>
+					</output-power>
+					<input-power>
+						<instant>0</instant>
+						<avg>0</avg>
+						<min>0</min>
+						<max>0</max>
+						<interval>0</interval>
+					</input-power>
+					<laser-bias-current>
+						<instant>0</instant>
+						<avg>0</avg>
+						<min>0</min>
+						<max>0</max>
+						<interval>0</interval>
+					</laser-bias-current>
+					<chromatic-dispersion>
+						<instant>0</instant>
+						<avg>0</avg>
+						<min>0</min>
+						<max>0</max>
+					</chromatic-dispersion>
+					<polarization-mode-dispersion>
+						<instant>0</instant>
+						<avg>0</avg>
+						<min>0</min>
+						<max>0</max>
+					</polarization-mode-dispersion>
+					<second-order-polarization-mode-dispersion>
+						<instant>0</instant>
+						<avg>0</avg>
+						<min>0</min>
+						<max>0</max>
+					</second-order-polarization-mode-dispersion>
+					<polarization-dependent-loss>
+						<instant>0</instant>
+						<avg>0</avg>
+						<min>0</min>
+						<max>0</max>
+						<interval>0</interval>
+					</polarization-dependent-loss>
+				</state>
+			</optical-channel>
+		</component>
+		<component>
+			<name>channel-4</name>
+			<config>
+					<name>channel-4</name>
+			</config>
+			<state>
+				<name>channel-4</name>
+				<type xmlns:typex="http://openconfig.net/yang/transport-types">typex:OPTICAL_CHANNEL</type>
+			</state>
+			<optical-channel xmlns="http://openconfig.net/yang/terminal-device">
+				<config>
+					<frequency>191600000</frequency>
+					<target-output-power>100</target-output-power>
+					<operational-mode>0</operational-mode>
+					<line-port>transceiver-4</line-port>
+				</config>
+				<state>
+					<frequency>191600000</frequency>
+					<target-output-power>0</target-output-power>
+					<operational-mode>0</operational-mode>
+					<line-port>transceiver-4</line-port>
+					<group-id>1</group-id>
+					<output-power>
+						<instant>0</instant>
+						<avg>0</avg>
+						<min>0</min>
+						<max>0</max>
+						<interval>0</interval>
+					</output-power>
+					<input-power>
+						<instant>0</instant>
+						<avg>0</avg>
+						<min>0</min>
+						<max>0</max>
+						<interval>0</interval>
+					</input-power>
+					<laser-bias-current>
+						<instant>0</instant>
+						<avg>0</avg>
+						<min>0</min>
+						<max>0</max>
+						<interval>0</interval>
+					</laser-bias-current>
+					<chromatic-dispersion>
+						<instant>0</instant>
+						<avg>0</avg>
+						<min>0</min>
+						<max>0</max>
+					</chromatic-dispersion>
+					<polarization-mode-dispersion>
+						<instant>0</instant>
+						<avg>0</avg>
+						<min>0</min>
+						<max>0</max>
+					</polarization-mode-dispersion>
+					<second-order-polarization-mode-dispersion>
+						<instant>0</instant>
+						<avg>0</avg>
+						<min>0</min>
+						<max>0</max>
+					</second-order-polarization-mode-dispersion>
+					<polarization-dependent-loss>
+						<instant>0</instant>
+						<avg>0</avg>
+						<min>0</min>
+						<max>0</max>
+						<interval>0</interval>
+					</polarization-dependent-loss>
+				</state>
+			</optical-channel>
+		</component>
+				<component>
+			<name>transceiver-1</name>
+			<config>
+				<name>transceiver-1</name>
+			</config>
+			<state>
+				<name>transceiver-1</name>
+				<type xmlns:typex="http://openconfig.net/yang/platform-types">typex:TRANSCEIVER</type>
+			</state>
+			<transceiver xmlns="http://openconfig.net/yang/platform/transceiver">
+				<config>
+					<enabled>true</enabled>
+					<form-factor-preconf xmlns:typex="http://openconfig.net/yang/transport-types">typex:QSFP56_DD_TYPE1</form-factor-preconf>
+					<ethernet-pmd-preconf xmlns:typex="http://openconfig.net/yang/transport-types">typex:ETH_400GBASE_ZR</ethernet-pmd-preconf>
+					<fec-mode xmlns:typex="http://openconfig.net/yang/platform-types">typex:FEC_AUTO</fec-mode>
+					<module-functional-type xmlns:typex="http://openconfig.net/yang/transport-types">typex:TYPE_DIGITAL_COHERENT_OPTIC</module-functional-type>
+				</config>
+				<state>
+					<enabled>true</enabled>
+					<form-factor-preconf xmlns:typex="http://openconfig.net/yang/transport-types">typex:QSFP56_DD_TYPE1</form-factor-preconf>
+					<ethernet-pmd-preconf xmlns:typex="http://openconfig.net/yang/transport-types">typex:ETH_400GBASE_ZR</ethernet-pmd-preconf>
+					<fec-mode xmlns:typex="http://openconfig.net/yang/platform-types">typex:FEC_AUTO</fec-mode>
+					<module-functional-type xmlns:typex="http://openconfig.net/yang/transport-types">typex:TYPE_DIGITAL_COHERENT_OPTIC</module-functional-type>
+					<vendor>Cisco</vendor>
+					<vendor-part>400zr-QSFP-DD</vendor-part>
+					<vendor-rev>01</vendor-rev>
+					<serial-no>1567321</serial-no>
+				</state>
+				<physical-channels>
+					<channel>
+						<index>1</index>
+						<config>
+							<index>1</index>
+							<associated-optical-channel>channel-1</associated-optical-channel>
+						</config>
+					</channel>
+				</physical-channels>
+			</transceiver>
+		</component>
+		<component>
+			<name>transceiver-2</name>
+			<config>
+				<name>transceiver-2</name>
+			</config>
+			<state>
+				<name>transceiver-2</name>
+				<type xmlns:typex="http://openconfig.net/yang/platform-types">typex:TRANSCEIVER</type>
+			</state>
+			<transceiver xmlns="http://openconfig.net/yang/platform/transceiver">
+				<config>
+					<enabled>true</enabled>
+					<form-factor-preconf xmlns:typex="http://openconfig.net/yang/transport-types">typex:QSFP56_DD_TYPE1</form-factor-preconf>
+					<ethernet-pmd-preconf xmlns:typex="http://openconfig.net/yang/transport-types">typex:ETH_400GBASE_ZR</ethernet-pmd-preconf>
+					<fec-mode xmlns:typex="http://openconfig.net/yang/platform-types">typex:FEC_AUTO</fec-mode>
+					<module-functional-type xmlns:typex="http://openconfig.net/yang/transport-types">typex:TYPE_DIGITAL_COHERENT_OPTIC</module-functional-type>
+				</config>
+				<state>
+					<enabled>true</enabled>
+					<form-factor-preconf xmlns:typex="http://openconfig.net/yang/transport-types">typex:QSFP56_DD_TYPE1</form-factor-preconf>
+					<ethernet-pmd-preconf xmlns:typex="http://openconfig.net/yang/transport-types">typex:ETH_400GBASE_ZR</ethernet-pmd-preconf>
+					<fec-mode xmlns:typex="http://openconfig.net/yang/platform-types">typex:FEC_AUTO</fec-mode>
+					<module-functional-type xmlns:typex="http://openconfig.net/yang/transport-types">typex:TYPE_DIGITAL_COHERENT_OPTIC</module-functional-type>
+					<vendor>Cisco</vendor>
+					<vendor-part>400zr-QSFP-DD</vendor-part>
+					<vendor-rev>01</vendor-rev>
+					<serial-no>1567321</serial-no>
+				</state>
+				<physical-channels>
+					<channel>
+						<index>1</index>
+						<config>
+							<index>1</index>
+							<associated-optical-channel>channel-2</associated-optical-channel>
+						</config>
+					</channel>
+				</physical-channels>
+			</transceiver>
+		</component>
+		<component>
+			<name>transceiver-3</name>
+			<config>
+				<name>transceiver-3</name>
+			</config>
+			<state>
+				<name>transceiver-3</name>
+				<type xmlns:typex="http://openconfig.net/yang/platform-types">typex:TRANSCEIVER</type>
+			</state>
+			<transceiver xmlns="http://openconfig.net/yang/platform/transceiver">
+				<config>
+					<enabled>true</enabled>
+					<form-factor-preconf xmlns:typex="http://openconfig.net/yang/transport-types">typex:QSFP56_DD_TYPE1</form-factor-preconf>
+					<ethernet-pmd-preconf xmlns:typex="http://openconfig.net/yang/transport-types">typex:ETH_400GBASE_ZR</ethernet-pmd-preconf>
+					<fec-mode xmlns:typex="http://openconfig.net/yang/platform-types">typex:FEC_AUTO</fec-mode>
+					<module-functional-type xmlns:typex="http://openconfig.net/yang/transport-types">typex:TYPE_DIGITAL_COHERENT_OPTIC</module-functional-type>
+				</config>
+				<state>
+					<enabled>true</enabled>
+					<form-factor-preconf xmlns:typex="http://openconfig.net/yang/transport-types">typex:QSFP56_DD_TYPE1</form-factor-preconf>
+					<ethernet-pmd-preconf xmlns:typex="http://openconfig.net/yang/transport-types">typex:ETH_400GBASE_ZR</ethernet-pmd-preconf>
+					<fec-mode xmlns:typex="http://openconfig.net/yang/platform-types">typex:FEC_AUTO</fec-mode>
+					<module-functional-type xmlns:typex="http://openconfig.net/yang/transport-types">typex:TYPE_DIGITAL_COHERENT_OPTIC</module-functional-type>
+					<vendor>Cisco</vendor>
+					<vendor-part>400zr-QSFP-DD</vendor-part>
+					<vendor-rev>01</vendor-rev>
+					<serial-no>1567321</serial-no>
+				</state>
+				<physical-channels>
+					<channel>
+						<index>1</index>
+						<config>
+							<index>1</index>
+							<associated-optical-channel>channel-3</associated-optical-channel>
+						</config>
+					</channel>
+				</physical-channels>
+			</transceiver>
+		</component>
+
+		<component>
+			<name>transceiver-4</name>
+			<config>
+				<name>transceiver-4</name>
+			</config>
+			<state>
+				<name>transceiver-4</name>
+				<type xmlns:typex="http://openconfig.net/yang/platform-types">typex:TRANSCEIVER</type>
+			</state>
+			<transceiver xmlns="http://openconfig.net/yang/platform/transceiver">
+				<config>
+					<enabled>true</enabled>
+					<form-factor-preconf xmlns:typex="http://openconfig.net/yang/transport-types">typex:QSFP56_DD_TYPE1</form-factor-preconf>
+					<ethernet-pmd-preconf xmlns:typex="http://openconfig.net/yang/transport-types">typex:ETH_400GBASE_ZR</ethernet-pmd-preconf>
+					<fec-mode xmlns:typex="http://openconfig.net/yang/platform-types">typex:FEC_AUTO</fec-mode>
+					<module-functional-type xmlns:typex="http://openconfig.net/yang/transport-types">typex:TYPE_DIGITAL_COHERENT_OPTIC</module-functional-type>
+				</config>
+				<state>
+					<enabled>true</enabled>
+					<form-factor-preconf xmlns:typex="http://openconfig.net/yang/transport-types">typex:QSFP56_DD_TYPE1</form-factor-preconf>
+					<ethernet-pmd-preconf xmlns:typex="http://openconfig.net/yang/transport-types">typex:ETH_400GBASE_ZR</ethernet-pmd-preconf>
+					<fec-mode xmlns:typex="http://openconfig.net/yang/platform-types">typex:FEC_AUTO</fec-mode>
+					<module-functional-type xmlns:typex="http://openconfig.net/yang/transport-types">typex:TYPE_DIGITAL_COHERENT_OPTIC</module-functional-type>
+					<vendor>Cisco</vendor>
+					<vendor-part>400zr-QSFP-DD</vendor-part>
+					<vendor-rev>01</vendor-rev>
+					<serial-no>1567321</serial-no>
+				</state>
+				<physical-channels>
+					<channel>
+						<index>1</index>
+						<config>
+							<index>1</index>
+							<associated-optical-channel>channel-4</associated-optical-channel>
+						</config>
+					</channel>
+				</physical-channels>
+			</transceiver>
+		</component>
+		<component>
+            <name>port-1</name>
+            <config>
+                <name>port-1</name>
+            </config>
+            <state>
+                <name>port-1</name>
+                <type xmlns:typex="http://openconfig.net/yang/platform-types">typex:PORT</type>
+            </state>
+            <subcomponents>
+				<subcomponent>
+					<name>channel-1</name>
+					<config>
+							<name>channel-1</name>
+					</config>
+					<state>
+							<name>channel-1</name>
+					</state>
+				</subcomponent>
+            </subcomponents>
+            <properties>
+				<property>
+						<name>onos-index</name>
+						<config>
+								<name>onos-index</name>
+								<value>1</value>
+						</config>
+						<state>
+								<name>onos-index</name>
+								<value>1</value>
+						</state>
+				</property>
+				<property>
+						<name>odtn-port-type</name>
+						<config>
+								<name>odtn-port-type</name>
+								<value>line</value>
+						</config>
+						<state>
+								<name>odtn-port-type</name>
+								<value>line</value>
+						</state>
+				</property>
+            </properties>
+        </component>   
+				<component>
+            <name>port-2</name>
+            <config>
+                <name>port-2</name>
+            </config>
+            <state>
+                <name>port-2</name>
+                <type xmlns:typex="http://openconfig.net/yang/platform-types">typex:PORT</type>
+            </state>
+            <subcomponents>
+				<subcomponent>
+					<name>channel-2</name>
+					<config>
+							<name>channel-2</name>
+					</config>
+					<state>
+							<name>channel-2</name>
+					</state>
+				</subcomponent>
+            </subcomponents>
+            <properties>
+				<property>
+						<name>onos-index</name>
+						<config>
+								<name>onos-index</name>
+								<value>2</value>
+						</config>
+						<state>
+								<name>onos-index</name>
+								<value>2</value>
+						</state>
+				</property>
+				<property>
+						<name>odtn-port-type</name>
+						<config>
+								<name>odtn-port-type</name>
+								<value>line</value>
+						</config>
+						<state>
+								<name>odtn-port-type</name>
+								<value>line</value>
+						</state>
+				</property>
+            </properties>
+        </component>
+				<component>
+            <name>port-3</name>
+            <config>
+                <name>port-3</name>
+            </config>
+            <state>
+                <name>port-3</name>
+                <type xmlns:typex="http://openconfig.net/yang/platform-types">typex:PORT</type>
+            </state>
+            <subcomponents>
+				<subcomponent>
+					<name>channel-3</name>
+					<config>
+							<name>channel-3</name>
+					</config>
+					<state>
+							<name>channel-3</name>
+					</state>
+				</subcomponent>
+            </subcomponents>
+            <properties>
+				<property>
+						<name>onos-index</name>
+						<config>
+								<name>onos-index</name>
+								<value>3</value>
+						</config>
+						<state>
+								<name>onos-index</name>
+								<value>3</value>
+						</state>
+				</property>
+				<property>
+						<name>odtn-port-type</name>
+						<config>
+								<name>odtn-port-type</name>
+								<value>line</value>
+						</config>
+						<state>
+								<name>odtn-port-type</name>
+								<value>line</value>
+						</state>
+				</property>
+            </properties>
+        </component>   
+		<component>
+            <name>port-4</name>
+            <config>
+                <name>port-4</name>
+            </config>
+            <state>
+                <name>port-4</name>
+                <type xmlns:typex="http://openconfig.net/yang/platform-types">typex:PORT</type>
+            </state>
+            <subcomponents>
+				<subcomponent>
+					<name>channel-4</name>
+					<config>
+							<name>channel-4</name>
+					</config>
+					<state>
+							<name>channel-4</name>
+					</state>
+				</subcomponent>
+            </subcomponents>
+            <properties>
+				<property>
+						<name>onos-index</name>
+						<config>
+								<name>onos-index</name>
+								<value>4</value>
+						</config>
+						<state>
+								<name>onos-index</name>
+								<value>4</value>
+						</state>
+				</property>
+				<property>
+						<name>odtn-port-type</name>
+						<config>
+								<name>odtn-port-type</name>
+								<value>line</value>
+						</config>
+						<state>
+								<name>odtn-port-type</name>
+								<value>line</value>
+						</state>
+				</property>
+            </properties>
+        </component>      
+	</components>
+	<terminal-device xmlns="http://openconfig.net/yang/terminal-device">
+        <logical-channels>
+            <!--Description: Optical logical link-->
+            <channel>
+			<!--Description: Line (OTN) Port-->
+			<index>1</index>
+			<config>
+				<index>1</index>
+				<description>Logical channel 1</description>
+				<admin-state>DISABLED</admin-state>
+				<logical-channel-type xmlns:type="http://openconfig.net/yang/transport-types">type:PROT_OTN</logical-channel-type>
+				<loopback-mode>NONE</loopback-mode>
+			</config>
+			<state>
+				<index>1</index>
+				<description>Logical channel 1</description>
+				<admin-state>DISABLED</admin-state>
+				<logical-channel-type xmlns:type="http://openconfig.net/yang/transport-types">type:PROT_OTN</logical-channel-type>
+				<loopback-mode>NONE</loopback-mode>
+				<link-state>UP</link-state>
+			</state>
+		   	<ingress>
+				<config>
+					<transceiver>transceiver-1</transceiver>
+				</config>
+				<state>
+					<transceiver>transceiver-1</transceiver>
+				</state>
+			</ingress>
+			<otn>
+				<config>
+					<tti-msg-expected>test1</tti-msg-expected>
+					<tti-msg-transmit>test1</tti-msg-transmit>
+				</config>
+				<state>
+					<tti-msg-expected>test1</tti-msg-expected>
+					<tti-msg-transmit>test1</tti-msg-transmit>
+					<tti-msg-auto>0</tti-msg-auto>
+					<tti-msg-recv>0</tti-msg-recv>
+					<rdi-msg>0</rdi-msg>
+					<errored-seconds>0</errored-seconds>
+					<severely-errored-seconds>0</severely-errored-seconds>
+					<unavailable-seconds>0</unavailable-seconds>
+					<code-violations>0</code-violations>
+					<fec-uncorrectable-words>0</fec-uncorrectable-words>
+					<fec-corrected-bytes>0</fec-corrected-bytes>
+					<fec-corrected-bits>0</fec-corrected-bits>
+					<background-block-errors>0</background-block-errors>
+					<pre-fec-ber>
+						<instant>0.0</instant>
+						<avg>0.0</avg>
+						<min>0.0</min>
+						<max>0.0</max>
+					</pre-fec-ber>
+					<post-fec-ber>
+						<instant>0.0</instant>
+						<avg>0.0</avg>
+						<min>0.0</min>
+						<max>0.0</max>
+					</post-fec-ber>
+					<q-value>
+						<instant>0.0</instant>
+						<avg>0.0</avg>
+						<min>0.0</min>
+						<max>0.0</max>
+						<interval>0</interval>
+					</q-value>
+					<esnr>
+						<instant>0.0</instant>
+						<avg>0.0</avg>
+						<min>0.0</min>
+						<max>0.0</max>
+						<interval>0</interval>
+					</esnr>
+				</state>
+			</otn>
+			<logical-channel-assignments>
+				<assignment>
+					<index>1</index>
+					<config>
+							<index>1</index>
+							<description>Optical channel assigned 100</description>
+							<allocation>100</allocation>
+							<assignment-type>OPTICAL_CHANNEL</assignment-type>
+							<optical-channel>channel-1</optical-channel>
+					</config>
+					<state>
+							<index>1</index>
+							<description>Optical channel assigned 100</description>
+							<allocation>100</allocation>
+							<assignment-type>OPTICAL_CHANNEL</assignment-type>
+							<optical-channel>channel-1</optical-channel>
+					</state>
+				</assignment>
+			</logical-channel-assignments>
+                  </channel>
+		           <!--Description: Optical logical link-->
+            <channel>
+			<!--Description: Line (OTN) Port-->
+			<index>2</index>
+			<config>
+				<index>2</index>
+				<description>Logical channel 2</description>
+				<admin-state>DISABLED</admin-state>
+				<logical-channel-type xmlns:type="http://openconfig.net/yang/transport-types">type:PROT_OTN</logical-channel-type>
+				<loopback-mode>NONE</loopback-mode>
+			</config>
+			<state>
+				<index>2</index>
+				<description>Logical channel 2</description>
+				<admin-state>DISABLED</admin-state>
+				<logical-channel-type xmlns:type="http://openconfig.net/yang/transport-types">type:PROT_OTN</logical-channel-type>
+				<loopback-mode>NONE</loopback-mode>
+				<link-state>UP</link-state>
+			</state>
+		   	<ingress>
+				<config>
+					<transceiver>transceiver-2</transceiver>
+				</config>
+				<state>
+					<transceiver>transceiver-2</transceiver>
+				</state>
+			</ingress>
+			<otn>
+				<config>
+					<tti-msg-expected>test1</tti-msg-expected>
+					<tti-msg-transmit>test1</tti-msg-transmit>
+				</config>
+				<state>
+					<tti-msg-expected>test1</tti-msg-expected>
+					<tti-msg-transmit>test1</tti-msg-transmit>
+					<tti-msg-auto>0</tti-msg-auto>
+					<tti-msg-recv>0</tti-msg-recv>
+					<rdi-msg>0</rdi-msg>
+					<errored-seconds>0</errored-seconds>
+					<severely-errored-seconds>0</severely-errored-seconds>
+					<unavailable-seconds>0</unavailable-seconds>
+					<code-violations>0</code-violations>
+					<fec-uncorrectable-words>0</fec-uncorrectable-words>
+					<fec-corrected-bytes>0</fec-corrected-bytes>
+					<fec-corrected-bits>0</fec-corrected-bits>
+					<background-block-errors>0</background-block-errors>
+					<pre-fec-ber>
+						<instant>0.0</instant>
+						<avg>0.0</avg>
+						<min>0.0</min>
+						<max>0.0</max>
+					</pre-fec-ber>
+					<post-fec-ber>
+						<instant>0.0</instant>
+						<avg>0.0</avg>
+						<min>0.0</min>
+						<max>0.0</max>
+					</post-fec-ber>
+					<q-value>
+						<instant>0.0</instant>
+						<avg>0.0</avg>
+						<min>0.0</min>
+						<max>0.0</max>
+						<interval>0</interval>
+					</q-value>
+					<esnr>
+						<instant>0.0</instant>
+						<avg>0.0</avg>
+						<min>0.0</min>
+						<max>0.0</max>
+						<interval>0</interval>
+					</esnr>
+				</state>
+			</otn>
+			<logical-channel-assignments>
+				<assignment>
+					<index>1</index>
+					<config>
+							<index>1</index>
+							<description>Optical channel assigned 100</description>
+							<allocation>100</allocation>
+							<assignment-type>OPTICAL_CHANNEL</assignment-type>
+							<optical-channel>channel-2</optical-channel>
+					</config>
+					<state>
+							<index>1</index>
+							<description>Optical channel assigned 100</description>
+							<allocation>100</allocation>
+							<assignment-type>OPTICAL_CHANNEL</assignment-type>
+							<optical-channel>channel-2</optical-channel>
+					</state>
+				</assignment>
+			</logical-channel-assignments>
+                  </channel>
+            <!--Description: Optical logical link-->
+            <channel>
+			<!--Description: Line (OTN) Port-->
+			<index>3</index>
+			<config>
+				<index>3</index>
+				<description>Logical channel 3</description>
+				<admin-state>DISABLED</admin-state>
+				<logical-channel-type xmlns:type="http://openconfig.net/yang/transport-types">type:PROT_OTN</logical-channel-type>
+				<loopback-mode>NONE</loopback-mode>
+			</config>
+			<state>
+				<index>3</index>
+				<description>Logical channel 3</description>
+				<admin-state>DISABLED</admin-state>
+				<logical-channel-type xmlns:type="http://openconfig.net/yang/transport-types">type:PROT_OTN</logical-channel-type>
+				<loopback-mode>NONE</loopback-mode>
+				<link-state>UP</link-state>
+			</state>
+		   	<ingress>
+				<config>
+					<transceiver>transceiver-3</transceiver>
+				</config>
+				<state>
+					<transceiver>transceiver-3</transceiver>
+				</state>
+			</ingress>
+			<otn>
+				<config>
+					<tti-msg-expected>test1</tti-msg-expected>
+					<tti-msg-transmit>test1</tti-msg-transmit>
+				</config>
+				<state>
+					<tti-msg-expected>test1</tti-msg-expected>
+					<tti-msg-transmit>test1</tti-msg-transmit>
+					<tti-msg-auto>0</tti-msg-auto>
+					<tti-msg-recv>0</tti-msg-recv>
+					<rdi-msg>0</rdi-msg>
+					<errored-seconds>0</errored-seconds>
+					<severely-errored-seconds>0</severely-errored-seconds>
+					<unavailable-seconds>0</unavailable-seconds>
+					<code-violations>0</code-violations>
+					<fec-uncorrectable-words>0</fec-uncorrectable-words>
+					<fec-corrected-bytes>0</fec-corrected-bytes>
+					<fec-corrected-bits>0</fec-corrected-bits>
+					<background-block-errors>0</background-block-errors>
+					<pre-fec-ber>
+						<instant>0.0</instant>
+						<avg>0.0</avg>
+						<min>0.0</min>
+						<max>0.0</max>
+					</pre-fec-ber>
+					<post-fec-ber>
+						<instant>0.0</instant>
+						<avg>0.0</avg>
+						<min>0.0</min>
+						<max>0.0</max>
+					</post-fec-ber>
+					<q-value>
+						<instant>0.0</instant>
+						<avg>0.0</avg>
+						<min>0.0</min>
+						<max>0.0</max>
+						<interval>0</interval>
+					</q-value>
+					<esnr>
+						<instant>0.0</instant>
+						<avg>0.0</avg>
+						<min>0.0</min>
+						<max>0.0</max>
+						<interval>0</interval>
+					</esnr>
+				</state>
+			</otn>
+			<logical-channel-assignments>
+				<assignment>
+					<index>1</index>
+					<config>
+							<index>1</index>
+							<description>Optical channel assigned 100</description>
+							<allocation>100</allocation>
+							<assignment-type>OPTICAL_CHANNEL</assignment-type>
+							<optical-channel>channel-3</optical-channel>
+					</config>
+					<state>
+							<index>1</index>
+							<description>Optical channel assigned 100</description>
+							<allocation>100</allocation>
+							<assignment-type>OPTICAL_CHANNEL</assignment-type>
+							<optical-channel>channel-3</optical-channel>
+					</state>
+				</assignment>
+			</logical-channel-assignments>
+                  </channel>
+            <!--Description: Optical logical link-->
+            <channel>
+			<!--Description: Line (OTN) Port-->
+			<index>4</index>
+			<config>
+				<index>4</index>
+				<description>Logical channel 4</description>
+				<admin-state>DISABLED</admin-state>
+				<logical-channel-type xmlns:type="http://openconfig.net/yang/transport-types">type:PROT_OTN</logical-channel-type>
+				<loopback-mode>NONE</loopback-mode>
+			</config>
+			<state>
+				<index>4</index>
+				<description>Logical channel 4</description>
+				<admin-state>DISABLED</admin-state>
+				<logical-channel-type xmlns:type="http://openconfig.net/yang/transport-types">type:PROT_OTN</logical-channel-type>
+				<loopback-mode>NONE</loopback-mode>
+				<link-state>UP</link-state>
+			</state>
+		   	<ingress>
+				<config>
+					<transceiver>transceiver-4</transceiver>
+				</config>
+				<state>
+					<transceiver>transceiver-4</transceiver>
+				</state>
+			</ingress>
+			<otn>
+				<config>
+					<tti-msg-expected>test1</tti-msg-expected>
+					<tti-msg-transmit>test1</tti-msg-transmit>
+				</config>
+				<state>
+					<tti-msg-expected>test1</tti-msg-expected>
+					<tti-msg-transmit>test1</tti-msg-transmit>
+					<tti-msg-auto>0</tti-msg-auto>
+					<tti-msg-recv>0</tti-msg-recv>
+					<rdi-msg>0</rdi-msg>
+					<errored-seconds>0</errored-seconds>
+					<severely-errored-seconds>0</severely-errored-seconds>
+					<unavailable-seconds>0</unavailable-seconds>
+					<code-violations>0</code-violations>
+					<fec-uncorrectable-words>0</fec-uncorrectable-words>
+					<fec-corrected-bytes>0</fec-corrected-bytes>
+					<fec-corrected-bits>0</fec-corrected-bits>
+					<background-block-errors>0</background-block-errors>
+					<pre-fec-ber>
+						<instant>0.0</instant>
+						<avg>0.0</avg>
+						<min>0.0</min>
+						<max>0.0</max>
+					</pre-fec-ber>
+					<post-fec-ber>
+						<instant>0.0</instant>
+						<avg>0.0</avg>
+						<min>0.0</min>
+						<max>0.0</max>
+					</post-fec-ber>
+					<q-value>
+						<instant>0.0</instant>
+						<avg>0.0</avg>
+						<min>0.0</min>
+						<max>0.0</max>
+						<interval>0</interval>
+					</q-value>
+					<esnr>
+						<instant>0.0</instant>
+						<avg>0.0</avg>
+						<min>0.0</min>
+						<max>0.0</max>
+						<interval>0</interval>
+					</esnr>
+				</state>
+			</otn>
+			<logical-channel-assignments>
+				<assignment>
+					<index>1</index>
+					<config>
+							<index>1</index>
+							<description>Optical channel assigned 100</description>
+							<allocation>100</allocation>
+							<assignment-type>OPTICAL_CHANNEL</assignment-type>
+							<optical-channel>channel-4</optical-channel>
+					</config>
+					<state>
+							<index>1</index>
+							<description>Optical channel assigned 100</description>
+							<allocation>100</allocation>
+							<assignment-type>OPTICAL_CHANNEL</assignment-type>
+							<optical-channel>channel-4</optical-channel>
+					</state>
+				</assignment>
+			</logical-channel-assignments>
+        </channel>
+	</logical-channels>
+	<operational-modes>
+       <mode>
+		<mode-id>1</mode-id>
+			<state>
+				<mode-id>1</mode-id>
+				<description>FEC1</description>
+				<vendor-id>Ericsson</vendor-id>
+			</state>
+		</mode>
+		<mode>
+		    <mode-id>2</mode-id>
+			<state>
+				<mode-id>2</mode-id>
+				<description>FEC2</description>
+				<vendor-id>Ericsson</vendor-id>
+			</state>
+		</mode>		
+    	   </operational-modes>
+	</terminal-device>
+</config>
+

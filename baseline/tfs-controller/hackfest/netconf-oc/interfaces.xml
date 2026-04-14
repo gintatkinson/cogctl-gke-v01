@@ -1,0 +1,236 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--
+ Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<data xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
+  <interfaces xmlns="http://openconfig.net/yang/interfaces">
+    <interface>
+      <!-- # keys: name-->
+      <!-- # entries: 0.. -->
+      <name>
+        <!-- type: leafref -->
+      </name>
+      <config>
+        <name>
+          <!-- type: string -->
+        </name>
+        <type>
+          <!-- type: identityref -->
+        </type>
+        <mtu>
+          <!-- type: uint16 -->
+        </mtu>
+        <description>
+          <!-- type: string -->
+        </description>
+      </config>
+      <state>
+        <name>
+          <!-- type: string -->
+        </name>
+        <type>
+          <!-- type: identityref -->
+        </type>
+        <mtu>
+          <!-- type: uint16 -->
+        </mtu>
+        <description>
+          <!-- type: string -->
+        </description>
+        <ifindex>
+          <!-- type: uint32 -->
+        </ifindex>
+        <admin-status>
+          <!-- type: enumeration -->
+        </admin-status>
+        <oper-status>
+          <!-- type: enumeration -->
+        </oper-status>
+        <last-change>
+          <!-- type: oc-types:timeticks64 -->
+        </last-change>
+        <logical>
+          <!-- type: boolean -->
+        </logical>
+        <management>
+          <!-- type: boolean -->
+        </management>
+        <cpu>
+          <!-- type: boolean -->
+        </cpu>
+        <counters>
+          <in-octets>
+            <!-- type: oc-yang:counter64 -->
+          </in-octets>
+          <in-pkts>
+            <!-- type: oc-yang:counter64 -->
+          </in-pkts>
+          <in-unicast-pkts>
+            <!-- type: oc-yang:counter64 -->
+          </in-unicast-pkts>
+          <in-broadcast-pkts>
+            <!-- type: oc-yang:counter64 -->
+          </in-broadcast-pkts>
+          <in-multicast-pkts>
+            <!-- type: oc-yang:counter64 -->
+          </in-multicast-pkts>
+          <in-discards>
+            <!-- type: oc-yang:counter64 -->
+          </in-discards>
+          <in-errors>
+            <!-- type: oc-yang:counter64 -->
+          </in-errors>
+          <in-unknown-protos>
+            <!-- type: oc-yang:counter64 -->
+          </in-unknown-protos>
+          <in-fcs-errors>
+            <!-- type: oc-yang:counter64 -->
+          </in-fcs-errors>
+          <out-octets>
+            <!-- type: oc-yang:counter64 -->
+          </out-octets>
+          <out-pkts>
+            <!-- type: oc-yang:counter64 -->
+          </out-pkts>
+          <out-unicast-pkts>
+            <!-- type: oc-yang:counter64 -->
+          </out-unicast-pkts>
+          <out-broadcast-pkts>
+            <!-- type: oc-yang:counter64 -->
+          </out-broadcast-pkts>
+          <out-multicast-pkts>
+            <!-- type: oc-yang:counter64 -->
+          </out-multicast-pkts>
+          <out-discards>
+            <!-- type: oc-yang:counter64 -->
+          </out-discards>
+          <out-errors>
+            <!-- type: oc-yang:counter64 -->
+          </out-errors>
+          <carrier-transitions>
+            <!-- type: oc-yang:counter64 -->
+          </carrier-transitions>
+          <last-clear>
+            <!-- type: oc-types:timeticks64 -->
+          </last-clear>
+        </counters>
+      </state>
+      <hold-time>
+        <config/>
+        <state/>
+      </hold-time>
+      <subinterfaces>
+        <subinterface>
+          <!-- # keys: index-->
+          <!-- # entries: 0.. -->
+          <index>
+            <!-- type: leafref -->
+          </index>
+          <config>
+            <description>
+              <!-- type: string -->
+            </description>
+          </config>
+          <state>
+            <description>
+              <!-- type: string -->
+            </description>
+            <name>
+              <!-- type: string -->
+            </name>
+            <ifindex>
+              <!-- type: uint32 -->
+            </ifindex>
+            <admin-status>
+              <!-- type: enumeration -->
+            </admin-status>
+            <oper-status>
+              <!-- type: enumeration -->
+            </oper-status>
+            <last-change>
+              <!-- type: oc-types:timeticks64 -->
+            </last-change>
+            <logical>
+              <!-- type: boolean -->
+            </logical>
+            <management>
+              <!-- type: boolean -->
+            </management>
+            <cpu>
+              <!-- type: boolean -->
+            </cpu>
+            <counters>
+              <in-octets>
+                <!-- type: oc-yang:counter64 -->
+              </in-octets>
+              <in-pkts>
+                <!-- type: oc-yang:counter64 -->
+              </in-pkts>
+              <in-unicast-pkts>
+                <!-- type: oc-yang:counter64 -->
+              </in-unicast-pkts>
+              <in-broadcast-pkts>
+                <!-- type: oc-yang:counter64 -->
+              </in-broadcast-pkts>
+              <in-multicast-pkts>
+                <!-- type: oc-yang:counter64 -->
+              </in-multicast-pkts>
+              <in-discards>
+                <!-- type: oc-yang:counter64 -->
+              </in-discards>
+              <in-errors>
+                <!-- type: oc-yang:counter64 -->
+              </in-errors>
+              <in-unknown-protos>
+                <!-- type: oc-yang:counter64 -->
+              </in-unknown-protos>
+              <in-fcs-errors>
+                <!-- type: oc-yang:counter64 -->
+              </in-fcs-errors>
+              <out-octets>
+                <!-- type: oc-yang:counter64 -->
+              </out-octets>
+              <out-pkts>
+                <!-- type: oc-yang:counter64 -->
+              </out-pkts>
+              <out-unicast-pkts>
+                <!-- type: oc-yang:counter64 -->
+              </out-unicast-pkts>
+              <out-broadcast-pkts>
+                <!-- type: oc-yang:counter64 -->
+              </out-broadcast-pkts>
+              <out-multicast-pkts>
+                <!-- type: oc-yang:counter64 -->
+              </out-multicast-pkts>
+              <out-discards>
+                <!-- type: oc-yang:counter64 -->
+              </out-discards>
+              <out-errors>
+                <!-- type: oc-yang:counter64 -->
+              </out-errors>
+              <carrier-transitions>
+                <!-- type: oc-yang:counter64 -->
+              </carrier-transitions>
+              <last-clear>
+                <!-- type: oc-types:timeticks64 -->
+              </last-clear>
+            </counters>
+          </state>
+        </subinterface>
+      </subinterfaces>
+    </interface>
+  </interfaces>
+</data>

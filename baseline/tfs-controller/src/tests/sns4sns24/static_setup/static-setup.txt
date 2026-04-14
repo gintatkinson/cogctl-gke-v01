@@ -1,0 +1,39 @@
+   | 10.10.10.229/24 (eth10)
++--+--+
+| R1  |
++--+--+
+   | .1 (eth2)
+   |
+   | 10.254.254.0/30
+   |
+   | .2 (eth1)
++--+--+
+| R2  |
++--+--+
+   | 10.158.72.11/24 (eth10)
+
+
+r1(config)#show running-config
+interface Ethernet2
+   no switchport
+   ip address 10.254.254.1/30
+
+interface Ethernet10
+   no switchport
+   ip address 10.10.10.229/24
+
+ip routing
+ip route 10.158.72.0/24 10.254.254.2
+
+
+r2(config)#show running-config
+interface Ethernet1
+   no switchport
+   ip address 10.254.254.2/30
+
+interface Ethernet10
+   no switchport
+   ip address 10.158.72.11/24
+
+ip routing
+ip route 10.10.10.0/24 10.254.254.1

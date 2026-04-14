@@ -1,0 +1,73 @@
+# Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: firewall-agent
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: firewall-agent
+  template:
+    metadata:
+      labels:
+        app: firewall-agent
+    spec:
+      hostNetwork: true               # like --network host
+      dnsPolicy: ClusterFirstWithHostNet
+      containers:
+        - name: firewall-agent
+          image: firewall-agent:dev
+          #image: localhost:32000/tfs/firewall-agent:dev
+          imagePullPolicy: Always
+          securityContext:
+            capabilities:
+              add: ["NET_ADMIN"]      # like --cap-add=NET_ADMIN
+            # privileged: true        # uncomment if your code needs full net admin / sysctl
+          ports:
+            - containerPort: 8888     # container listens on 8888 on the host now
+              hostPort: 8888          # optional, but makes it explicit
+          readinessProbe:
+            httpGet:
+              path: /restconf/data
+              port: 8888
+            initialDelaySeconds: 5
+            timeoutSeconds: 1
+          livenessProbe:
+            httpGet:
+              path: /restconf/data
+              port: 8888
+            initialDelaySeconds: 5
+            timeoutSeconds: 1
+## Service not needed as pod is directly exposed on host network
+#---
+#apiVersion: v1
+#kind: Service
+#metadata:
+#  name: firewall-agent
+#  labels:
+#    app: firewall-agent
+#spec:
+#  type: NodePort
+#  selector:
+#    app: firewall-agent
+#  ports:
+#    - name: mgmt
+#      protocol: TCP
+#      port: 8888
+#      targetPort: 8888
+#      nodePort: 30888

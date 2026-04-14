@@ -1,0 +1,28 @@
+{ "links": [
+    {"link_id": {"link_uuid": {"uuid": "T1->R1"}}, "link_endpoint_ids": [
+        {"device_id": {"device_uuid": {"uuid": "T1"}}, "endpoint_uuid": {"uuid": "1"}},
+        {"device_id": {"device_uuid": {"uuid": "R1"}}, "endpoint_uuid": {"uuid": "12"}}
+    ]},
+    {"link_id": {"link_uuid": {"uuid": "R1->T1"}}, "link_endpoint_ids": [
+        {"device_id": {"device_uuid": {"uuid": "R1"}}, "endpoint_uuid": {"uuid": "2"}},
+        {"device_id": {"device_uuid": {"uuid": "T1"}}, "endpoint_uuid": {"uuid": "1"}}
+    ]},
+	{"link_id": {"link_uuid": {"uuid": "R1->R2"}}, "link_endpoint_ids": [
+        {"device_id": {"device_uuid": {"uuid": "R1"}}, "endpoint_uuid": {"uuid": "3"}},
+        {"device_id": {"device_uuid": {"uuid": "R2"}}, "endpoint_uuid": {"uuid": "14"}}
+    ]},
+    {"link_id": {"link_uuid": {"uuid": "R2->R1"}}, "link_endpoint_ids": [
+        {"device_id": {"device_uuid": {"uuid": "R2"}}, "endpoint_uuid": {"uuid": "4"}},
+        {"device_id": {"device_uuid": {"uuid": "R1"}}, "endpoint_uuid": {"uuid": "13"}}
+    ]},
+	{"link_id": {"link_uuid": {"uuid": "T2->R2"}}, "link_endpoint_ids": [
+        {"device_id": {"device_uuid": {"uuid": "T2"}}, "endpoint_uuid": {"uuid": "6"}},
+        {"device_id": {"device_uuid": {"uuid": "R2"}}, "endpoint_uuid": {"uuid": "15"}}
+    ]},
+    {"link_id": {"link_uuid": {"uuid": "R2->T2"}}, "link_endpoint_ids": [
+        {"device_id": {"device_uuid": {"uuid": "R2"}}, "endpoint_uuid": {"uuid": "5"}},
+        {"device_id": {"device_uuid": {"uuid": "T2"}}, "endpoint_uuid": {"uuid": "6"}}
+    ]}	
+]
+
+}

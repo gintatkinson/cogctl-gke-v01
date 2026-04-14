@@ -1,0 +1,131 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    app.quarkus.io/commit-id: 59066ee916761c04f91078d8bc6060eaf07764d7
+    app.quarkus.io/build-timestamp: 2025-11-11 - 19:16:03 +0000
+    prometheus.io/scrape: "true"
+    prometheus.io/path: /q/metrics
+    prometheus.io/port: "8080"
+    prometheus.io/scheme: http
+  labels:
+    app.kubernetes.io/name: ztpservice
+    app.kubernetes.io/version: 0.2.0
+    app: ztpservice
+    app.kubernetes.io/managed-by: quarkus
+  name: ztpservice
+spec:
+  ports:
+    - name: grpc
+      port: 5050
+      protocol: TCP
+      targetPort: 5050
+    - name: http
+      port: 9192
+      protocol: TCP
+      targetPort: 8080
+    - name: https
+      port: 443
+      protocol: TCP
+      targetPort: 8443
+  selector:
+    app.kubernetes.io/name: ztpservice
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    app.quarkus.io/commit-id: 59066ee916761c04f91078d8bc6060eaf07764d7
+    app.quarkus.io/build-timestamp: 2025-11-11 - 19:16:03 +0000
+    prometheus.io/scrape: "true"
+    prometheus.io/path: /q/metrics
+    prometheus.io/port: "8080"
+    prometheus.io/scheme: http
+  labels:
+    app: ztpservice
+    app.kubernetes.io/managed-by: quarkus
+    app.kubernetes.io/version: 0.2.0
+    app.kubernetes.io/name: ztpservice
+  name: ztpservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: ztpservice
+  template:
+    metadata:
+      annotations:
+        app.quarkus.io/commit-id: 59066ee916761c04f91078d8bc6060eaf07764d7
+        app.quarkus.io/build-timestamp: 2025-11-11 - 19:16:03 +0000
+        prometheus.io/scrape: "true"
+        prometheus.io/path: /q/metrics
+        prometheus.io/port: "8080"
+        prometheus.io/scheme: http
+      labels:
+        app: ztpservice
+        app.kubernetes.io/managed-by: quarkus
+        app.kubernetes.io/version: 0.2.0
+        app.kubernetes.io/name: ztpservice
+    spec:
+      containers:
+        - env:
+            - name: KUBERNETES_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: DEVICE_SERVICE_HOST
+              value: deviceservice
+            - name: CONTEXT_SERVICE_HOST
+              value: contextservice
+          image: labs.etsi.org:5050/tfs/controller/ztp:0.2.0
+          imagePullPolicy: Always
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /q/health/live
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 10
+          name: ztpservice
+          ports:
+            - containerPort: 5050
+              name: grpc
+              protocol: TCP
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+            - containerPort: 8443
+              name: https
+              protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /q/health/ready
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 10
+          resources:
+            limits:
+              cpu: 500m
+              memory: 2048Mi
+            requests:
+              cpu: 50m
+              memory: 512Mi
+          startupProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /q/health/started
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 10

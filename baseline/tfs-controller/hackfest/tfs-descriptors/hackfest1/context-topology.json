@@ -1,0 +1,13 @@
+{
+    "contexts": [
+        {"context_id": {"context_uuid": {"uuid": "admin"}}}
+    ],
+    "topologies": [
+        {
+            "topology_id": {
+                "context_id": {"context_uuid": {"uuid": "admin"}},
+                "topology_uuid": {"uuid": "admin"}
+            }
+        }
+    ]
+}

@@ -1,0 +1,162 @@
+<!--
+ Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Add New Device</h1>
+<h3>Node name: {{form.device_name}}</h3>
+<br />
+<form id="add_device" method="POST">
+    {{ form.hidden_tag() }}
+    <fieldset>
+        <div class="row mb-3">
+            {{ form.device_id.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-10">
+                {% if form.device_id.errors %}
+                {{ form.device_id(class="form-control is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.device_id.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form.device_id(class="form-control") }}
+                {% endif %}
+            </div>
+        </div>
+        <br />
+        <div class="row mb-3">
+            {{ form.device_type.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-10">
+                {% if form.device_type.errors %}
+                {{ form.device_type(class="form-control is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.device_type.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form.device_type(class="form-select")}}
+                {% endif %}
+            </div>
+        </div>
+        <br />
+        <div class="row mb-3">
+            {{ form.operational_status.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-10">
+                {% if form.operational_status.errors %}
+                {{ form.operational_status(class="form-control is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.operational_status.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form.operational_status(class="form-select") }}
+                {% endif %}
+            </div>
+        </div>
+        <br />
+        <div class="row mb-3">
+            <div class="col-sm-2 col-form-label">Drivers</div>
+            <div class="col-sm-10">
+                {% if form.device_drivers_undefined.errors %}
+                {{ form.device_drivers_undefined(class="form-control is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.device_drivers_undefined.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form.device_drivers_undefined }} {{ form.device_drivers_undefined.label(class="col-sm-3
+                col-form-label") }}
+                {{ form.device_drivers_openconfig }} {{ form.device_drivers_openconfig.label(class="col-sm-3
+                col-form-label") }}
+                {{ form.device_drivers_transport_api }} {{ form.device_drivers_transport_api.label(class="col-sm-3
+                col-form-label") }}
+                <br />{{ form.device_drivers_p4 }} {{ form.device_drivers_p4.label(class="col-sm-3 col-form-label") }}
+                {{ form.device_drivers_ietf_network_topology }} {{
+                form.device_drivers_ietf_network_topology.label(class="col-sm-3
+                col-form-label") }}
+                {{ form.device_drivers_onf_tr_352 }} {{ form.device_drivers_onf_tr_352.label(class="col-sm-3
+                col-form-label") }}<br />
+                {{ form.device_drivers_xr }} {{ form.device_drivers_xr.label(class="col-sm-3
+                col-form-label") }}
+                {% endif %}
+            </div>
+        </div>
+        <br />
+        Configuration Rules <br />
+        <div class="row mb-3">
+            {{ form.device_config_address.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-10">
+                {% if form.device_config_address.errors %}
+                {{ form.device_config_address(class="form-control is-invalid", rows=5) }}
+                <div class="invalid-feedback">
+                    {% for error in form.device_config_address.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form.device_config_address(class="form-control", rows=5) }}
+                {% endif %}
+            </div>
+        </div>
+        <div class="row mb-3">
+            {{ form.device_config_port.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-10">
+                {% if form.device_config_port.errors %}
+                {{ form.device_config_port(class="form-control is-invalid", rows=5) }}
+                <div class="invalid-feedback">
+                    {% for error in form.device_config_port.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form.device_config_port(class="form-control", rows=5) }}
+                {% endif %}
+            </div>
+        </div>
+        <div class="row mb-3">
+            {{ form.device_config_settings.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-10">
+                {% if form.device_config_settings.errors %}
+                {{ form.device_config_settings(class="form-control is-invalid", rows=5) }}
+                <div class="invalid-feedback">
+                    {% for error in form.device_config_settings.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form.device_config_settings(class="form-control", rows=5) }}
+                {% endif %}
+            </div>
+        </div>
+        <br />
+        <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+            <button type="submit" class="btn btn-primary">
+                <i class="bi bi-plus-circle-fill"></i>
+                {{ submit_text }}
+            </button>
+            <button type="button" class="btn btn-block btn-secondary" onclick="javascript: history.back()">
+                <i class="bi bi-box-arrow-in-left"></i>
+                Cancel
+            </button>
+        </div>
+    </fieldset>
+</form>
+{% endblock %}

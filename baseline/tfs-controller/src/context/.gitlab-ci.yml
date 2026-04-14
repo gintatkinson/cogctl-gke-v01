@@ -1,0 +1,144 @@
+# Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Build, tag, and push the Docker image to the GitLab Docker registry
+build context:
+  variables:
+    IMAGE_NAME: 'context' # name of the microservice
+    IMAGE_TAG: 'latest' # tag of the container image (production, development, etc)
+  stage: build
+  before_script:
+    - docker image prune --force
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+  script:
+    - docker buildx build -t "$IMAGE_NAME:$IMAGE_TAG" -f ./src/$IMAGE_NAME/Dockerfile .
+    - docker tag "$IMAGE_NAME:$IMAGE_TAG" "$CI_REGISTRY_IMAGE/$IMAGE_NAME:$IMAGE_TAG"
+    - docker push "$CI_REGISTRY_IMAGE/$IMAGE_NAME:$IMAGE_TAG"
+  after_script:
+    - docker image prune --force
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop" || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH)'
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == "develop"'
+    - changes:
+      - src/common/**/*.py
+      - proto/*.proto
+      - src/$IMAGE_NAME/**/*.{py,in,yml}
+      - src/$IMAGE_NAME/Dockerfile
+      - src/$IMAGE_NAME/tests/*.py
+      - manifests/${IMAGE_NAME}service.yaml
+      - .gitlab-ci.yml
+
+# Apply unit test to the component
+unit_test context:
+  variables:
+    IMAGE_NAME: 'context' # name of the microservice
+    IMAGE_TAG: 'latest' # tag of the container image (production, development, etc)
+  stage: unit_test
+  needs:
+    - build context
+  before_script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+    - if docker network list | grep teraflowbridge; then echo "teraflowbridge is already created"; else docker network create -d bridge teraflowbridge; fi
+    - if docker container ls | grep crdb; then docker rm -f crdb; else echo "CockroachDB container is not in the system"; fi
+    - if docker volume ls | grep crdb; then docker volume rm -f crdb; else echo "CockroachDB volume is not in the system"; fi
+    - if docker container ls | grep nats; then docker rm -f nats; else echo "NATS container is not in the system"; fi
+    - if docker container ls | grep $IMAGE_NAME; then docker rm -f $IMAGE_NAME; else echo "$IMAGE_NAME container is not in the system"; fi
+    - docker container prune -f
+  script:
+    - docker pull "$CI_REGISTRY_IMAGE/$IMAGE_NAME:$IMAGE_TAG"
+    - docker pull "cockroachdb/cockroach:latest-v22.2"
+    - docker pull "nats:2.9"
+    - docker volume create crdb
+    - >
+      docker run --name crdb -d --network=teraflowbridge -p 26257:26257 -p 8080:8080
+      --env COCKROACH_DATABASE=tfs_test --env COCKROACH_USER=tfs --env COCKROACH_PASSWORD=tfs123
+      --volume "crdb:/cockroach/cockroach-data"
+      cockroachdb/cockroach:latest-v22.2 start-single-node
+    - >
+      docker run --name nats -d --network=teraflowbridge -p 4222:4222 -p 8222:8222
+      nats:2.9 --http_port 8222 --user tfs --pass tfs123
+    - echo "Waiting for initialization..."
+    - while ! docker logs crdb 2>&1 | grep -q 'finished creating default user \"tfs\"'; do sleep 1; done
+    - docker logs crdb
+    - while ! docker logs nats 2>&1 | grep -q 'Server is ready'; do sleep 1; done
+    - docker logs nats
+    - docker ps -a
+    - CRDB_ADDRESS=$(docker inspect crdb --format "{{.NetworkSettings.Networks.teraflowbridge.IPAddress}}")
+    - echo $CRDB_ADDRESS
+    - NATS_ADDRESS=$(docker inspect nats --format "{{.NetworkSettings.Networks.teraflowbridge.IPAddress}}")
+    - echo $NATS_ADDRESS
+    - >
+      docker run --name $IMAGE_NAME -d -p 1010:1010
+      --env "CRDB_URI=cockroachdb://tfs:tfs123@${CRDB_ADDRESS}:26257/tfs_test?sslmode=require"
+      --env "MB_BACKEND=nats"
+      --env "NATS_URI=nats://tfs:tfs123@${NATS_ADDRESS}:4222"
+      --volume "$PWD/src/$IMAGE_NAME/tests:/opt/results"
+      --network=teraflowbridge
+      $CI_REGISTRY_IMAGE/$IMAGE_NAME:$IMAGE_TAG
+    - docker ps -a
+    - sleep 5
+    - docker logs $IMAGE_NAME
+    - >
+      docker exec -i $IMAGE_NAME bash -c
+      "coverage run -m pytest --log-level=INFO --verbose --junitxml=/opt/results/${IMAGE_NAME}_report.xml $IMAGE_NAME/tests/test_*.py"
+    - docker exec -i $IMAGE_NAME bash -c "coverage report --include='${IMAGE_NAME}/*' --show-missing"
+  coverage: '/TOTAL\s+\d+\s+\d+\s+(\d+%)/'
+  after_script:
+    - docker rm -f $IMAGE_NAME crdb nats
+    - docker volume rm -f crdb
+    - docker network rm teraflowbridge
+    - docker volume prune --force
+    - docker image prune --force
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop" || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH)'
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == "develop"'
+    - changes:
+      - src/common/**/*.py
+      - proto/*.proto
+      - src/$IMAGE_NAME/**/*.{py,in,yml}
+      - src/$IMAGE_NAME/Dockerfile
+      - src/$IMAGE_NAME/tests/*.py
+      - src/$IMAGE_NAME/tests/Dockerfile
+      - manifests/${IMAGE_NAME}service.yaml
+      - .gitlab-ci.yml
+  artifacts:
+    when: always
+    reports:
+      junit: src/$IMAGE_NAME/tests/${IMAGE_NAME}_report.xml
+
+## Deployment of the service in Kubernetes Cluster
+#deploy context:
+#  variables:
+#    IMAGE_NAME: 'context' # name of the microservice
+#    IMAGE_TAG: 'latest' # tag of the container image (production, development, etc)
+#  stage: deploy
+#  needs:
+#    - unit test context
+#    # - integ_test execute
+#  script:
+#    - 'sed -i "s/$IMAGE_NAME:.*/$IMAGE_NAME:$IMAGE_TAG/" manifests/${IMAGE_NAME}service.yaml'
+#    - kubectl version
+#    - kubectl get all
+#    - kubectl apply -f "manifests/${IMAGE_NAME}service.yaml"
+#    - kubectl get all
+#  # environment:
+#  #   name: test
+#  #   url: https://example.com
+#  #   kubernetes:
+#  #     namespace: test
+#  rules:
+#    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop" || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH)'
+#      when: manual
+#    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == "develop"'
+#      when: manual

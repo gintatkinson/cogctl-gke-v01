@@ -1,0 +1,4 @@
+curl -0 -v -X POST \
+    -H "Expect:" -H "Content-Type: application/json" \
+    http://172.17.0.2:8081/pathComp/api/v1/compRoute \
+    -d @src/pathcomp/backend/test/inter_domain_test.txt

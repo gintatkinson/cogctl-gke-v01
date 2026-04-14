@@ -1,0 +1,19 @@
+{
+    "contexts": [
+        {
+            "context_id": {"context_uuid": {"uuid": "admin"}},
+            "topology_ids": [],
+            "service_ids": []
+        }
+    ],
+    "topologies": [
+        {
+            "topology_id": {
+                "context_id": {"context_uuid": {"uuid": "admin"}},
+                "topology_uuid": {"uuid": "admin"}
+            },
+            "device_ids": [],
+            "link_ids": []
+        }
+    ]
+}

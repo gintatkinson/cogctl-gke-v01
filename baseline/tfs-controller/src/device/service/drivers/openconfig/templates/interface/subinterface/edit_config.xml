@@ -1,0 +1,52 @@
+<interfaces xmlns="http://openconfig.net/yang/interfaces">
+    <interface{% if operation is defined %} xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" nc:operation="{{operation}}"{% endif %}>
+        <name>{{name}}</name>
+        {% if operation is defined and operation != 'delete' %}
+        <config>
+            <name>{{name}}</name>
+            <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:{{type}}</type>
+            {% if mtu is defined %}<mtu>{{mtu}}</mtu>{% endif%}
+            <enabled>true</enabled>
+        </config>
+        <subinterfaces>
+            <subinterface>
+                <index>{{index}}</index>
+                <config>
+                    <index>{{index}}</index>
+                    <description>{{description}}</description>
+                    {% if vendor=="ADVA" and vlan_id is not defined %}
+                    <untagged-allowed xmlns="http://www.advaoptical.com/cim/adva-dnos-oc-interfaces">true</untagged-allowed>
+                    {% endif%}
+                </config>
+                {% if vlan_id is defined %}
+                <vlan xmlns="http://openconfig.net/yang/vlan">
+                    <match>
+                        <single-tagged>
+                            <config>
+                                <vlan-id>{{vlan_id}}</vlan-id>
+                            </config>
+                        </single-tagged>
+                    </match>
+                </vlan>
+                {% endif %}
+                {% if address_ip is defined %}
+                <ipv4 xmlns="http://openconfig.net/yang/interfaces/ip">
+                    <config>
+                        {% if mtu is defined %}<mtu>{{mtu}}</mtu>{% endif%}
+                    </config>
+                    <addresses>
+                        <address>
+                            <ip>{{address_ip}}</ip>
+                            <config>
+                                <ip>{{address_ip}}</ip>
+                                <prefix-length>{{address_prefix}}</prefix-length>
+                            </config>
+                        </address>
+                    </addresses>
+                </ipv4>
+                {% endif %}
+            </subinterface>
+        </subinterfaces>
+        {% endif %}
+    </interface>
+</interfaces>

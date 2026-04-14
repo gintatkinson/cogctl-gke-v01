@@ -1,0 +1,149 @@
+{
+    "contexts": [
+        {"context_id": {"context_uuid": {"uuid": "admin"}}}
+    ],
+    "topologies": [
+        {"topology_id": {"context_id": {"context_uuid": {"uuid": "admin"}}, "topology_uuid": {"uuid": "admin"}}},
+        {"topology_id": {"context_id": {"context_uuid": {"uuid": "admin"}}, "topology_uuid": {"uuid": "trans-pkt"}}}
+    ],
+    "devices": [
+        {
+            "device_id": {"device_uuid": {"uuid": "P-PE1"}}, "device_type": "packet-router",
+            "device_drivers": ["DEVICEDRIVER_UNDEFINED"],
+            "device_config": {"config_rules": [
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/address",  "resource_value": "172.16.122.25"}},
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/port",     "resource_value": "0"}},
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/settings", "resource_value": {"endpoints": [
+                    {"uuid": "lo",  "name": "lo",  "type": "loopback"},
+                    {"uuid": "200", "name": "200", "type": "copper"},
+                    {"uuid": "500", "name": "500", "type": "copper"},
+                    {"uuid": "501", "name": "501", "type": "copper"}
+                ]}}},
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "/endpoints/endpoint[200]", "resource_value": {
+                    "uuid": "200", "name": "200", "type": "optical",
+                    "address_ip": "128.32.44.254", "address_prefix": "24", "vlan_tag": 21,
+                    "site_location": "access", "mtu": "1500"
+                }}},
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "/endpoints/endpoint[500]", "resource_value": {
+                    "uuid": "500", "name": "500", "type": "optical",
+                    "address_ip": "10.44.1.1", "address_prefix": "24",
+                    "site_location": "transport", "mtu": "1500"
+                }}},
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "/endpoints/endpoint[501]", "resource_value": {
+                    "uuid": "501", "name": "501", "type": "optical",
+                    "address_ip": "10.44.2.1", "address_prefix": "24",
+                    "site_location": "transport", "mtu": "1500"
+                }}}
+            ]}
+        },
+        {
+            "device_id": {"device_uuid": {"uuid": "P-P1"}}, "device_type": "packet-router",
+            "device_drivers": ["DEVICEDRIVER_UNDEFINED"],
+            "device_config": {"config_rules": [
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/address",  "resource_value": "172.16.125.31"}},
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/port",     "resource_value": "0"}},
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/settings", "resource_value": {"endpoints": [
+                    {"uuid": "lo",  "name": "lo",  "type": "loopback"},
+                    {"uuid": "500", "name": "500", "type": "copper"},
+                    {"uuid": "501", "name": "501", "type": "copper"}
+                ]}}},
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "/endpoints/endpoint[500]", "resource_value": {
+                    "uuid": "500", "name": "500", "type": "optical",
+                    "address_ip": "10.44.1.2", "address_prefix": "24",
+                    "site_location": "transport", "mtu": "1500"
+                }}},
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "/endpoints/endpoint[501]", "resource_value": {
+                    "uuid": "501", "name": "501", "type": "optical",
+                    "address_ip": "10.44.3.2", "address_prefix": "24",
+                    "site_location": "transport", "mtu": "1500"
+                }}}
+            ]}
+        },
+        {
+            "device_id": {"device_uuid": {"uuid": "P-P2"}}, "device_type": "packet-router",
+            "device_drivers": ["DEVICEDRIVER_UNDEFINED"],
+            "device_config": {"config_rules": [
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/address",  "resource_value": "172.16.125.33"}},
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/port",     "resource_value": "0"}},
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/settings", "resource_value": {"endpoints": [
+                    {"uuid": "lo",  "name": "lo",  "type": "loopback"},
+                    {"uuid": "500", "name": "500", "type": "copper"},
+                    {"uuid": "501", "name": "501", "type": "copper"}
+                ]}}},
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "/endpoints/endpoint[500]", "resource_value": {
+                    "uuid": "500", "name": "500", "type": "optical",
+                    "address_ip": "10.44.2.2", "address_prefix": "24",
+                    "site_location": "transport", "mtu": "1500"
+                }}},
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "/endpoints/endpoint[501]", "resource_value": {
+                    "uuid": "501", "name": "501", "type": "optical",
+                    "address_ip": "10.44.4.2", "address_prefix": "24",
+                    "site_location": "transport", "mtu": "1500"
+                }}}
+            ]}
+        },
+        {
+            "device_id": {"device_uuid": {"uuid": "P-PE2"}}, "device_type": "packet-router",
+            "device_drivers": ["DEVICEDRIVER_UNDEFINED"],
+            "device_config": {"config_rules": [
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/address",  "resource_value": "172.16.125.32"}},
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/port",     "resource_value": "0"}},
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/settings", "resource_value": {"endpoints": [
+                    {"uuid": "lo",  "name": "lo",  "type": "loopback"},
+                    {"uuid": "200", "name": "200", "type": "copper"},
+                    {"uuid": "500", "name": "500", "type": "copper"},
+                    {"uuid": "501", "name": "501", "type": "copper"}
+                ]}}},
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "/endpoints/endpoint[200]", "resource_value": {
+                    "uuid": "200", "name": "200", "type": "optical",
+                    "address_ip": "172.10.44.254", "address_prefix": "24", "vlan_tag": 201,
+                    "site_location": "cloud", "mtu": "1500"
+                }}},
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "/endpoints/endpoint[500]", "resource_value": {
+                    "uuid": "500", "name": "500", "type": "optical",
+                    "address_ip": "10.44.3.1", "address_prefix": "24",
+                    "site_location": "transport", "mtu": "1500"
+                }}},
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "/endpoints/endpoint[501]", "resource_value": {
+                    "uuid": "501", "name": "501", "type": "optical",
+                    "address_ip": "10.44.4.1", "address_prefix": "24",
+                    "site_location": "transport", "mtu": "1500"
+                }}}
+            ]}
+        }
+    ],
+    "links": [
+        {
+            "link_id": {"link_uuid": {"uuid": "L5"}}, "link_type" : "LINKTYPE_COPPER",
+            "attributes": {"is_bidirectional": true, "total_capacity_gbps": 10, "used_capacity_gbps": 0},
+            "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "P-PE1"}}, "endpoint_uuid": {"uuid": "500"}},
+                {"device_id": {"device_uuid": {"uuid": "P-P1" }}, "endpoint_uuid": {"uuid": "500"}}
+            ]
+        },
+        {
+            "link_id": {"link_uuid": {"uuid": "L6"}}, "link_type" : "LINKTYPE_COPPER",
+            "attributes": {"is_bidirectional": true, "total_capacity_gbps": 10, "used_capacity_gbps": 0},
+            "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "P-PE1"}}, "endpoint_uuid": {"uuid": "501"}},
+                {"device_id": {"device_uuid": {"uuid": "P-P2" }}, "endpoint_uuid": {"uuid": "500"}}
+            ]
+        },
+        {
+            "link_id": {"link_uuid": {"uuid": "L9"}}, "link_type" : "LINKTYPE_COPPER",
+            "attributes": {"is_bidirectional": true, "total_capacity_gbps": 10, "used_capacity_gbps": 0},
+            "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "P-P1" }}, "endpoint_uuid": {"uuid": "501"}},
+                {"device_id": {"device_uuid": {"uuid": "P-PE2"}}, "endpoint_uuid": {"uuid": "500"}}
+            ]
+        },
+        {
+            "link_id": {"link_uuid": {"uuid": "L10"}}, "link_type" : "LINKTYPE_COPPER",
+            "attributes": {"is_bidirectional": true, "total_capacity_gbps": 10, "used_capacity_gbps": 0},
+            "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "P-P2" }}, "endpoint_uuid": {"uuid": "501"}},
+                {"device_id": {"device_uuid": {"uuid": "P-PE2"}}, "endpoint_uuid": {"uuid": "501"}}
+            ]
+        }
+    ]
+}

@@ -1,0 +1,16 @@
+{
+    "fc-restconf": {
+        "web": {
+            "port": ":8080"
+        }
+    },
+    "etsi-qkd-sdn-node": {
+        "qkd_node": {
+            "qkdn_id": "00000000-0000-0000-0000-000000000000",
+            "qkdn_capabilities": {},
+            "qkd_applications": {},
+            "qkd_interfaces": {},
+            "qkd_links": {}
+        }
+    }
+}

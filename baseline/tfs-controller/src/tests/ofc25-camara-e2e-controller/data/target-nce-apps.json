@@ -1,0 +1,82 @@
+{
+  "App_Flow_2_1_slice1": {
+    "application": [
+      {
+        "app-features": {
+          "app-feature": [
+            {
+              "dest-ip": "172.1.101.22",
+              "dest-port": "10200",
+              "id": "feature_2_1_slice1",
+              "protocol": "tcp",
+              "src-ip": "172.16.104.221",
+              "src-port": "10500"
+            }
+          ]
+        },
+        "app-id": "app_2_1_slice1",
+        "name": "App_Flow_2_1_slice1"
+      }
+    ]
+  },
+  "App_Flow_3_1_slice1": {
+    "application": [
+      {
+        "app-features": {
+          "app-feature": [
+            {
+              "dest-ip": "172.1.101.22",
+              "dest-port": "10200",
+              "id": "feature_3_1_slice1",
+              "protocol": "tcp",
+              "src-ip": "172.16.104.222",
+              "src-port": "10500"
+            }
+          ]
+        },
+        "app-id": "app_3_1_slice1",
+        "name": "App_Flow_3_1_slice1"
+      }
+    ]
+  },
+  "App_Flow_2_1_slice2": {
+    "application": [
+      {
+        "app-features": {
+          "app-feature": [
+            {
+              "dest-ip": "172.1.201.22",
+              "dest-port": "10200",
+              "id": "feature_2_1_slice2",
+              "protocol": "tcp",
+              "src-ip": "172.16.104.221",
+              "src-port": "10500"
+            }
+          ]
+        },
+        "app-id": "app_2_1_slice2",
+        "name": "App_Flow_2_1_slice2"
+      }
+    ]
+  },
+  "App_Flow_3_1_slice2": {
+    "application": [
+      {
+        "app-features": {
+          "app-feature": [
+            {
+              "dest-ip": "172.1.201.22",
+              "dest-port": "10200",
+              "id": "feature_3_1_slice2",
+              "protocol": "tcp",
+              "src-ip": "172.16.104.222",
+              "src-port": "10500"
+            }
+          ]
+        },
+        "app-id": "app_3_1_slice2",
+        "name": "App_Flow_3_1_slice2"
+      }
+    ]
+  }
+}

@@ -1,0 +1,69 @@
+{
+    "services": [
+        {
+            "service_id": {
+                "context_id": {"context_uuid": {"uuid": "admin"}}, "service_uuid": {"uuid": "p4-service-l3"}
+            },
+            "name": "p4-service-l3",
+            "service_type": "SERVICETYPE_L3NM",
+            "service_status": {"service_status": "SERVICESTATUS_PLANNED"},
+            "service_endpoint_ids": [
+                {
+                    "device_id": {"device_uuid": {"uuid": "sw1"}},
+                    "endpoint_uuid": {"uuid": "1"}
+                },
+                {
+                    "device_id": {"device_uuid": {"uuid": "sw1"}},
+                    "endpoint_uuid": {"uuid": "2"}
+                }
+            ],
+            "service_config": {
+                "config_rules": [
+                    {
+                        "action": "CONFIGACTION_SET",
+                        "custom": {
+                            "resource_key": "/settings",
+                            "resource_value": {
+                                "switch_info": [
+                                    {
+                                        "sw1": {
+                                            "arch": "v1model",
+                                            "dpid": 1,
+                                            "port_list": [
+                                                {
+                                                    "port_id": 1,
+                                                    "port_type": "host"
+                                                },
+                                                {
+                                                    "port_id": 2,
+                                                    "port_type": "host"
+                                                }
+                                            ],
+                                            "routing_list": [
+                                                {
+                                                    "port_id": 1,
+                                                    "ipv4_dst": "10.0.0.1",
+                                                    "ipv4_prefix_len": 32,
+                                                    "mac_src": "00:00:00:00:00:02",
+                                                    "mac_dst": "00:00:00:00:00:01"
+                                                },
+                                                {
+                                                    "port_id": 2,
+                                                    "ipv4_dst": "10.0.0.2",
+                                                    "ipv4_prefix_len": 32,
+                                                    "mac_src": "00:00:00:00:00:01",
+                                                    "mac_dst": "00:00:00:00:00:02"
+                                                }
+                                            ]
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                ]
+            },
+            "service_constraints": []
+        }
+    ]
+}

@@ -1,0 +1,29 @@
+<!--
+ Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Debug API</h1>
+
+    <ul>
+        <li><a class="nav-link" href="/tfs-api/contexts" id="contexts_link" target="contexts">Contexts</a></li>
+        <li><a class="nav-link" href="/tfs-api/dummy_contexts" id="dummy_contexts_link" target="dummy_contexts">Dummy Contexts</a></li>
+        <li><a class="nav-link" href="/tfs-api/devices" id="devices_link" target="devices">Devices</a></li>
+        <li><a class="nav-link" href="/tfs-api/links" id="links_link" target="links">Links</a></li>
+    </ul>
+
+{% endblock %}

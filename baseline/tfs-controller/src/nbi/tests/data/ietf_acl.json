@@ -1,0 +1,56 @@
+{
+    "ietf-access-control-list": {
+        "acls": {
+            "acl": [
+                {
+                    "name": "sample-ipv4-acl",
+                    "type": "ipv4-acl-type",
+                    "aces": {
+                        "ace": [
+                            {
+                                "name": "rule1",
+                                "matches": {
+                                    "ipv4": {
+                                        "dscp": 18,
+                                        "source-ipv4-network": "128.32.10.6/24",
+                                        "destination-ipv4-network": "172.10.33.0/24"
+                                    },
+                                    "tcp": {
+                                        "flags": "syn",
+                                        "source-port": {
+                                            "port": 1444,
+                                            "operator": "eq"
+                                        },
+                                        "destination-port": {
+                                            "port": 1333,
+                                            "operator": "eq"
+                                        }
+                                    }
+                                },
+                                "actions": {
+                                    "forwarding": "drop"
+                                }
+                            }
+                        ]
+                    }
+                }
+            ],
+            "attachment-points": {
+                "interface": [
+                    {
+                        "interface-id": "200",
+                        "ingress": {
+                            "acl-sets": {
+                                "acl-set": [
+                                    {
+                                        "name": "sample-ipv4-acl"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                ]
+            }
+        }
+    }
+}

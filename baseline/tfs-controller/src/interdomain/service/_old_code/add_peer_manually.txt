@@ -1,0 +1,3 @@
+# TODO: improve with configuration the definition of the remote peers
+#interdomain_service_port_grpc = get_service_port_grpc(ServiceNameEnum.INTERDOMAIN)
+#remote_domain_clients.add_peer('remote-teraflow', 'remote-teraflow', interdomain_service_port_grpc)

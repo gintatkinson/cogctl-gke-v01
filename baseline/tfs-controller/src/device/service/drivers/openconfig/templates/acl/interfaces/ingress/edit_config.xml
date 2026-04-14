@@ -1,0 +1,30 @@
+<acl xmlns="http://openconfig.net/yang/acl">
+  <interfaces>
+    <interface {% if operation is defined %}{% if all is defined %} xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" nc:operation="{{operation}}"{% endif %} {% endif %}>
+      <id>{{id}}</id>
+      <config>
+        <id>{{id}}</id>
+      </config>
+      {% if interface is defined %}
+      <interface-ref>
+        <config>
+          <interface>{{interface}}</interface>
+          {% if subinterface is defined %}<subinterface>{{subinterface}}</subinterface>{% endif%}
+        </config>
+      </interface-ref>
+      {% endif%}
+      {% if set_name_ingress is defined %}
+      <ingress-acl-sets>
+        <ingress-acl-set {% if operation is defined %}{% if ingress is defined %} xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" nc:operation="{{operation}}"{% endif %} {% endif %}>
+          <set-name>{{set_name_ingress}}</set-name>
+          <type>{{type_ingress}}</type>
+          <config>
+            <set-name>{{set_name_ingress}}</set-name>
+            <type>{{type_ingress}}</type>
+          </config>
+        </ingress-acl-set>
+      </ingress-acl-sets>
+      {% endif%}
+    </interface>
+  </interfaces>
+</acl>

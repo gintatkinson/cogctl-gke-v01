@@ -1,0 +1,16 @@
+{
+    "devices": [
+        {
+            "device_id": {"device_uuid": {"uuid": "OLS"}},
+            "device_type": "open-line-system",
+            "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "10.0.2.10"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "8080"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {"timeout": 120}}}
+            ]},
+            "device_operational_status": 1,
+            "device_drivers": [2],
+            "device_endpoints": []
+        }
+    ]
+}

@@ -1,0 +1,23 @@
+# Ref: https://kubernetes.github.io/ingress-nginx/user-guide/multiple-ingress/
+# Ref: https://fabianlee.org/2021/07/29/kubernetes-microk8s-with-multiple-metallb-endpoints-and-nginx-ingress-controllers/
+
+# Check node limits
+kubectl describe nodes
+
+# Create secondary ingress controllers
+kubectl apply -f ofc23/nginx-ingress-controller-parent.yaml
+kubectl apply -f ofc23/nginx-ingress-controller-child.yaml
+
+# Delete secondary ingress controllers
+kubectl delete -f ofc23/nginx-ingress-controller-parent.yaml
+kubectl delete -f ofc23/nginx-ingress-controller-child.yaml
+
+source ofc23/deploy_specs_parent.sh
+./deploy/all.sh
+
+source ofc23/deploy_specs_child.sh
+./deploy/all.sh
+
+# Manually deploy ingresses for instances
+kubectl --namespace tfs-parent apply -f ofc23/tfs-ingress-parent.yaml
+kubectl --namespace tfs-child apply -f ofc23/tfs-ingress-child.yaml

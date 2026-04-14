@@ -1,0 +1,105 @@
+<!--
+ Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+{% extends 'base.html' %}
+
+{% block content %}
+    <script>
+        var js_hub_if = JSON.parse('{{hub_if | tojson | safe}}');
+        var js_leaf_if = JSON.parse('{{leaf_if | tojson | safe}}');
+        var js_ep_used_by = JSON.parse('{{ep_used_by | tojson | safe}}');
+
+        function clear_select_except_first(s) {
+            while (s.options.length > 1) {                
+                s.remove(1);
+            }        
+        }
+
+        function add_ep_to_select(sel, dev_name, ep_name) {
+            used_by = js_ep_used_by[ep_name + "@" + dev_name];
+            var o;
+            if (used_by === undefined) {
+                o = new Option(ep_name, ep_name)
+            } else {
+                o = new Option(ep_name + " (used by " + used_by + ")", ep_name)
+                o.disabled=true
+            }
+            sel.add(o);
+        }
+
+        function constellationSelected() {
+            const constellation_select = document.getElementById('constellation');
+            const hubif_select = document.getElementById('hubif');
+            const leafif_select = document.getElementById('leafif');
+
+            clear_select_except_first(hubif_select)
+            clear_select_except_first(leafif_select)
+            if (constellation_select.value) {
+                const hub_ifs=js_hub_if[constellation_select.value]
+                for (const hi of hub_ifs) {
+                    add_ep_to_select(hubif_select, constellation_select.value, hi);
+                }
+
+                const leaf_ifs=js_leaf_if[constellation_select.value]
+                for (const li of leaf_ifs) {
+                    add_ep_to_select(leafif_select, constellation_select.value, li);
+                }
+            }
+        }
+    </script>
+
+    <h1>Add XR Service</h1>
+        <form action="#" method="post">
+            <fieldset class="form-group row mb-3">
+                <label for="service_name" class="col-sm-3 col-form-label">Service name:</label>
+                <div class="col-sm-9">
+                    <input type="text" id="service_name" name="service_name" class="form-control">
+                </div>
+            </fieldset>
+
+            <fieldset class="form-group row mb-3">
+                <label for="constellation" class="col-sm-3 col-form-label">Constellation:</label>
+                <div class="col-sm-9">
+                    <select name="constellation" id="constellation" onchange="constellationSelected()" class="form-select">
+                        <option value="">(choose constellation)</option>
+                        {% for dev in devices %}
+                            <option value="{{dev.name}}">{{dev.name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </fieldset>
+
+            <fieldset class="form-group row mb-3">
+                <label for="hubif" class="col-sm-3 col-form-label">Hub Endpoint:</label>
+                <div class="col-sm-9">
+                    <select name="hubif" id="hubif" class="col-sm-8 form-select">
+                        <option value="">(choose hub endpoint)</option>
+                    </select>
+                </div>
+            </fieldset>
+
+            <fieldset class="form-group row mb-3">
+                <label for="leafif" class="col-sm-3 col-form-label">Leaf Endpoint:</label>
+                <div class="col-sm-9">
+                    <select name="leafif" id="leafif" class="col-sm-8 form-select">
+                        <option value="">(choose leaf endpoint)</option>
+                    </select>
+                </div>
+            </fieldset>
+
+            <input type="submit" class="btn btn-primary" value="Create">
+        </form>
+{% endblock %}

@@ -1,0 +1,464 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--
+ Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<data xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
+  <components xmlns="http://openconfig.net/yang/platform">
+    <component>
+      <!-- # keys: name-->
+      <!-- # entries: 0.. -->
+      <name>
+        <!-- type: leafref -->
+      </name>
+      <config>
+        <name>
+          <!-- type: string -->
+        </name>
+      </config>
+      <state>
+        <name>
+          <!-- type: string -->
+        </name>
+        <type>
+          <!-- type: union -->
+        </type>
+        <id>
+          <!-- type: string -->
+        </id>
+        <location>
+          <!-- type: string -->
+        </location>
+        <description>
+          <!-- type: string -->
+        </description>
+        <mfg-name>
+          <!-- type: string -->
+        </mfg-name>
+        <mfg-date>
+          <!-- type: oc-yang:date -->
+        </mfg-date>
+        <hardware-version>
+          <!-- type: string -->
+        </hardware-version>
+        <firmware-version>
+          <!-- type: string -->
+        </firmware-version>
+        <software-version>
+          <!-- type: string -->
+        </software-version>
+        <serial-no>
+          <!-- type: string -->
+        </serial-no>
+        <part-no>
+          <!-- type: string -->
+        </part-no>
+        <clei-code>
+          <!-- type: string -->
+        </clei-code>
+        <removable>
+          <!-- type: boolean -->
+        </removable>
+        <oper-status>
+          <!-- type: identityref -->
+        </oper-status>
+        <parent>
+          <!-- type: leafref -->
+        </parent>
+        <redundant-role>
+          <!-- type: oc-platform-types:component-redundant-role -->
+        </redundant-role>
+        <last-switchover-reason>
+          <trigger>
+            <!-- type: component-redundant-role-switchover-reason-trigger -->
+          </trigger>
+          <details>
+            <!-- type: string -->
+          </details>
+        </last-switchover-reason>
+        <last-switchover-time>
+          <!-- type: oc-types:timeticks64 -->
+        </last-switchover-time>
+        <last-reboot-reason>
+          <!-- type: identityref -->
+        </last-reboot-reason>
+        <last-reboot-time>
+          <!-- type: oc-types:timeticks64 -->
+        </last-reboot-time>
+        <switchover-ready>
+          <!-- type: boolean -->
+        </switchover-ready>
+        <temperature>
+          <instant>
+            <!-- type: decimal64 -->
+          </instant>
+          <avg>
+            <!-- type: decimal64 -->
+          </avg>
+          <min>
+            <!-- type: decimal64 -->
+          </min>
+          <max>
+            <!-- type: decimal64 -->
+          </max>
+          <interval>
+            <!-- type: oc-types:stat-interval -->
+          </interval>
+          <min-time>
+            <!-- type: oc-types:timeticks64 -->
+          </min-time>
+          <max-time>
+            <!-- type: oc-types:timeticks64 -->
+          </max-time>
+          <alarm-status>
+            <!-- type: boolean -->
+          </alarm-status>
+          <alarm-threshold>
+            <!-- type: uint32 -->
+          </alarm-threshold>
+          <alarm-severity>
+            <!-- type: identityref -->
+          </alarm-severity>
+        </temperature>
+        <memory>
+          <available>
+            <!-- type: uint64 -->
+          </available>
+          <utilized>
+            <!-- type: uint64 -->
+          </utilized>
+        </memory>
+        <allocated-power>
+          <!-- type: uint32 -->
+        </allocated-power>
+        <used-power>
+          <!-- type: uint32 -->
+        </used-power>
+        <pcie>
+          <fatal-errors>
+            <total-errors>
+              <!-- type: oc-yang:counter64 -->
+            </total-errors>
+            <undefined-errors>
+              <!-- type: oc-yang:counter64 -->
+            </undefined-errors>
+            <data-link-errors>
+              <!-- type: oc-yang:counter64 -->
+            </data-link-errors>
+            <surprise-down-errors>
+              <!-- type: oc-yang:counter64 -->
+            </surprise-down-errors>
+            <poisoned-tlp-errors>
+              <!-- type: oc-yang:counter64 -->
+            </poisoned-tlp-errors>
+            <flow-control-protocol-errors>
+              <!-- type: oc-yang:counter64 -->
+            </flow-control-protocol-errors>
+            <completion-timeout-errors>
+              <!-- type: oc-yang:counter64 -->
+            </completion-timeout-errors>
+            <completion-abort-errors>
+              <!-- type: oc-yang:counter64 -->
+            </completion-abort-errors>
+            <unexpected-completion-errors>
+              <!-- type: oc-yang:counter64 -->
+            </unexpected-completion-errors>
+            <receiver-overflow-errors>
+              <!-- type: oc-yang:counter64 -->
+            </receiver-overflow-errors>
+            <malformed-tlp-errors>
+              <!-- type: oc-yang:counter64 -->
+            </malformed-tlp-errors>
+            <ecrc-errors>
+              <!-- type: oc-yang:counter64 -->
+            </ecrc-errors>
+            <unsupported-request-errors>
+              <!-- type: oc-yang:counter64 -->
+            </unsupported-request-errors>
+            <acs-violation-errors>
+              <!-- type: oc-yang:counter64 -->
+            </acs-violation-errors>
+            <internal-errors>
+              <!-- type: oc-yang:counter64 -->
+            </internal-errors>
+            <blocked-tlp-errors>
+              <!-- type: oc-yang:counter64 -->
+            </blocked-tlp-errors>
+            <atomic-op-blocked-errors>
+              <!-- type: oc-yang:counter64 -->
+            </atomic-op-blocked-errors>
+            <tlp-prefix-blocked-errors>
+              <!-- type: oc-yang:counter64 -->
+            </tlp-prefix-blocked-errors>
+          </fatal-errors>
+          <non-fatal-errors>
+            <total-errors>
+              <!-- type: oc-yang:counter64 -->
+            </total-errors>
+            <undefined-errors>
+              <!-- type: oc-yang:counter64 -->
+            </undefined-errors>
+            <data-link-errors>
+              <!-- type: oc-yang:counter64 -->
+            </data-link-errors>
+            <surprise-down-errors>
+              <!-- type: oc-yang:counter64 -->
+            </surprise-down-errors>
+            <poisoned-tlp-errors>
+              <!-- type: oc-yang:counter64 -->
+            </poisoned-tlp-errors>
+            <flow-control-protocol-errors>
+              <!-- type: oc-yang:counter64 -->
+            </flow-control-protocol-errors>
+            <completion-timeout-errors>
+              <!-- type: oc-yang:counter64 -->
+            </completion-timeout-errors>
+            <completion-abort-errors>
+              <!-- type: oc-yang:counter64 -->
+            </completion-abort-errors>
+            <unexpected-completion-errors>
+              <!-- type: oc-yang:counter64 -->
+            </unexpected-completion-errors>
+            <receiver-overflow-errors>
+              <!-- type: oc-yang:counter64 -->
+            </receiver-overflow-errors>
+            <malformed-tlp-errors>
+              <!-- type: oc-yang:counter64 -->
+            </malformed-tlp-errors>
+            <ecrc-errors>
+              <!-- type: oc-yang:counter64 -->
+            </ecrc-errors>
+            <unsupported-request-errors>
+              <!-- type: oc-yang:counter64 -->
+            </unsupported-request-errors>
+            <acs-violation-errors>
+              <!-- type: oc-yang:counter64 -->
+            </acs-violation-errors>
+            <internal-errors>
+              <!-- type: oc-yang:counter64 -->
+            </internal-errors>
+            <blocked-tlp-errors>
+              <!-- type: oc-yang:counter64 -->
+            </blocked-tlp-errors>
+            <atomic-op-blocked-errors>
+              <!-- type: oc-yang:counter64 -->
+            </atomic-op-blocked-errors>
+            <tlp-prefix-blocked-errors>
+              <!-- type: oc-yang:counter64 -->
+            </tlp-prefix-blocked-errors>
+          </non-fatal-errors>
+          <correctable-errors>
+            <total-errors>
+              <!-- type: oc-yang:counter64 -->
+            </total-errors>
+            <receiver-errors>
+              <!-- type: oc-yang:counter64 -->
+            </receiver-errors>
+            <bad-tlp-errors>
+              <!-- type: oc-yang:counter64 -->
+            </bad-tlp-errors>
+            <bad-dllp-errors>
+              <!-- type: oc-yang:counter64 -->
+            </bad-dllp-errors>
+            <relay-rollover-errors>
+              <!-- type: oc-yang:counter64 -->
+            </relay-rollover-errors>
+            <replay-timeout-errors>
+              <!-- type: oc-yang:counter64 -->
+            </replay-timeout-errors>
+            <advisory-non-fatal-errors>
+              <!-- type: oc-yang:counter64 -->
+            </advisory-non-fatal-errors>
+            <internal-errors>
+              <!-- type: oc-yang:counter64 -->
+            </internal-errors>
+            <hdr-log-overflow-errors>
+              <!-- type: oc-yang:counter64 -->
+            </hdr-log-overflow-errors>
+          </correctable-errors>
+        </pcie>
+      </state>
+      <properties>
+        <property>
+          <!-- # keys: name-->
+          <!-- # entries: 0.. -->
+          <name>
+            <!-- type: leafref -->
+          </name>
+          <config>
+            <name>
+              <!-- type: string -->
+            </name>
+            <value>
+              <!-- type: union -->
+            </value>
+          </config>
+          <state>
+            <name>
+              <!-- type: string -->
+            </name>
+            <value>
+              <!-- type: union -->
+            </value>
+            <configurable>
+              <!-- type: boolean -->
+            </configurable>
+          </state>
+        </property>
+      </properties>
+      <subcomponents>
+        <subcomponent>
+          <!-- # keys: name-->
+          <!-- # entries: 0.. -->
+          <name>
+            <!-- type: leafref -->
+          </name>
+          <config>
+            <name>
+              <!-- type: leafref -->
+            </name>
+          </config>
+          <state>
+            <name>
+              <!-- type: leafref -->
+            </name>
+          </state>
+        </subcomponent>
+      </subcomponents>
+      <chassis>
+        <config/>
+        <state/>
+        <utilization>
+          <resources>
+            <resource>
+              <!-- # keys: name-->
+              <!-- # entries: 0.. -->
+              <name>
+                <!-- type: leafref -->
+              </name>
+              <config>
+                <name>
+                  <!-- type: string -->
+                </name>
+              </config>
+              <state>
+                <name>
+                  <!-- type: string -->
+                </name>
+                <used>
+                  <!-- type: uint64 -->
+                </used>
+                <committed>
+                  <!-- type: uint64 -->
+                </committed>
+                <free>
+                  <!-- type: uint64 -->
+                </free>
+                <max-limit>
+                  <!-- type: uint64 -->
+                </max-limit>
+                <high-watermark>
+                  <!-- type: uint64 -->
+                </high-watermark>
+                <last-high-watermark>
+                  <!-- type: oc-types:timeticks64 -->
+                </last-high-watermark>
+              </state>
+            </resource>
+          </resources>
+        </utilization>
+      </chassis>
+      <port>
+        <config/>
+        <state/>
+      </port>
+      <power-supply>
+        <config/>
+        <state/>
+      </power-supply>
+      <fan>
+        <config/>
+        <state/>
+      </fan>
+      <fabric>
+        <config/>
+        <state/>
+      </fabric>
+      <storage>
+        <config/>
+        <state/>
+      </storage>
+      <cpu>
+        <config/>
+        <state/>
+      </cpu>
+      <integrated-circuit>
+        <config/>
+        <state/>
+        <utilization>
+          <resources>
+            <resource>
+              <!-- # keys: name-->
+              <!-- # entries: 0.. -->
+              <name>
+                <!-- type: leafref -->
+              </name>
+              <config>
+                <name>
+                  <!-- type: string -->
+                </name>
+              </config>
+              <state>
+                <name>
+                  <!-- type: string -->
+                </name>
+                <used>
+                  <!-- type: uint64 -->
+                </used>
+                <committed>
+                  <!-- type: uint64 -->
+                </committed>
+                <free>
+                  <!-- type: uint64 -->
+                </free>
+                <max-limit>
+                  <!-- type: uint64 -->
+                </max-limit>
+                <high-watermark>
+                  <!-- type: uint64 -->
+                </high-watermark>
+                <last-high-watermark>
+                  <!-- type: oc-types:timeticks64 -->
+                </last-high-watermark>
+              </state>
+            </resource>
+          </resources>
+        </utilization>
+      </integrated-circuit>
+      <backplane>
+        <config/>
+        <state/>
+      </backplane>
+      <software-module>
+        <config/>
+        <state/>
+      </software-module>
+      <controller-card>
+        <config/>
+        <state/>
+      </controller-card>
+    </component>
+  </components>
+</data>

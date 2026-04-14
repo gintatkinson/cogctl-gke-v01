@@ -1,0 +1,21 @@
+{
+    "devices": [
+        {
+            "device_id": {"device_uuid": {"uuid": "R1"}},
+            "device_type": "packet-router",
+            "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "10.0.2.10"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "8300"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {
+                    "username": "admin", "password": "admin",
+                    "force_running": false, "hostkey_verify": false, "look_for_keys": false,
+                    "allow_agent": false, "commit_per_rule": true, "device_params": {"name": "default"},
+                    "manager_params": {"timeout" : 15}
+                }}}
+            ]},
+            "device_operational_status": 1,
+            "device_drivers": [1],
+            "device_endpoints": []
+        }
+    ]
+}

@@ -1,0 +1,73 @@
+<!doctype html>
+<!--
+ Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Affect Sample Synthesizer</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 2rem; }
+      form { max-width: 600px; }
+      label { display:block; margin-top: 0.75rem; }
+      input[type=text] { width:100%; padding:0.5rem; }
+      button { margin-top: 1rem; padding:0.5rem 1rem; }
+      pre { background:#f6f8fa; padding:1rem; }
+      .flash { color: #a00; }
+    </style>
+  </head>
+  <body>
+    <h1>Affect Sample Synthesizer</h1>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="flash">
+        {% for m in messages %}
+          <div>{{ m }}</div>
+        {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <form method="post">
+      <label for="link_id">Link Id:</label>
+      <input type="text" id="link_id" name="link_id" value="L5"/>
+
+      <label for="bandwidth_factor">Bandwidth Factor:</label>
+      <input type="text" id="bandwidth_factor" name="bandwidth_factor" value="1.0"/>
+
+      <label for="latency_factor">Latency Factor:</label>
+      <input type="text" id="latency_factor" name="latency_factor" value="1.0"/>
+
+      <button type="submit">Send</button>
+    </form>
+
+    {% if payload %}
+      <h2>Payload</h2>
+      <pre>{{ payload }}</pre>
+    {% endif %}
+
+    {% if response %}
+      <h2>Response</h2>
+      <div>Status: {{ response.status_code }} (ok: {{ response.ok }})</div>
+      <h3>Body</h3>
+      <pre>{{ response.body | tojson(indent=2) }}</pre>
+    {% endif %}
+
+  </body>
+</html>
+

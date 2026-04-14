@@ -1,0 +1,7 @@
+<acl xmlns="http://openconfig.net/yang/acl">
+    <acl-sets>
+    </acl-sets>
+    <interfaces>
+    </interfaces>
+</acl>
+    

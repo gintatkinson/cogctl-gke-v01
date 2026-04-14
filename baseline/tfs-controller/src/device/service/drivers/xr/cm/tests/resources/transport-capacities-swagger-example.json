@@ -1,0 +1,165 @@
+[
+    {
+      "href": "/transport-capacities/6ce3aa86-2685-44b0-9f86-49e6a6c991a8",
+      "rt": [
+        "cm.transport-capacity"
+      ],
+      "id": "6ce3aa86-2685-44b0-9f86-49e6a6c991a8",
+      "config": {
+        "name": "Transport capacity service example",
+        "capacityMode": "dedicatedDownlinkSymmetric"
+      },
+      "state": {
+        "name": "Transport capacity service example",
+        "capacityMode": "dedicatedDownlinkSymmetric",
+        "lifecycleState": "configured",
+        "labels": []
+      },
+      "endpoints": [
+        {
+          "href": "/transport-capacities/6ce3aa86-2685-44b0-9f86-49e6a6c991a8/endpoints/4511bc3d-617b-4757-9f4c-41bc7d8912eb",
+          "rt": [
+            "cm.transport-capacity.hub"
+          ],
+          "id": "4511bc3d-617b-4757-9f4c-41bc7d8912eb",
+          "parentId": "6ce3aa86-2685-44b0-9f86-49e6a6c991a8",
+          "config": {
+            "capacity": 100,
+            "selector": {
+              "hostPortSelector": {
+                "chassisIdSubtype": "macAddress",
+                "chassisId": "28:c0:da:3e:3e:40",
+                "portIdSubtype": "interfaceName",
+                "portId": "et-1/0/1:2"
+              }
+            }
+          },
+          "state": {
+            "capacity": 100,
+            "hostPort": {
+              "chassisIdSubtype": "macAddress",
+              "chassisId": "28:c0:da:3e:3e:40",
+              "portIdSubtype": "interfaceName",
+              "portId": "et-1/0/0:0",
+              "portSourceMAC": "da:3d:c2:4c:55:40",
+              "portDescr": "et-1/0/0:0"
+            },
+            "moduleIf": {
+              "moduleId": "18e47620-8848-4c7e-710f-05c668478c57",
+              "moduleName": "XR Device",
+              "moduleMAC": "46:00:84:A0:0C:00",
+              "moduleSerialNumber": "12345678900",
+              "moduleCurrentRole": "hub",
+              "moduleClientIfColId": 1,
+              "clientIfAid": "XR T1",
+              "moduleClientIfPortSpeed": 100
+            },
+            "lifecycleState": "configured",
+            "labels": []
+          }
+        },
+        {
+          "href": "/transport-capacities/6ce3aa86-2685-44b0-9f86-49e6a6c991a8/endpoints/35e92b25-a682-4805-964a-6ce893a7aa56",
+          "rt": [
+            "cm.transport-capacity.leaf"
+          ],
+          "id": "35e92b25-a682-4805-964a-6ce893a7aa56",
+          "parentId": "6ce3aa86-2685-44b0-9f86-49e6a6c991a8",
+          "config": {
+            "capacity": 100,
+            "selector": {
+              "hostPortSelector": {
+                "chassisIdSubtype": "macAddress",
+                "chassisId": "00:99:F8:2c:01:01",
+                "portIdSubtype": "interfaceName",
+                "portId": "et-1/0/0:0"
+              }
+            }
+          },
+          "state": {
+            "capacity": 100,
+            "hostPort": {
+              "chassisIdSubtype": "macAddress",
+              "chassisId": "00:99:F8:2c:01:01",
+              "portIdSubtype": "interfaceName",
+              "portId": "et-1/0/0:0",
+              "portSourceMAC": "da:3d:c2:4c:55:40",
+              "portDescr": "et-1/0/0:0"
+            },
+            "moduleIf": {
+              "moduleId": "23ffd75e-1a30-11ec-9621-0242ac130002",
+              "moduleName": "XR Device 2",
+              "moduleMAC": "46:00:84:A0:0C:02",
+              "moduleSerialNumber": "12345678902",
+              "moduleCurrentRole": "Leaf",
+              "moduleClientIfColId": 2,
+              "clientIfAid": "XR T1",
+              "moduleClientIfPortSpeed": 100
+            },
+            "lifecycleState": "configured",
+            "labels": []
+          }
+        }
+      ],
+      "capacity-links": [
+        {
+          "href": "/capacity-links/d9580972-7a72-43e7-91d9-5473251040ca",
+          "rt": [
+            "cm.capacity-link"
+          ],
+          "id": "d9580972-7a72-43e7-91d9-5473251040ca",
+          "parentId": "6ce3aa86-2685-44b0-9f86-49e6a6c991a8",
+          "config": {
+            "directionality": "biDir",
+            "hubModule": {
+              "moduleId": "18e47620-8848-4c7e-710f-05c668478c57",
+              "dscgShared": false,
+              "dscs": [
+                7,
+                5,
+                3,
+                1
+              ]
+            },
+            "leafModule": {
+              "moduleId": "23ffd75e-1a30-11ec-9621-0242ac130002",
+              "dscgShared": false,
+              "dscs": [
+                3,
+                1,
+                2,
+                4
+              ]
+            }
+          },
+          "state": {
+            "directionality": "biDir",
+            "hubModule": {
+              "moduleId": "18e47620-8848-4c7e-710f-05c668478c57",
+              "dscgId": "552d4e35-c7fc-4fdf-bb31-1688f926582e",
+              "dscgShared": false,
+              "dscs": [
+                7,
+                5,
+                3,
+                1
+              ],
+              "lifecycleState": "configured"
+            },
+            "leafModule": {
+              "moduleId": "23ffd75e-1a30-11ec-9621-0242ac130002",
+              "dscgId": "831884a0-fac7-4f1a-8c0d-74f82498921c",
+              "dscgShared": false,
+              "dscs": [
+                3,
+                1,
+                2,
+                4
+              ],
+              "lifecycleState": "configured"
+            }
+          }
+        }
+      ]
+    }
+  ]

@@ -1,0 +1,91 @@
+{
+    "devices": [
+		{
+            "device_id": {
+                "device_uuid": {
+                    "uuid": "T2"
+                }
+            },
+            "device_type": "optical-transponder",
+            "device_drivers": [
+                11
+            ],
+            "device_endpoints": [
+                {
+                    "endpoint_id": {
+                        "device_id": {
+                            "device_uuid": {
+                                "uuid": "T2"
+                            }
+                        },
+                        "topology_id": {
+                            "context_id": {
+                                "context_uuid": {
+                                    "uuid": "admin"
+                                }
+                            },
+                            "topology_uuid": {
+                                "uuid": "admin"
+                            }
+                        },
+                        "endpoint_uuid": {
+                            "uuid": "6"
+                        }
+                    }
+                }
+            ],
+            "device_operational_status": 1,
+            "device_config": {
+                "config_rules": [
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "_connect/address",
+                            "resource_value": "10.0.2.4"
+                        }
+                    },
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "_connect/port",
+                            "resource_value": "2024"
+                        }
+                    },
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "_connect/settings",
+                            "resource_value": {
+                                "username": "admin",
+                                "password": "admin",
+                                "force_running": false,
+                                "hostkey_verify": false,
+                                "look_for_keys": false,
+                                "allow_agent": false,
+                                "commit_per_rule": false,
+                                "device_params": {
+                                    "name": "default"
+                                },
+                                "manager_params": {
+                                    "timeout": 120
+                                },
+                                "endpoints": [
+                                    {
+                                        "sample_types": [
+                                            101,
+                                            102,
+                                            201,
+                                            202
+                                        ],
+                                        "type": "optical",
+                                        "uuid": "6"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

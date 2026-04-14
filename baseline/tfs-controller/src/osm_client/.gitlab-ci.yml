@@ -1,0 +1,126 @@
+# Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Build, tag, and push the Docker image to the GitLab Docker registry
+build osm_client:
+  variables:
+    IMAGE_NAME: 'osm_client' # name of the microservice
+    MOCK_IMAGE_NAME: 'mock_osm_nbi' # name of the mock 
+    IMAGE_TAG: 'latest' # tag of the container image (production, development, etc)
+  stage: build
+  before_script:
+    - docker image prune --force
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+  script:
+    - docker buildx build -t "$IMAGE_NAME:$IMAGE_TAG" -f ./src/$IMAGE_NAME/Dockerfile .
+    - docker tag "$IMAGE_NAME:$IMAGE_TAG" "$CI_REGISTRY_IMAGE/$IMAGE_NAME:$IMAGE_TAG"
+    - docker push "$CI_REGISTRY_IMAGE/$IMAGE_NAME:$IMAGE_TAG"
+  after_script:
+    - docker image prune --force
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop" || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH)'
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == "develop"'
+    - changes:
+      - src/common/**/*.py
+      - proto/*.proto
+      - src/$IMAGE_NAME/**/*.{py,in,yml}
+      - src/$IMAGE_NAME/Dockerfile
+      - src/$IMAGE_NAME/tests/*.py
+      - manifests/${IMAGE_NAME}service.yaml
+      - src/tests/tools/mock_osm_nbi/**/*.{py,in,yml,yaml,yang,sh,json}
+      - src/tests/tools/mock_osm_nbi/Dockerfile
+      - src/tests/.gitlab-ci.yml
+      - .gitlab-ci.yml
+
+# Apply unit test to the component
+unit_test osm_client:
+  variables:
+    IMAGE_NAME: 'osm_client' # name of the microservice
+    MOCK_IMAGE_NAME: 'mock_osm_nbi'
+    IMAGE_TAG: 'latest' # tag of the container image (production, development, etc)
+  stage: unit_test
+  needs:
+    - build osm_client
+    - build mock_osm_nbi
+  before_script:
+    # Do Docker cleanup
+    - docker ps --all --quiet | xargs --no-run-if-empty docker stop
+    - docker container prune --force
+    - docker ps --all --quiet | xargs --no-run-if-empty docker rm --force
+    - docker image prune --force
+    - docker network prune --force
+    - docker volume prune --all --force
+    - docker buildx prune --force
+
+    # Login Docker repository
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+
+  script:
+    # Download Docker image to run the test
+    - docker pull "${CI_REGISTRY_IMAGE}/${IMAGE_NAME}:${IMAGE_TAG}"
+    - docker pull "${CI_REGISTRY_IMAGE}/mock-osm-nbi:test"
+
+    # Deploy Mock OSM NBI
+    - docker network create --driver bridge --subnet=172.254.251.0/24 --gateway=172.254.251.254 mock-osm-nbi-br
+    - >
+      docker run --detach --name mock_osm_nbi --network=mock-osm-nbi-br --ip 172.254.251.10 --publish 80 --publish 443
+      --env LOG_LEVEL=DEBUG
+      --env FLASK_ENV=development
+      $CI_REGISTRY_IMAGE/mock-osm-nbi:test
+    - >
+      docker run --detach --name $IMAGE_NAME --network=mock-osm-nbi-br --ip 172.254.251.11
+      --volume "$PWD/src/$IMAGE_NAME/tests:/opt/results" 
+      --env LOG_LEVEL=DEBUG
+      --env FLASK_ENV=development
+      --env OSM_ADDRESS=172.254.251.10
+      --env OSM_PORT=443
+      $CI_REGISTRY_IMAGE/$IMAGE_NAME:$IMAGE_TAG
+    - while ! docker logs $IMAGE_NAME 2>&1 | grep -q 'Running...'; do sleep 1; done
+    - docker ps -a
+    - docker logs $IMAGE_NAME
+    - docker logs mock_osm_nbi
+    - docker exec -i $IMAGE_NAME bash -c "coverage run -m pytest --log-level=INFO --verbose $IMAGE_NAME/tests/test_unitary.py --junitxml=/opt/results/${IMAGE_NAME}_report_unitary.xml"
+    - docker exec -i $IMAGE_NAME bash -c "coverage report --include='${IMAGE_NAME}/*' --show-missing"
+  coverage: '/TOTAL\s+\d+\s+\d+\s+(\d+%)/'
+  after_script:
+    - docker logs $IMAGE_NAME
+    - docker logs mock_osm_nbi
+
+    # Do Docker cleanup
+    - docker ps --all --quiet | xargs --no-run-if-empty docker stop
+    - docker container prune --force
+    - docker ps --all --quiet | xargs --no-run-if-empty docker rm --force
+    - docker image prune --force
+    - docker network prune --force
+    - docker volume prune --all --force
+    - docker buildx prune --force
+
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop" || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH)'
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == "develop"'
+    - changes:
+      - src/common/**/*.py
+      - proto/*.proto
+      - src/${IMAGE_NAME}/**/*.{py,in,yml}
+      - src/${IMAGE_NAME}/Dockerfile
+      - src/${IMAGE_NAME}/tests/*.py
+      - manifests/${IMAGE_NAME}service.yaml
+      - src/tests/tools/mock_osm_nbi/**/*.{py,in,yml,yaml,yang,sh,json}
+      - src/tests/tools/mock_osm_nbi/Dockerfile
+      - src/tests/.gitlab-ci.yml
+      - .gitlab-ci.yml
+  artifacts:
+      when: always
+      reports:
+        junit: ./src/${IMAGE_NAME}/tests/${IMAGE_NAME}_report_*.xml

@@ -1,0 +1,118 @@
+{
+    "slice-service": [
+        {
+            "id": "slice1",
+            "description": "network slice 1, PC1-VM1",
+            "sdps": {
+                "sdp": [
+                    {
+                        "id": "1",
+                        "node-id": "ONT1",
+                        "sdp-ip-address": ["172.16.61.10"],
+                        "service-match-criteria": {"match-criterion": [{
+                            "index": 1,
+                            "match-type": [
+                                {"type": "ietf-network-slice-service:vlan", "value": ["21"]},
+                                {"type": "ietf-network-slice-service:source-ip-prefix", "value": ["172.16.104.221/24"]},
+                                {"type": "ietf-network-slice-service:source-tcp-port", "value": ["10500"]},
+                                {"type": "ietf-network-slice-service:destination-ip-prefix", "value": ["172.1.101.22/24"]},
+                                {"type": "ietf-network-slice-service:destination-tcp-port", "value": ["10200"]}
+                            ],
+                            "target-connection-group-id": "line1"
+                        }]},
+                        "attachment-circuits": {"attachment-circuit": [{
+                            "id": "AC ONT1",
+                            "description": "AC ONT1 connected to PC1",
+                            "ac-node-id": "ONT1",
+                            "ac-tp-id": "200"
+                        }]}
+                    },
+                    {
+                        "id": "2",
+                        "node-id": "POP2",
+                        "sdp-ip-address": ["172.16.204.221"],
+                        "service-match-criteria": {"match-criterion": [{
+                            "index": 1,
+                            "match-type": [
+                                {"type": "ietf-network-slice-service:vlan", "value": ["201"]},
+                                {"type": "ietf-network-slice-service:source-ip-prefix", "value": ["172.1.101.22/24"]},
+                                {"type": "ietf-network-slice-service:source-tcp-port", "value": ["10200"]},
+                                {"type": "ietf-network-slice-service:destination-ip-prefix", "value": ["172.16.104.221/24"]},
+                                {"type": "ietf-network-slice-service:destination-tcp-port", "value": ["10500"]}
+                            ],
+                            "target-connection-group-id": "line1"
+                        }]},
+                        "attachment-circuits": {"attachment-circuit": [{
+                            "id": "AC POP2 to VM1",
+                            "description": "AC POP2 connected to VM1",
+                            "ac-node-id": "POP2",
+                            "ac-tp-id": "200"
+                        }]}
+                    }
+                ]
+            },
+            "connection-groups": {
+                "connection-group": [
+                    {
+                        "id": "line1",
+                        "connectivity-type": "point-to-point",
+                        "connectivity-construct": [
+                            {
+                                "id": 1,
+                                "p2p-sender-sdp": "1",
+                                "p2p-receiver-sdp": "2",
+                                "service-slo-sle-policy": {
+                                    "slo-policy": {
+                                        "metric-bound": [
+                                            {
+                                                "metric-type": "ietf-network-slice-service:one-way-delay-maximum",
+                                                "metric-unit": "milliseconds",
+                                                "bound": "20"
+                                            },
+                                            {
+                                                "metric-type": "ietf-network-slice-service:one-way-bandwidth",
+                                                "metric-unit": "Mbps",
+                                                "bound": "1000"
+                                            },
+                                            {
+                                                "metric-type": "ietf-network-slice-service:two-way-packet-loss",
+                                                "metric-unit": "percentage",
+                                                "percentile-value": "0.01"
+                                            }
+                                        ]
+                                    }
+                                }
+                            },
+                            {
+                                "id": 2,
+                                "p2p-sender-sdp": "2",
+                                "p2p-receiver-sdp": "1",
+                                "service-slo-sle-policy": {
+                                    "slo-policy": {
+                                        "metric-bound": [
+                                            {
+                                                "metric-type": "ietf-network-slice-service:one-way-delay-maximum",
+                                                "metric-unit": "milliseconds",
+                                                "bound": "10"
+                                            },
+                                            {
+                                                "metric-type": "ietf-network-slice-service:one-way-bandwidth",
+                                                "metric-unit": "Mbps",
+                                                "bound": "5000"
+                                            },
+                                            {
+                                                "metric-type": "ietf-network-slice-service:two-way-packet-loss",
+                                                "metric-unit": "percentage",
+                                                "percentile-value": "0.01"
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    ]
+}

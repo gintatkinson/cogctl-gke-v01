@@ -1,0 +1,94 @@
+# Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+quarkus:
+  banner:
+    path: teraflow-policy-banner.txt
+  grpc:
+    server:
+      port: 6060
+      enable-reflection-service: true
+    clients:
+      context:
+        host: ${quarkus.kubernetes.env.vars.context-service-host}
+        port: 1010
+      context_policy:
+        host: ${quarkus.kubernetes.env.vars.context-service-host}
+        port: 1010
+      monitoring:
+        host: ${quarkus.kubernetes.env.vars.monitoring-service-host}
+        port: 7070
+      service:
+        host: ${quarkus.kubernetes.env.vars.service-service-host}
+        port: 3030
+
+  http:
+    port: 8080
+
+  container-image:
+    group: tfs
+    name: controller/policy
+    registry: labs.etsi.org:5050
+    tag: 0.1.0
+
+  kubernetes:
+    name: policyservice
+    image-pull-policy: Always
+    labels:
+      app: policyservice
+    add-version-to-label-selectors: false
+    readiness-probe:
+      initial-delay: 2s
+      period: 10s
+    liveness-probe:
+      initial-delay: 2s
+      period: 10s
+    ports:
+      http:
+        host-port: 9192
+        container-port: 8080
+    env:
+      vars:
+        context-service-host: "contextservice"
+        monitoring-service-host: "monitoringservice"
+        service-service-host: "serviceservice"
+        kafka-broker-host: "kafka-service.kafka.svc.cluster.local"
+    resources:
+      requests:
+        cpu: 50m
+        memory: 512Mi
+      limits:
+        cpu: 500m
+        memory: 2048Mi
+
+#Disable Kafka on Test
+"%test":
+  mp:
+    messaging:
+      connector:
+        smallrye-kafka:
+          enabled: false
+
+mp:
+  messaging:
+    incoming:
+      topic-alarms:
+        failure-strategy: ignore
+        connector: smallrye-kafka
+        topic: topic-alarms
+        value:
+          deserializer: org.etsi.tfs.policy.policy.kafka.TopicAlarmDeserializer
+kafka:
+  bootstrap:
+    servers: ${quarkus.kubernetes.env.vars.kafka-broker-host}:9092

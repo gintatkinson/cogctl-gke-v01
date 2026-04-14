@@ -1,0 +1,80 @@
+// Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+package qkd_app;
+
+import "context.proto";
+
+// Define Empty message if you don't want to use google.protobuf.Empty.
+message Empty {}
+
+// Enum representing possible states of a QKD application.
+enum QKDAppStatusEnum {
+  QKDAPPSTATUS_ON = 0;
+  QKDAPPSTATUS_DISCONNECTED = 1;
+  QKDAPPSTATUS_OUT_OF_TIME = 2;
+  QKDAPPSTATUS_ZOMBIE = 3;
+}
+
+// Enum representing QKD application types.
+enum QKDAppTypesEnum {
+  QKDAPPTYPES_INTERNAL = 0;
+  QKDAPPTYPES_CLIENT = 1;
+}
+
+// Message representing a QKDL (Quantum Key Distribution Link) identifier.
+message QKDLId {
+  context.Uuid qkdl_uuid = 1;
+}
+
+// Define QoS parameters for QKD applications
+message QoS {
+  uint32 max_bandwidth = 1; // Maximum bandwidth (in bits per second)
+  uint32 min_bandwidth = 2; // Minimum bandwidth (optional)
+  uint32 jitter = 3;        // Maximum jitter (in milliseconds)
+  uint32 ttl = 4;           // Time-to-live (in seconds)
+}
+
+// Main message representing a QKD application with all required fields.
+message App {
+  AppId app_id = 1;
+  QKDAppStatusEnum app_status = 2;
+  QKDAppTypesEnum app_type = 3;
+  string server_app_id = 4;
+  repeated string client_app_id = 5;
+  repeated QKDLId backing_qkdl_id = 6;
+  context.DeviceId local_device_id = 7;
+  context.DeviceId remote_device_id = 8;
+  QoS qos = 9; // Include QoS in the App message
+}
+
+// Message representing an identifier for an app.
+message AppId {
+  context.ContextId context_id = 1;
+  context.Uuid app_uuid = 2;
+}
+
+// Service definition for AppService, including app registration and listing.
+service AppService {
+  rpc RegisterApp(App) returns (context.Empty) {}
+  rpc ListApps(context.ContextId) returns (AppList) {}
+  rpc GetApp(AppId) returns (App) {} 
+  rpc DeleteApp (AppId) returns (Empty) {} // Use locally defined Empty
+}
+
+// Message representing a list of apps.
+message AppList {
+  repeated App apps = 1;
+}

@@ -1,0 +1,200 @@
+{
+    "contexts": [
+        {"context_id": {"context_uuid": {"uuid": "admin"}}, "name": "admin"}
+    ],
+    "topologies": [
+        {"topology_id": {"topology_uuid": {"uuid": "admin"}, "context_id": {"context_uuid": {"uuid": "admin"}}}, "name": "admin"}
+    ],
+    "devices": [
+        {"device_id": {"device_uuid": {"uuid": "fr1.fr"}}, "device_type": "emu-packet-router", "device_operational_status": 1, "device_drivers": [0], "device_config": {"config_rules": [
+            {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "127.0.0.1"}},
+            {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "0"}},
+            {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {"endpoints": [
+                {"uuid": "client:1", "type": "copper"}, {"uuid": "client:2", "type": "copper"}, {"uuid": "client:3", "type": "copper"},
+                {"uuid": "be1.be", "type": "copper"}, {"uuid": "pt1.pt", "type": "copper"}, {"uuid": "uk1.uk", "type": "copper"},
+                {"uuid": "es1.es", "type": "copper"}, {"uuid": "it1.it", "type": "copper"}
+            ]}}}
+        ]}},
+        {"device_id": {"device_uuid": {"uuid": "be1.be"}}, "device_type": "emu-packet-router", "device_operational_status": 1, "device_drivers": [0], "device_config": {"config_rules": [
+            {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "127.0.0.1"}},
+            {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "0"}},
+            {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {"endpoints": [
+                {"uuid": "client:1", "type": "copper"}, {"uuid": "client:2", "type": "copper"}, {"uuid": "client:3", "type": "copper"},
+                {"uuid": "de1.de", "type": "copper"}, {"uuid": "gr1.gr", "type": "copper"}, {"uuid": "uk1.uk", "type": "copper"},
+                {"uuid": "fr1.fr", "type": "copper"}, {"uuid": "it1.it", "type": "copper"}
+            ]}}}
+        ]}},
+        {"device_id": {"device_uuid": {"uuid": "uk1.uk"}}, "device_type": "emu-packet-router", "device_operational_status": 1, "device_drivers": [0], "device_config": {"config_rules": [
+            {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "127.0.0.1"}},
+            {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "0"}},
+            {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {"endpoints": [
+                {"uuid": "client:1", "type": "copper"}, {"uuid": "client:2", "type": "copper"}, {"uuid": "client:3", "type": "copper"},
+                {"uuid": "de1.de", "type": "copper"}, {"uuid": "fr1.fr", "type": "copper"}, {"uuid": "be1.be", "type": "copper"},
+                {"uuid": "pt1.pt", "type": "copper"}
+            ]}}}
+        ]}},
+        {"device_id": {"device_uuid": {"uuid": "de1.de"}}, "device_type": "emu-packet-router", "device_operational_status": 1, "device_drivers": [0], "device_config": {"config_rules": [
+            {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "127.0.0.1"}},
+            {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "0"}},
+            {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {"endpoints": [
+                {"uuid": "client:1", "type": "copper"}, {"uuid": "client:2", "type": "copper"}, {"uuid": "client:3", "type": "copper"},
+                {"uuid": "uk1.uk", "type": "copper"}, {"uuid": "be1.be", "type": "copper"}, {"uuid": "gr1.gr", "type": "copper"}
+            ]}}}
+        ]}},
+        {"device_id": {"device_uuid": {"uuid": "pt1.pt"}}, "device_type": "emu-packet-router", "device_operational_status": 1, "device_drivers": [0], "device_config": {"config_rules": [
+            {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "127.0.0.1"}},
+            {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "0"}},
+            {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {"endpoints": [
+                {"uuid": "client:1", "type": "copper"}, {"uuid": "client:2", "type": "copper"}, {"uuid": "client:3", "type": "copper"},
+                {"uuid": "uk1.uk", "type": "copper"}, {"uuid": "fr1.fr", "type": "copper"}, {"uuid": "es1.es", "type": "copper"}
+            ]}}}
+        ]}},
+        {"device_id": {"device_uuid": {"uuid": "es1.es"}}, "device_type": "emu-packet-router", "device_operational_status": 1, "device_drivers": [0], "device_config": {"config_rules": [
+            {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "127.0.0.1"}},
+            {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "0"}},
+            {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {"endpoints": [
+                {"uuid": "client:1", "type": "copper"}, {"uuid": "client:2", "type": "copper"}, {"uuid": "client:3", "type": "copper"},
+                {"uuid": "it1.it", "type": "copper"}, {"uuid": "fr1.fr", "type": "copper"}, {"uuid": "pt1.pt", "type": "copper"}
+            ]}}}
+        ]}},
+        {"device_id": {"device_uuid": {"uuid": "it1.it"}}, "device_type": "emu-packet-router", "device_operational_status": 1, "device_drivers": [0], "device_config": {"config_rules": [
+            {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "127.0.0.1"}},
+            {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "0"}},
+            {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {"endpoints": [
+                {"uuid": "client:1", "type": "copper"}, {"uuid": "client:2", "type": "copper"}, {"uuid": "client:3", "type": "copper"},
+                {"uuid": "es1.es", "type": "copper"}, {"uuid": "fr1.fr", "type": "copper"}, {"uuid": "be1.be", "type": "copper"},
+                {"uuid": "gr1.gr", "type": "copper"}
+            ]}}}
+        ]}},
+        {"device_id": {"device_uuid": {"uuid": "gr1.gr"}}, "device_type": "emu-packet-router", "device_operational_status": 1, "device_drivers": [0], "device_config": {"config_rules": [
+            {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "127.0.0.1"}},
+            {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "0"}},
+            {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {"endpoints": [
+                {"uuid": "client:1", "type": "copper"}, {"uuid": "client:2", "type": "copper"}, {"uuid": "client:3", "type": "copper"},
+                {"uuid": "it1.it", "type": "copper"}, {"uuid": "de1.de", "type": "copper"}, {"uuid": "be1.be", "type": "copper"}
+            ]}}}
+        ]}}
+    ],
+    "links": [
+        {"link_id": {"link_uuid": {"uuid": "fr1.fr_be1.be"}}, "attributes": {"total_capacity_gbps": 100, "used_capacity_gbps": 4.804849}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "fr1.fr"}}, "endpoint_uuid": {"uuid": "be1.be"}},
+            {"device_id": {"device_uuid": {"uuid": "be1.be"}}, "endpoint_uuid": {"uuid": "fr1.fr"}}
+        ]}, 
+        {"link_id": {"link_uuid": {"uuid": "uk1.uk_fr1.fr"}}, "attributes": {"total_capacity_gbps": 300, "used_capacity_gbps": 55.182499}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "uk1.uk"}}, "endpoint_uuid": {"uuid": "fr1.fr"}},
+            {"device_id": {"device_uuid": {"uuid": "fr1.fr"}}, "endpoint_uuid": {"uuid": "uk1.uk"}}
+        ]}, 
+        {"link_id": {"link_uuid": {"uuid": "uk1.uk_de1.de"}}, "attributes": {"total_capacity_gbps": 600, "used_capacity_gbps": 199.272255}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "uk1.uk"}}, "endpoint_uuid": {"uuid": "de1.de"}},
+            {"device_id": {"device_uuid": {"uuid": "de1.de"}}, "endpoint_uuid": {"uuid": "uk1.uk"}}
+        ]}, 
+        {"link_id": {"link_uuid": {"uuid": "uk1.uk_be1.be"}}, "attributes": {"total_capacity_gbps": 100, "used_capacity_gbps": 14.334868}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "uk1.uk"}}, "endpoint_uuid": {"uuid": "be1.be"}},
+            {"device_id": {"device_uuid": {"uuid": "be1.be"}}, "endpoint_uuid": {"uuid": "uk1.uk"}}
+        ]}, 
+        {"link_id": {"link_uuid": {"uuid": "pt1.pt_uk1.uk"}}, "attributes": {"total_capacity_gbps": 400, "used_capacity_gbps": 51.415678}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "pt1.pt"}}, "endpoint_uuid": {"uuid": "uk1.uk"}},
+            {"device_id": {"device_uuid": {"uuid": "uk1.uk"}}, "endpoint_uuid": {"uuid": "pt1.pt"}}
+        ]}, 
+        {"link_id": {"link_uuid": {"uuid": "pt1.pt_fr1.fr"}}, "attributes": {"total_capacity_gbps": 100, "used_capacity_gbps": 3.733925}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "pt1.pt"}}, "endpoint_uuid": {"uuid": "fr1.fr"}},
+            {"device_id": {"device_uuid": {"uuid": "fr1.fr"}}, "endpoint_uuid": {"uuid": "pt1.pt"}}
+        ]}, 
+        {"link_id": {"link_uuid": {"uuid": "pt1.pt_es1.es"}}, "attributes": {"total_capacity_gbps": 100, "used_capacity_gbps": 13.32428}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "pt1.pt"}}, "endpoint_uuid": {"uuid": "es1.es"}},
+            {"device_id": {"device_uuid": {"uuid": "es1.es"}}, "endpoint_uuid": {"uuid": "pt1.pt"}}
+        ]}, 
+        {"link_id": {"link_uuid": {"uuid": "it1.it_gr1.gr"}}, "attributes": {"total_capacity_gbps": 800, "used_capacity_gbps": 1.593313}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "it1.it"}}, "endpoint_uuid": {"uuid": "gr1.gr"}},
+            {"device_id": {"device_uuid": {"uuid": "gr1.gr"}}, "endpoint_uuid": {"uuid": "it1.it"}}
+        ]}, 
+        {"link_id": {"link_uuid": {"uuid": "it1.it_fr1.fr"}}, "attributes": {"total_capacity_gbps": 200, "used_capacity_gbps": 98.574706}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "it1.it"}}, "endpoint_uuid": {"uuid": "fr1.fr"}},
+            {"device_id": {"device_uuid": {"uuid": "fr1.fr"}}, "endpoint_uuid": {"uuid": "it1.it"}}
+        ]}, 
+        {"link_id": {"link_uuid": {"uuid": "it1.it_es1.es"}}, "attributes": {"total_capacity_gbps": 300, "used_capacity_gbps": 18.97108}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "it1.it"}}, "endpoint_uuid": {"uuid": "es1.es"}},
+            {"device_id": {"device_uuid": {"uuid": "es1.es"}}, "endpoint_uuid": {"uuid": "it1.it"}}
+        ]}, 
+        {"link_id": {"link_uuid": {"uuid": "it1.it_be1.be"}}, "attributes": {"total_capacity_gbps": 100, "used_capacity_gbps": 10.327772}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "it1.it"}}, "endpoint_uuid": {"uuid": "be1.be"}},
+            {"device_id": {"device_uuid": {"uuid": "be1.be"}}, "endpoint_uuid": {"uuid": "it1.it"}}
+        ]}, 
+        {"link_id": {"link_uuid": {"uuid": "gr1.gr_it1.it"}}, "attributes": {"total_capacity_gbps": 100, "used_capacity_gbps": 7.983659}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "gr1.gr"}}, "endpoint_uuid": {"uuid": "it1.it"}},
+            {"device_id": {"device_uuid": {"uuid": "it1.it"}}, "endpoint_uuid": {"uuid": "gr1.gr"}}
+        ]}, 
+        {"link_id": {"link_uuid": {"uuid": "gr1.gr_de1.de"}}, "attributes": {"total_capacity_gbps": 5000, "used_capacity_gbps": 4930.897339}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "gr1.gr"}}, "endpoint_uuid": {"uuid": "de1.de"}},
+            {"device_id": {"device_uuid": {"uuid": "de1.de"}}, "endpoint_uuid": {"uuid": "gr1.gr"}}
+        ]}, 
+        {"link_id": {"link_uuid": {"uuid": "gr1.gr_be1.be"}}, "attributes": {"total_capacity_gbps": 100, "used_capacity_gbps": 0.895539}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "gr1.gr"}}, "endpoint_uuid": {"uuid": "be1.be"}},
+            {"device_id": {"device_uuid": {"uuid": "be1.be"}}, "endpoint_uuid": {"uuid": "gr1.gr"}}
+        ]}, 
+        {"link_id": {"link_uuid": {"uuid": "fr1.fr_uk1.uk"}}, "attributes": {"total_capacity_gbps": 200, "used_capacity_gbps": 28.144199}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "fr1.fr"}}, "endpoint_uuid": {"uuid": "uk1.uk"}},
+            {"device_id": {"device_uuid": {"uuid": "uk1.uk"}}, "endpoint_uuid": {"uuid": "fr1.fr"}}
+        ]}, 
+        {"link_id": {"link_uuid": {"uuid": "fr1.fr_pt1.pt"}}, "attributes": {"total_capacity_gbps": 100, "used_capacity_gbps": 1.916587}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "fr1.fr"}}, "endpoint_uuid": {"uuid": "pt1.pt"}},
+            {"device_id": {"device_uuid": {"uuid": "pt1.pt"}}, "endpoint_uuid": {"uuid": "fr1.fr"}}
+        ]}, 
+        {"link_id": {"link_uuid": {"uuid": "fr1.fr_it1.it"}}, "attributes": {"total_capacity_gbps": 100, "used_capacity_gbps": 3.330747}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "fr1.fr"}}, "endpoint_uuid": {"uuid": "it1.it"}},
+            {"device_id": {"device_uuid": {"uuid": "it1.it"}}, "endpoint_uuid": {"uuid": "fr1.fr"}}
+        ]}, 
+        {"link_id": {"link_uuid": {"uuid": "fr1.fr_es1.es"}}, "attributes": {"total_capacity_gbps": 100, "used_capacity_gbps": 96.682749}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "fr1.fr"}}, "endpoint_uuid": {"uuid": "es1.es"}},
+            {"device_id": {"device_uuid": {"uuid": "es1.es"}}, "endpoint_uuid": {"uuid": "fr1.fr"}}
+        ]}, 
+        {"link_id": {"link_uuid": {"uuid": "es1.es_pt1.pt"}}, "attributes": {"total_capacity_gbps": 100, "used_capacity_gbps": 5.643483}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "es1.es"}}, "endpoint_uuid": {"uuid": "pt1.pt"}},
+            {"device_id": {"device_uuid": {"uuid": "pt1.pt"}}, "endpoint_uuid": {"uuid": "es1.es"}}
+        ]}, 
+        {"link_id": {"link_uuid": {"uuid": "es1.es_it1.it"}}, "attributes": {"total_capacity_gbps": 100, "used_capacity_gbps": 15.353667}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "es1.es"}}, "endpoint_uuid": {"uuid": "it1.it"}},
+            {"device_id": {"device_uuid": {"uuid": "it1.it"}}, "endpoint_uuid": {"uuid": "es1.es"}}
+        ]}, 
+        {"link_id": {"link_uuid": {"uuid": "es1.es_fr1.fr"}}, "attributes": {"total_capacity_gbps": 100, "used_capacity_gbps": 20.517778}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "es1.es"}}, "endpoint_uuid": {"uuid": "fr1.fr"}},
+            {"device_id": {"device_uuid": {"uuid": "fr1.fr"}}, "endpoint_uuid": {"uuid": "es1.es"}}
+        ]}, 
+        {"link_id": {"link_uuid": {"uuid": "de1.de_uk1.uk"}}, "attributes": {"total_capacity_gbps": 600, "used_capacity_gbps": 239.446965}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "de1.de"}}, "endpoint_uuid": {"uuid": "uk1.uk"}},
+            {"device_id": {"device_uuid": {"uuid": "uk1.uk"}}, "endpoint_uuid": {"uuid": "de1.de"}}
+        ]}, 
+        {"link_id": {"link_uuid": {"uuid": "de1.de_gr1.gr"}}, "attributes": {"total_capacity_gbps": 2100, "used_capacity_gbps": 110.602237}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "de1.de"}}, "endpoint_uuid": {"uuid": "gr1.gr"}},
+            {"device_id": {"device_uuid": {"uuid": "gr1.gr"}}, "endpoint_uuid": {"uuid": "de1.de"}}
+        ]}, 
+        {"link_id": {"link_uuid": {"uuid": "de1.de_be1.be"}}, "attributes": {"total_capacity_gbps": 100, "used_capacity_gbps": 57.709307}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "de1.de"}}, "endpoint_uuid": {"uuid": "be1.be"}},
+            {"device_id": {"device_uuid": {"uuid": "be1.be"}}, "endpoint_uuid": {"uuid": "de1.de"}}
+        ]}, 
+        {"link_id": {"link_uuid": {"uuid": "uk1.uk_pt1.pt"}}, "attributes": {"total_capacity_gbps": 800, "used_capacity_gbps": 652.70225}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "uk1.uk"}}, "endpoint_uuid": {"uuid": "pt1.pt"}},
+            {"device_id": {"device_uuid": {"uuid": "pt1.pt"}}, "endpoint_uuid": {"uuid": "uk1.uk"}}
+        ]}, 
+        {"link_id": {"link_uuid": {"uuid": "be1.be_uk1.uk"}}, "attributes": {"total_capacity_gbps": 200, "used_capacity_gbps": 8.252107}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "be1.be"}}, "endpoint_uuid": {"uuid": "uk1.uk"}},
+            {"device_id": {"device_uuid": {"uuid": "uk1.uk"}}, "endpoint_uuid": {"uuid": "be1.be"}}
+        ]}, 
+        {"link_id": {"link_uuid": {"uuid": "be1.be_it1.it"}}, "attributes": {"total_capacity_gbps": 100, "used_capacity_gbps": 0.357069}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "be1.be"}}, "endpoint_uuid": {"uuid": "it1.it"}},
+            {"device_id": {"device_uuid": {"uuid": "it1.it"}}, "endpoint_uuid": {"uuid": "be1.be"}}
+        ]}, 
+        {"link_id": {"link_uuid": {"uuid": "be1.be_de1.de"}}, "attributes": {"total_capacity_gbps": 100, "used_capacity_gbps": 20.400142}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "be1.be"}}, "endpoint_uuid": {"uuid": "de1.de"}},
+            {"device_id": {"device_uuid": {"uuid": "de1.de"}}, "endpoint_uuid": {"uuid": "be1.be"}}
+        ]}, 
+        {"link_id": {"link_uuid": {"uuid": "be1.be_fr1.fr"}}, "attributes": {"total_capacity_gbps": 100, "used_capacity_gbps": 31.346514}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "be1.be"}}, "endpoint_uuid": {"uuid": "fr1.fr"}},
+            {"device_id": {"device_uuid": {"uuid": "fr1.fr"}}, "endpoint_uuid": {"uuid": "be1.be"}}
+        ]}, 
+        {"link_id": {"link_uuid": {"uuid": "be1.be_gr1.gr"}}, "attributes": {"total_capacity_gbps": 100, "used_capacity_gbps": 0.026822}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "be1.be"}}, "endpoint_uuid": {"uuid": "gr1.gr"}},
+            {"device_id": {"device_uuid": {"uuid": "gr1.gr"}}, "endpoint_uuid": {"uuid": "be1.be"}}
+        ]}
+    ]
+}

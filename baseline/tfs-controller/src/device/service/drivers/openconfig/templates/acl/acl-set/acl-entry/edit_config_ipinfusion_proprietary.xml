@@ -1,0 +1,34 @@
+<acl xmlns="http://www.ipinfusion.com/yang/ocnos/ipi-acl">
+  <acl-sets>
+    <acl-set {% if operation == 'delete' %}operation="delete"{% endif %}>
+      <name>{{name}}</name>
+      {% if type is defined %}<type>{{type}}</type>{% endif %}
+      <config>
+        <name>{{name}}</name>
+        {% if type is defined %}<type>{{type}}</type>{% endif %}
+      </config>
+      {% if operation != 'delete' %}
+      <acl-entries>
+        <acl-entry>
+          <sequence-id>{{sequence_id}}</sequence-id>
+          <config>
+            <sequence-id>{{sequence_id}}</sequence-id>
+          </config>
+          <ipv4>
+            <config>
+              <source-address>{{source_address}}</source-address>
+              <destination-address>{{destination_address}}</destination-address>
+              <dscp>{{dscp}}</dscp>
+              <protocol-tcp />
+              <tcp-source-port>{{source_port}}</tcp-source-port>
+              <tcp-destination-port>{{destination_port}}</tcp-destination-port>
+              <tcp-flags>{{tcp_flags}}</tcp-flags>
+              <forwarding-action>{{forwarding_action}}</forwarding-action>
+            </config>
+          </ipv4>
+        </acl-entry>
+      </acl-entries>
+      {% endif %}
+    </acl-set>
+  </acl-sets>
+</acl>

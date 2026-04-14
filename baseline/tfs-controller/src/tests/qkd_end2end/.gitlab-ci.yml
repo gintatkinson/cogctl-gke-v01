@@ -1,0 +1,355 @@
+# Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Build, tag, and push the Docker image to the GitLab Docker registry
+build qkd_end2end:
+  variables:
+    TEST_NAME: 'qkd_end2end'
+  stage: build
+  before_script:
+    - docker image prune --force
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+  script:
+    - docker buildx build -t "${TEST_NAME}:latest" -f ./src/tests/${TEST_NAME}/Dockerfile .
+    - docker tag "${TEST_NAME}:latest" "$CI_REGISTRY_IMAGE/${TEST_NAME}:latest"
+    - docker push "$CI_REGISTRY_IMAGE/${TEST_NAME}:latest"
+  after_script:
+    - docker image prune --force
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop" || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH)'
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == "develop"'
+    - changes:
+      - src/common/**/*.py
+      - proto/*.proto
+      - src/tests/${TEST_NAME}/**/*.{py,in,sh,yml}
+      - src/tests/${TEST_NAME}/Dockerfile
+      - .gitlab-ci.yml
+
+# Deploy TeraFlowSDN and Execute end-2-end test
+end2end_test qkd_end2end:
+  timeout: 45m
+  variables:
+    TEST_NAME: 'qkd_end2end'
+  stage: end2end_test
+  # Disable to force running it after all other tasks
+  #needs:
+  #  - build qkd_end2end
+  before_script:
+    # Do Docker cleanup
+    - docker ps --all --quiet | xargs --no-run-if-empty docker stop
+    - docker container prune --force
+    - docker ps --all --quiet | xargs --no-run-if-empty docker rm --force
+    - docker image prune --force
+    - docker network prune --force
+    - docker volume prune --all --force
+    - docker buildx prune --force
+
+    # Check MicroK8s is ready
+    - microk8s status --wait-ready
+    - LOOP_MAX_ATTEMPTS=10
+    - LOOP_COUNTER=0
+    - >
+      while ! kubectl get pods --all-namespaces &> /dev/null; do
+        printf "%c" "."
+        sleep 1
+        LOOP_COUNTER=$((LOOP_COUNTER + 1))
+        if [ "$LOOP_COUNTER" -ge "$LOOP_MAX_ATTEMPTS" ]; then
+          echo "Max attempts reached, exiting the loop."
+          exit 1
+        fi
+      done
+    - kubectl get pods --all-namespaces
+
+    # Always delete Kubernetes namespaces
+    - export K8S_NAMESPACES=$(kubectl get namespace -o jsonpath='{.items[*].metadata.name}')
+    - echo "K8S_NAMESPACES=${K8S_NAMESPACES}"
+
+    - export OLD_NATS_NAMESPACES=$(echo "${K8S_NAMESPACES}" | tr ' ' '\n' | grep -E '^nats')
+    - echo "OLD_NATS_NAMESPACES=${OLD_NATS_NAMESPACES}"
+    - >
+      for ns in ${OLD_NATS_NAMESPACES}; do
+        if [[ "$ns" == nats* ]]; then
+          if helm3 status "$ns" &>/dev/null; then
+            helm3 uninstall "$ns" -n "$ns"
+          else
+            echo "Release '$ns' not found, skipping..."
+          fi
+        fi
+      done
+    - export OLD_NAMESPACES=$(echo "${K8S_NAMESPACES}" | tr ' ' '\n' | grep -E '^(tfs|crdb|qdb|kafka|nats)')
+    - echo "OLD_NAMESPACES=${OLD_NAMESPACES}"
+    - kubectl delete namespace ${OLD_NAMESPACES} || true
+
+    # Clean-up Kubernetes Failed pods
+    - >
+      kubectl get pods --all-namespaces --no-headers --field-selector=status.phase=Failed
+      -o custom-columns=NAMESPACE:.metadata.namespace,NAME:.metadata.name |
+      xargs --no-run-if-empty --max-args=2 kubectl delete pod --namespace
+
+    # Login Docker repository
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+
+  script:
+    # Download Docker image to run the test
+    - docker pull "${CI_REGISTRY_IMAGE}/${TEST_NAME}:latest"
+    - docker pull "${CI_REGISTRY_IMAGE}/mock-qkd-node:test"
+
+    # Deploy scenario with mock QKD Nodes
+    - docker network create --driver bridge --subnet=172.254.250.0/24 --gateway=172.254.250.254 qkd-node-br
+    - >
+      docker run --detach --name qkd-node-01 --network qkd-node-br --ip 172.254.250.101 --publish 8080
+      --volume "$PWD/src/tests/${TEST_NAME}/data/qkd-node-01.json:/var/mock_qkd_node/startup.json"
+      ${CI_REGISTRY_IMAGE}/mock-qkd-node:test
+    - >
+      docker run --detach --name qkd-node-02 --network qkd-node-br --ip 172.254.250.102 --publish 8080
+      --volume "$PWD/src/tests/${TEST_NAME}/data/qkd-node-02.json:/var/mock_qkd_node/startup.json"
+      ${CI_REGISTRY_IMAGE}/mock-qkd-node:test
+    - >
+      docker run --detach --name qkd-node-03 --network qkd-node-br --ip 172.254.250.103 --publish 8080
+      --volume "$PWD/src/tests/${TEST_NAME}/data/qkd-node-03.json:/var/mock_qkd_node/startup.json"
+      ${CI_REGISTRY_IMAGE}/mock-qkd-node:test
+
+    - docker ps -a
+
+    - echo "Waiting for QKD Nodes to initialize..."
+    - >
+      while ! docker logs qkd-node-01 2>&1 | grep -q "All log messages before absl::InitializeLog() is called are written to STDERR"; do
+        printf "%c" "."
+        sleep 1
+      done
+    - >
+      while ! docker logs qkd-node-02 2>&1 | grep -q "All log messages before absl::InitializeLog() is called are written to STDERR"; do
+        printf "%c" "."
+        sleep 1
+      done
+    - >
+      while ! docker logs qkd-node-03 2>&1 | grep -q "All log messages before absl::InitializeLog() is called are written to STDERR"; do
+        printf "%c" "."
+        sleep 1
+      done
+
+    # Dump logs of the QKD Nodes (script, before any configuration)
+    - docker ps -a
+    - docker logs qkd-node-01
+    - docker logs qkd-node-02
+    - docker logs qkd-node-03
+
+    # Dump configuration of the QKD Nodes (script, before any configuration)
+    - echo "[QKD-NODE-01] Config initial:"
+    - curl "http://172.254.250.101:8080/restconf/data/etsi-qkd-sdn-node:"
+    - echo
+    - echo "[QKD-NODE-02] Config initial:"
+    - curl "http://172.254.250.102:8080/restconf/data/etsi-qkd-sdn-node:"
+    - echo
+    - echo "[QKD-NODE-03] Config initial:"
+    - curl "http://172.254.250.103:8080/restconf/data/etsi-qkd-sdn-node:"
+    - echo
+
+    # Check MicroK8s is ready
+    - microk8s status --wait-ready
+    - LOOP_MAX_ATTEMPTS=10
+    - LOOP_COUNTER=0
+    - >
+      while ! kubectl get pods --all-namespaces &> /dev/null; do
+        printf "%c" "."
+        sleep 1
+        LOOP_COUNTER=$((LOOP_COUNTER + 1))
+        if [ "$LOOP_COUNTER" -ge "$LOOP_MAX_ATTEMPTS" ]; then
+          echo "Max attempts reached, exiting the loop."
+          exit 1
+        fi
+      done
+    - kubectl get pods --all-namespaces
+
+    # Configure TeraFlowSDN deployment
+    # Uncomment if DEBUG log level is needed for the components
+    #- yq -i '((select(.kind=="Deployment").spec.template.spec.containers.[] | select(.name=="server").env.[]) | select(.name=="LOG_LEVEL").value) |= "DEBUG"' manifests/contextservice.yaml
+    #- yq -i '((select(.kind=="Deployment").spec.template.spec.containers.[] | select(.name=="server").env.[]) | select(.name=="LOG_LEVEL").value) |= "DEBUG"' manifests/deviceservice.yaml
+    #- yq -i '((select(.kind=="Deployment").spec.template.spec.containers.[] | select(.name=="frontend").env.[]) | select(.name=="LOG_LEVEL").value) |= "DEBUG"' manifests/pathcompservice.yaml
+    #- yq -i '((select(.kind=="Deployment").spec.template.spec.containers.[] | select(.name=="server").env.[]) | select(.name=="LOG_LEVEL").value) |= "DEBUG"' manifests/serviceservice.yaml
+    #- yq -i '((select(.kind=="Deployment").spec.template.spec.containers.[] | select(.name=="server").env.[]) | select(.name=="LOG_LEVEL").value) |= "DEBUG"' manifests/nbiservice.yaml
+    #- yq -i '((select(.kind=="Deployment").spec.template.spec.containers.[] | select(.name=="server").env.[]) | select(.name=="LOG_LEVEL").value) |= "DEBUG"' manifests/qkd_appservice.yaml
+
+    - source src/tests/${TEST_NAME}/deploy_specs.sh
+    #- export TFS_REGISTRY_IMAGES="${CI_REGISTRY_IMAGE}"
+    #- export TFS_SKIP_BUILD="YES"
+    #- export TFS_IMAGE_TAG="latest"
+    #- echo "TFS_REGISTRY_IMAGES=${CI_REGISTRY_IMAGE}"
+
+    # Deploy TeraFlowSDN
+    - ./deploy/crdb.sh
+    - ./deploy/nats.sh
+    - ./deploy/kafka.sh
+    #- ./deploy/qdb.sh
+    - ./deploy/tfs.sh
+    - ./deploy/show.sh
+
+    ## Wait for Context to be subscribed to NATS
+    ## WARNING: this loop is infinite if there is no subscriber (such as monitoring).
+    ##          Investigate if we can use a counter to limit the number of iterations.
+    ##          For now, keep it commented out.
+    #- LOOP_MAX_ATTEMPTS=180
+    #- LOOP_COUNTER=0
+    #- >
+    #  while ! kubectl --namespace $TFS_K8S_NAMESPACE logs deployment/contextservice -c server 2>&1 | grep -q 'Subscriber is Ready? True'; do
+    #    echo "Attempt: $LOOP_COUNTER"
+    #    kubectl --namespace $TFS_K8S_NAMESPACE logs deployment/contextservice -c server 2>&1;
+    #    sleep 1;
+    #    LOOP_COUNTER=$((LOOP_COUNTER + 1))
+    #    if [ "$LOOP_COUNTER" -ge "$LOOP_MAX_ATTEMPTS" ]; then
+    #      echo "Max attempts reached, exiting the loop."
+    #      break
+    #    fi
+    #  done
+    - kubectl --namespace $TFS_K8S_NAMESPACE logs deployment/contextservice -c server
+
+    # Run end-to-end test: onboard scenario
+    - >
+      docker run -t --rm --name ${TEST_NAME} --network=host 
+      --volume "$PWD/tfs_runtime_env_vars.sh:/var/teraflow/tfs_runtime_env_vars.sh"
+      --volume "$PWD/src/tests/${TEST_NAME}:/opt/results"
+      $CI_REGISTRY_IMAGE/${TEST_NAME}:latest /var/teraflow/run-01-onboarding.sh
+
+    # Run end-to-end test: create QKD links
+    - >
+      docker run -t --rm --name ${TEST_NAME} --network=host 
+      --volume "$PWD/tfs_runtime_env_vars.sh:/var/teraflow/tfs_runtime_env_vars.sh"
+      --volume "$PWD/src/tests/${TEST_NAME}:/opt/results"
+      $CI_REGISTRY_IMAGE/${TEST_NAME}:latest /var/teraflow/run-02-create-links.sh
+
+    # Dump configuration of the QKD Nodes (script, after create QKD links)
+    - echo "[QKD-NODE-01] Config with links:"
+    - curl "http://172.254.250.101:8080/restconf/data/etsi-qkd-sdn-node:"
+    - echo
+    - echo "[QKD-NODE-02] Config with links:"
+    - curl "http://172.254.250.102:8080/restconf/data/etsi-qkd-sdn-node:"
+    - echo
+    - echo "[QKD-NODE-03] Config with links:"
+    - curl "http://172.254.250.103:8080/restconf/data/etsi-qkd-sdn-node:"
+    - echo
+
+    # TODO: check config of QKD Nodes with created links is correct
+
+    # Run end-to-end test: create external app
+    - >
+      docker run -t --rm --name ${TEST_NAME} --network=host 
+      --volume "$PWD/tfs_runtime_env_vars.sh:/var/teraflow/tfs_runtime_env_vars.sh"
+      --volume "$PWD/src/tests/${TEST_NAME}:/opt/results"
+      $CI_REGISTRY_IMAGE/${TEST_NAME}:latest /var/teraflow/run-03-create-external-app.sh
+
+    # Dump configuration of the QKD Nodes (script, after create external app)
+    - echo "[QKD-NODE-01] Config with links and external app:"
+    - curl "http://172.254.250.101:8080/restconf/data/etsi-qkd-sdn-node:"
+    - echo
+    - echo "[QKD-NODE-02] Config with links and external app:"
+    - curl "http://172.254.250.102:8080/restconf/data/etsi-qkd-sdn-node:"
+    - echo
+    - echo "[QKD-NODE-03] Config with links and external app:"
+    - curl "http://172.254.250.103:8080/restconf/data/etsi-qkd-sdn-node:"
+    - echo
+
+    # TODO: check config of QKD Nodes with created links and external app is correct
+
+    # Run end-to-end test: delete external app
+    - >
+      docker run -t --rm --name ${TEST_NAME} --network=host
+      --volume "$PWD/tfs_runtime_env_vars.sh:/var/teraflow/tfs_runtime_env_vars.sh"
+      --volume "$PWD/src/tests/${TEST_NAME}:/opt/results"
+      $CI_REGISTRY_IMAGE/${TEST_NAME}:latest /var/teraflow/run-04-delete-external-app.sh
+
+    # Dump configuration of the QKD Nodes (script, after delete external app)
+    - echo "[QKD-NODE-01] Config with links and deleted external app:"
+    - curl "http://172.254.250.101:8080/restconf/data/etsi-qkd-sdn-node:"
+    - echo
+    - echo "[QKD-NODE-02] Config with links and deleted external app:"
+    - curl "http://172.254.250.102:8080/restconf/data/etsi-qkd-sdn-node:"
+    - echo
+    - echo "[QKD-NODE-03] Config with links and deleted external app:"
+    - curl "http://172.254.250.103:8080/restconf/data/etsi-qkd-sdn-node:"
+    - echo
+
+    # TODO: check config of QKD Nodes with created links and deleted external app is correct
+
+    # Run end-to-end test: delete QKD links
+    - >
+      docker run -t --rm --name ${TEST_NAME} --network=host 
+      --volume "$PWD/tfs_runtime_env_vars.sh:/var/teraflow/tfs_runtime_env_vars.sh"
+      --volume "$PWD/src/tests/${TEST_NAME}:/opt/results"
+      $CI_REGISTRY_IMAGE/${TEST_NAME}:latest /var/teraflow/run-05-delete-links.sh
+
+    # Dump configuration of the QKD Nodes (script, after delete QKD links)
+    - echo "[QKD-NODE-01] Config with deleted links and deleted external app:"
+    - curl "http://172.254.250.101:8080/restconf/data/etsi-qkd-sdn-node:"
+    - echo
+    - echo "[QKD-NODE-02] Config with deleted links and deleted external app:"
+    - curl "http://172.254.250.102:8080/restconf/data/etsi-qkd-sdn-node:"
+    - echo
+    - echo "[QKD-NODE-03] Config with deleted links and deleted external app:"
+    - curl "http://172.254.250.103:8080/restconf/data/etsi-qkd-sdn-node:"
+    - echo
+
+    # TODO: check config of QKD Nodes with deleted links and deleted external app is correct
+
+    # Run end-to-end test: cleanup scenario
+    - >
+      docker run -t --rm --name ${TEST_NAME} --network=host 
+      --volume "$PWD/tfs_runtime_env_vars.sh:/var/teraflow/tfs_runtime_env_vars.sh"
+      --volume "$PWD/src/tests/${TEST_NAME}:/opt/results"
+      $CI_REGISTRY_IMAGE/${TEST_NAME}:latest /var/teraflow/run-06-cleanup.sh
+
+  after_script:
+    # Dump logs of the QKD Nodes (after_script)
+    - docker ps -a
+    - docker logs qkd-node-01
+    - docker logs qkd-node-02
+    - docker logs qkd-node-03
+
+    # Dump configuration of the QKD Nodes (after_script)
+    - echo "[QKD-NODE-01] Config after_script:"
+    - curl "http://172.254.250.101:8080/restconf/data/etsi-qkd-sdn-node:"
+    - echo
+    - echo "[QKD-NODE-02] Config after_script:"
+    - curl "http://172.254.250.102:8080/restconf/data/etsi-qkd-sdn-node:"
+    - echo
+    - echo "[QKD-NODE-03] Config after_script:"
+    - curl "http://172.254.250.103:8080/restconf/data/etsi-qkd-sdn-node:"
+    - echo
+
+    # Dump TeraFlowSDN component logs
+    - source src/tests/${TEST_NAME}/deploy_specs.sh
+    - kubectl --namespace $TFS_K8S_NAMESPACE logs deployment/contextservice -c server
+    - kubectl --namespace $TFS_K8S_NAMESPACE logs deployment/deviceservice -c server
+    - kubectl --namespace $TFS_K8S_NAMESPACE logs deployment/pathcompservice -c frontend
+    - kubectl --namespace $TFS_K8S_NAMESPACE logs deployment/serviceservice -c server
+    - kubectl --namespace $TFS_K8S_NAMESPACE logs deployment/nbiservice -c server
+    - kubectl --namespace $TFS_K8S_NAMESPACE logs deployment/qkd-appservice -c server
+
+    # Clean up
+    - kubectl delete namespaces tfs || true
+    - docker ps --all --quiet | xargs --no-run-if-empty docker stop
+    - docker container prune --force
+    - docker ps --all --quiet | xargs --no-run-if-empty docker rm --force
+    - docker image prune --force
+    - docker network prune --force
+    - docker volume prune --all --force
+    - docker buildx prune --force
+
+  #coverage: '/TOTAL\s+\d+\s+\d+\s+(\d+%)/'
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop" || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH)'
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == "develop"'
+  artifacts:
+      when: always
+      reports:
+        junit: ./src/tests/${TEST_NAME}/report_*.xml

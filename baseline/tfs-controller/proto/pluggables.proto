@@ -1,0 +1,140 @@
+// Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+
+syntax = "proto3";
+
+package pluggables;
+
+import "context.proto";
+
+service PluggablesService {
+  rpc CreatePluggable      (CreatePluggableRequest)      returns (Pluggable)              {}
+  rpc ListPluggables       (ListPluggablesRequest)       returns (ListPluggablesResponse) {}
+  rpc GetPluggable         (GetPluggableRequest)         returns (Pluggable)              {}
+  rpc DeletePluggable      (DeletePluggableRequest)      returns (context.Empty)          {}
+  rpc ConfigurePluggable   (ConfigurePluggableRequest)   returns (Pluggable)              {}
+}
+
+
+message PluggableId {
+  context.DeviceId device = 1;
+  int32 pluggable_index   = 2;  // physical slot number in the device
+}
+
+message DigitalSubcarrierGroupId {
+  PluggableId pluggable = 1;
+  int32 group_index     = 2;  // Group id within the pluggable
+}
+
+message DigitalSubcarrierId {
+  DigitalSubcarrierGroupId group = 1;
+  int32 subcarrier_index         = 2;  // Subcarrier index within the group
+}
+
+message DigitalSubcarrierConfig {
+  DigitalSubcarrierId id         = 1;
+  bool active                    = 2;
+  double target_output_power_dbm = 3;
+  double center_frequency_hz     = 10;
+  double symbol_rate_baud        = 11;
+}
+
+message DigitalSubcarrierState {
+  DigitalSubcarrierId id           = 1;
+  bool active                      = 2;
+  double measured_output_power_dbm = 3;
+  double osnr_db                   = 4;
+  context.Timestamp updated_at     = 10;
+}
+
+message DigitalSubcarrierGroupConfig {
+  DigitalSubcarrierGroupId id                  = 1;
+  int32 group_size                             = 2;   // expected number of DSCs
+  double group_capacity_gbps                   = 3;   // from YANG group capacity in Gbps
+  double subcarrier_spacing_mhz                = 4;   // from YANG digital-subcarrier-spacing
+  repeated DigitalSubcarrierConfig subcarriers = 10;
+}
+
+message DigitalSubcarrierGroupState {
+  DigitalSubcarrierGroupId id                 = 1;
+  int32  count                                = 2;   // available DSCs
+  double group_capacity_gbps                  = 3;
+  double subcarrier_spacing_mhz               = 4;
+  repeated DigitalSubcarrierState subcarriers = 10;
+  context.Timestamp updated_at                = 20;
+}
+
+message PluggableConfig {
+  PluggableId id                                   = 1;
+  double target_output_power_dbm                   = 2;   // target output power for the pluggable
+  double center_frequency_mhz                      = 3;   // center frequency in MHz
+  int32  operational_mode                          = 4;   // e.g., 0=off and 1=on 
+  int32  line_port                                 = 5;   // line port number
+  string channel_name                              = 6;   // channel name
+  repeated DigitalSubcarrierGroupConfig dsc_groups = 10;
+}
+
+message PluggableState {
+  PluggableId id                                  = 1;
+  repeated DigitalSubcarrierGroupState dsc_groups = 10;
+  context.Timestamp updated_at                    = 20;
+}
+
+message Pluggable {
+  PluggableId id         = 1;
+  PluggableConfig config = 2;
+  PluggableState state   = 3;
+}
+
+// -----------------------------------------------------------------------------
+// RPC I/O Messages
+// -----------------------------------------------------------------------------
+message CreatePluggableRequest {
+  context.DeviceId device         = 1;
+  int32 preferred_pluggable_index = 2;   // -1 for auto (physical slot number in the device(router))
+  PluggableConfig initial_config  = 10;
+}
+
+message ListPluggablesRequest {
+  context.DeviceId device = 1;
+  View view_level         = 2;
+}
+
+message ListPluggablesResponse {
+  repeated Pluggable pluggables = 1;
+}
+
+message GetPluggableRequest {
+  PluggableId id  = 1;
+  View view_level = 2;
+}
+
+message DeletePluggableRequest {
+  PluggableId id = 1;
+}
+
+message ConfigurePluggableRequest {
+  PluggableConfig config      = 1;
+  View view_level             = 2;
+  int32 apply_timeout_seconds = 10;   // Not Implemented yet (for timeout)
+}
+
+// to control the level of detail in responses
+enum View {
+  VIEW_UNSPECIFIED = 0;
+  VIEW_CONFIG      = 1;
+  VIEW_STATE       = 2;
+  VIEW_FULL        = 3;
+}

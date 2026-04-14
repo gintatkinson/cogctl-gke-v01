@@ -1,0 +1,122 @@
+# Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: tfs-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: "/$2"
+
+    # Enable websocket services and configure sticky cookies (seems not to work)
+    #nginx.org/websocket-services: "nbiservice"
+    #nginx.org/sticky-cookie-services: "serviceName=nbiservice tfs-nbi-session expires=1h path=/socket.io"
+
+    # Enable sticky sessions (use same backend for all connections
+    # originated by a specific client, identified through its cookie)
+    nginx.ingress.kubernetes.io/affinity: "cookie"
+    nginx.ingress.kubernetes.io/affinity-mode: "persistent"
+    nginx.ingress.kubernetes.io/session-cookie-name: "tfs-nbi-session"
+    nginx.ingress.kubernetes.io/session-cookie-path: "/socket.io"
+    nginx.ingress.kubernetes.io/session-cookie-expires: "3600"
+    nginx.ingress.kubernetes.io/session-cookie-change-on-failure: "true"
+
+    nginx.ingress.kubernetes.io/limit-rps: "50"             # max requests per second per source IP
+    nginx.ingress.kubernetes.io/limit-connections: "50"     # max concurrent connections per source IP
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "60" # max timeout for connecting to server
+
+    # Enable long-lived connections, required for websocket/socket.io streams
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"  # max timeout between two successive read operations
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"  # max timeout between two successive write operations
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /webui(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: webuiservice
+                port:
+                  number: 8004
+          - path: /grafana(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: webuiservice
+                port:
+                  number: 3000
+          - path: /()(.well-known/.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: nbiservice
+                port:
+                  number: 8080
+          - path: /()(restconf/.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: nbiservice
+                port:
+                  number: 8080
+          - path: /()(socket.io/.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: nbiservice
+                port:
+                  number: 8080
+          - path: /()(tfs-api/.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: nbiservice
+                port:
+                  number: 8080
+          - path: /()(bmw/.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: nbiservice
+                port:
+                  number: 8080
+          - path: /()(qkd_app/.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: nbiservice
+                port:
+                  number: 8080
+          - path: /()(camara/.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: nbiservice
+                port:
+                  number: 8080
+          - path: /()(agent-probes/.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: nbiservice
+                port:
+                  number: 8080
+          - path: /()(osm-api/.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: nbiservice
+                port:
+                  number: 8080

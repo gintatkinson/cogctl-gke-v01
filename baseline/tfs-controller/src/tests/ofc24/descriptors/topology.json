@@ -1,0 +1,1570 @@
+{
+    "contexts": [
+        {"context_id": {"context_uuid": {"uuid": "admin"}}}
+    ],
+    "topologies": [
+        {"topology_id": {"context_id": {"context_uuid": {"uuid": "admin"}}, "topology_uuid": {"uuid": "admin"}}}
+    ],
+    "devices": [
+        {
+            "device_id": {"device_uuid": {"uuid": "T1.1"}}, "device_type": "optical-transponder", "device_drivers": [11],
+            "device_operational_status": 1,
+            "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "172.254.253.101"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "2022"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {
+                    "username": "admin", "password": "admin", "force_running": false, "hostkey_verify": false,
+                    "look_for_keys": false, "allow_agent": false, "commit_per_rule": false,
+                    "device_params": {"name": "default"}, "manager_params": {"timeout": 120}
+                }}}
+            ]}
+        },
+        {
+            "device_id": {"device_uuid": {"uuid": "T1.2"}}, "device_type": "optical-transponder", "device_drivers": [11],
+            "device_operational_status": 1,
+            "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "172.254.253.101"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "2022"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {
+                    "username": "admin", "password": "admin", "force_running": false, "hostkey_verify": false,
+                    "look_for_keys": false, "allow_agent": false, "commit_per_rule": false,
+                    "device_params": {"name": "default"}, "manager_params": {"timeout": 120}
+                }}}
+            ]}
+        },
+        {
+            "device_id": {"device_uuid": {"uuid": "T1.3"}}, "device_type": "optical-transponder", "device_drivers": [11],
+            "device_operational_status": 1,
+            "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "172.254.253.101"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "2022"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {
+                    "username": "admin", "password": "admin", "force_running": false, "hostkey_verify": false,
+                    "look_for_keys": false, "allow_agent": false, "commit_per_rule": false,
+                    "device_params": {"name": "default"}, "manager_params": {"timeout": 120}
+                }}}
+            ]}
+        },
+        {
+            "device_id": {"device_uuid": {"uuid": "T2.1"}}, "device_type": "optical-transponder", "device_drivers": [11],
+            "device_operational_status": 1,
+            "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "172.254.253.102"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "2022"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {
+                    "username": "admin", "password": "admin", "force_running": false, "hostkey_verify": false,
+                    "look_for_keys": false, "allow_agent": false, "commit_per_rule": false,
+                    "device_params": {"name": "default"}, "manager_params": {"timeout": 120}
+                }}}
+            ]}
+        },
+        {
+            "device_id": {"device_uuid": {"uuid": "T2.2"}}, "device_type": "optical-transponder", "device_drivers": [11],
+            "device_operational_status": 1,
+            "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "172.254.253.102"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "2022"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {
+                    "username": "admin", "password": "admin", "force_running": false, "hostkey_verify": false,
+                    "look_for_keys": false, "allow_agent": false, "commit_per_rule": false,
+                    "device_params": {"name": "default"}, "manager_params": {"timeout": 120}
+                }}}
+            ]}
+        },
+        {
+            "device_id": {"device_uuid": {"uuid": "T2.3"}}, "device_type": "optical-transponder", "device_drivers": [11],
+            "device_operational_status": 1,
+            "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "172.254.253.102"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "2022"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {
+                    "username": "admin", "password": "admin", "force_running": false, "hostkey_verify": false,
+                    "look_for_keys": false, "allow_agent": false, "commit_per_rule": false,
+                    "device_params": {"name": "default"}, "manager_params": {"timeout": 120}
+                }}}
+            ]}
+        },
+        {
+            "device_id": {"device_uuid": {"uuid": "R1"}}, "device_type": "optical-roadm", "device_drivers": [11],
+            "device_operational_status": 1,
+            "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "172.254.253.201"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "2022"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {
+                    "username": "admin", "password": "admin", "force_running": false, "hostkey_verify": false,
+                    "look_for_keys": false, "allow_agent": false, "commit_per_rule": false, "type": "optical-roadm",
+                    "device_params": {"name": "default"}, "manager_params": {"timeout": 120}
+                }}}
+            ]}
+        },
+        {
+            "device_id": {"device_uuid": {"uuid": "R2"}}, "device_type": "optical-roadm", "device_drivers": [11],
+            "device_operational_status": 1,
+            "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "172.254.253.202"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "2022"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {
+                    "username": "admin", "password": "admin", "force_running": false, "hostkey_verify": false,
+                    "look_for_keys": false, "allow_agent": false, "commit_per_rule": false, "type": "optical-roadm",
+                    "device_params": {"name": "default"}, "manager_params": {"timeout": 120}
+                }}}
+            ]}
+        }
+    ],
+    "optical_links": [
+		{
+			"name": "T1.1-R1",
+			"link_id": {
+				"link_uuid": {
+					"uuid": "T1.1->R1"
+				}
+			},
+			"link_endpoint_ids": [
+				{
+					"device_id": {
+						"device_uuid": {
+							"uuid": "T1.1"
+						}
+					},
+					"endpoint_uuid": {
+						"uuid": "1"
+					}
+				},
+				{
+					"device_id": {
+						"device_uuid": {
+							"uuid": "R1"
+						}
+					},
+					"endpoint_uuid": {
+						"uuid": "12"
+					}
+				}
+			],
+			"optical_details": {
+				"length": 0,
+				"src_port": "1",
+				"dst_port": "12",
+				"local_peer_port": "1",
+				"remote_peer_port": "2",
+				"used": false,
+				"c_slots": {
+					"1": 1,
+					"2": 1,
+					"3": 1,
+					"4": 1,
+					"5": 1,
+					"6": 1,
+					"7": 1,
+					"8": 1,
+					"9": 1,
+					"10": 1,
+					"11": 1,
+					"12": 1,
+					"13": 1,
+					"14": 1,
+					"15": 1,
+					"16": 1,
+					"17": 1,
+					"18": 1,
+					"19": 1,
+					"20": 1
+				},
+				"l_slots": {
+					"101": 1,
+					"102": 1,
+					"103": 1,
+					"104": 1,
+					"105": 1,
+					"106": 1,
+					"107": 1,
+					"108": 1,
+					"109": 1,
+					"110": 1,
+					"111": 1,
+					"112": 1,
+					"113": 1,
+					"114": 1,
+					"115": 1,
+					"116": 1,
+					"117": 1,
+					"118": 1,
+					"119": 1,
+					"120": 1
+				},
+				"s_slots": {
+					"501": 1,
+					"502": 1,
+					"503": 1,
+					"504": 1,
+					"505": 1,
+					"506": 1,
+					"507": 1,
+					"508": 1,
+					"509": 1,
+					"510": 1,
+					"511": 1,
+					"512": 1,
+					"513": 1,
+					"514": 1,
+					"515": 1,
+					"516": 1,
+					"517": 1,
+					"518": 1,
+					"519": 1,
+					"520": 1
+				}
+			}
+		},
+		{
+			"name": "T1.2-R1",
+			"link_id": {
+				"link_uuid": {
+					"uuid": "T1.2->R1"
+				}
+			},
+			"link_endpoint_ids": [
+				{
+					"device_id": {
+						"device_uuid": {
+							"uuid": "T1.2"
+						}
+					},
+					"endpoint_uuid": {
+						"uuid": "1"
+					}
+				},
+				{
+					"device_id": {
+						"device_uuid": {
+							"uuid": "R1"
+						}
+					},
+					"endpoint_uuid": {
+						"uuid": "13"
+					}
+				}
+			],
+			"optical_details": {
+				"length": 0,
+				"src_port": "1",
+				"dst_port": "13",
+				"local_peer_port": "1",
+				"remote_peer_port": "3",
+				"used": false,
+				"c_slots": {
+					"1": 1,
+					"2": 1,
+					"3": 1,
+					"4": 1,
+					"5": 1,
+					"6": 1,
+					"7": 1,
+					"8": 1,
+					"9": 1,
+					"10": 1,
+					"11": 1,
+					"12": 1,
+					"13": 1,
+					"14": 1,
+					"15": 1,
+					"16": 1,
+					"17": 1,
+					"18": 1,
+					"19": 1,
+					"20": 1
+				},
+				"l_slots": {
+					"101": 1,
+					"102": 1,
+					"103": 1,
+					"104": 1,
+					"105": 1,
+					"106": 1,
+					"107": 1,
+					"108": 1,
+					"109": 1,
+					"110": 1,
+					"111": 1,
+					"112": 1,
+					"113": 1,
+					"114": 1,
+					"115": 1,
+					"116": 1,
+					"117": 1,
+					"118": 1,
+					"119": 1,
+					"120": 1
+				},
+				"s_slots": {
+					"501": 1,
+					"502": 1,
+					"503": 1,
+					"504": 1,
+					"505": 1,
+					"506": 1,
+					"507": 1,
+					"508": 1,
+					"509": 1,
+					"510": 1,
+					"511": 1,
+					"512": 1,
+					"513": 1,
+					"514": 1,
+					"515": 1,
+					"516": 1,
+					"517": 1,
+					"518": 1,
+					"519": 1,
+					"520": 1
+				}
+			}
+		},
+		{
+			"name": "T1.3-R1",
+			"link_id": {
+				"link_uuid": {
+					"uuid": "T1.3->R1"
+				}
+			},
+			"link_endpoint_ids": [
+				{
+					"device_id": {
+						"device_uuid": {
+							"uuid": "T1.3"
+						}
+					},
+					"endpoint_uuid": {
+						"uuid": "1"
+					}
+				},
+				{
+					"device_id": {
+						"device_uuid": {
+							"uuid": "R1"
+						}
+					},
+					"endpoint_uuid": {
+						"uuid": "14"
+					}
+				}
+			],
+			"optical_details": {
+				"length": 0,
+				"src_port": "1",
+				"dst_port": "14",
+				"local_peer_port": "1",
+				"remote_peer_port": "4",
+				"used": false,
+				"c_slots": {
+					"1": 1,
+					"2": 1,
+					"3": 1,
+					"4": 1,
+					"5": 1,
+					"6": 1,
+					"7": 1,
+					"8": 1,
+					"9": 1,
+					"10": 1,
+					"11": 1,
+					"12": 1,
+					"13": 1,
+					"14": 1,
+					"15": 1,
+					"16": 1,
+					"17": 1,
+					"18": 1,
+					"19": 1,
+					"20": 1
+				},
+				"l_slots": {
+					"101": 1,
+					"102": 1,
+					"103": 1,
+					"104": 1,
+					"105": 1,
+					"106": 1,
+					"107": 1,
+					"108": 1,
+					"109": 1,
+					"110": 1,
+					"111": 1,
+					"112": 1,
+					"113": 1,
+					"114": 1,
+					"115": 1,
+					"116": 1,
+					"117": 1,
+					"118": 1,
+					"119": 1,
+					"120": 1
+				},
+				"s_slots": {
+					"501": 1,
+					"502": 1,
+					"503": 1,
+					"504": 1,
+					"505": 1,
+					"506": 1,
+					"507": 1,
+					"508": 1,
+					"509": 1,
+					"510": 1,
+					"511": 1,
+					"512": 1,
+					"513": 1,
+					"514": 1,
+					"515": 1,
+					"516": 1,
+					"517": 1,
+					"518": 1,
+					"519": 1,
+					"520": 1
+				}
+			}
+		},
+		{
+			"name": "R1-T1.1",
+			"link_id": {
+				"link_uuid": {
+					"uuid": "R1->T1.1"
+				}
+			},
+			"link_endpoint_ids": [
+				{
+					"device_id": {
+						"device_uuid": {
+							"uuid": "R1"
+						}
+					},
+					"endpoint_uuid": {
+						"uuid": "2"
+					}
+				},
+				{
+					"device_id": {
+						"device_uuid": {
+							"uuid": "T1.1"
+						}
+					},
+					"endpoint_uuid": {
+						"uuid": "1"
+					}
+				}
+			],
+			"optical_details": {
+				"length": 0,
+				"src_port": "2",
+				"dst_port": "1",
+				"local_peer_port": "12",
+				"remote_peer_port": "1",
+				"used": false,
+				"c_slots": {
+					"1": 1,
+					"2": 1,
+					"3": 1,
+					"4": 1,
+					"5": 1,
+					"6": 1,
+					"7": 1,
+					"8": 1,
+					"9": 1,
+					"10": 1,
+					"11": 1,
+					"12": 1,
+					"13": 1,
+					"14": 1,
+					"15": 1,
+					"16": 1,
+					"17": 1,
+					"18": 1,
+					"19": 1,
+					"20": 1
+				},
+				"l_slots": {
+					"101": 1,
+					"102": 1,
+					"103": 1,
+					"104": 1,
+					"105": 1,
+					"106": 1,
+					"107": 1,
+					"108": 1,
+					"109": 1,
+					"110": 1,
+					"111": 1,
+					"112": 1,
+					"113": 1,
+					"114": 1,
+					"115": 1,
+					"116": 1,
+					"117": 1,
+					"118": 1,
+					"119": 1,
+					"120": 1
+				},
+				"s_slots": {
+					"501": 1,
+					"502": 1,
+					"503": 1,
+					"504": 1,
+					"505": 1,
+					"506": 1,
+					"507": 1,
+					"508": 1,
+					"509": 1,
+					"510": 1,
+					"511": 1,
+					"512": 1,
+					"513": 1,
+					"514": 1,
+					"515": 1,
+					"516": 1,
+					"517": 1,
+					"518": 1,
+					"519": 1,
+					"520": 1
+				}
+			}
+		},
+		{
+			"name": "R1-T1.2",
+			"link_id": {
+				"link_uuid": {
+					"uuid": "R1->T1.2"
+				}
+			},
+			"link_endpoint_ids": [
+				{
+					"device_id": {
+						"device_uuid": {
+							"uuid": "R1"
+						}
+					},
+					"endpoint_uuid": {
+						"uuid": "3"
+					}
+				},
+				{
+					"device_id": {
+						"device_uuid": {
+							"uuid": "T1.2"
+						}
+					},
+					"endpoint_uuid": {
+						"uuid": "1"
+					}
+				}
+			],
+			"optical_details": {
+				"length": 0,
+				"src_port": "3",
+				"dst_port": "1",
+				"local_peer_port": "13",
+				"remote_peer_port": "1",
+				"used": false,
+				"c_slots": {
+					"1": 1,
+					"2": 1,
+					"3": 1,
+					"4": 1,
+					"5": 1,
+					"6": 1,
+					"7": 1,
+					"8": 1,
+					"9": 1,
+					"10": 1,
+					"11": 1,
+					"12": 1,
+					"13": 1,
+					"14": 1,
+					"15": 1,
+					"16": 1,
+					"17": 1,
+					"18": 1,
+					"19": 1,
+					"20": 1
+				},
+				"l_slots": {
+					"101": 1,
+					"102": 1,
+					"103": 1,
+					"104": 1,
+					"105": 1,
+					"106": 1,
+					"107": 1,
+					"108": 1,
+					"109": 1,
+					"110": 1,
+					"111": 1,
+					"112": 1,
+					"113": 1,
+					"114": 1,
+					"115": 1,
+					"116": 1,
+					"117": 1,
+					"118": 1,
+					"119": 1,
+					"120": 1
+				},
+				"s_slots": {
+					"501": 1,
+					"502": 1,
+					"503": 1,
+					"504": 1,
+					"505": 1,
+					"506": 1,
+					"507": 1,
+					"508": 1,
+					"509": 1,
+					"510": 1,
+					"511": 1,
+					"512": 1,
+					"513": 1,
+					"514": 1,
+					"515": 1,
+					"516": 1,
+					"517": 1,
+					"518": 1,
+					"519": 1,
+					"520": 1
+				}
+			}
+		},
+		{
+			"name": "R1-T1.3",
+			"link_id": {
+				"link_uuid": {
+					"uuid": "R1->T1.3"
+				}
+			},
+			"link_endpoint_ids": [
+				{
+					"device_id": {
+						"device_uuid": {
+							"uuid": "R1"
+						}
+					},
+					"endpoint_uuid": {
+						"uuid": "4"
+					}
+				},
+				{
+					"device_id": {
+						"device_uuid": {
+							"uuid": "T1.3"
+						}
+					},
+					"endpoint_uuid": {
+						"uuid": "1"
+					}
+				}
+			],
+			"optical_details": {
+				"length": 0,
+				"src_port": "4",
+				"dst_port": "1",
+				"local_peer_port": "14",
+				"remote_peer_port": "1",
+				"used": false,
+				"c_slots": {
+					"1": 1,
+					"2": 1,
+					"3": 1,
+					"4": 1,
+					"5": 1,
+					"6": 1,
+					"7": 1,
+					"8": 1,
+					"9": 1,
+					"10": 1,
+					"11": 1,
+					"12": 1,
+					"13": 1,
+					"14": 1,
+					"15": 1,
+					"16": 1,
+					"17": 1,
+					"18": 1,
+					"19": 1,
+					"20": 1
+				},
+				"l_slots": {
+					"101": 1,
+					"102": 1,
+					"103": 1,
+					"104": 1,
+					"105": 1,
+					"106": 1,
+					"107": 1,
+					"108": 1,
+					"109": 1,
+					"110": 1,
+					"111": 1,
+					"112": 1,
+					"113": 1,
+					"114": 1,
+					"115": 1,
+					"116": 1,
+					"117": 1,
+					"118": 1,
+					"119": 1,
+					"120": 1
+				},
+				"s_slots": {
+					"501": 1,
+					"502": 1,
+					"503": 1,
+					"504": 1,
+					"505": 1,
+					"506": 1,
+					"507": 1,
+					"508": 1,
+					"509": 1,
+					"510": 1,
+					"511": 1,
+					"512": 1,
+					"513": 1,
+					"514": 1,
+					"515": 1,
+					"516": 1,
+					"517": 1,
+					"518": 1,
+					"519": 1,
+					"520": 1
+				}
+			}
+		},
+		{
+			"name": "R1-R2",
+			"link_id": {
+				"link_uuid": {
+					"uuid": "R1->R2"
+				}
+			},
+			"link_endpoint_ids": [
+				{
+					"device_id": {
+						"device_uuid": {
+							"uuid": "R1"
+						}
+					},
+					"endpoint_uuid": {
+						"uuid": "101"
+					}
+				},
+				{
+					"device_id": {
+						"device_uuid": {
+							"uuid": "R2"
+						}
+					},
+					"endpoint_uuid": {
+						"uuid": "111"
+					}
+				}
+			],
+            "optical_details": {
+				"length": 0,
+				"src_port": "101",
+				"dst_port": "111",
+				"local_peer_port": "111",
+				"remote_peer_port": "101",
+				"c_slots": {
+					"1": 1,
+					"2": 1,
+					"3": 1,
+					"4": 1,
+					"5": 1,
+					"6": 1,
+					"7": 1,
+					"8": 1,
+					"9": 1,
+					"10": 1,
+					"11": 1,
+					"12": 1,
+					"13": 1,
+					"14": 1,
+					"15": 1,
+					"16": 1,
+					"17": 1,
+					"18": 1,
+					"19": 1,
+					"20": 1
+				},
+				"l_slots": {
+					"101": 1,
+					"102": 1,
+					"103": 1,
+					"104": 1,
+					"105": 1,
+					"106": 1,
+					"107": 1,
+					"108": 1,
+					"109": 1,
+					"110": 1,
+					"111": 1,
+					"112": 1,
+					"113": 1,
+					"114": 1,
+					"115": 1,
+					"116": 1,
+					"117": 1,
+					"118": 1,
+					"119": 1,
+					"120": 1
+				},
+				"s_slots": {
+					"501": 1,
+					"502": 1,
+					"503": 1,
+					"504": 1,
+					"505": 1,
+					"506": 1,
+					"507": 1,
+					"508": 1,
+					"509": 1,
+					"510": 1,
+					"511": 1,
+					"512": 1,
+					"513": 1,
+					"514": 1,
+					"515": 1,
+					"516": 1,
+					"517": 1,
+					"518": 1,
+					"519": 1,
+					"520": 1
+				}
+			}
+		},
+		{
+			"name": "R2-R1",
+			"link_id": {
+				"link_uuid": {
+					"uuid": "R2->R1"
+				}
+			},
+			"link_endpoint_ids": [
+				{
+					"device_id": {
+						"device_uuid": {
+							"uuid": "R2"
+						}
+					},
+					"endpoint_uuid": {
+						"uuid": "101"
+					}
+				},
+				{
+					"device_id": {
+						"device_uuid": {
+							"uuid": "R1"
+						}
+					},
+					"endpoint_uuid": {
+						"uuid": "111"
+					}
+				}
+			],
+            "optical_details": {
+				"length": 0,
+				"src_port": "101",
+				"dst_port": "111",
+				"local_peer_port": "111",
+				"remote_peer_port": "101",
+				"c_slots": {
+					"1": 1,
+					"2": 1,
+					"3": 1,
+					"4": 1,
+					"5": 1,
+					"6": 1,
+					"7": 1,
+					"8": 1,
+					"9": 1,
+					"10": 1,
+					"11": 1,
+					"12": 1,
+					"13": 1,
+					"14": 1,
+					"15": 1,
+					"16": 1,
+					"17": 1,
+					"18": 1,
+					"19": 1,
+					"20": 1
+				},
+				"l_slots": {
+					"101": 1,
+					"102": 1,
+					"103": 1,
+					"104": 1,
+					"105": 1,
+					"106": 1,
+					"107": 1,
+					"108": 1,
+					"109": 1,
+					"110": 1,
+					"111": 1,
+					"112": 1,
+					"113": 1,
+					"114": 1,
+					"115": 1,
+					"116": 1,
+					"117": 1,
+					"118": 1,
+					"119": 1,
+					"120": 1
+				},
+				"s_slots": {
+					"501": 1,
+					"502": 1,
+					"503": 1,
+					"504": 1,
+					"505": 1,
+					"506": 1,
+					"507": 1,
+					"508": 1,
+					"509": 1,
+					"510": 1,
+					"511": 1,
+					"512": 1,
+					"513": 1,
+					"514": 1,
+					"515": 1,
+					"516": 1,
+					"517": 1,
+					"518": 1,
+					"519": 1,
+					"520": 1
+				}
+			}
+		},
+		{
+			"name": "T2.1-R2",
+			"link_id": {
+				"link_uuid": {
+					"uuid": "T2.1->R2"
+				}
+			},
+			"link_endpoint_ids": [
+				{
+					"device_id": {
+						"device_uuid": {
+							"uuid": "T2.1"
+						}
+					},
+					"endpoint_uuid": {
+						"uuid": "6"
+					}
+				},
+				{
+					"device_id": {
+						"device_uuid": {
+							"uuid": "R2"
+						}
+					},
+					"endpoint_uuid": {
+						"uuid": "12"
+					}
+				}
+			],
+			"optical_details": {
+				"length": 0,
+				"src_port": "6",
+				"dst_port": "12",
+				"local_peer_port": "6",
+				"remote_peer_port": "2",
+				"used": false,
+				"c_slots": {
+					"1": 1,
+					"2": 1,
+					"3": 1,
+					"4": 1,
+					"5": 1,
+					"6": 1,
+					"7": 1,
+					"8": 1,
+					"9": 1,
+					"10": 1,
+					"11": 1,
+					"12": 1,
+					"13": 1,
+					"14": 1,
+					"15": 1,
+					"16": 1,
+					"17": 1,
+					"18": 1,
+					"19": 1,
+					"20": 1
+				},
+				"l_slots": {
+					"101": 1,
+					"102": 1,
+					"103": 1,
+					"104": 1,
+					"105": 1,
+					"106": 1,
+					"107": 1,
+					"108": 1,
+					"109": 1,
+					"110": 1,
+					"111": 1,
+					"112": 1,
+					"113": 1,
+					"114": 1,
+					"115": 1,
+					"116": 1,
+					"117": 1,
+					"118": 1,
+					"119": 1,
+					"120": 1
+				},
+				"s_slots": {
+					"501": 1,
+					"502": 1,
+					"503": 1,
+					"504": 1,
+					"505": 1,
+					"506": 1,
+					"507": 1,
+					"508": 1,
+					"509": 1,
+					"510": 1,
+					"511": 1,
+					"512": 1,
+					"513": 1,
+					"514": 1,
+					"515": 1,
+					"516": 1,
+					"517": 1,
+					"518": 1,
+					"519": 1,
+					"520": 1
+				}
+			}
+		},
+		{
+			"name": "T2.2-R2",
+			"link_id": {
+				"link_uuid": {
+					"uuid": "T2.2->R2"
+				}
+			},
+			"link_endpoint_ids": [
+				{
+					"device_id": {
+						"device_uuid": {
+							"uuid": "T2.2"
+						}
+					},
+					"endpoint_uuid": {
+						"uuid": "6"
+					}
+				},
+				{
+					"device_id": {
+						"device_uuid": {
+							"uuid": "R2"
+						}
+					},
+					"endpoint_uuid": {
+						"uuid": "13"
+					}
+				}
+			],
+			"optical_details": {
+				"length": 0,
+				"src_port": "6",
+				"dst_port": "13",
+				"local_peer_port": "6",
+				"remote_peer_port": "3",
+				"used": false,
+				"c_slots": {
+					"1": 1,
+					"2": 1,
+					"3": 1,
+					"4": 1,
+					"5": 1,
+					"6": 1,
+					"7": 1,
+					"8": 1,
+					"9": 1,
+					"10": 1,
+					"11": 1,
+					"12": 1,
+					"13": 1,
+					"14": 1,
+					"15": 1,
+					"16": 1,
+					"17": 1,
+					"18": 1,
+					"19": 1,
+					"20": 1
+				},
+				"l_slots": {
+					"101": 1,
+					"102": 1,
+					"103": 1,
+					"104": 1,
+					"105": 1,
+					"106": 1,
+					"107": 1,
+					"108": 1,
+					"109": 1,
+					"110": 1,
+					"111": 1,
+					"112": 1,
+					"113": 1,
+					"114": 1,
+					"115": 1,
+					"116": 1,
+					"117": 1,
+					"118": 1,
+					"119": 1,
+					"120": 1
+				},
+				"s_slots": {
+					"501": 1,
+					"502": 1,
+					"503": 1,
+					"504": 1,
+					"505": 1,
+					"506": 1,
+					"507": 1,
+					"508": 1,
+					"509": 1,
+					"510": 1,
+					"511": 1,
+					"512": 1,
+					"513": 1,
+					"514": 1,
+					"515": 1,
+					"516": 1,
+					"517": 1,
+					"518": 1,
+					"519": 1,
+					"520": 1
+				}
+			}
+		},
+		{
+			"name": "T2.3-R2",
+			"link_id": {
+				"link_uuid": {
+					"uuid": "T2.3->R2"
+				}
+			},
+			"link_endpoint_ids": [
+				{
+					"device_id": {
+						"device_uuid": {
+							"uuid": "T2.3"
+						}
+					},
+					"endpoint_uuid": {
+						"uuid": "6"
+					}
+				},
+				{
+					"device_id": {
+						"device_uuid": {
+							"uuid": "R2"
+						}
+					},
+					"endpoint_uuid": {
+						"uuid": "14"
+					}
+				}
+			],
+			"optical_details": {
+				"length": 0,
+				"src_port": "6",
+				"dst_port": "14",
+				"local_peer_port": "6",
+				"remote_peer_port": "4",
+				"used": false,
+				"c_slots": {
+					"1": 1,
+					"2": 1,
+					"3": 1,
+					"4": 1,
+					"5": 1,
+					"6": 1,
+					"7": 1,
+					"8": 1,
+					"9": 1,
+					"10": 1,
+					"11": 1,
+					"12": 1,
+					"13": 1,
+					"14": 1,
+					"15": 1,
+					"16": 1,
+					"17": 1,
+					"18": 1,
+					"19": 1,
+					"20": 1
+				},
+				"l_slots": {
+					"101": 1,
+					"102": 1,
+					"103": 1,
+					"104": 1,
+					"105": 1,
+					"106": 1,
+					"107": 1,
+					"108": 1,
+					"109": 1,
+					"110": 1,
+					"111": 1,
+					"112": 1,
+					"113": 1,
+					"114": 1,
+					"115": 1,
+					"116": 1,
+					"117": 1,
+					"118": 1,
+					"119": 1,
+					"120": 1
+				},
+				"s_slots": {
+					"501": 1,
+					"502": 1,
+					"503": 1,
+					"504": 1,
+					"505": 1,
+					"506": 1,
+					"507": 1,
+					"508": 1,
+					"509": 1,
+					"510": 1,
+					"511": 1,
+					"512": 1,
+					"513": 1,
+					"514": 1,
+					"515": 1,
+					"516": 1,
+					"517": 1,
+					"518": 1,
+					"519": 1,
+					"520": 1
+				}
+			}
+		},
+		{
+			"name": "R2-T2.1",
+			"link_id": {
+				"link_uuid": {
+					"uuid": "R2->T2.1"
+				}
+			},
+			"link_endpoint_ids": [
+				{
+					"device_id": {
+						"device_uuid": {
+							"uuid": "R2"
+						}
+					},
+					"endpoint_uuid": {
+						"uuid": "2"
+					}
+				},
+				{
+					"device_id": {
+						"device_uuid": {
+							"uuid": "T2.1"
+						}
+					},
+					"endpoint_uuid": {
+						"uuid": "6"
+					}
+				}
+			],
+			"optical_details": {
+				"length": 0,
+				"src_port": "2",
+				"dst_port": "6",
+				"local_peer_port": "12",
+				"remote_peer_port": "6",
+				"used": false,
+				"c_slots": {
+					"1": 1,
+					"2": 1,
+					"3": 1,
+					"4": 1,
+					"5": 1,
+					"6": 1,
+					"7": 1,
+					"8": 1,
+					"9": 1,
+					"10": 1,
+					"11": 1,
+					"12": 1,
+					"13": 1,
+					"14": 1,
+					"15": 1,
+					"16": 1,
+					"17": 1,
+					"18": 1,
+					"19": 1,
+					"20": 1
+				},
+				"l_slots": {
+					"101": 1,
+					"102": 1,
+					"103": 1,
+					"104": 1,
+					"105": 1,
+					"106": 1,
+					"107": 1,
+					"108": 1,
+					"109": 1,
+					"110": 1,
+					"111": 1,
+					"112": 1,
+					"113": 1,
+					"114": 1,
+					"115": 1,
+					"116": 1,
+					"117": 1,
+					"118": 1,
+					"119": 1,
+					"120": 1
+				},
+				"s_slots": {
+					"501": 1,
+					"502": 1,
+					"503": 1,
+					"504": 1,
+					"505": 1,
+					"506": 1,
+					"507": 1,
+					"508": 1,
+					"509": 1,
+					"510": 1,
+					"511": 1,
+					"512": 1,
+					"513": 1,
+					"514": 1,
+					"515": 1,
+					"516": 1,
+					"517": 1,
+					"518": 1,
+					"519": 1,
+					"520": 1
+				}
+			}
+		},
+		{
+			"name": "R2-T2.2",
+			"link_id": {
+				"link_uuid": {
+					"uuid": "R1->T2.2"
+				}
+			},
+			"link_endpoint_ids": [
+				{
+					"device_id": {
+						"device_uuid": {
+							"uuid": "R2"
+						}
+					},
+					"endpoint_uuid": {
+						"uuid": "3"
+					}
+				},
+				{
+					"device_id": {
+						"device_uuid": {
+							"uuid": "T2.2"
+						}
+					},
+					"endpoint_uuid": {
+						"uuid": "6"
+					}
+				}
+			],
+			"optical_details": {
+				"length": 0,
+				"src_port": "3",
+				"dst_port": "6",
+				"local_peer_port": "13",
+				"remote_peer_port": "6",
+				"used": false,
+				"c_slots": {
+					"1": 1,
+					"2": 1,
+					"3": 1,
+					"4": 1,
+					"5": 1,
+					"6": 1,
+					"7": 1,
+					"8": 1,
+					"9": 1,
+					"10": 1,
+					"11": 1,
+					"12": 1,
+					"13": 1,
+					"14": 1,
+					"15": 1,
+					"16": 1,
+					"17": 1,
+					"18": 1,
+					"19": 1,
+					"20": 1
+				},
+				"l_slots": {
+					"101": 1,
+					"102": 1,
+					"103": 1,
+					"104": 1,
+					"105": 1,
+					"106": 1,
+					"107": 1,
+					"108": 1,
+					"109": 1,
+					"110": 1,
+					"111": 1,
+					"112": 1,
+					"113": 1,
+					"114": 1,
+					"115": 1,
+					"116": 1,
+					"117": 1,
+					"118": 1,
+					"119": 1,
+					"120": 1
+				},
+				"s_slots": {
+					"501": 1,
+					"502": 1,
+					"503": 1,
+					"504": 1,
+					"505": 1,
+					"506": 1,
+					"507": 1,
+					"508": 1,
+					"509": 1,
+					"510": 1,
+					"511": 1,
+					"512": 1,
+					"513": 1,
+					"514": 1,
+					"515": 1,
+					"516": 1,
+					"517": 1,
+					"518": 1,
+					"519": 1,
+					"520": 1
+				}
+			}
+		},
+		{
+			"name": "R2-T2.3",
+			"link_id": {
+				"link_uuid": {
+					"uuid": "R2->T2.3"
+				}
+			},
+			"link_endpoint_ids": [
+				{
+					"device_id": {
+						"device_uuid": {
+							"uuid": "R2"
+						}
+					},
+					"endpoint_uuid": {
+						"uuid": "4"
+					}
+				},
+				{
+					"device_id": {
+						"device_uuid": {
+							"uuid": "T2.3"
+						}
+					},
+					"endpoint_uuid": {
+						"uuid": "6"
+					}
+				}
+			],
+			"optical_details": {
+				"length": 0,
+				"src_port": "4",
+				"dst_port": "6",
+				"local_peer_port": "14",
+				"remote_peer_port": "6",
+				"used": false,
+				"c_slots": {
+					"1": 1,
+					"2": 1,
+					"3": 1,
+					"4": 1,
+					"5": 1,
+					"6": 1,
+					"7": 1,
+					"8": 1,
+					"9": 1,
+					"10": 1,
+					"11": 1,
+					"12": 1,
+					"13": 1,
+					"14": 1,
+					"15": 1,
+					"16": 1,
+					"17": 1,
+					"18": 1,
+					"19": 1,
+					"20": 1
+				},
+				"l_slots": {
+					"101": 1,
+					"102": 1,
+					"103": 1,
+					"104": 1,
+					"105": 1,
+					"106": 1,
+					"107": 1,
+					"108": 1,
+					"109": 1,
+					"110": 1,
+					"111": 1,
+					"112": 1,
+					"113": 1,
+					"114": 1,
+					"115": 1,
+					"116": 1,
+					"117": 1,
+					"118": 1,
+					"119": 1,
+					"120": 1
+				},
+				"s_slots": {
+					"501": 1,
+					"502": 1,
+					"503": 1,
+					"504": 1,
+					"505": 1,
+					"506": 1,
+					"507": 1,
+					"508": 1,
+					"509": 1,
+					"510": 1,
+					"511": 1,
+					"512": 1,
+					"513": 1,
+					"514": 1,
+					"515": 1,
+					"516": 1,
+					"517": 1,
+					"518": 1,
+					"519": 1,
+					"520": 1
+				}
+			}
+		}
+	]
+}

@@ -1,0 +1,965 @@
+{
+	"devices": [
+		{
+			"device_id": {
+				"device_uuid": {
+					"uuid": "p4-sw1"
+				}
+			},
+			"name": "p4-sw1",
+			"device_operational_status": "DEVICEOPERATIONALSTATUS_ENABLED",
+			"device_config": {
+				"config_rules": [
+					{
+						"action": "CONFIGACTION_DELETE",
+						"custom": {
+							"resource_key": "/tables/table/FabricIngress.int_watchlist.watchlist[1]",
+							"resource_value": {
+								"table-name": "FabricIngress.int_watchlist.watchlist",
+								"match-fields": [
+									{
+										"match-field": "ipv4_valid",
+										"match-value": "1"
+									}
+								],
+								"action-name": "FabricIngress.int_watchlist.mark_to_report",
+								"action-params": [],
+								"priority": 1
+							}
+						}
+					},
+					{
+						"action": "CONFIGACTION_DELETE",
+						"custom": {
+							"resource_key": "/tables/table/FabricIngress.filtering.ingress_port_vlan[1]",
+							"resource_value": {
+								"table-name": "FabricIngress.filtering.ingress_port_vlan",
+								"match-fields": [
+									{
+										"match-field": "ig_port",
+										"match-value": "510"
+									},
+									{
+										"match-field": "vlan_is_valid",
+										"match-value": "0"
+									}
+								],
+								"action-name": "FabricIngress.filtering.permit_with_internal_vlan",
+								"action-params": [
+									{
+										"action-param": "vlan_id",
+										"action-value": "4094"
+									},
+									{
+										"action-param": "port_type",
+										"action-value": "3"
+									}
+								],
+								"priority": 10
+							}
+						}
+					},
+					{
+						"action": "CONFIGACTION_DELETE",
+						"custom": {
+							"resource_key": "/tables/table/FabricEgress.egress_next.egress_vlan[1]",
+							"resource_value": {
+								"table-name": "FabricEgress.egress_next.egress_vlan",
+								"match-fields": [
+									{
+										"match-field": "vlan_id",
+										"match-value": "4094"
+									},
+									{
+										"match-field": "eg_port",
+										"match-value": "510"
+									}
+								],
+								"action-name": "FabricEgress.egress_next.pop_vlan",
+								"action-params": []
+							}
+						}
+					},
+					{
+						"action": "CONFIGACTION_DELETE",
+						"custom": {
+							"resource_key": "/tables/table/FabricIngress.filtering.fwd_classifier[1]",
+							"resource_value": {
+								"table-name": "FabricIngress.filtering.fwd_classifier",
+								"match-fields": [
+									{
+										"match-field": "ig_port",
+										"match-value": "510"
+									},
+									{
+										"match-field": "ip_eth_type",
+										"match-value": "0x0800"
+									}
+								],
+								"action-name": "FabricIngress.filtering.set_forwarding_type",
+								"action-params": [
+									{
+										"action-param": "fwd_type",
+										"action-value": "2"
+									}
+								],
+								"priority": 1
+							}
+						}
+					},
+					{
+						"action": "CONFIGACTION_DELETE",
+						"custom": {
+							"resource_key": "/tables/table/FabricEgress.int_egress.report[1]",
+							"resource_value": {
+								"table-name": "FabricEgress.int_egress.report",
+								"match-fields": [
+									{
+										"match-field": "bmd_type",
+										"match-value": "4"
+									},
+									{
+										"match-field": "mirror_type",
+										"match-value": "0"
+									},
+									{
+										"match-field": "int_report_type",
+										"match-value": "4"
+									}
+								],
+								"action-name": "FabricEgress.int_egress.do_drop_report_encap",
+								"action-params": [
+									{
+										"action-param": "src_ip",
+										"action-value": "10.10.10.120"
+									},
+									{
+										"action-param": "mon_ip",
+										"action-value": "10.10.10.41"
+									},
+									{
+										"action-param": "mon_port",
+										"action-value": "32766"
+									},
+									{
+										"action-param": "switch_id",
+										"action-value": "1"
+									}
+								]
+							}
+						}
+					},
+					{
+						"action": "CONFIGACTION_DELETE",
+						"custom": {
+							"resource_key": "/tables/table/FabricEgress.int_egress.report[2]",
+							"resource_value": {
+								"table-name": "FabricEgress.int_egress.report",
+								"match-fields": [
+									{
+										"match-field": "bmd_type",
+										"match-value": "2"
+									},
+									{
+										"match-field": "mirror_type",
+										"match-value": "1"
+									},
+									{
+										"match-field": "int_report_type",
+										"match-value": "4"
+									}
+								],
+								"action-name": "FabricEgress.int_egress.do_drop_report_encap",
+								"action-params": [
+									{
+										"action-param": "src_ip",
+										"action-value": "10.10.10.120"
+									},
+									{
+										"action-param": "mon_ip",
+										"action-value": "10.10.10.41"
+									},
+									{
+										"action-param": "mon_port",
+										"action-value": "32766"
+									},
+									{
+										"action-param": "switch_id",
+										"action-value": "1"
+									}
+								]
+							}
+						}
+					},
+					{
+						"action": "CONFIGACTION_DELETE",
+						"custom": {
+							"resource_key": "/tables/table/FabricEgress.int_egress.report[3]",
+							"resource_value": {
+								"table-name": "FabricEgress.int_egress.report",
+								"match-fields": [
+									{
+										"match-field": "bmd_type",
+										"match-value": "2"
+									},
+									{
+										"match-field": "mirror_type",
+										"match-value": "1"
+									},
+									{
+										"match-field": "int_report_type",
+										"match-value": "1"
+									}
+								],
+								"action-name": "FabricEgress.int_egress.do_local_report_encap",
+								"action-params": [
+									{
+										"action-param": "src_ip",
+										"action-value": "10.10.10.120"
+									},
+									{
+										"action-param": "mon_ip",
+										"action-value": "10.10.10.41"
+									},
+									{
+										"action-param": "mon_port",
+										"action-value": "32766"
+									},
+									{
+										"action-param": "switch_id",
+										"action-value": "1"
+									}
+								]
+							}
+						}
+					},
+					{
+						"action": "CONFIGACTION_DELETE",
+						"custom": {
+							"resource_key": "/tables/table/FabricEgress.int_egress.report[4]",
+							"resource_value": {
+								"table-name": "FabricEgress.int_egress.report",
+								"match-fields": [
+									{
+										"match-field": "bmd_type",
+										"match-value": "5"
+									},
+									{
+										"match-field": "mirror_type",
+										"match-value": "0"
+									},
+									{
+										"match-field": "int_report_type",
+										"match-value": "4"
+									}
+								],
+								"action-name": "FabricEgress.int_egress.do_drop_report_encap",
+								"action-params": [
+									{
+										"action-param": "src_ip",
+										"action-value": "10.10.10.120"
+									},
+									{
+										"action-param": "mon_ip",
+										"action-value": "10.10.10.41"
+									},
+									{
+										"action-param": "mon_port",
+										"action-value": "32766"
+									},
+									{
+										"action-param": "switch_id",
+										"action-value": "1"
+									}
+								]
+							}
+						}
+					},
+					{
+						"action": "CONFIGACTION_DELETE",
+						"custom": {
+							"resource_key": "/tables/table/FabricEgress.int_egress.report[5]",
+							"resource_value": {
+								"table-name": "FabricEgress.int_egress.report",
+								"match-fields": [
+									{
+										"match-field": "bmd_type",
+										"match-value": "2"
+									},
+									{
+										"match-field": "mirror_type",
+										"match-value": "1"
+									},
+									{
+										"match-field": "int_report_type",
+										"match-value": "2"
+									}
+								],
+								"action-name": "FabricEgress.int_egress.do_local_report_encap",
+								"action-params": [
+									{
+										"action-param": "src_ip",
+										"action-value": "10.10.10.120"
+									},
+									{
+										"action-param": "mon_ip",
+										"action-value": "10.10.10.41"
+									},
+									{
+										"action-param": "mon_port",
+										"action-value": "32766"
+									},
+									{
+										"action-param": "switch_id",
+										"action-value": "1"
+									}
+								]
+							}
+						}
+					},
+					{
+						"action": "CONFIGACTION_DELETE",
+						"custom": {
+							"resource_key": "/tables/table/FabricEgress.int_egress.report[6]",
+							"resource_value": {
+								"table-name": "FabricEgress.int_egress.report",
+								"match-fields": [
+									{
+										"match-field": "bmd_type",
+										"match-value": "2"
+									},
+									{
+										"match-field": "mirror_type",
+										"match-value": "1"
+									},
+									{
+										"match-field": "int_report_type",
+										"match-value": "3"
+									}
+								],
+								"action-name": "FabricEgress.int_egress.do_local_report_encap",
+								"action-params": [
+									{
+										"action-param": "src_ip",
+										"action-value": "10.10.10.120"
+									},
+									{
+										"action-param": "mon_ip",
+										"action-value": "10.10.10.41"
+									},
+									{
+										"action-param": "mon_port",
+										"action-value": "32766"
+									},
+									{
+										"action-param": "switch_id",
+										"action-value": "1"
+									}
+								]
+							}
+						}
+					},
+					{
+						"action": "CONFIGACTION_DELETE",
+						"custom": {
+							"resource_key": "/tables/table/FabricIngress.int_watchlist.watchlist[2]",
+							"resource_value": {
+								"table-name": "FabricIngress.int_watchlist.watchlist",
+								"match-fields": [
+									{
+										"match-field": "ipv4_valid",
+										"match-value": "1"
+									},
+									{
+										"match-field": "ipv4_dst",
+										"match-value": "10.10.10.41&&&0xFFFFFFFF"
+									}
+								],
+								"action-name": "FabricIngress.int_watchlist.no_report_collector",
+								"action-params": [],
+								"priority": 10
+							}
+						}
+					},
+					{
+						"action": "CONFIGACTION_DELETE",
+						"custom": {
+							"resource_key": "/tables/table/FabricIngress.filtering.ingress_port_vlan[2]",
+							"resource_value": {
+								"table-name": "FabricIngress.filtering.ingress_port_vlan",
+								"match-fields": [
+									{
+										"match-field": "ig_port",
+										"match-value": "3"
+									},
+									{
+										"match-field": "vlan_is_valid",
+										"match-value": "0"
+									}
+								],
+								"action-name": "FabricIngress.filtering.permit_with_internal_vlan",
+								"action-params": [
+									{
+										"action-param": "vlan_id",
+										"action-value": "4094"
+									},
+									{
+										"action-param": "port_type",
+										"action-value": "1"
+									}
+								],
+								"priority": 10
+							}
+						}
+					},
+					{
+						"action": "CONFIGACTION_DELETE",
+						"custom": {
+							"resource_key": "/tables/table/FabricIngress.filtering.fwd_classifier[2]",
+							"resource_value": {
+								"table-name": "FabricIngress.filtering.fwd_classifier",
+								"match-fields": [
+									{
+										"match-field": "ig_port",
+										"match-value": "3"
+									},
+									{
+										"match-field": "ip_eth_type",
+										"match-value": "0x0800"
+									}
+								],
+								"action-name": "FabricIngress.filtering.set_forwarding_type",
+								"action-params": [
+									{
+										"action-param": "fwd_type",
+										"action-value": "0"
+									}
+								],
+								"priority": 1
+							}
+						}
+					},
+					{
+						"action": "CONFIGACTION_DELETE",
+						"custom": {
+							"resource_key": "/tables/table/FabricEgress.egress_next.egress_vlan[2]",
+							"resource_value": {
+								"table-name": "FabricEgress.egress_next.egress_vlan",
+								"match-fields": [
+									{
+										"match-field": "vlan_id",
+										"match-value": "4094"
+									},
+									{
+										"match-field": "eg_port",
+										"match-value": "3"
+									}
+								],
+								"action-name": "FabricEgress.egress_next.pop_vlan",
+								"action-params": []
+							}
+						}
+					},
+					{
+						"action": "CONFIGACTION_DELETE",
+						"custom": {
+							"resource_key": "/tables/table/FabricIngress.forwarding.bridging[1]",
+							"resource_value": {
+								"table-name": "FabricIngress.forwarding.bridging",
+								"match-fields": [
+									{
+										"match-field": "vlan_id",
+										"match-value": "4094"
+									},
+									{
+										"match-field": "eth_dst",
+										"match-value": "fa:16:3e:fb:cf:96"
+									}
+								],
+								"action-name": "FabricIngress.forwarding.set_next_id_bridging",
+								"action-params": [
+									{
+										"action-param": "next_id",
+										"action-value": "3"
+									}
+								],
+								"priority": 1
+							}
+						}
+					},
+					{
+						"action": "CONFIGACTION_DELETE",
+						"custom": {
+							"resource_key": "/tables/table/FabricIngress.next.simple[1]",
+							"resource_value": {
+								"table-name": "FabricIngress.next.simple",
+								"match-fields": [
+									{
+										"match-field": "next_id",
+										"match-value": "3"
+									}
+								],
+								"action-name": "FabricIngress.next.output_simple",
+								"action-params": [
+									{
+										"action-param": "port_num",
+										"action-value": "3"
+									}
+								]
+							}
+						}
+					},
+					{
+						"action": "CONFIGACTION_DELETE",
+						"custom": {
+							"resource_key": "/tables/table/FabricIngress.forwarding.routing_v4[1]",
+							"resource_value": {
+								"table-name": "FabricIngress.forwarding.routing_v4",
+								"match-fields": [
+									{
+										"match-field": "ipv4_dst",
+										"match-value": "10.10.10.41/32"
+									}
+								],
+								"action-name": "FabricIngress.forwarding.set_next_id_routing_v4",
+								"action-params": [
+									{
+										"action-param": "next_id",
+										"action-value": "3"
+									}
+								]
+							}
+						}
+					},
+					{
+						"action": "CONFIGACTION_DELETE",
+						"custom": {
+							"resource_key": "/tables/table/FabricIngress.next.simple[2]",
+							"resource_value": {
+								"table-name": "FabricIngress.next.simple",
+								"match-fields": [
+									{
+										"match-field": "next_id",
+										"match-value": "3"
+									}
+								],
+								"action-name": "FabricIngress.next.routing_simple",
+								"action-params": [
+									{
+										"action-param": "port_num",
+										"action-value": "3"
+									},
+									{
+										"action-param": "smac",
+										"action-value": "fa:16:3e:93:8c:c0"
+									},
+									{
+										"action-param": "dmac",
+										"action-value": "fa:16:3e:fb:cf:96"
+									}
+								]
+							}
+						}
+					},
+					{
+						"action": "CONFIGACTION_DELETE",
+						"custom": {
+							"resource_key": "/clone_sessions/clone_session[1]",
+							"resource_value": {
+								"session-id": 506,
+								"replicas": [
+									{
+										"egress-port": 510,
+										"instance": 0
+									}
+								]
+							}
+						}
+					},
+					{
+						"action": "CONFIGACTION_DELETE",
+						"custom": {
+							"resource_key": "/tables/table/FabricIngress.filtering.ingress_port_vlan[3]",
+							"resource_value": {
+								"table-name": "FabricIngress.filtering.ingress_port_vlan",
+								"match-fields": [
+									{
+										"match-field": "ig_port",
+										"match-value": "1"
+									},
+									{
+										"match-field": "vlan_is_valid",
+										"match-value": "0"
+									}
+								],
+								"action-name": "FabricIngress.filtering.permit_with_internal_vlan",
+								"action-params": [
+									{
+										"action-param": "vlan_id",
+										"action-value": "4094"
+									},
+									{
+										"action-param": "port_type",
+										"action-value": "1"
+									}
+								],
+								"priority": 10
+							}
+						}
+					},
+					{
+						"action": "CONFIGACTION_DELETE",
+						"custom": {
+							"resource_key": "/tables/table/FabricIngress.filtering.fwd_classifier[3]",
+							"resource_value": {
+								"table-name": "FabricIngress.filtering.fwd_classifier",
+								"match-fields": [
+									{
+										"match-field": "ig_port",
+										"match-value": "1"
+									},
+									{
+										"match-field": "ip_eth_type",
+										"match-value": "0x0800"
+									}
+								],
+								"action-name": "FabricIngress.filtering.set_forwarding_type",
+								"action-params": [
+									{
+										"action-param": "fwd_type",
+										"action-value": "0"
+									}
+								],
+								"priority": 1
+							}
+						}
+					},
+					{
+						"action": "CONFIGACTION_DELETE",
+						"custom": {
+							"resource_key": "/tables/table/FabricEgress.egress_next.egress_vlan[3]",
+							"resource_value": {
+								"table-name": "FabricEgress.egress_next.egress_vlan",
+								"match-fields": [
+									{
+										"match-field": "vlan_id",
+										"match-value": "4094"
+									},
+									{
+										"match-field": "eg_port",
+										"match-value": "1"
+									}
+								],
+								"action-name": "FabricEgress.egress_next.pop_vlan",
+								"action-params": []
+							}
+						}
+					},
+					{
+						"action": "CONFIGACTION_DELETE",
+						"custom": {
+							"resource_key": "/tables/table/FabricIngress.forwarding.bridging[2]",
+							"resource_value": {
+								"table-name": "FabricIngress.forwarding.bridging",
+								"match-fields": [
+									{
+										"match-field": "vlan_id",
+										"match-value": "4094"
+									},
+									{
+										"match-field": "eth_dst",
+										"match-value": "fa:16:3e:58:92:ba"
+									}
+								],
+								"action-name": "FabricIngress.forwarding.set_next_id_bridging",
+								"action-params": [
+									{
+										"action-param": "next_id",
+										"action-value": "1"
+									}
+								],
+								"priority": 1
+							}
+						}
+					},
+					{
+						"action": "CONFIGACTION_DELETE",
+						"custom": {
+							"resource_key": "/tables/table/FabricIngress.next.simple[3]",
+							"resource_value": {
+								"table-name": "FabricIngress.next.simple",
+								"match-fields": [
+									{
+										"match-field": "next_id",
+										"match-value": "1"
+									}
+								],
+								"action-name": "FabricIngress.next.output_simple",
+								"action-params": [
+									{
+										"action-param": "port_num",
+										"action-value": "1"
+									}
+								]
+							}
+						}
+					},
+					{
+						"action": "CONFIGACTION_DELETE",
+						"custom": {
+							"resource_key": "/tables/table/FabricIngress.forwarding.routing_v4[2]",
+							"resource_value": {
+								"table-name": "FabricIngress.forwarding.routing_v4",
+								"match-fields": [
+									{
+										"match-field": "ipv4_dst",
+										"match-value": "10.158.72.25/32"
+									}
+								],
+								"action-name": "FabricIngress.forwarding.set_next_id_routing_v4",
+								"action-params": [
+									{
+										"action-param": "next_id",
+										"action-value": "1"
+									}
+								]
+							}
+						}
+					},
+					{
+						"action": "CONFIGACTION_DELETE",
+						"custom": {
+							"resource_key": "/tables/table/FabricIngress.next.simple[4]",
+							"resource_value": {
+								"table-name": "FabricIngress.next.simple",
+								"match-fields": [
+									{
+										"match-field": "next_id",
+										"match-value": "1"
+									}
+								],
+								"action-name": "FabricIngress.next.routing_simple",
+								"action-params": [
+									{
+										"action-param": "port_num",
+										"action-value": "1"
+									},
+									{
+										"action-param": "smac",
+										"action-value": "fa:16:3e:e2:af:28"
+									},
+									{
+										"action-param": "dmac",
+										"action-value": "fa:16:3e:58:92:ba"
+									}
+								]
+							}
+						}
+					},
+					{
+						"action": "CONFIGACTION_DELETE",
+						"custom": {
+							"resource_key": "/tables/table/FabricIngress.filtering.ingress_port_vlan[4]",
+							"resource_value": {
+								"table-name": "FabricIngress.filtering.ingress_port_vlan",
+								"match-fields": [
+									{
+										"match-field": "ig_port",
+										"match-value": "2"
+									},
+									{
+										"match-field": "vlan_is_valid",
+										"match-value": "0"
+									}
+								],
+								"action-name": "FabricIngress.filtering.permit_with_internal_vlan",
+								"action-params": [
+									{
+										"action-param": "vlan_id",
+										"action-value": "4094"
+									},
+									{
+										"action-param": "port_type",
+										"action-value": "1"
+									}
+								],
+								"priority": 10
+							}
+						}
+					},
+					{
+						"action": "CONFIGACTION_DELETE",
+						"custom": {
+							"resource_key": "/tables/table/FabricIngress.filtering.fwd_classifier[4]",
+							"resource_value": {
+								"table-name": "FabricIngress.filtering.fwd_classifier",
+								"match-fields": [
+									{
+										"match-field": "ig_port",
+										"match-value": "2"
+									},
+									{
+										"match-field": "ip_eth_type",
+										"match-value": "0x0800"
+									}
+								],
+								"action-name": "FabricIngress.filtering.set_forwarding_type",
+								"action-params": [
+									{
+										"action-param": "fwd_type",
+										"action-value": "0"
+									}
+								],
+								"priority": 1
+							}
+						}
+					},
+					{
+						"action": "CONFIGACTION_DELETE",
+						"custom": {
+							"resource_key": "/tables/table/FabricEgress.egress_next.egress_vlan[4]",
+							"resource_value": {
+								"table-name": "FabricEgress.egress_next.egress_vlan",
+								"match-fields": [
+									{
+										"match-field": "vlan_id",
+										"match-value": "4094"
+									},
+									{
+										"match-field": "eg_port",
+										"match-value": "2"
+									}
+								],
+								"action-name": "FabricEgress.egress_next.pop_vlan",
+								"action-params": []
+							}
+						}
+					},
+					{
+						"action": "CONFIGACTION_DELETE",
+						"custom": {
+							"resource_key": "/tables/table/FabricIngress.forwarding.bridging[3]",
+							"resource_value": {
+								"table-name": "FabricIngress.forwarding.bridging",
+								"match-fields": [
+									{
+										"match-field": "vlan_id",
+										"match-value": "4094"
+									},
+									{
+										"match-field": "eth_dst",
+										"match-value": "fa:16:3e:e2:af:28"
+									}
+								],
+								"action-name": "FabricIngress.forwarding.set_next_id_bridging",
+								"action-params": [
+									{
+										"action-param": "next_id",
+										"action-value": "2"
+									}
+								],
+								"priority": 1
+							}
+						}
+					},
+					{
+						"action": "CONFIGACTION_DELETE",
+						"custom": {
+							"resource_key": "/tables/table/FabricIngress.next.simple[5]",
+							"resource_value": {
+								"table-name": "FabricIngress.next.simple",
+								"match-fields": [
+									{
+										"match-field": "next_id",
+										"match-value": "2"
+									}
+								],
+								"action-name": "FabricIngress.next.output_simple",
+								"action-params": [
+									{
+										"action-param": "port_num",
+										"action-value": "2"
+									}
+								]
+							}
+						}
+					},
+					{
+						"action": "CONFIGACTION_DELETE",
+						"custom": {
+							"resource_key": "/tables/table/FabricIngress.forwarding.routing_v4[3]",
+							"resource_value": {
+								"table-name": "FabricIngress.forwarding.routing_v4",
+								"match-fields": [
+									{
+										"match-field": "ipv4_dst",
+										"match-value": "172.16.10.9/32"
+									}
+								],
+								"action-name": "FabricIngress.forwarding.set_next_id_routing_v4",
+								"action-params": [
+									{
+										"action-param": "next_id",
+										"action-value": "2"
+									}
+								]
+							}
+						}
+					},
+					{
+						"action": "CONFIGACTION_DELETE",
+						"custom": {
+							"resource_key": "/tables/table/FabricIngress.next.simple[6]",
+							"resource_value": {
+								"table-name": "FabricIngress.next.simple",
+								"match-fields": [
+									{
+										"match-field": "next_id",
+										"match-value": "2"
+									}
+								],
+								"action-name": "FabricIngress.next.routing_simple",
+								"action-params": [
+									{
+										"action-param": "port_num",
+										"action-value": "2"
+									},
+									{
+										"action-param": "smac",
+										"action-value": "fa:16:3e:9b:cb:a1"
+									},
+									{
+										"action-param": "dmac",
+										"action-value": "fa:16:3e:e2:af:28"
+									}
+								]
+							}
+						}
+					},
+					{
+						"action": "CONFIGACTION_DELETE",
+						"custom": {
+							"resource_key": "/tables/table/FabricIngress.acl.acl[1]",
+							"resource_value": {
+								"table-name": "FabricIngress.acl.acl",
+								"match-fields": [
+									{
+										"match-field": "ig_port",
+										"match-value": "1"
+									},
+									{
+										"match-field": "l4_dport",
+										"match-value": "8080"
+									}
+								],
+								"action-name": "FabricIngress.acl.drop",
+								"action-params": [],
+								"priority": 1
+							}
+						}
+					}
+				]
+			}
+		}
+	]
+}

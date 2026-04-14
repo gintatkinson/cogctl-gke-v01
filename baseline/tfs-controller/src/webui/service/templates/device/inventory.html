@@ -1,0 +1,133 @@
+<!--
+    Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+   
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+   
+         http://www.apache.org/licenses/LICENSE-2.0
+   
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+   -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    ul,
+    #myUL {
+        list-style-type: none;
+    }
+
+    #myUL {
+        margin: 0;
+        padding: 0;
+    }
+
+    .caret {
+        cursor: pointer;
+        -webkit-user-select: none;
+        /* Safari 3.1+ */
+        -moz-user-select: none;
+        /* Firefox 2+ */
+        -ms-user-select: none;
+        /* IE 10+ */
+        user-select: none;
+    }
+
+    .caret::before {
+        content: "\25B6";
+        color: black;
+        display: inline-block;
+        margin-right: 6px;
+    }
+
+    .caret-down::before {
+        -ms-transform: rotate(90deg);
+        /* IE 9 */
+        -webkit-transform: rotate(90deg);
+        /* Safari */
+        transform: rotate(90deg);
+    }
+
+    .nested {
+        display: none;
+    }
+
+    .active {
+        display: block;
+    }
+</style>
+
+<h1>Device {{ device.name }} ({{ device.device_id.device_uuid.uuid }})</h1>
+
+<div class="row mb-3">
+    <div class="col-sm-3">
+        <button type="button" class="btn btn-success" onclick="window.location.href='{{ url_for('device.home') }}'">
+            <i class="bi bi-box-arrow-in-left"></i>
+            Back to device list
+        </button>
+    </div>
+</div>
+<br>
+
+{% macro render_item(item, components, depth=0) %}
+    {% if depth < 10 %} 
+        {%if item.type != 'CHASSIS' %}
+            <li><span class="caret">{{ item.name }}</span>
+                <ul class="nested">
+                    <li><span><b>Component UUID:</b> {{item.component_uuid.uuid}}</span></li>
+                    <li><span><b>Attributes:</b> {{item.attributes}}</span></li>
+                    {% for comp in components | sort(reverse = false, attribute='name') %}
+                        {% if item.name == comp.parent %}
+                            {{ render_item(comp, components, depth + 1) }}
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endif %}
+    {% endif %}
+{% endmacro %}
+
+<div class="row mb-3">
+    <div>
+        <ul id="myUL">
+            <li><span class="caret">Components</span>
+                <ul class="nested">
+                    {% for item in device.components | sort(reverse = false, attribute='name') %}
+                        {% if item.parent | length < 1 or item.type == 'CHASSIS' %}
+                            <li><span class="caret">{{ item.name }}</span>
+                                <ul class="nested">
+                                    <li><span><b>Component UUID:</b> {{item.component_uuid.uuid}}</span></li>
+                                    <li><span><b>Attributes:</b> {{item.attributes}}</span></li>
+                                    {% for comp in device.components | sort(reverse = false, attribute='name') %}
+                                        {% if item.name == comp.parent %}
+                                            {{ render_item(comp, device.components) }}
+                                        {% endif %}
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </li>
+        </ul>
+
+        <script>
+            var toggler = document.getElementsByClassName("caret");
+            var i;
+            for (i = 0; i < toggler.length; i++) {
+              toggler[i].addEventListener("click", function() {
+                this.parentElement.querySelector(".nested").classList.toggle("active");
+                this.classList.toggle("caret-down");
+              });
+            }
+        </script>
+    </div>
+</div>
+
+{% endblock %}

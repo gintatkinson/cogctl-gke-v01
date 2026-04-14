@@ -1,0 +1,39 @@
+{
+	"devices": [
+		{
+			"device_id": {
+				"device_uuid": {
+					"uuid": "p4-sw1"
+				}
+			},
+			"name": "p4-sw1",
+			"device_operational_status": "DEVICEOPERATIONALSTATUS_ENABLED",
+			"device_config": {
+				"config_rules": [
+					{
+						"action": "CONFIGACTION_SET",
+						"custom": {
+							"resource_key": "/tables/table/FabricIngress.acl.acl[1]",
+							"resource_value": {
+								"table-name": "FabricIngress.acl.acl",
+								"match-fields": [
+									{
+										"match-field": "ig_port",
+										"match-value": "1"
+									},
+									{
+										"match-field": "l4_dport",
+										"match-value": "8080"
+									}
+								],
+								"action-name": "FabricIngress.acl.drop",
+								"action-params": [],
+								"priority": 1
+							}
+						}
+					}
+				]
+			}
+		}
+	]
+}

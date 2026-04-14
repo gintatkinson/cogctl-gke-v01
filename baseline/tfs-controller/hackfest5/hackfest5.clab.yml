@@ -1,0 +1,67 @@
+# Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# TFS - Arista devices + Linux clients
+
+name: hackfest5
+
+mgmt:
+  network: mgmt-net
+  ipv4-subnet: 172.20.20.0/24
+
+topology:
+  kinds:
+    arista_ceos:
+      kind: arista_ceos
+      #image: ceos:4.30.4M
+      #image: ceos:4.31.2F
+      image: ceos:4.31.5M
+      #image: ceos:4.32.0F
+      #image: ceos:4.32.2F
+      #image: ceos:4.32.2.1F
+    linux:
+      kind: linux
+      image: ghcr.io/hellt/network-multitool:latest
+
+  nodes:
+    r1:
+      kind: arista_ceos
+      mgmt-ipv4: 172.20.20.101
+      startup-config: r1-startup.cfg
+
+    r2:
+      kind: arista_ceos
+      mgmt-ipv4: 172.20.20.102
+      startup-config: r2-startup.cfg
+
+    dc1:
+      kind: linux
+      mgmt-ipv4: 172.20.20.201
+      exec:
+        - ip link set address 00:c1:ab:00:01:01 dev eth1
+        - ip address add 192.168.1.10/24 dev eth1
+        - ip route add 192.168.2.0/24 via 192.168.1.1
+
+    dc2:
+      kind: linux
+      mgmt-ipv4: 172.20.20.202
+      exec:
+        - ip link set address 00:c1:ab:00:02:01 dev eth1
+        - ip address add 192.168.2.10/24 dev eth1
+        - ip route add 192.168.1.0/24 via 192.168.2.1
+
+  links:
+    - endpoints: ["r1:eth2", "r2:eth1"]
+    - endpoints: ["r1:eth10", "dc1:eth1"]
+    - endpoints: ["r2:eth10", "dc2:eth1"]

@@ -1,0 +1,397 @@
+<!--
+    Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+   
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+   
+         http://www.apache.org/licenses/LICENSE-2.0
+   
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+   -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    ul,
+    #myUL {
+        list-style-type: none;
+    }
+
+    #myUL {
+        margin: 0;
+        padding: 0;
+    }
+
+    .caret {
+        cursor: pointer;
+        -webkit-user-select: none;
+        /* Safari 3.1+ */
+        -moz-user-select: none;
+        /* Firefox 2+ */
+        -ms-user-select: none;
+        /* IE 10+ */
+        user-select: none;
+    }
+
+    .caret::before {
+        content: "\25B6";
+        color: black;
+        display: inline-block;
+        margin-right: 6px;
+    }
+
+    .caret-down::before {
+        -ms-transform: rotate(90deg);
+        /* IE 9 */
+        -webkit-transform: rotate(90deg);
+        /* Safari */
+        transform: rotate(90deg);
+    }
+
+    .nested {
+        display: none;
+    }
+
+    .active {
+        display: block;
+    }
+</style>
+
+<h1>Device {{ device.name }} ({{ device.device_id.device_uuid.uuid }})</h1>
+
+<div class="row mb-3">
+    <div class="col-sm-3">
+        <button type="button" class="btn btn-success" onclick="window.location.href='{{ url_for('device.home') }}'">
+            <i class="bi bi-box-arrow-in-left"></i>
+            Back to device list
+        </button>
+    </div>
+</div>
+<br>
+
+<div class="row mb-3">
+    <div>
+        <ul id="myUL">
+            <li><span class="caret">ACL</span>
+                <ul class="nested">
+                    {% set acl_names = [] %}
+                    {% for config in device.device_config.config_rules %}
+                        {% if config.WhichOneof('config_rule') == 'custom' %}
+                            {% if '/acl/' in config.custom.resource_key %}
+                                {% if 'acl-set' in config.custom.resource_key %}
+                                    {% set acl_name = config.custom.resource_key.split('acl-set[')[1].split('][')[0] %}
+                                {% else %}
+                                    {% set acl_name = config.custom.resource_key.split('ress[')[1].split('][')[0] %}
+                                {% endif %}
+                                {% if acl_name|length == 0 %} 
+                                    {% set acl_name = 'Undefined' %}
+                                {% endif %}
+                                {% if acl_name not in acl_names %}
+                                    {% set _ = acl_names.append(acl_name) %}
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                    {% for acl_name in acl_names %}
+                        <li><span class="caret">{{ acl_name }}</span>
+                            <ul class="nested">
+                                {% for config in device.device_config.config_rules %}
+                                    {% if config.WhichOneof('config_rule') == 'custom' %}
+                                        {% if '/acl/' in config.custom.resource_key and acl_name in config.custom.resource_key.split('][')[0] %}
+                                            {% if 'acl-entry' in config.custom.resource_key %}
+                                                {% set rule_number = config.custom.resource_key.split('acl-entry[')[1].split(']')[0] %}
+                                                <li><span><b>Rule {{ rule_number }}:</b> {{ config.custom.resource_value }}</span></li>
+                                            {% else %}
+                                                <li><span><b>Interface:</b> {{ config.custom.resource_value }}</span></li>
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </li>
+        </ul>
+
+        <ul id="myUL">
+            <li><span class="caret">Routing Policy</span>
+                <ul class="nested">
+                    {% set pol_names = [] %}
+                    {% for config in device.device_config.config_rules %}
+                        {% if config.WhichOneof('config_rule') == 'custom' %}
+                            {% if '/routing_policy/' in config.custom.resource_key %}
+                                {% if 'policy_definition' in config.custom.resource_key %}
+                                    {% set pol_name = config.custom.resource_key.split('policy_definition[')[1].split(']')[0] %}
+                                {% endif %}
+                                {% if pol_name|length == 0 %} 
+                                    {% set pol_name = 'Undefined' %}
+                                {% endif %}
+                                {% if pol_name not in pol_names %}
+                                    {% set _ = pol_names.append(pol_name) %}
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                    {% for pol_name in pol_names %}
+                        <li><span class="caret">{{ pol_name }}</span>
+                            <ul class="nested">
+                            {% for config in device.device_config.config_rules %}
+                                {% if config.WhichOneof('config_rule') == 'custom' %}
+                                    {% if '/routing_policy/' in config.custom.resource_key and pol_name in config.custom.resource_key.split('[')[1].split(']')[0] %}
+                                        {% if 'policy_definition' not  in config.custom.resource_key %}
+                                            <li><span>{{ config.custom.resource_value }}</span></li>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                            </ul>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </li>
+        </ul>
+
+        <ul id="myUL">
+            <li><span class="caret">VRFs</span>
+                <ul class="nested">
+                    <li><span class="caret">VRF default</span>
+                        <ul class="nested">
+                            {% for config in device.device_config.config_rules %}
+                                {% if config.WhichOneof('config_rule') == 'custom' %}
+                                    {% if '/network_instance' in config.custom.resource_key and  config.custom.resource_key.split('[')[1].split(']')[0] in 'default' %}
+                                        {% if ']/' in config.custom.resource_key%}
+                                            {% set aux = config.custom.resource_key.split(']/')[1].split('[')[0] %}
+                                            <li><span><b> {{ aux.replace('_', ' ').title() }}:</b> {{ config.custom.resource_value }}</span></li>
+                                        {% else %}
+                                            <li><span><b> Network Instance:</b> {{ config.custom.resource_value }}</span></li>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </li>
+
+                    <li><span class="caret">L3VPN</span>
+                        <ul class="nested">
+                            {% set vpn_names = [] %}
+                            {% for config in device.device_config.config_rules %}
+                                {% if config.WhichOneof('config_rule') == 'custom' %}
+                                    {% if '/network_instance' in config.custom.resource_key %}
+
+                                        {% if 'L3VRF' in config.custom.resource_value %}
+                                            {% set vpn_name = config.custom.resource_key.split('network_instance[')[1].split(']')[0] %}
+                                            {% if vpn_name not in vpn_names %}
+                                                {% set _ = vpn_names.append(vpn_name) %}
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                            {% for vpn_name in vpn_names %}
+                                <li><span class="caret">{{ vpn_name }}</span>
+                                    <ul class="nested">
+                                        {% for config in device.device_config.config_rules %}
+                                            {% if config.WhichOneof('config_rule') == 'custom' %}
+                                                {% if '/network_instance' in config.custom.resource_key and  config.custom.resource_key.split('[')[1].split(']')[0] in vpn_name %}
+                                                    {% if ']/' in config.custom.resource_key%}
+                                                        {% set aux = config.custom.resource_key.split(']/')[1].split('[')[0] %}
+                                                        <li><span><b> {{ aux.replace('_', ' ').title() }}:</b> {{ config.custom.resource_value }}</span></li>
+                                                    {% else %}
+                                                        <li><span><b> Network Instance:</b> {{ config.custom.resource_value }}</span></li>
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endif %}
+                                        {% endfor %}
+                                    </ul>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+
+                    <li><span class="caret">L2VPN</span>
+                        <ul class="nested">
+                            {% set vpn_names = [] %}
+                            {% for config in device.device_config.config_rules %}
+                                {% if config.WhichOneof('config_rule') == 'custom' %}
+                                    {% if '/network_instance' in config.custom.resource_key %}
+        
+                                        {% if 'L2VSI' in config.custom.resource_value %}
+                                            {% set vpn_name = config.custom.resource_key.split('network_instance[')[1].split(']')[0] %}
+                                            {% if vpn_name not in vpn_names %}
+                                                {% set _ = vpn_names.append(vpn_name) %}
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                            {% for vpn_name in vpn_names %}
+                                <li><span class="caret">{{ vpn_name }}</span>
+                                    <ul class="nested">
+                                        {% for config in device.device_config.config_rules %}
+                                            {% if config.WhichOneof('config_rule') == 'custom' %}
+                                                {% if '/network_instance' in config.custom.resource_key and  config.custom.resource_key.split('[')[1].split(']')[0] in vpn_name %}
+                                                    {% if ']/' in config.custom.resource_key%}
+                                                        {% set aux = config.custom.resource_key.split(']/')[1].split('[')[0] %}
+                                                        <li><span><b> {{ aux.replace('_', ' ').title() }}:</b> {{ config.custom.resource_value }}</span></li>
+                                                    {% else %}
+                                                        <li><span><b> Network Instance:</b> {{ config.custom.resource_value }}</span></li>
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endif %}
+                                        {% endfor %}
+                                    </ul>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+
+        <ul id="myUL">
+            <li><span class="caret">Interfaces</span>
+                <ul class="nested">
+                    <li><span class="caret">Logical Interfaces</span>
+                        <ul class="nested">
+                            {% set interface_names = [] %}
+                            {% for config in device.device_config.config_rules %}
+                                {% if config.WhichOneof('config_rule') == 'custom' %}
+                                    {% if '/interface[' in config.custom.resource_key %}
+                                        {% if 'ethernetCsmacd' in config.custom.resource_value %}
+                                            {% set interface_name = config.custom.resource_key.split('interface[')[1].split(']')[0] %}
+                                            <li><span>{{ interface_name}}:</span> {{config.custom.resource_value}}</li>     
+                                        {% endif %}
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </li>
+
+                    <li><span class="caret">Loopback</span>
+                        <ul class="nested">
+                            {% set interface_names = [] %}
+                            {% for config in device.device_config.config_rules %}
+                                {% if config.WhichOneof('config_rule') == 'custom' %}
+                                    {% if '/interface[' in config.custom.resource_key %}
+                                        {% if 'softwareLoopback' in config.custom.resource_value %}
+                                            {% set interface_name = config.custom.resource_key.split('interface[')[1].split(']')[0] %}
+                                            {% if interface_name not in interface_names %}
+                                                {% set _ = interface_names.append(interface_name) %}
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                            {% for interface_name in interface_names %}
+                                <li><span class="caret">{{ interface_name }}</span>
+                                    <ul class="nested">
+                                        {% for config in device.device_config.config_rules %}
+                                            {% if config.WhichOneof('config_rule') == 'custom' %}
+                                                {% if '/interface' in config.custom.resource_key and config.custom.resource_key.split('[')[1].split(']')[0] in interface_name %}
+                                                    {% if 'subinterface' in config.custom.resource_key %}
+                                                        {% set subinterface_name = config.custom.resource_key.split('subinterface[')[1].split(']')[0] %}
+                                                        <li><span><b>Subinterface {{subinterface_name}}: </b>{{ config.custom.resource_value }}</span></li>
+                                                    {% else %}
+                                                        <li><span>{{ config.custom.resource_value }}</span></li>
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endif %}
+                                        {% endfor %}
+                                    </ul>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+
+                    <li><span class="caret">Interfaces L3</span>
+                        <ul class="nested">
+                            {% set interface_names = [] %}
+                            {% for config in device.device_config.config_rules %}
+                                {% if config.WhichOneof('config_rule') == 'custom' %}
+                                    {% if '/interface[' in config.custom.resource_key %}
+                                        {% if 'l3ipvlan' in config.custom.resource_value %}
+                                            {% set interface_name = config.custom.resource_key.split('interface[')[1].split(']')[0] %}
+                                            {% if interface_name not in interface_names %}
+                                                {% set _ = interface_names.append(interface_name) %}
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                            {% for interface_name in interface_names %}
+                                <li><span class="caret">{{ interface_name }}</span>
+                                    <ul class="nested">
+                                        {% for config in device.device_config.config_rules %}
+                                            {% if config.WhichOneof('config_rule') == 'custom' %}
+                                                {% if '/interface' in config.custom.resource_key and  '/subinterface' in config.custom.resource_key and config.custom.resource_key.split('[')[1].split(']')[0] in interface_name %}
+                                                    <li><span>{{ config.custom.resource_value }}</span></li>
+                                                {% endif %}
+                                            {% endif %}
+                                        {% endfor %}
+                                    </ul>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+
+                    <li><span class="caret">Interfaces L2</span>
+                        <ul class="nested">
+                            {% set interface_names = [] %}
+                            {% for config in device.device_config.config_rules %}
+                                {% if config.WhichOneof('config_rule') == 'custom' %}
+                                    {% if '/interface[' in config.custom.resource_key %}
+                                        {% if 'l2vlan' in config.custom.resource_value or 'mplsTunnel' in config.custom.resource_value %}
+                                            {% set interface_name = config.custom.resource_key.split('interface[')[1].split(']')[0] %}
+                                            {% if interface_name not in interface_names %}
+                                                {% set _ = interface_names.append(interface_name) %}
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                            {% for interface_name in interface_names %}
+                                <li><span class="caret">{{ interface_name }}</span>
+                                    <ul class="nested">
+                                        {% for config in device.device_config.config_rules %}
+                                            {% if config.WhichOneof('config_rule') == 'custom' %}
+                                                {% if 'subinterface' in config.custom.resource_key %}
+                                                    {% if '/interface' in config.custom.resource_key and  '/subinterface' in config.custom.resource_key and config.custom.resource_key.split('[')[1].split(']')[0] in interface_name %}
+                                                        <li><span>{{ config.custom.resource_value }}</span></li>
+                                                    {% endif %}
+                                                {% else %}
+                                                    {% if '/interface' in config.custom.resource_key and config.custom.resource_key.split('[')[1].split(']')[0] in interface_name %}
+                                                        <li><span>{{ config.custom.resource_value }}</span></li>
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endif %}
+                                        {% endfor %}
+                                    </ul>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+
+        <script>
+            var toggler = document.getElementsByClassName("caret");
+            var i;
+            for (i = 0; i < toggler.length; i++) {
+                toggler[i].addEventListener("click", function() {
+                    this.parentElement.querySelector(".nested").classList.toggle("active");
+                    this.classList.toggle("caret-down");
+                });
+            }
+        </script>
+    </div>
+</div>
+
+{% endblock %}

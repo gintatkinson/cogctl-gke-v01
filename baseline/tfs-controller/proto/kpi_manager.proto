@@ -1,0 +1,60 @@
+// Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+package kpi_manager;
+
+import "context.proto";
+import "kpi_sample_types.proto";
+
+service KpiManagerService {
+  rpc SetKpiDescriptor    (KpiDescriptor      ) returns (KpiId               ) {}
+  rpc DeleteKpiDescriptor (KpiId              ) returns (context.Empty       ) {}
+  rpc GetKpiDescriptor    (KpiId              ) returns (KpiDescriptor       ) {}
+  rpc SelectKpiDescriptor (KpiDescriptorFilter) returns (KpiDescriptorList   ) {}
+}
+
+message KpiId {
+  context.Uuid kpi_id = 1;
+}
+
+message KpiDescriptor {
+  KpiId                          kpi_id          = 1;
+  string                         kpi_description = 2;
+  kpi_sample_types.KpiSampleType kpi_sample_type = 3;
+  context.DeviceId               device_id       = 4;
+  context.EndPointId             endpoint_id     = 5;
+  context.ServiceId              service_id      = 6;
+  context.SliceId                slice_id        = 7;
+  context.ConnectionId           connection_id   = 8;
+  context.LinkId                 link_id         = 9;
+}
+
+message KpiDescriptorFilter {
+  // KPI Descriptors that fulfill the filter are those that match ALL the following fields.
+  // An empty list means: any value is accepted.
+  // All fields empty means: list all KPI Descriptors
+  repeated KpiId                          kpi_id          = 1;
+  repeated kpi_sample_types.KpiSampleType kpi_sample_type = 2;
+  repeated context.DeviceId               device_id       = 3;
+  repeated context.EndPointId             endpoint_id     = 4;
+  repeated context.ServiceId              service_id      = 5;
+  repeated context.SliceId                slice_id        = 6;
+  repeated context.ConnectionId           connection_id   = 7;
+  repeated context.LinkId                 link_id         = 8;
+}
+
+message KpiDescriptorList {
+  repeated KpiDescriptor kpi_descriptor_list = 1;
+}

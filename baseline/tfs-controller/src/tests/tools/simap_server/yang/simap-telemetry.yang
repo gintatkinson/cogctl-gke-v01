@@ -1,0 +1,81 @@
+module simap-telemetry {
+    yang-version 1.1;
+    namespace "urn:simap:telemetry";
+    prefix simap;
+
+    import ietf-network {
+        prefix nw;
+        reference "RFC 8345";
+    }
+    import ietf-network-topology {
+        prefix nt;
+        reference "RFC 8345";
+    }
+
+    organization
+        "SIMAP (example)";
+    contact
+        "ops@simap.example";
+    description
+        "Augments RFC 8345 network and topology objects with simple telemetry.";
+
+    revision "2025-07-24" {
+        description "Initial revision.";
+    }
+
+    /* --- Local typedefs --- */
+    typedef percent {
+        type decimal64 {
+            fraction-digits 2;
+            range "0 .. 100";
+        }
+        units "percent";
+        description "0–100 percent value.";
+    }
+
+    typedef milliseconds {
+        type decimal64 {
+            fraction-digits 3;
+        }
+        units "milliseconds";
+        description "Latency expressed in milliseconds.";
+    }
+
+    /* --- Augment link --- */
+    augment "/nw:networks/nw:network/nt:link" {
+        description
+            "Add telemetry to links.";
+        container simap-telemetry {
+            description "SIMAP link telemetry.";
+            leaf bandwidth-utilization {
+                type percent;
+                description "Current bandwidth utilization.";
+            }
+            leaf latency {
+                type milliseconds;
+                description "One-way latency over the link.";
+            }
+            leaf-list related-service-ids {
+                type string;
+                description "Service identifiers associated with this link.";
+            }
+        }
+    }
+
+    /* --- Augment node --- */
+    augment "/nw:networks/nw:network/nw:node" {
+        description
+            "Add telemetry to nodes.";
+        container simap-telemetry {
+            description "SIMAP node telemetry.";
+            leaf cpu-utilization {
+                type percent;
+                description "Node CPU utilization.";
+            }
+            leaf-list related-service-ids {
+                type string;
+                description "Service identifiers associated with this node.";
+            }
+        }
+    }
+}

@@ -1,0 +1,58 @@
+{
+  "connectivity-construct": [
+    {
+      "id": 1,
+      "p2p-receiver-sdp": "2",
+      "p2p-sender-sdp": "1",
+      "service-slo-sle-policy": {
+        "slo-policy": {
+          "metric-bound": [
+            {
+              "bound": 10,
+              "metric-type": "ietf-network-slice-service:one-way-delay-maximum",
+              "metric-unit": "milliseconds"
+            },
+            {
+              "bound": 10000,
+              "metric-type": "ietf-network-slice-service:one-way-bandwidth",
+              "metric-unit": "Mbps"
+            },
+            {
+              "metric-type": "ietf-network-slice-service:two-way-packet-loss",
+              "metric-unit": "percentage",
+              "percentile-value": 0.001
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 2,
+      "p2p-receiver-sdp": "1",
+      "p2p-sender-sdp": "2",
+      "service-slo-sle-policy": {
+        "slo-policy": {
+          "metric-bound": [
+            {
+              "bound": 20,
+              "metric-type": "ietf-network-slice-service:one-way-delay-maximum",
+              "metric-unit": "milliseconds"
+            },
+            {
+              "bound": 2000,
+              "metric-type": "ietf-network-slice-service:one-way-bandwidth",
+              "metric-unit": "Mbps"
+            },
+            {
+              "metric-type": "ietf-network-slice-service:two-way-packet-loss",
+              "metric-unit": "percentage",
+              "percentile-value": 0.001
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "connectivity-type": "point-to-point",
+  "id": "line1"
+}

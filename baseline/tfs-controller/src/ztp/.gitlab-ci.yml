@@ -1,0 +1,103 @@
+# Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+variables:
+  IMAGE_NAME: 'ztp'
+  REPORTS_PATH: "src/${IMAGE_NAME}/reports"
+  BUILD_ENV: build.env
+
+# Package application needed to run tests & build the image on next stage
+build ztp:
+  stage: build
+  before_script:
+    - docker image prune --force
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+  script:
+    - export IMAGE_TAG=$(grep -m1 '<version>' ./src/$IMAGE_NAME/pom.xml | grep -oP  '(?<=>).*(?=<)')
+    - echo "IMAGE_TAG=${IMAGE_TAG}" >> ${BUILD_ENV}
+    - cat ${BUILD_ENV}
+    - docker buildx build -t "$IMAGE_NAME:$IMAGE_TAG" -f ./src/$IMAGE_NAME/src/main/docker/Dockerfile.multistage.jvm ./src/$IMAGE_NAME/ --target builder
+  after_script:
+    - docker image prune --force
+  artifacts:
+    reports:
+      dotenv: ${BUILD_ENV}
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop" || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH)'
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == "develop"'
+    - changes:
+        - src/$IMAGE_NAME/**
+        - manifests/${IMAGE_NAME}service.yaml
+        - .gitlab-ci.yml
+
+# Run tests, build & push the image
+unit_test ztp:
+  variables:
+    REPORTS_CONTAINER: "${IMAGE_NAME}-reports"
+  stage: unit_test
+  needs:
+    - build ztp
+  before_script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+    - docker rm ${REPORTS_CONTAINER} || true
+  script:
+    - echo "Running tests for image ${IMAGE_TAG}"
+    - docker buildx build -t "$IMAGE_NAME:$IMAGE_TAG" -f ./src/$IMAGE_NAME/src/main/docker/Dockerfile.multistage.jvm ./src/$IMAGE_NAME/ --target unit-test
+    # Transfer JaCoCo and Surefire reports from within tests image
+    - docker create --name ${REPORTS_CONTAINER} "$IMAGE_NAME:$IMAGE_TAG"
+    - mkdir -p ${REPORTS_PATH}
+    - docker cp ${REPORTS_CONTAINER}:/app/target/site/jacoco/index.html ${REPORTS_PATH}/coverage.html
+    - docker cp ${REPORTS_CONTAINER}:/app/target/site/jacoco/jacoco.xml ${REPORTS_PATH}/jacoco.xml
+    - docker cp ${REPORTS_CONTAINER}:/app/target/surefire-reports/ ${REPORTS_PATH}/
+    - cat ${REPORTS_PATH}/coverage.html | grep -o 'Total[^%]*%' | sed 's/<.*>/ /; s/Total/JaCoCo Coverage Total:/'
+    - docker run -v "$(pwd)/src/${IMAGE_NAME}:/${IMAGE_NAME}" --rm registry.gitlab.com/haynes/jacoco2cobertura:1.0.7 python /opt/cover2cover.py ${IMAGE_NAME}/reports/jacoco.xml ${IMAGE_NAME}/src/main/java > ${REPORTS_PATH}/cobertura.xml
+    # Build final image
+    - docker buildx build -t "$IMAGE_NAME:$IMAGE_TAG" -f ./src/$IMAGE_NAME/src/main/docker/Dockerfile.multistage.jvm ./src/$IMAGE_NAME/ --target release
+    - docker tag "$IMAGE_NAME:$IMAGE_TAG" "$CI_REGISTRY_IMAGE/$IMAGE_NAME:$IMAGE_TAG"
+    - docker push "$CI_REGISTRY_IMAGE/$IMAGE_NAME:$IMAGE_TAG"
+  after_script:
+    - docker rm ${REPORTS_CONTAINER}
+    - docker rm -f "$IMAGE_NAME:$IMAGE_TAG"
+  coverage: '/JaCoCo Coverage Total: ([0-9]{1,3})%/'
+  artifacts:
+    reports:
+      junit:
+        - ${REPORTS_PATH}/surefire-reports/TEST-*.xml
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop" || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH)'
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == "develop"'
+    - changes:
+        - src/$IMAGE_NAME/**
+        - manifests/${IMAGE_NAME}service.yaml
+        - .gitlab-ci.yml
+
+## Deployment of ztp service in Kubernetes Cluster
+#deploy ztp:
+#  stage: deploy
+#  needs:
+#    - build ztp
+#    - unit_test ztp
+#  script:
+#    - kubectl version
+#    - kubectl get all
+#    - kubectl delete --ignore-not-found=true -f "manifests/ztpservice.yaml"
+#    - kubectl apply -f "manifests/ztpservice.yaml"
+#    - kubectl delete pods --selector app=ztpservice
+#    - kubectl get all
+#  rules:
+#    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop" || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH)'
+#      when: manual
+#    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == "develop"'
+#      when: manual
+

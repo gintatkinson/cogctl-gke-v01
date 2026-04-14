@@ -1,0 +1,58 @@
+// Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+package telemetry_frontend;
+
+import "context.proto";
+import "kpi_manager.proto";
+
+service TelemetryFrontendService {
+  rpc StartCollector   (Collector      ) returns (CollectorId  ) {}
+  rpc StopCollector    (CollectorId    ) returns (context.Empty) {}
+  rpc SelectCollectors (CollectorFilter) returns (CollectorList) {}
+}
+
+message CollectorId {
+  context.Uuid collector_id = 1;
+}
+
+ message Collector {
+   CollectorId        collector_id  = 1; // The Collector ID
+   kpi_manager.KpiId  kpi_id        = 2; // The KPI Id to be associated to the collected samples
+   float              duration_s    = 3; // Terminate data collection after duration[seconds]; duration==0 means indefinitely
+   float              interval_s    = 4; // Interval between collected samples
+   context.Timestamp  start_time    = 5; // Timestamp when Collector start execution
+   context.Timestamp  end_time      = 6; // Timestamp when Collector stop execution
+   INTCollector       int_collector = 7; // Extra optional information about INT collectors
+ }
+
+message INTCollector {
+    int32  transport_port = 1; // The port where the collector listens to packets
+    string interface      = 2; // Network interface to collect data from
+    string service_id     = 3; // Service identifier related to this collector
+    string context_id     = 4; // Context identifier related to this collector
+}
+
+message CollectorFilter {
+  // Collector that fulfill the filter are those that match ALL the following fields.
+  // An empty list means: any value is accepted.
+  // All fields empty means: list all Collectors
+  repeated CollectorId       collector_id = 1;
+  repeated kpi_manager.KpiId kpi_id       = 2;
+}
+
+message CollectorList {
+  repeated Collector collector_list = 1;
+}

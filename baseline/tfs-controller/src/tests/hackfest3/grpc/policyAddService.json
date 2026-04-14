@@ -1,0 +1,48 @@
+{
+    "serviceId": {
+        "context_id": {
+            "context_uuid": {
+                "uuid": "43813baf-195e-5da6-af20-b3d0922e71a7"
+            }
+        },
+        "service_uuid": {
+            "uuid": "c7d6c3f4-395e-5973-98d3-8d90f8fc9141"
+        }
+    },
+    "policyRuleBasic": {
+        "priority": 0,
+        "policyRuleId": {
+            "uuid": {
+                "uuid": "1"
+            }
+        },
+        "booleanOperator": "POLICYRULE_CONDITION_BOOLEAN_OR",
+        "policyRuleState": {
+            "policyRuleStateMessage": ""
+        },
+        "actionList": [
+            {
+                "action": "POLICY_RULE_ACTION_RECALCULATE_PATH",
+                "action_config": [
+                    {
+                        "action_key": "",
+                        "action_value": ""
+                    }
+                ]
+            }
+        ],
+        "conditionList": [
+            {
+                "numericalOperator": "POLICYRULE_CONDITION_NUMERICAL_GREATER_THAN",
+                "kpiValue": {
+                    "floatVal": 10000
+                },
+                "kpiId": {
+                    "kpi_id": {
+                        "uuid": "1"
+                    }
+                }
+            }
+        ]
+    }
+}

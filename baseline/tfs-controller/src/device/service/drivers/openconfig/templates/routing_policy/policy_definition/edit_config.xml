@@ -1,0 +1,12 @@
+<routing-policy xmlns="http://openconfig.net/yang/routing-policy">
+    <policy-definitions>
+        <policy-definition{% if operation is defined %} xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" nc:operation="{{operation}}"{% endif %}>
+            <name>{{policy_name}}</name>
+            {% if operation is not defined or operation != 'delete' %}
+            <config>
+                <name>{{policy_name}}</name>
+            </config>
+            {% endif %}
+        </policy-definition>
+    </policy-definitions>
+</routing-policy>

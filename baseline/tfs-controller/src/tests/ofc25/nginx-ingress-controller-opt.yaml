@@ -40,22 +40,21 @@ spec:
   controller: tfs.etsi.org/controller-class-opt
 ---
 apiVersion: apps/v1
-kind: Deployment
+kind: DaemonSet
 metadata:
   name: nginx-ingress-microk8s-controller-opt
   namespace: ingress
   labels:
     microk8s-application: nginx-ingress-microk8s-opt
 spec:
-  replicas: 1
-  strategy:
-    rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
-    type: RollingUpdate
   selector:
     matchLabels:
       name: nginx-ingress-microk8s-opt
+  updateStrategy:
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 1
+    type: RollingUpdate
   template:
     metadata:
       labels:
@@ -113,23 +112,20 @@ spec:
         ports:
         - name: http
           containerPort: 80
+          hostPort: 8003
           protocol: TCP
         - name: https
           containerPort: 443
+          hostPort: 4433
           protocol: TCP
         - name: health
           containerPort: 10254
+          hostPort: 12543
           protocol: TCP
         - name: ws
           containerPort: 8763
+          hostPort: 8763
           protocol: TCP
-        resources:
-          requests:
-            cpu: 250m
-            memory: 512Mi
-          limits:
-            cpu: 500m
-            memory: 1024Mi
         args:
         - /nginx-ingress-controller
         - --configmap=$(POD_NAMESPACE)/nginx-load-balancer-microk8s-conf-opt

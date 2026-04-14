@@ -1,0 +1,26 @@
+<acl xmlns="http://www.ipinfusion.com/yang/ocnos/ipi-acl">
+  <interfaces>
+    <interface>
+      <name>{{interface}}</name>
+      <config>
+        <name>{{interface}}</name>
+      </config>
+      <ingress-acl-sets>
+        <ingress-acl-set {% if operation == "delete" %}operation="delete"{% endif %}>
+          {% if type is defined %}<acl-type>{{type}}</acl-type>{% endif %}
+          <access-groups>
+            <access-group>
+              <acl-name>{{name}}</acl-name>
+              <config>
+                <acl-name>{{name}}</acl-name>
+              </config>
+            </access-group>
+          </access-groups>
+          <config>
+            {% if type is defined %}<acl-type>{{type}}</acl-type>{% endif %}
+          </config>
+        </ingress-acl-set>
+      </ingress-acl-sets>
+    </interface>
+  </interfaces>
+</acl>

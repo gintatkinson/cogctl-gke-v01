@@ -1,0 +1,73 @@
+# Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vnt-managerservice
+spec:
+  selector:
+    matchLabels:
+      app: vnt-managerservice
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: vnt-managerservice
+    spec:
+      terminationGracePeriodSeconds: 5
+      containers:
+        - name: server
+          image: labs.etsi.org:5050/tfs/controller/vnt_manager:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 10080
+            - containerPort: 9192
+          env:
+            - name: LOG_LEVEL
+              value: "INFO"
+          envFrom:
+            - secretRef:
+                name: kfk-kpi-data
+          readinessProbe:
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:10080"]
+          livenessProbe:
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:10080"]
+          resources:
+            requests:
+              cpu: 250m
+              memory: 128Mi
+            limits:
+              cpu: 1000m
+              memory: 1024Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vnt-managerservice
+  labels:
+    app: vnt-managerservice
+spec:
+  type: ClusterIP
+  selector:
+    app: vnt-managerservice
+  ports:
+    - name: grpc
+      port: 10080
+      targetPort: 10080
+    - name: metrics
+      port: 9192
+      targetPort: 9192

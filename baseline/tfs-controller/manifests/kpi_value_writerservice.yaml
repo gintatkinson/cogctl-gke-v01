@@ -1,0 +1,101 @@
+# Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kpi-value-writerservice
+spec:
+  selector:
+    matchLabels:
+      app: kpi-value-writerservice
+  #replicas: 1
+  template:
+    metadata:
+      annotations:
+        config.linkerd.io/skip-outbound-ports: "4222"
+      labels:
+        app: kpi-value-writerservice
+    spec:
+      terminationGracePeriodSeconds: 5
+      containers:
+        - name: server
+          image: labs.etsi.org:5050/tfs/controller/kpi_value_writer:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 30030
+            - containerPort: 9192
+          env:
+            - name: LOG_LEVEL
+              value: "INFO"
+            - name: PUSHGATEWAY_URL
+              value: "http://mon-prometheus-prometheus-pushgateway.monitoring.svc.cluster.local:9091"
+          envFrom:
+            - secretRef:
+                name: kfk-kpi-data
+          readinessProbe:
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:30030"]
+          livenessProbe:
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:30030"]
+          resources:
+            requests:
+              cpu: 250m
+              memory: 128Mi
+            limits:
+              cpu: 1000m
+              memory: 1024Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kpi-value-writerservice
+  labels:
+    app: kpi-value-writerservice
+spec:
+  type: ClusterIP
+  selector:
+    app: kpi-value-writerservice
+  ports:
+    - name: grpc
+      protocol: TCP
+      port: 30030
+      targetPort: 30030
+    - name: metrics
+      protocol: TCP
+      port: 9192
+      targetPort: 9192
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: kpi-value-writerservice-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: kpi-value-writerservice
+  minReplicas: 1
+  maxReplicas: 20
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 80
+  #behavior:
+  #  scaleDown:
+  #    stabilizationWindowSeconds: 30

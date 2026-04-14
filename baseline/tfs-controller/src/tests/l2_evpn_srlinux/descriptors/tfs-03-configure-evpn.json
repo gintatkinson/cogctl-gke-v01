@@ -1,0 +1,235 @@
+{
+    "devices": [
+        {
+            "device_id": {"device_uuid": {"uuid": "leaf1"}}, "device_type": "packet-router", "device_drivers": [9],
+            "device_operational_status": 2, "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "/interface[name=ethernet-1/49]", "resource_value": {
+                    "name"               : "ethernet-1/49",
+                    "admin_state"        : true,
+                    "sub_index"           : 0,
+                    "sub_ipv4_admin_state":true,
+                    "sub_ipv4_address"    : "192.168.11.1",
+                    "sub_ipv4_prefix"     : "30"
+                }}},
+                {"action": 1, "custom": {"resource_key": "/routing-policy", "resource_value": {
+                    "name"         : "all",
+                    "policy_result": "accept"
+                }}}
+
+                ,{"action": 1, "custom": {"resource_key": "/network-instance[name=default]", "resource_value": {
+                    "name"               : "default",
+                    "interface1"         : "ethernet-1/49.0",
+                    "interface2"         : "system0.0",
+                    "admin_state_bgp"    : true,
+                    "afi_safi_name_bgp"    : "ipv4-unicast",
+                    "autonomous_system_bgp"     : 101,
+                    "export_policy"     : "all",
+                    "group_name"     : "eBGP-underlay",
+                    "import_policy"     : "all",
+                    "peer_as"     : 201,
+                    "admin_state_group"     : true,
+                    "afi_safi_name_group"     : "evpn",
+                    "admin_state_group_2"     : false,
+                    "afi_safi_name_group_2"     : "ipv4-unicast",
+                    "export_policy_2"     : "all",
+                    "group_name_2"     : "iBGP-overlay",
+                    "import_policy_2"     : "all",
+                    "as_number"     : 100,
+                    "peer_as_2"     : 100,
+                    "minimum_advertisement_interval"     : 1,
+                    "admin_state_neighbor"     : true,
+                    "peer_address_neighbor"     : "10.0.0.2",
+                    "peer_group_neighbor"     : "iBGP-overlay",
+                    "local_address_neighbor"     : "10.0.0.1",
+                    "peer_address_neighbor_2"     : "192.168.11.2",
+                    "peer_group_neighbor_2"     : "eBGP-underlay",
+                    "router_id"     : "10.0.0.1"
+
+                }}},
+
+                {"action": 1, "custom": {"resource_key": "/interface[name=system0]", "resource_value": {
+                    "name"               : "system0",
+                    "admin_state"        : true,
+                    "sub_index"           : 0,
+                    "sub_ipv4_admin_state":true,
+                    "sub_ipv4_address"    : "10.0.0.1",
+                    "sub_ipv4_prefix"     : "32"
+                }}},
+
+                {"action": 1, "custom": {"resource_key": "/interface[name=ethernet-1/1]", "resource_value": {
+                    "name"               : "ethernet-1/1",
+                    "vlan_tagging"        : true,
+                    "sub_index"           : 0,
+                    "sub_type"    : "bridged",
+                    "sub_vlan_admin_state"     : true,
+                    "sub_vlan_encap":"untagged"
+                }}},
+                {"action": 1, "custom": {"resource_key": "/network-instance[name=vrf-1]", "resource_value": {
+                    "name"               : "vrf-1",
+                    "type"        : "mac-vrf",
+                    "admin_state_vrf"           : true,
+                    "interface1_name"    : "ethernet-1/1.0",
+                    "vxlaninterface_name"     : "vxlan1.1",
+                    "bgp_evpn_instance_id":1,
+                    "bgp_evpn_instance_admin_state":true,
+                    "bgp_evpn_instance_vxlan_interface":"vxlan1.1",
+                    "bgp_evpn_instance_evi":111,
+                    "bgp_vpn_instance_id":1,
+                    "bgp_vpn_instance_export_rt":"target:100:111",
+                    "bgp_vpn_instance_import_rt":"target:100:111"
+                }}},
+                {"action": 1, "custom": {"resource_key": "/tunnel-interface[name=vxlan1]", "resource_value": {
+                    "name"               : "vxlan1",
+                    "index"        : 1,
+                    "type_tunnel"           :"bridged",
+                    "vni_tunnel"    : 1
+                }}}
+
+            ]}
+        },
+        {
+            "device_id": {"device_uuid": {"uuid": "leaf2"}}, "device_type": "packet-router", "device_drivers": [9],
+            "device_operational_status": 2, "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "/interface[name=ethernet-1/49]", "resource_value": {
+                    "name"               : "ethernet-1/49",
+                    "admin_state"        : true,
+                    "sub_index"           : 0,
+                    "sub_ipv4_admin_state":true,
+                    "sub_ipv4_address"    : "192.168.12.1",
+                    "sub_ipv4_prefix"     : "30"
+                }}},
+                {"action": 1, "custom": {"resource_key": "/routing-policy", "resource_value": {
+                    "name"         : "all",
+                    "policy_result": "accept"
+                }}}
+
+                ,{"action": 1, "custom": {"resource_key": "/network-instance[name=default]", "resource_value": {
+                    "name"               : "default",
+                    "interface1"         : "ethernet-1/49.0",
+                    "interface2"         : "system0.0",
+                    "admin_state_bgp"    : true,
+                    "afi_safi_name_bgp"    : "ipv4-unicast",
+                    "autonomous_system_bgp"     : 102,
+                    "export_policy"     : "all",
+                    "group_name"     : "eBGP-underlay",
+                    "import_policy"     : "all",
+                    "peer_as"     : 201,
+                    "admin_state_group"     : true,
+                    "afi_safi_name_group"     : "evpn",
+                    "admin_state_group_2"     : false,
+                    "afi_safi_name_group_2"     : "ipv4-unicast",
+                    "export_policy_2"     : "all",
+                    "group_name_2"     : "iBGP-overlay",
+                    "import_policy_2"     : "all",
+                    "as_number"     : 100,
+                    "peer_as_2"     : 100,
+                    "minimum_advertisement_interval"     : 1,
+                    "admin_state_neighbor"     : true,
+                    "peer_address_neighbor"     : "10.0.0.1",
+                    "peer_group_neighbor"     : "iBGP-overlay",
+                    "local_address_neighbor"     : "10.0.0.2",
+                    "peer_address_neighbor_2"     : "192.168.12.2",
+                    "peer_group_neighbor_2"     : "eBGP-underlay",
+                    "router_id"     : "10.0.0.2"
+
+                }}},
+
+                {"action": 1, "custom": {"resource_key": "/interface[name=system0]", "resource_value": {
+                    "name"               : "system0",
+                    "admin_state"        : true,
+                    "sub_index"           : 0,
+                    "sub_ipv4_admin_state":true,
+                    "sub_ipv4_address"    : "10.0.0.2",
+                    "sub_ipv4_prefix"     : "32"
+                }}},
+
+                {"action": 1, "custom": {"resource_key": "/interface[name=ethernet-1/1]", "resource_value": {
+                    "name"               : "ethernet-1/1",
+                    "vlan_tagging"        : true,
+                    "sub_index"           : 0,
+                    "sub_type"    : "bridged",
+                    "sub_vlan_admin_state"     : true,
+                    "sub_vlan_encap":"untagged"
+                }}},
+                {"action": 1, "custom": {"resource_key": "/network-instance[name=vrf-1]", "resource_value": {
+                    "name"               : "vrf-1",
+                    "type"        : "mac-vrf",
+                    "admin_state_vrf"           : true,
+                    "interface1_name"    : "ethernet-1/1.0",
+                    "vxlaninterface_name"     : "vxlan1.1",
+                    "bgp_evpn_instance_id":1,
+                    "bgp_evpn_instance_admin_state":true,
+                    "bgp_evpn_instance_vxlan_interface":"vxlan1.1",
+                    "bgp_evpn_instance_evi":111,
+                    "bgp_vpn_instance_id":1,
+                    "bgp_vpn_instance_export_rt":"target:100:111",
+                    "bgp_vpn_instance_import_rt":"target:100:111"
+                }}},
+                {"action": 1, "custom": {"resource_key": "/tunnel-interface[name=vxlan1]", "resource_value": {
+                    "name"               : "vxlan1",
+                    "index"        : 1,
+                    "type_tunnel"           :"bridged",
+                    "vni_tunnel"    : 1
+                }}}
+
+            ]}
+        },
+        {
+            "device_id": {"device_uuid": {"uuid": "spine1"}}, "device_type": "packet-router", "device_drivers": [9],
+            "device_operational_status": 2, "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "/interface[name=ethernet-1/49]", "resource_value": {
+                    "name"               : "ethernet-1/1",
+                    "admin_state"        : true,
+                    "sub_index"           : 0,
+                    "sub_ipv4_admin_state":true,
+                    "sub_ipv4_address"    : "192.168.11.2",
+                    "sub_ipv4_prefix"     : "30"
+                }}},
+                {"action": 1, "custom": {"resource_key": "/interface[name=ethernet-1/49]", "resource_value": {
+                    "name"               : "ethernet-1/2",
+                    "admin_state"        : true,
+                    "sub_index"           : 0,
+                    "sub_ipv4_admin_state":true,
+                    "sub_ipv4_address"    : "192.168.12.2",
+                    "sub_ipv4_prefix"     : "30"
+                }}},
+
+                {"action": 1, "custom": {"resource_key": "/network-instance[name=default]", "resource_value": {
+                    "interface1_spine"               : "ethernet-1/1.0",
+                    "interface2_spine"         : "ethernet-1/2.0",
+                    "interface3_spine"         : "system0.0",
+                    "name"    : "default",
+                    "admin_state_spine"    : true,
+                    "afi_safi_name_bgp_spine"     : "ipv4-unicast",
+                    "autonomous_system_bgp_spine"     : 201,
+                    "export_policy_spine"     : "all",
+                    "group_name_spine"     : "eBGP-underlay",
+                    "import_policy_spine"     : "all",
+                    "peer_address_neighbor_spine"     : "192.168.11.1",
+                    "peeras_group_neighbor_spine"     : 101,
+                    "peer_group_neighbor_spine"     : "eBGP-underlay",
+                    "peer_address2_neighbor_spine"     : "192.168.12.1",
+                    "peeras_group_neighbor2_spine"     : 102,
+                    "peer_group_neighbor2_spine"     : "eBGP-underlay",
+                    "router_id_spine":"10.0.1.1"
+                }}},
+                {"action": 1, "custom": {"resource_key": "/interface[name=ethernet-1/49]", "resource_value": {
+                    "name"               : "system0",
+                    "admin_state"        : true,
+                    "sub_index"           : 0,
+                    "sub_ipv4_admin_state":true,
+                    "sub_ipv4_address"    : "10.0.1.1",
+                    "sub_ipv4_prefix"     : 32
+                }}},
+
+                {"action": 1, "custom": {"resource_key": "/routing-policy", "resource_value": {
+                    "name"         : "all",
+                    "policy_result": "accept"
+                }}}
+
+
+
+            ]}
+        }
+    ]
+}

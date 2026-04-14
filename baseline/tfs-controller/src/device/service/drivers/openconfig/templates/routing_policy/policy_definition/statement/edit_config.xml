@@ -1,0 +1,35 @@
+<routing-policy xmlns="http://openconfig.net/yang/routing-policy">
+    <policy-definitions>
+        <policy-definition {% if operation is defined %} xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" nc:operation="{{operation}}"{% endif %}>
+            <name>{{policy_name}}</name>
+            {% if operation is not defined or operation != 'delete' %}
+            <config>
+                <name>{{policy_name}}</name>
+            </config>
+            <statements>
+                <statement>
+                    <name>{{statement_name}}</name>
+                    <config>
+                        <name>{{statement_name}}</name>
+                    </config>
+                    <conditions>
+                         <config>
+                            <install-protocol-eq xmlns:oc-pol-types="http://openconfig.net/yang/policy-types">oc-pol-types:DIRECTLY_CONNECTED</install-protocol-eq>
+                        </config>
+                        <bgp-conditions xmlns="http://openconfig.net/yang/bgp-policy">
+                             <config>
+                                <ext-community-set>{{ext_community_set_name}}</ext-community-set>
+                            </config>
+                        </bgp-conditions>
+                    </conditions>
+                    <actions>
+                        <config>
+                            <policy-result>{{policy_result}}</policy-result>
+                        </config>
+                    </actions>
+                </statement>
+            </statements>
+            {% endif %}
+        </policy-definition>
+    </policy-definitions>
+</routing-policy>

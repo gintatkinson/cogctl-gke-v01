@@ -1,0 +1,105 @@
+<!--
+ Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Devices</h1>
+
+    <div class="row">
+        <div class="col">
+            <a href="{{ url_for('device.add') }}" class="btn btn-primary" style="margin-bottom: 10px;">
+                <i class="bi bi-plus"></i>
+                Add New Device
+            </a>
+        </div>
+        <div class="col">
+            {{ devices | length }} devices found in context <i>{{ session['context_uuid'] }}</i>
+        </div>
+        <!-- <div class="col">
+            <form>
+                <div class="input-group">
+                    <input type="text" aria-label="Search" placeholder="Search..." class="form-control"/>
+                    <button type="submit" class="btn btn-primary">Search</button>
+                  </div>
+            </form>
+        </div> -->
+    </div>
+
+    <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th scope="col">UUID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Type</th>
+            <th scope="col">Endpoints</th>
+            <th scope="col">Drivers</th>
+            <th scope="col">Status</th>
+            <th scope="col">Config Rules</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+            {% if devices %}
+                {% for device in devices %}
+                <tr>
+                    <td>{{ device.device_id.device_uuid.uuid }}</td>
+                    <td>{{ device.name }}</td>
+                    <td>{{ device.device_type }}</td>
+                    <td>{{ device.device_endpoints | length }}</td>
+                    <td><ul>{% for driver in device.device_drivers %}
+                        <li>{{ dde.Name(driver).replace('DEVICEDRIVER_', '').replace('UNDEFINED', 'EMULATED') }}</li>
+                        {% endfor %}
+                    </ul></td>
+                    <td>{{ dose.Name(device.device_operational_status).replace('DEVICEOPERATIONALSTATUS_', '') }}</td>
+                    <td>{{ device.device_config.config_rules | length }}</td>
+                    <td>
+                        <a href="{{ url_for('device.detail', device_uuid=device.device_id.device_uuid.uuid) }}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                                <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
+                                <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+                            </svg>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{{ url_for('device.inventory', device_uuid=device.device_id.device_uuid.uuid) }}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pci-card" viewBox="0 0 16 16">
+                                <path d="M0 1.5A.5.5 0 0 1 .5 1h1a.5.5 0 0 1 .5.5V4h13.5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-.5.5H2v2.5a.5.5 0 0 1-1 0V2H.5a.5.5 0 0 1-.5-.5Z"/>
+                                <path d="M3 12.5h3.5v1a.5.5 0 0 1-.5.5H3.5a.5.5 0 0 1-.5-.5v-1Zm4 0h4v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1Z"/>
+                              </svg>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{{ url_for('device.logical', device_uuid=device.device_id.device_uuid.uuid) }}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                                <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
+                              </svg>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="7">No devices found</td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+
+{% endblock %}

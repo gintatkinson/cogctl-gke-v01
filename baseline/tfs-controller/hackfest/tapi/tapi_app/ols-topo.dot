@@ -1,0 +1,16 @@
+strict digraph  {
+"node-1";
+"node-2";
+"node-3";
+"node-4";
+"node-1" -> "node-3";
+"node-1" -> "node-4";
+"node-2" -> "node-3";
+"node-2" -> "node-4";
+"node-3" -> "node-1";
+"node-3" -> "node-2";
+"node-3" -> "node-4";
+"node-4" -> "node-1";
+"node-4" -> "node-2";
+"node-4" -> "node-3";
+}

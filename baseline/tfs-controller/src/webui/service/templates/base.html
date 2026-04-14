@@ -1,0 +1,212 @@
+
+  <!doctype html>
+  <!--
+   Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+  
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+  
+        http://www.apache.org/licenses/LICENSE-2.0
+  
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+  -->
+  
+  <html lang="en">
+    <head>
+      <!-- Required meta tags -->
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+      <link rel="shortcut icon" href="https://tfs.etsi.org/images/logos/tfs_logo_small.png" type="image/png" />
+  
+      <!-- Bootstrap CSS -->
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-uWxY/CJNBR+1zjPWmfnSnVxwRheevXITnMqoEIeG1LJrdI0GlVs/9cVSyPYXdcSF" crossorigin="anonymous">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+  
+      <title>ETSI TeraFlowSDN Controller</title>
+    </head>
+    <body>
+        <div id="teraflow-branding">
+          <a href="{{ url_for('main.home') }}" title="Home" rel="home" id="main-logo" class="site-logo site-logo-pages">
+            <img src="{{ url_for('static', filename='TeraFlow SDN Logo ScreenColour with Slogan.png') }}" width="400" type="image/png"> 
+          </a>
+        </div>
+  
+      <nav class="navbar navbar-expand-lg navbar-dark bg-primary" style="margin-bottom: 10px;">
+          <div class="container-fluid">
+            <a class="navbar-brand" href="{{ url_for('main.home') }}">TeraFlowSDN</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarColor02">
+              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                  {% if request.path == '/' %}
+                  <a class="nav-link active" aria-current="page" href="{{ url_for('main.home') }}">Home</a>
+                  {% else %}
+                  <a class="nav-link" href="{{ url_for('main.home') }}">Home</a>
+                  {% endif %}
+                </li>
+
+                <li class="nav-item">
+                  {% if '/device/' in request.path %}
+                  <a class="nav-link active" aria-current="page" href="{{ url_for('device.home') }}">Device</a>
+                  {% else %}
+                  <a class="nav-link" href="{{ url_for('device.home') }}">Device</a>
+                  {% endif %}
+                </li>
+
+                <li class="nav-item">
+                  {% if '/link/' in request.path %}
+                  <a class="nav-link active" aria-current="page" href="{{ url_for('link.home') }}">Link</a>
+                  {% else %}
+                  <a class="nav-link" href="{{ url_for('link.home') }}">Link</a>
+                  {% endif %}
+                </li>
+
+                <li class="nav-item">
+                  {% if '/service/' in request.path %}
+                  <a class="nav-link active" aria-current="page" href="{{ url_for('service.home') }}">Service</a>
+                  {% else %}
+                  <a class="nav-link" href="{{ url_for('service.home') }}">Service</a>
+                  {% endif %}
+                </li>
+
+                {% if is_deployed_slice() %}
+                  <li class="nav-item">
+                    {% if '/slice/' in request.path %}
+                    <a class="nav-link active" aria-current="page" href="{{ url_for('slice.home') }}">Slice</a>
+                    {% else %}
+                    <a class="nav-link" href="{{ url_for('slice.home') }}">Slice</a>
+                    {% endif %}
+                  </li>
+                {% endif %}
+
+                {% if is_deployed_optical() %}
+                  <li class="nav-item">
+                    {% if '/base_optical/' in request.path %}
+                    <a class="nav-link active" aria-current="page" href="{{ url_for('base_optical.home') }}">Optical View</a>
+                    {% else %}
+                    <a class="nav-link" href="{{ url_for('base_optical.home') }}">Optical View</a>
+                    {% endif %}
+                  </li>
+                {% endif %}
+
+                {% if is_deployed_policy() %}
+                  <li class="nav-item">
+                    {% if '/policy_rule/' in request.path %}
+                    <a class="nav-link active" aria-current="page" href="{{ url_for('policy_rule.home') }}">Policy Rules</a>
+                    {% else %}
+                    <a class="nav-link" href="{{ url_for('policy_rule.home') }}">Policy Rules</a>
+                    {% endif %}
+                  </li>
+                {% endif %}
+
+                {% if is_deployed_qkd_app() %}
+                  <li class="nav-item">
+                    {% if '/qkd_app/' in request.path %}
+                    <a class="nav-link active" aria-current="page" href="{{ url_for('qkd_app.home') }}">QKD Apps</a>
+                    {% else %}
+                    <a class="nav-link" href="{{ url_for('qkd_app.home') }}">QKD Apps</a>
+                    {% endif %}
+                  </li> 
+                {% endif %}
+
+                {% if is_deployed_bgpls() %}
+                  <li class="nav-item">
+                    {% if '/bgpls/' in request.path %}
+                    <a class="nav-link active" aria-current="page" href="{{ url_for('bgpls.home') }}">BGPLS</a>
+                    {% else %}
+                    <a class="nav-link" href="{{ url_for('bgpls.home') }}">BGPLS</a>
+                    {% endif %}
+                  </li>
+                {% endif %}
+
+                {% if is_deployed_load_gen() %}
+                  <li class="nav-item">
+                    {% if '/load-gen/' in request.path %}
+                    <a class="nav-link active" aria-current="page" href="{{ url_for('load_gen.home') }}">Load Generator</a>
+                    {% else %}
+                    <a class="nav-link" href="{{ url_for('load_gen.home') }}">Load Generator</a>
+                    {% endif %}
+                  </li>
+                {% endif %}
+
+                <li class="nav-item">
+                  <a class="nav-link" href="/grafana" id="grafana_link" target="grafana">Grafana</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{{ url_for('main.debug') }}">Debug</a>
+                </li>
+  
+                <!-- <li class="nav-item">
+                  <a class="nav-link" href="#">Context</a>
+                </li>
+                
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Monitoring</a>
+                </li> -->
+                <li class="nav-item">
+                  <a class="nav-link" href="{{ url_for('main.about') }}">About</a>
+                </li>
+              </ul>
+              <span class="navbar-text" style="color: #fff;">
+                Selected Context(<b>{{ get_working_context() }}</b>)/Topology(<b>{{ get_working_topology() }}</b>)
+              </span>
+            </div>
+          </div>
+        </nav>
+  
+        <main class="container">
+          <div class="row">
+            <div class="col-md-12">
+              {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                  {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                      {{ message }}
+                      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+        
+                  {% endfor %}
+                {% endif %}
+              {% endwith %}
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xxl-12">
+            {% block content %}{% endblock %}
+            </div>
+          </div>
+        </main>
+  
+        <footer class="footer" style="background-color: darkgrey; margin-top: 30px; padding-top: 20px;">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-12">
+                <p class="text-center" style="color: black;">&copy; 2022-2025 <a href="https://tfs.etsi.org/">ETSI Software Development Group TeraFlowSDN (TFS)</a></p>
+              </div>
+            </div>
+          </div>
+        </footer>
+  
+      <!-- Optional JavaScript; choose one of the two! -->
+  
+      <!-- Option 1: Bootstrap Bundle with Popper -->
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-kQtW33rZJAHjgefvhyyzcGF3C5TFyBQBA13V1RKPf4uH+bwyzQxZ6CmMZHmNBEfJ" crossorigin="anonymous"></script>
+      <!-- <script src="{{ url_for('static', filename='site.js') }}"/> -->
+      <!-- <script>
+        document.getElementById("grafana_link").href = window.location.protocol + "//" + window.location.hostname + ":30300"
+      </script> -->
+      <!-- Option 2: Separate Popper and Bootstrap JS -->
+      <!--
+      <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.min.js" integrity="sha384-PsUw7Xwds7x08Ew3exXhqzbhuEYmA2xnwc8BuD6SEr+UmEHlX8/MCltYEodzWA4u" crossorigin="anonymous"></script>
+      -->
+    </body>
+  </html>

@@ -1,0 +1,25 @@
+############
+# Mock OSM
+############
+
+$ cd ~/tfs-ctrl/hackfest/
+$ python -m mock_osm
+Welcome to the MockOSM shell.
+Type help or ? to list commands.
+
+(mock-osm) create
+Service b8c99e2c-39d8-424d-9833-554634269555 created
+# Service should be created in TFS. Check "Slice" and "Service" pages on WebUI.
+# Check configuration rules in "Devices"
+
+(mock-osm) status
+response.status_code=200
+Status of Service b8c99e2c-39d8-424d-9833-554634269555 is {'sdn_status': 'ACTIVE'}
+
+(mock-osm) delete
+Service b8c99e2c-39d8-424d-9833-554634269555 deleted
+# Service should be removed from TFS. Check "Slice" and "Service" pages on WebUI.
+# Check configuration rules in "Devices"
+
+(mock-osm) exit
+Bye!

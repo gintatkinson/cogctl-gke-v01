@@ -1,0 +1,123 @@
+# Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+build qkd_app:
+  variables:
+    IMAGE_NAME: 'qkd_app' # name of the microservice
+    IMAGE_TAG: 'latest' # tag of the container image (production, development, etc)
+  stage: build
+  before_script:
+    - docker image prune --force
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+  script:
+    - docker build -t "$IMAGE_NAME:$IMAGE_TAG" -f ./src/$IMAGE_NAME/Dockerfile .
+    - docker tag "$IMAGE_NAME:$IMAGE_TAG" "$CI_REGISTRY_IMAGE/$IMAGE_NAME:$IMAGE_TAG"
+    - docker push "$CI_REGISTRY_IMAGE/$IMAGE_NAME:$IMAGE_TAG"
+  after_script:
+    - docker image prune --force
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop" || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH)'
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == "develop"'
+    - changes:
+      - src/common/**/*.py
+      - proto/*.proto
+      - src/$IMAGE_NAME/**/*.{py,in,yml}
+      - src/$IMAGE_NAME/Dockerfile
+      - src/$IMAGE_NAME/tests/*.py
+      - manifests/${IMAGE_NAME}service.yaml
+      - .gitlab-ci.yml
+
+## Apply unit test to the component
+#unit_test qkd_app:
+#  variables:
+#    IMAGE_NAME: 'qkd_app' # name of the microservice
+#    IMAGE_TAG: 'latest' # tag of the container image (production, development, etc)
+#  stage: unit_test
+#  needs:
+#    - build qkd_app
+#  before_script:
+#    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+#    - if docker network list | grep teraflowbridge; then echo "teraflowbridge is already created"; else docker network create -d bridge teraflowbridge; fi
+#    - if docker container ls | grep $IMAGE_NAME; then docker rm -f $IMAGE_NAME; else echo "$IMAGE_NAME image is not in the system"; fi
+#  script:
+#    - docker pull "$CI_REGISTRY_IMAGE/$IMAGE_NAME:$IMAGE_TAG"
+#    - docker run --name $IMAGE_NAME -d -p 10070:10070 -p 8005:8005 -v "$PWD/src/$IMAGE_NAME/tests:/opt/results" --network=teraflowbridge $CI_REGISTRY_IMAGE/$IMAGE_NAME:$IMAGE_TAG
+#    - sleep 5
+#    - docker ps -a
+#    - docker logs $IMAGE_NAME
+#    - docker exec -i $IMAGE_NAME bash -c "coverage run -m pytest --log-level=INFO --verbose $IMAGE_NAME/tests/test_unitary.py --junitxml=/opt/results/${IMAGE_NAME}_report.xml"
+#    - docker exec -i $IMAGE_NAME bash -c "coverage report --include='${IMAGE_NAME}/*' --show-missing"
+#
+#    # Mock QKD Nodes Deployment
+#    - |
+#      echo "Starting stage: deploy_mock_nodes"
+#    - pip install flask  # Install Flask to ensure it is available
+#    - |
+#      for port in 11111 22222 33333; do
+#        if lsof -i:$port >/dev/null 2>&1; then
+#          echo "Freeing up port $port..."
+#          fuser -k $port/tcp
+#        fi
+#      done
+#      MOCK_NODES_DIR="$PWD/src/tests/tools/mock_qkd_nodes"
+#      if [ -d "$MOCK_NODES_DIR" ]; then
+#        cd "$MOCK_NODES_DIR" || exit
+#        ./start.sh &
+#        MOCK_NODES_PID=$!
+#      else
+#        echo "Error: Mock QKD nodes directory '$MOCK_NODES_DIR' not found."
+#        exit 1
+#      fi
+#      echo "Waiting for mock nodes to be up..."
+#      RETRY_COUNT=0
+#      MAX_RETRIES=15
+#      while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
+#        if curl -s http://127.0.0.1:11111 > /dev/null && \
+#           curl -s http://127.0.0.1:22222 > /dev/null && \
+#           curl -s http://127.0.0.1:33333 > /dev/null; then
+#            echo "Mock nodes are up!"
+#            break
+#        else
+#            echo "Mock nodes not ready, retrying in 5 seconds..."
+#            RETRY_COUNT=$((RETRY_COUNT + 1))
+#            sleep 5
+#        fi
+#      done
+#      if [ $RETRY_COUNT -ge $MAX_RETRIES ]; then
+#        echo "Error: Mock nodes failed to start after multiple attempts."
+#        exit 1
+#      fi
+#      
+#  # Run additional QKD unit tests
+#    - docker exec -i $IMAGE_NAME bash -c "pytest --log-level=INFO --verbose $IMAGE_NAME/tests/test_create_apps.py"
+#  coverage: '/TOTAL\s+\d+\s+\d+\s+(\d+%)/'
+#  after_script:
+#    - docker rm -f $IMAGE_NAME
+#    - docker network rm teraflowbridge
+#  rules:
+#    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop" || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH)'
+#    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == "develop"'
+#    - changes:
+#      - src/common/**/*.py
+#      - proto/*.proto
+#      - src/$IMAGE_NAME/**/*.{py,in,yml}
+#      - src/$IMAGE_NAME/Dockerfile
+#      - src/$IMAGE_NAME/tests/*.py
+#      - src/$IMAGE_NAME/tests/Dockerfile
+#      - manifests/${IMAGE_NAME}service.yaml
+#      - .gitlab-ci.yml
+#  artifacts:
+#      when: always
+#      reports:
+#        junit: src/$IMAGE_NAME/tests/${IMAGE_NAME}_report.xml

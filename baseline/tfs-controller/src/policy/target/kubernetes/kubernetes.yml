@@ -1,0 +1,135 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    app.quarkus.io/commit-id: 011890de6d6852d8308c9774d504a002cbbeca55
+    app.quarkus.io/build-timestamp: 2025-11-11 - 19:21:22 +0000
+    prometheus.io/scrape: "true"
+    prometheus.io/path: /q/metrics
+    prometheus.io/port: "8080"
+    prometheus.io/scheme: http
+  labels:
+    app.kubernetes.io/name: policyservice
+    app.kubernetes.io/version: 0.1.0
+    app: policyservice
+    app.kubernetes.io/managed-by: quarkus
+  name: policyservice
+spec:
+  ports:
+    - name: https
+      port: 443
+      protocol: TCP
+      targetPort: 8443
+    - name: grpc
+      port: 6060
+      protocol: TCP
+      targetPort: 6060
+    - name: http
+      port: 9192
+      protocol: TCP
+      targetPort: 8080
+  selector:
+    app.kubernetes.io/name: policyservice
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    app.quarkus.io/commit-id: 011890de6d6852d8308c9774d504a002cbbeca55
+    app.quarkus.io/build-timestamp: 2025-11-11 - 19:21:22 +0000
+    prometheus.io/scrape: "true"
+    prometheus.io/path: /q/metrics
+    prometheus.io/port: "8080"
+    prometheus.io/scheme: http
+  labels:
+    app: policyservice
+    app.kubernetes.io/managed-by: quarkus
+    app.kubernetes.io/name: policyservice
+    app.kubernetes.io/version: 0.1.0
+  name: policyservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: policyservice
+  template:
+    metadata:
+      annotations:
+        app.quarkus.io/commit-id: 011890de6d6852d8308c9774d504a002cbbeca55
+        app.quarkus.io/build-timestamp: 2025-11-11 - 19:21:22 +0000
+        prometheus.io/scrape: "true"
+        prometheus.io/path: /q/metrics
+        prometheus.io/port: "8080"
+        prometheus.io/scheme: http
+      labels:
+        app: policyservice
+        app.kubernetes.io/managed-by: quarkus
+        app.kubernetes.io/name: policyservice
+        app.kubernetes.io/version: 0.1.0
+    spec:
+      containers:
+        - env:
+            - name: KUBERNETES_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: MONITORING_SERVICE_HOST
+              value: monitoringservice
+            - name: CONTEXT_SERVICE_HOST
+              value: contextservice
+            - name: SERVICE_SERVICE_HOST
+              value: serviceservice
+            - name: KAFKA_BROKER_HOST
+              value: kafka-service.kafka.svc.cluster.local
+          image: labs.etsi.org:5050/tfs/controller/policy:0.1.0
+          imagePullPolicy: Always
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /q/health/live
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 10
+          name: policyservice
+          ports:
+            - containerPort: 8443
+              name: https
+              protocol: TCP
+            - containerPort: 6060
+              name: grpc
+              protocol: TCP
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /q/health/ready
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 10
+          resources:
+            limits:
+              cpu: 500m
+              memory: 2048Mi
+            requests:
+              cpu: 50m
+              memory: 512Mi
+          startupProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /q/health/started
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 10

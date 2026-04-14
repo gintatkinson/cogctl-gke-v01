@@ -1,0 +1,149 @@
+{
+    "contexts": [
+        {"context_id": {"context_uuid": {"uuid": "admin"}}}
+    ],
+    "topologies": [
+        {"topology_id": {"context_id": {"context_uuid": {"uuid": "admin"}}, "topology_uuid": {"uuid": "admin"}}}
+    ],
+    "devices": [
+        {
+            "device_id": {"device_uuid": {"uuid": "PE1"}}, "device_type": "emu-packet-router", "device_drivers": [0],
+            "device_endpoints": [], "device_operational_status": 0, "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "127.0.0.1"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "0"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {"endpoints": [
+                    {"sample_types": [], "type": "copper/internal", "uuid": "1/1"},
+                    {"sample_types": [], "type": "copper/internal", "uuid": "1/2"},
+                    {"sample_types": [], "type": "copper/internal", "uuid": "2/1"},
+                    {"sample_types": [], "type": "copper/internal", "uuid": "2/2"},
+                    {"sample_types": [], "type": "copper/internal", "uuid": "2/3"},
+                    {"sample_types": [], "type": "copper/internal", "uuid": "2/4"}
+                ]}}}
+            ]}
+        },
+        {
+            "device_id": {"device_uuid": {"uuid": "PE2"}}, "device_type": "emu-packet-router", "device_drivers": [0],
+            "device_endpoints": [], "device_operational_status": 0, "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "127.0.0.1"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "0"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {"endpoints": [
+                    {"sample_types": [], "type": "copper/internal", "uuid": "1/1"},
+                    {"sample_types": [], "type": "copper/internal", "uuid": "1/2"},
+                    {"sample_types": [], "type": "copper/internal", "uuid": "2/1"},
+                    {"sample_types": [], "type": "copper/internal", "uuid": "2/2"},
+                    {"sample_types": [], "type": "copper/internal", "uuid": "2/3"},
+                    {"sample_types": [], "type": "copper/internal", "uuid": "2/4"}
+                ]}}}
+            ]}
+        },
+        {
+            "device_id": {"device_uuid": {"uuid": "PE3"}}, "device_type": "emu-packet-router", "device_drivers": [0],
+            "device_endpoints": [], "device_operational_status": 0, "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "127.0.0.1"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "0"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {"endpoints": [
+                    {"sample_types": [], "type": "copper/internal", "uuid": "1/1"},
+                    {"sample_types": [], "type": "copper/internal", "uuid": "1/2"},
+                    {"sample_types": [], "type": "copper/internal", "uuid": "2/1"},
+                    {"sample_types": [], "type": "copper/internal", "uuid": "2/2"},
+                    {"sample_types": [], "type": "copper/internal", "uuid": "2/3"},
+                    {"sample_types": [], "type": "copper/internal", "uuid": "2/4"}
+                ]}}}
+            ]}
+        },
+        {
+            "device_id": {"device_uuid": {"uuid": "PE4"}}, "device_type": "emu-packet-router", "device_drivers": [0],
+            "device_endpoints": [], "device_operational_status": 0, "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "127.0.0.1"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "0"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {"endpoints": [
+                    {"sample_types": [], "type": "copper/internal", "uuid": "1/1"},
+                    {"sample_types": [], "type": "copper/internal", "uuid": "1/2"},
+                    {"sample_types": [], "type": "copper/internal", "uuid": "2/1"},
+                    {"sample_types": [], "type": "copper/internal", "uuid": "2/2"},
+                    {"sample_types": [], "type": "copper/internal", "uuid": "2/3"},
+                    {"sample_types": [], "type": "copper/internal", "uuid": "2/4"}
+                ]}}}
+            ]}
+        }
+    ],
+    "links": [
+
+        {
+            "link_id": {"link_uuid": {"uuid": "PE1/2/2==PE2/2/1"}}, "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "PE1"}}, "endpoint_uuid": {"uuid": "2/2"}},
+                {"device_id": {"device_uuid": {"uuid": "PE2"}}, "endpoint_uuid": {"uuid": "2/1"}}
+            ]
+        },
+        {
+            "link_id": {"link_uuid": {"uuid": "PE1/2/3==PE3/2/1"}}, "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "PE1"}}, "endpoint_uuid": {"uuid": "2/3"}},
+                {"device_id": {"device_uuid": {"uuid": "PE3"}}, "endpoint_uuid": {"uuid": "2/1"}}
+            ]
+        },
+        {
+            "link_id": {"link_uuid": {"uuid": "PE1/2/4==PE4/2/1"}}, "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "PE1"}}, "endpoint_uuid": {"uuid": "2/4"}},
+                {"device_id": {"device_uuid": {"uuid": "PE4"}}, "endpoint_uuid": {"uuid": "2/1"}}
+            ]
+        },
+
+        {
+            "link_id": {"link_uuid": {"uuid": "PE2/2/1==PE1/2/2"}}, "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "PE2"}}, "endpoint_uuid": {"uuid": "2/1"}},
+                {"device_id": {"device_uuid": {"uuid": "PE1"}}, "endpoint_uuid": {"uuid": "2/2"}}
+            ]
+        },
+        {
+            "link_id": {"link_uuid": {"uuid": "PE2/2/3==PE3/2/2"}}, "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "PE2"}}, "endpoint_uuid": {"uuid": "2/3"}},
+                {"device_id": {"device_uuid": {"uuid": "PE3"}}, "endpoint_uuid": {"uuid": "2/2"}}
+            ]
+        },
+        {
+            "link_id": {"link_uuid": {"uuid": "PE2/2/4==PE4/2/2"}}, "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "PE2"}}, "endpoint_uuid": {"uuid": "2/4"}},
+                {"device_id": {"device_uuid": {"uuid": "PE4"}}, "endpoint_uuid": {"uuid": "2/2"}}
+            ]
+        },
+
+        {
+            "link_id": {"link_uuid": {"uuid": "PE3/2/1==PE1/2/3"}}, "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "PE3"}}, "endpoint_uuid": {"uuid": "2/1"}},
+                {"device_id": {"device_uuid": {"uuid": "PE1"}}, "endpoint_uuid": {"uuid": "2/3"}}
+            ]
+        },
+        {
+            "link_id": {"link_uuid": {"uuid": "PE3/2/2==PE2/2/3"}}, "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "PE3"}}, "endpoint_uuid": {"uuid": "2/2"}},
+                {"device_id": {"device_uuid": {"uuid": "PE2"}}, "endpoint_uuid": {"uuid": "2/3"}}
+            ]
+        },
+        {
+            "link_id": {"link_uuid": {"uuid": "PE4/2/2==PE2/2/4"}}, "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "PE4"}}, "endpoint_uuid": {"uuid": "2/2"}},
+                {"device_id": {"device_uuid": {"uuid": "PE2"}}, "endpoint_uuid": {"uuid": "2/4"}}
+            ]
+        },
+
+        {
+            "link_id": {"link_uuid": {"uuid": "PE4/2/1==PE1/2/4"}}, "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "PE4"}}, "endpoint_uuid": {"uuid": "2/1"}},
+                {"device_id": {"device_uuid": {"uuid": "PE1"}}, "endpoint_uuid": {"uuid": "2/4"}}
+            ]
+        },
+        {
+            "link_id": {"link_uuid": {"uuid": "PE4/2/2==PE2/2/4"}}, "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "PE4"}}, "endpoint_uuid": {"uuid": "2/2"}},
+                {"device_id": {"device_uuid": {"uuid": "PE2"}}, "endpoint_uuid": {"uuid": "2/4"}}
+            ]
+        },
+        {
+            "link_id": {"link_uuid": {"uuid": "PE4/2/3==PE3/2/4"}}, "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "PE4"}}, "endpoint_uuid": {"uuid": "2/3"}},
+                {"device_id": {"device_uuid": {"uuid": "PE3"}}, "endpoint_uuid": {"uuid": "2/4"}}
+            ]
+        }
+
+    ]
+}

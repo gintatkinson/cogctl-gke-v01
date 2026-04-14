@@ -1,0 +1,192 @@
+{
+    "contexts": [
+        {"context_id": {"context_uuid": {"uuid": "admin"}}}
+    ],
+    "topologies": [
+        {"topology_id": {"context_id": {"context_uuid": {"uuid": "admin"}}, "topology_uuid": {"uuid": "admin"}}}
+    ],
+    "devices": [
+        {
+            "device_id": {"device_uuid": {"uuid": "TP1.1"}}, "device_type": "emu-optical-transponder",
+            "device_drivers": ["DEVICEDRIVER_UNDEFINED"], "device_operational_status": "DEVICEOPERATIONALSTATUS_UNDEFINED",
+            "device_config": {"config_rules": [
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/address",  "resource_value": "127.0.0.1"}},
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/port",     "resource_value": "0"        }},
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/settings", "resource_value": {"endpoints": [
+                    {"uuid": "CLIENT", "type": "copper"         },
+                    {"uuid": "LINE",   "type": "optical/channel"}
+                ]}}}
+            ]}
+        },
+        {
+            "device_id": {"device_uuid": {"uuid": "TP1.2"}}, "device_type": "emu-optical-transponder",
+            "device_drivers": ["DEVICEDRIVER_UNDEFINED"], "device_operational_status": "DEVICEOPERATIONALSTATUS_UNDEFINED",
+            "device_config": {"config_rules": [
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/address",  "resource_value": "127.0.0.1"}},
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/port",     "resource_value": "0"        }},
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/settings", "resource_value": {"endpoints": [
+                    {"uuid": "CLIENT", "type": "copper"         },
+                    {"uuid": "LINE",   "type": "optical/channel"}
+                ]}}}
+            ]}
+        },
+        {
+            "device_id": {"device_uuid": {"uuid": "TP1.3"}}, "device_type": "emu-optical-transponder",
+            "device_drivers": ["DEVICEDRIVER_UNDEFINED"], "device_operational_status": "DEVICEOPERATIONALSTATUS_UNDEFINED",
+            "device_config": {"config_rules": [
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/address",  "resource_value": "127.0.0.1"}},
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/port",     "resource_value": "0"        }},
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/settings", "resource_value": {"endpoints": [
+                    {"uuid": "CLIENT", "type": "copper"         },
+                    {"uuid": "LINE",   "type": "optical/channel"}
+                ]}}}
+            ]}
+        },
+
+        {
+            "device_id": {"device_uuid": {"uuid": "MG-ON1"}}, "device_type": "emu-optical-roadm",
+            "device_drivers": ["DEVICEDRIVER_UNDEFINED"], "device_operational_status": "DEVICEOPERATIONALSTATUS_UNDEFINED",
+            "device_config": {"config_rules": [
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/address",  "resource_value": "127.0.0.1"}},
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/port",     "resource_value": "0"        }},
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/settings", "resource_value": {"endpoints": [
+                    {"uuid": "ADP1",  "type": "optical/add-drop"},
+                    {"uuid": "ADP2",  "type": "optical/add-drop"},
+                    {"uuid": "ADP3",  "type": "optical/add-drop"},
+                    {"uuid": "LINE2", "type": "optical/line"    }
+                ]}}}
+            ]}
+        },
+        {
+            "device_id": {"device_uuid": {"uuid": "MG-ON2"}}, "device_type": "emu-optical-roadm",
+            "device_drivers": ["DEVICEDRIVER_UNDEFINED"], "device_operational_status": "DEVICEOPERATIONALSTATUS_UNDEFINED",
+            "device_config": {"config_rules": [
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/address",  "resource_value": "127.0.0.1"}},
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/port",     "resource_value": "0"        }},
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/settings", "resource_value": {"endpoints": [
+                    {"uuid": "LINE1", "type": "optical/line"},
+                    {"uuid": "LINE3", "type": "optical/line"}
+                ]}}}
+            ]}
+        },
+        {
+            "device_id": {"device_uuid": {"uuid": "MG-ON3"}}, "device_type": "emu-optical-roadm",
+            "device_drivers": ["DEVICEDRIVER_UNDEFINED"], "device_operational_status": "DEVICEOPERATIONALSTATUS_UNDEFINED",
+            "device_config": {"config_rules": [
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/address",  "resource_value": "127.0.0.1"}},
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/port",     "resource_value": "0"        }},
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/settings", "resource_value": {"endpoints": [
+                    {"uuid": "ADP1",  "type": "optical/add-drop"},
+                    {"uuid": "ADP2",  "type": "optical/add-drop"},
+                    {"uuid": "ADP3",  "type": "optical/add-drop"},
+                    {"uuid": "LINE2", "type": "optical/line"    }
+                ]}}}
+            ]}
+        },
+
+        {
+            "device_id": {"device_uuid": {"uuid": "TP2.1"}}, "device_type": "emu-optical-transponder",
+            "device_drivers": ["DEVICEDRIVER_UNDEFINED"], "device_operational_status": "DEVICEOPERATIONALSTATUS_UNDEFINED",
+            "device_config": {"config_rules": [
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/address",  "resource_value": "127.0.0.1"}},
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/port",     "resource_value": "0"        }},
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/settings", "resource_value": {"endpoints": [
+                    {"uuid": "CLIENT", "type": "copper"         },
+                    {"uuid": "LINE",   "type": "optical/channel"}
+                ]}}}
+            ]}
+        },
+        {
+            "device_id": {"device_uuid": {"uuid": "TP2.2"}}, "device_type": "emu-optical-transponder",
+            "device_drivers": ["DEVICEDRIVER_UNDEFINED"], "device_operational_status": "DEVICEOPERATIONALSTATUS_UNDEFINED",
+            "device_config": {"config_rules": [
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/address",  "resource_value": "127.0.0.1"}},
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/port",     "resource_value": "0"        }},
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/settings", "resource_value": {"endpoints": [
+                    {"uuid": "CLIENT", "type": "copper"         },
+                    {"uuid": "LINE",   "type": "optical/channel"}
+                ]}}}
+            ]}
+        },
+        {
+            "device_id": {"device_uuid": {"uuid": "TP2.3"}}, "device_type": "emu-optical-transponder",
+            "device_drivers": ["DEVICEDRIVER_UNDEFINED"], "device_operational_status": "DEVICEOPERATIONALSTATUS_UNDEFINED",
+            "device_config": {"config_rules": [
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/address",  "resource_value": "127.0.0.1"}},
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/port",     "resource_value": "0"        }},
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/settings", "resource_value": {"endpoints": [
+                    {"uuid": "CLIENT", "type": "copper"         },
+                    {"uuid": "LINE",   "type": "optical/channel"}
+                ]}}}
+            ]}
+        }
+    ],
+    "links": [
+        {"link_id": {"link_uuid": {"uuid": "MG-ON1->MG-ON2"}}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "MG-ON1"}}, "endpoint_uuid": {"uuid": "LINE2"}},
+            {"device_id": {"device_uuid": {"uuid": "MG-ON2"}}, "endpoint_uuid": {"uuid": "LINE1"}}
+        ]},
+        {"link_id": {"link_uuid": {"uuid": "MG-ON2->MG-ON1"}}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "MG-ON2"}}, "endpoint_uuid": {"uuid": "LINE1"}},
+            {"device_id": {"device_uuid": {"uuid": "MG-ON1"}}, "endpoint_uuid": {"uuid": "LINE2"}}
+        ]},
+        {"link_id": {"link_uuid": {"uuid": "MG-ON2->MG-ON3"}}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "MG-ON2"}}, "endpoint_uuid": {"uuid": "LINE3"}},
+            {"device_id": {"device_uuid": {"uuid": "MG-ON3"}}, "endpoint_uuid": {"uuid": "LINE2"}}
+        ]},
+        {"link_id": {"link_uuid": {"uuid": "MG-ON3->MG-ON2"}}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "MG-ON3"}}, "endpoint_uuid": {"uuid": "LINE2"}},
+            {"device_id": {"device_uuid": {"uuid": "MG-ON2"}}, "endpoint_uuid": {"uuid": "LINE3"}}
+        ]},
+
+        {"link_id": {"link_uuid": {"uuid": "TP1.1->MG-ON1"}}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "TP1.1" }}, "endpoint_uuid": {"uuid": "LINE"}},
+            {"device_id": {"device_uuid": {"uuid": "MG-ON1"}}, "endpoint_uuid": {"uuid": "ADP1"}}
+        ]},
+        {"link_id": {"link_uuid": {"uuid": "TP1.2->MG-ON1"}}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "TP1.2" }}, "endpoint_uuid": {"uuid": "LINE"}},
+            {"device_id": {"device_uuid": {"uuid": "MG-ON1"}}, "endpoint_uuid": {"uuid": "ADP2"}}
+        ]},
+        {"link_id": {"link_uuid": {"uuid": "TP1.3->MG-ON1"}}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "TP1.3" }}, "endpoint_uuid": {"uuid": "LINE"}},
+            {"device_id": {"device_uuid": {"uuid": "MG-ON1"}}, "endpoint_uuid": {"uuid": "ADP3"}}
+        ]},
+        {"link_id": {"link_uuid": {"uuid": "TP2.1->MG-ON3"}}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "TP2.1" }}, "endpoint_uuid": {"uuid": "LINE"}},
+            {"device_id": {"device_uuid": {"uuid": "MG-ON3"}}, "endpoint_uuid": {"uuid": "ADP1"}}
+        ]},
+        {"link_id": {"link_uuid": {"uuid": "TP2.2->MG-ON3"}}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "TP2.2" }}, "endpoint_uuid": {"uuid": "LINE"}},
+            {"device_id": {"device_uuid": {"uuid": "MG-ON3"}}, "endpoint_uuid": {"uuid": "ADP2"}}
+        ]},
+        {"link_id": {"link_uuid": {"uuid": "TP2.3->MG-ON3"}}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "TP2.3" }}, "endpoint_uuid": {"uuid": "LINE"}},
+            {"device_id": {"device_uuid": {"uuid": "MG-ON3"}}, "endpoint_uuid": {"uuid": "ADP3"}}
+        ]},
+
+        {"link_id": {"link_uuid": {"uuid": "MG-ON1->TP1.1"}}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "MG-ON1"}}, "endpoint_uuid": {"uuid": "ADP1"}},
+            {"device_id": {"device_uuid": {"uuid": "TP1.1" }}, "endpoint_uuid": {"uuid": "LINE"}}
+        ]},
+        {"link_id": {"link_uuid": {"uuid": "MG-ON1->TP1.2"}}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "MG-ON1"}}, "endpoint_uuid": {"uuid": "ADP2"}},
+            {"device_id": {"device_uuid": {"uuid": "TP1.2" }}, "endpoint_uuid": {"uuid": "LINE"}}
+        ]},
+        {"link_id": {"link_uuid": {"uuid": "MG-ON1->TP1.3"}}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "MG-ON1"}}, "endpoint_uuid": {"uuid": "ADP3"}},
+            {"device_id": {"device_uuid": {"uuid": "TP1.3" }}, "endpoint_uuid": {"uuid": "LINE"}}
+        ]},
+        {"link_id": {"link_uuid": {"uuid": "MG-ON3->TP2.1"}}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "MG-ON3"}}, "endpoint_uuid": {"uuid": "ADP1"}},
+            {"device_id": {"device_uuid": {"uuid": "TP2.1" }}, "endpoint_uuid": {"uuid": "LINE"}}
+        ]},
+        {"link_id": {"link_uuid": {"uuid": "MG-ON3->TP2.2"}}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "MG-ON3"}}, "endpoint_uuid": {"uuid": "ADP2"}},
+            {"device_id": {"device_uuid": {"uuid": "TP2.2" }}, "endpoint_uuid": {"uuid": "LINE"}}
+        ]},
+        {"link_id": {"link_uuid": {"uuid": "MG-ON3->TP2.3"}}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "MG-ON3"}}, "endpoint_uuid": {"uuid": "ADP3"}},
+            {"device_id": {"device_uuid": {"uuid": "TP2.3" }}, "endpoint_uuid": {"uuid": "LINE"}}
+        ]}
+    ]
+}

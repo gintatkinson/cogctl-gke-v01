@@ -1,0 +1,36 @@
+== GRPC
+$ cd ~/tfs-ctrl/hackfest/grpc
+
+COMPILE connection.proto:
+$ python -m grpc_tools.protoc -I=. --python_out=connection/ connection.proto
+
+RUN CREATE AND LIST CONNECTION
+$ cd ~/tfs-ctrl/hackfest/grpc/connection
+$ python3 create.py connection.txt 
+$ python3 list.py connection.txt
+
+COMPILE connectionService.proto
+$ python -m grpc_tools.protoc -I=. --python_out=connectionService/ --grpc_python_out=connectionService/ connectionService.proto
+
+RUN SERVER
+$ cd ~/tfs-ctrl/hackfest/grpc/connectionService
+$ python3 connectionService_server.py
+
+RUN CLIENT (in another window)
+$ cd ~/tfs-ctrl/hackfest/grpc/connectionService
+$ python3 connectionService_client.py
+
+### EXERCISE
+COMPILE connectionServiceWithNotif.proto
+$ cd ~/tfs-ctrl/hackfest/grpc/
+$ python -m grpc_tools.protoc -I=. --python_out=connectionServiceWithNotif/ --grpc_python_out=connectionServiceWithNotif/ connectionServiceWithNotif.proto
+
+RUN SERVER
+$ cd ~/tfs-ctrl/hackfest/grpc/connectionServiceWithNotif
+$ python3 connectionServiceWithNotif_server.py
+
+RUN CLIENT (in another window)
+$ cd ~/tfs-ctrl/hackfest/grpc/connectionServiceWithNotif
+$ python3 connectionServiceWithNotif_client.py
+
+

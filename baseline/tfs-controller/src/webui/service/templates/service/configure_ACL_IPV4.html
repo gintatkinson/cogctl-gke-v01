@@ -1,0 +1,433 @@
+<!--
+ Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Add New Service [ACL-IPV4]</h1>
+<form method="POST" action="{{ url_for('service.add_configure_ACL_IPV4') }}">
+    <fieldset>
+        <div class="row mb-3">
+            {{ form_acl.hidden_tag() }}
+        </div> 
+        <h3>Generic Service Parameters</h3>
+        {% if form_acl.acl_params is not none %}
+        <div class="row mb-3">
+            {{ form_acl.service_name.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-10">
+                {% if form_acl.service_name.errors %}
+                {{ form_acl.service_name(class="form-control is-invalid", placeholder="Mandatory") }}
+                <div class="invalid-feedback">
+                    {% for error in form_acl.service_name.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form_acl.service_name(class="form-control", placeholder="Mandatory") }}
+                {% endif %}
+            </div>
+        </div>
+        <div class="row mb-3">
+            {{ form_acl.service_type.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-10">
+                {% if form_acl.service_type.errors %}
+                {{ form_acl.service_type(class="form-control is-invalid", placeholder="Mandatory") }}
+                <div class="invalid-feedback">
+                    {% for error in form_acl.service_type.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form_acl.service_type(class="form-control", placeholder="Mandatory") }}
+                {% endif %}
+            </div>
+        </div>
+        <div class="row mb-3">
+            {{ form_acl.service_device_1.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-4">
+                {% if form_acl.service_device_1.errors %}
+                {{ form_acl.service_device_1(class="form-control is-invalid", placeholder="Mandatory") }}
+                <div class="invalid-feedback">
+                    {% for error in form_acl.service_device_1.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form_acl.service_device_1(class="form-control", placeholder="Mandatory") }}
+                {% endif %}
+            </div>
+            {{ form_acl.service_device_2.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-4">
+                {% if form_acl.service_device_2.errors %}
+                {{ form_acl.service_device_2(class="form-control is-invalid", placeholder="Mandatory") }}
+                <div class="invalid-feedback">
+                    {% for error in form_acl.service_device_2.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form_acl.service_device_2(class="form-control", placeholder="Mandatory") }}
+                {% endif %}
+            </div>
+        </div>
+        <div class="row mb-3">
+            {{ form_acl.service_endpoint_1.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-4">
+                {% if form_acl.service_endpoint_1.errors %}
+                {{ form_acl.service_endpoint_1(class="form-control is-invalid", placeholder="Mandatory") }}
+                <div class="invalid-feedback">
+                    {% for error in form_acl.service_endpoint_1.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form_acl.service_endpoint_1(class="form-control", placeholder="Mandatory") }}
+                {% endif %}
+            </div>
+            {{ form_acl.service_endpoint_2.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-4">
+                {% if form_acl.service_endpoint_2.errors %}
+                {{ form_acl.service_endpoint_2(class="form-control is-invalid", placeholder="Mandatory") }}
+                <div class="invalid-feedback">
+                    {% for error in form_acl.service_endpoint_2.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form_acl.service_endpoint_2(class="form-control", placeholder="Mandatory") }}
+                {% endif %}
+            </div>
+        </div>
+        </br>
+        <h3>Generic Service Constraints</h3>
+        <div class="row mb-3">
+            {{ form_acl.service_capacity.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-10">
+                {% if form_acl.service_capacity.errors %}
+                {{ form_acl.service_capacity(class="form-control is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form_acl.service_capacity.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form_acl.service_capacity(class="form-control") }}
+                {% endif %}
+            </div>
+        </div>
+        <div class="row mb-3">
+            {{ form_acl.service_latency.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-10">
+                {% if form_acl.service_latency.errors %}
+                {{ form_acl.service_latency(class="form-control is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form_acl.service_latency.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form_acl.service_latency(class="form-control") }}
+                {% endif %}
+            </div>
+        </div>
+        <div class="row mb-3">
+            {{ form_acl.service_availability.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-10">
+                {% if form_acl.service_availability.errors %}
+                {{ form_acl.service_availability(class="form-control is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form_acl.service_availability.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form_acl.service_availability(class="form-control") }}
+                {% endif %}
+            </div>
+        </div>
+        <div class="row mb-3">
+            {{ form_acl.service_isolation.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-10">
+                {% if form_acl.service_isolation.errors %}
+                {{ form_acl.service_isolation(class="form-control is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form_acl.service_isolation.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form_acl.service_isolation(class="form-control") }}
+                {% endif %}
+            </div>
+        </div>
+        </br>       
+        <h3>Specific Service Parameters</h3>
+        </br>
+        <h4>Generic ACL Parameters</h4>
+        <div class="row mb-3">
+            {{ form_acl.name.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-10">
+                {% if form_acl.name.errors %}
+                {{ form_acl.name(class="form-control is-invalid", placeholder="Mandatory") }}
+                <div class="invalid-feedback">
+                    {% for error in form_acl.name.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form_acl.name(class="form-control", placeholder="Mandatory") }}
+                {% endif %}
+            </div>
+        </div>
+        <div class="row mb-3">
+            {{ form_acl.type.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-10">
+                {% if form_acl.type.errors %}
+                {{ form_acl.type(class="form-control is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form_acl.type.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form_acl.type(class="form-control") }}
+                {% endif %}
+            </div>
+        </div>
+        <div class="row mb-3">
+            {{ form_acl.sequence_id.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-10">
+                {% if form_acl.sequence_id.errors %}
+                {{ form_acl.sequence_id(class="form-control is-invalid", placeholder="Mandatory") }}
+                <div class="invalid-feedback">
+                    {% for error in form_acl.sequence_id.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form_acl.sequence_id(class="form-control", placeholder="Mandatory") }}
+                {% endif %}
+            </div>
+        </div>
+        <div class="row mb-3">
+            {{ form_acl.forwarding_action.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-10">
+                {% if form_acl.forwarding_action.errors %}
+                {{ form_acl.forwarding_action(class="form-control is-invalid", placeholder="Mandatory") }}
+                <div class="invalid-feedback">
+                    {% for error in form_acl.forwarding_action.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form_acl.forwarding_action(class="form-control", placeholder="Mandatory") }}
+                {% endif %}
+            </div>
+        </div>
+        <div class="row mb-3">
+            {{ form_acl.log_action.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-10">
+                {% if form_acl.log_action.errors %}
+                {{ form_acl.log_action(class="form-control is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form_acl.log_action.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form_acl.log_action(class="form-control") }}
+                {% endif %}
+            </div>
+        </div>
+        <div class="row mb-3">
+            {{ form_acl.traffic_flow.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-10">
+                {% if form_acl.traffic_flow.errors %}
+                {{ form_acl.traffic_flow(class="form-control is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form_acl.traffic_flow.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form_acl.traffic_flow(class="form-control") }}
+                {% endif %}
+            </div>
+        </div>
+        <div class="row mb-3">
+            {{ form_acl.interface.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-10">
+                {% if form_acl.interface.errors %}
+                {{ form_acl.interface(class="form-control is-invalid", placeholder="Mandatory") }}
+                <div class="invalid-feedback">
+                    {% for error in form_acl.interface.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form_acl.interface(class="form-control", placeholder="Mandatory") }}
+                {% endif %}
+            </div>
+        </div>
+        <div class="row mb-3">
+            {{ form_acl.subinterface.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-10">
+                {% if form_acl.subinterface.errors %}
+                {{ form_acl.subinterface(class="form-control is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form_acl.subinterface.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form_acl.subinterface(class="form-control") }}
+                {% endif %}
+            </div>
+        </div>
+        </br>
+        <h4>Specific ACL_IPV4 Parameters</h4>
+        <div class="row mb-3">
+            {{ form_acl.source_address.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-10">
+                {% if form_acl.source_address.errors %}
+                {{ form_acl.source_address(class="form-control is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form_acl.source_address.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form_acl.source_address(class="form-control") }}
+                {% endif %}
+            </div>
+        </div>
+        <div class="row mb-3">
+            {{ form_acl.destination_address.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-10">
+                {% if form_acl.destination_address.errors %}
+                {{ form_acl.destination_address(class="form-control is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form_acl.destination_address.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form_acl.destination_address(class="form-control") }}
+                {% endif %}
+            </div>
+        </div>
+        <div class="row mb-3">
+            {{ form_acl.protocol.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-10">
+                {% if form_acl.protocol.errors %}
+                {{ form_acl.protocol(class="form-control is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form_acl.protocol.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form_acl.protocol(class="form-control") }}
+                {% endif %}
+            </div>
+        </div>
+        <div class="row mb-3">
+            {{ form_acl.hop_limit.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-10">
+                {% if form_acl.hop_limit.errors %}
+                {{ form_acl.hop_limit(class="form-control is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form_acl.hop_limit.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form_acl.hop_limit(class="form-control") }}
+                {% endif %}
+            </div>
+        </div>
+        <div class="row mb-3">
+            {{ form_acl.dscp.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-10">
+                {% if form_acl.dscp.errors %}
+                {{ form_acl.dscp(class="form-control is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form_acl.dscp.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form_acl.dscp(class="form-control") }}
+                {% endif %}
+            </div>
+        </div>
+        <div class="row mb-3">
+            {{ form_acl.source_port.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-10">
+                {% if form_acl.source_port.errors %}
+                {{ form_acl.source_port(class="form-control is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form_acl.source_port.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form_acl.source_port(class="form-control") }}
+                {% endif %}
+            </div>
+        </div>
+        <div class="row mb-3">
+            {{ form_acl.destination_port.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-10">
+                {% if form_acl.destination_port.errors %}
+                {{ form_acl.destination_port(class="form-control is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form_acl.destination_port.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form_acl.destination_port(class="form-control") }}
+                {% endif %}
+            </div>
+        </div>
+        <div class="row mb-3">
+            {{ form_acl.tcp_flags.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-10">
+                {% if form_acl.tcp_flags.errors %}
+                {{ form_acl.tcp_flags(class="form-control is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form_acl.tcp_flags.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form_acl.tcp_flags(class="form-control") }}
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+        <button type="submit" class="btn btn-primary">
+            <i class="bi bi-plus-circle-fill"></i>
+            {{ submit_text }}
+        </button>
+        <button type="button" class="btn btn-block btn-secondary" onclick="javascript: history.back()">
+            <i class="bi bi-box-arrow-in-left"></i>
+            Cancel
+        </button>
+    </fieldset>
+    </form>
+    {% endblock %}

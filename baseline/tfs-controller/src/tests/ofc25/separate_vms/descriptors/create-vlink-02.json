@@ -1,0 +1,13 @@
+{
+    "links": [
+        {
+            "link_id": {"link_uuid": {"uuid": "IP1/PORT-xe2==IP2/PORT-xe2"}},
+            "link_type": "LINKTYPE_VIRTUAL",
+            "attributes": {"total_capacity_gbps": 800.0},
+            "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "IP1"}}, "endpoint_uuid": {"uuid": "PORT-xe2"}},
+                {"device_id": {"device_uuid": {"uuid": "IP2"}}, "endpoint_uuid": {"uuid": "PORT-xe2"}}
+            ]
+        }
+    ]
+}

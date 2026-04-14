@@ -1,0 +1,314 @@
+{"overwrite": true, "folderId": 0, "dashboard":
+  {
+    "id": null,
+    "annotations": {
+      "list": [
+        {
+          "builtIn": 1,
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations & Alerts",
+          "target": {
+            "limit": 100,
+            "matchAny": false,
+            "tags": [],
+            "type": "dashboard"
+          },
+          "type": "dashboard"
+        }
+      ]
+    },
+    "editable": true,
+    "fiscalYearStartMonth": 0,
+    "graphTooltip": 0,
+    "iteration": 1675103296430,
+    "links": [],
+    "liveNow": false,
+    "panels": [
+      {
+        "datasource": {
+          "type": "postgres",
+          "uid": "questdb-mon-kpi"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineInterpolation": "smooth",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "always",
+              "spanNulls": true,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byRegexp",
+                "options": ".*PACKETS_.*"
+              },
+              "properties": [
+                {
+                  "id": "custom.axisPlacement",
+                  "value": "left"
+                },
+                {
+                  "id": "unit",
+                  "value": "pps"
+                },
+                {
+                  "id": "custom.axisLabel",
+                  "value": "Packets / sec"
+                },
+                {
+                  "id": "custom.axisSoftMin",
+                  "value": 0
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byRegexp",
+                "options": ".*BYTES_.*"
+              },
+              "properties": [
+                {
+                  "id": "custom.axisPlacement",
+                  "value": "right"
+                },
+                {
+                  "id": "unit",
+                  "value": "Bps"
+                },
+                {
+                  "id": "custom.axisLabel",
+                  "value": "Bytes / sec"
+                },
+                {
+                  "id": "custom.axisSoftMin",
+                  "value": 0
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 19,
+          "w": 24,
+          "x": 0,
+          "y": 0
+        },
+        "id": 2,
+        "options": {
+          "legend": {
+            "calcs": [
+              "min",
+              "mean",
+              "max",
+              "lastNotNull"
+            ],
+            "displayMode": "table",
+            "placement": "right"
+          },
+          "tooltip": {
+            "mode": "multi",
+            "sort": "none"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "postgres",
+              "uid": "questdb-mon-kpi"
+            },
+            "format": "time_series",
+            "group": [],
+            "hide": false,
+            "metricColumn": "kpi_value",
+            "rawQuery": true,
+            "rawSql": "SELECT\r\n  $__time(timestamp), kpi_value AS metric, device_name, endpoint_name, kpi_sample_type\r\nFROM\r\n  tfs_monitoring_kpis\r\nWHERE\r\n  $__timeFilter(timestamp) AND device_name IN (${device_name}) AND endpoint_name IN (${endpoint_name}) AND kpi_sample_type IN (${kpi_sample_type})\r\nORDER BY\r\n  timestamp",
+            "refId": "A",
+            "select": [
+              [
+                {
+                  "params": [
+                    "kpi_value"
+                  ],
+                  "type": "column"
+                }
+              ]
+            ],
+            "table": "tfs_monitoring_kpis",
+            "timeColumn": "timestamp",
+            "where": [
+              {
+                "name": "",
+                "params": [
+                  "device_id",
+                  "IN",
+                  "$device_id"
+                ],
+                "type": "expression"
+              }
+            ]
+          }
+        ],
+        "title": "L3 Monitoring Packets/Bytes Received/Sent",
+        "transformations": [
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "metric {device_name=\\\"([^\\\"]+)\\\", endpoint_name=\\\"([^\\\"]+)\\\", kpi_sample_type=\\\"([^\\\"]+)\\\"}",
+              "renamePattern": "$3 ($1 : $2)"
+            }
+          }
+        ],
+        "type": "timeseries"
+      }
+    ],
+    "refresh": "5s",
+    "schemaVersion": 36,
+    "style": "dark",
+    "tags": [],
+    "templating": {
+      "list": [
+        {
+          "current": {
+            "selected": true,
+            "text": [
+              "All"
+            ],
+            "value": [
+              "$__all"
+            ]
+          },
+          "datasource": {
+            "type": "postgres",
+            "uid": "questdb-mon-kpi"
+          },
+          "definition": "SELECT DISTINCT device_name FROM tfs_monitoring_kpis;",
+          "hide": 0,
+          "includeAll": true,
+          "label": "Device",
+          "multi": true,
+          "name": "device_name",
+          "options": [],
+          "query": "SELECT DISTINCT device_name FROM tfs_monitoring_kpis;",
+          "refresh": 2,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "type": "query"
+        },
+        {
+          "current": {
+            "selected": true,
+            "text": [
+              "All"
+            ],
+            "value": [
+              "$__all"
+            ]
+          },
+          "datasource": {
+            "type": "postgres",
+            "uid": "questdb-mon-kpi"
+          },
+          "definition": "SELECT DISTINCT endpoint_name FROM tfs_monitoring_kpis WHERE device_name IN (${device_name})",
+          "hide": 0,
+          "includeAll": true,
+          "label": "EndPoint",
+          "multi": true,
+          "name": "endpoint_name",
+          "options": [],
+          "query": "SELECT DISTINCT endpoint_name FROM tfs_monitoring_kpis WHERE device_name IN (${device_name})",
+          "refresh": 2,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "type": "query"
+        },
+        {
+          "current": {
+            "selected": true,
+            "text": [
+              "All"
+            ],
+            "value": [
+              "$__all"
+            ]
+          },
+          "datasource": {
+            "type": "postgres",
+            "uid": "questdb-mon-kpi"
+          },
+          "definition": "SELECT DISTINCT kpi_sample_type FROM tfs_monitoring_kpis;",
+          "hide": 0,
+          "includeAll": true,
+          "label": "Kpi Sample Type",
+          "multi": true,
+          "name": "kpi_sample_type",
+          "options": [],
+          "query": "SELECT DISTINCT kpi_sample_type FROM tfs_monitoring_kpis;",
+          "refresh": 2,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "type": "query"
+        }
+      ]
+    },
+    "time": {
+      "from": "now-5m",
+      "to": "now"
+    },
+    "timepicker": {},
+    "timezone": "utc",
+    "title": "L3 Monitoring",
+    "uid": "tfs-l3-monit",
+    "version": 6,
+    "weekStart": ""
+  }
+}

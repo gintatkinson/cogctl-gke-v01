@@ -1,0 +1,176 @@
+{"overwrite": true, "folderId": 0, "dashboard":
+  {
+    "id": null,
+    "annotations": {
+      "list": [
+        {
+          "builtIn": 1,
+          "datasource": {
+            "type": "grafana",
+            "uid": "-- Grafana --"
+          },
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations & Alerts",
+          "target": {
+            "limit": 100,
+            "matchAny": false,
+            "tags": [],
+            "type": "dashboard"
+          },
+          "type": "dashboard"
+        }
+      ]
+    },
+    "editable": true,
+    "fiscalYearStartMonth": 0,
+    "graphTooltip": 0,
+    "links": [],
+    "liveNow": false,
+    "panels": [
+      {
+        "datasource": {
+          "type": "postgres",
+          "uid": "questdb-slc-grp"
+        },
+        "gridPos": {
+          "h": 21,
+          "w": 11,
+          "x": 0,
+          "y": 0
+        },
+        "id": 2,
+        "options": {
+          "ReferenceLines": [],
+          "border": {
+            "color": "yellow",
+            "size": 0
+          },
+          "fieldSets": [
+            {
+              "col": 6,
+              "color": "#C4162A",
+              "colorCol": 3,
+              "dotSize": 2,
+              "hidden": false,
+              "lineSize": 1,
+              "lineType": "none",
+              "polynomialOrder": 3,
+              "sizeCol": -7
+            },
+            {
+              "col": 5,
+              "color": "#edcd7d",
+              "colorCol": 3,
+              "dotSize": 2,
+              "hidden": false,
+              "lineSize": 1,
+              "lineType": "none",
+              "polynomialOrder": 3,
+              "sizeCol": -2
+            }
+          ],
+          "grid": {
+            "color": "gray"
+          },
+          "label": {
+            "col": -1,
+            "color": "#CCC",
+            "textSize": 2
+          },
+          "legend": {
+            "show": false,
+            "size": 0
+          },
+          "xAxis": {
+            "col": 4,
+            "inverted": false
+          },
+          "xAxisExtents": {
+            "min": 0,
+            "max": 100
+          },
+          "xAxisTitle": {
+            "text": "Availability %",
+            "color": "white",
+            "textSize": 2,
+            "rotated": false,
+            "logScale": false,
+            "fontSize": 4,
+            "fontColor": "white"
+          },
+          "xMargins": {
+            "lower": 30,
+            "upper": 10
+          },
+          "yAxisExtents": {
+            "min": 0,
+            "max": 100
+          },
+          "yAxisTitle": {
+            "text": "Capacity Gb/s",
+            "color": "#ccccdc",
+            "textSize": 2,
+            "rotated": true,
+            "logScale": false,
+            "fontSize": 4,
+            "fontColor": "white"
+          },
+          "yMargins": {
+            "lower": 20,
+            "upper": 20
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "postgres",
+              "uid": "questdb-slc-grp"
+            },
+            "format": "table",
+            "group": [],
+            "hide": false,
+            "metricColumn": "none",
+            "rawQuery": true,
+            "rawSql": "SELECT timestamp as \"time\", slice_uuid, slice_group, slice_color, slice_availability, slice_capacity, slice_capacity_center, is_deleted\nFROM tfs_slice_groups\nWHERE $__timeFilter(timestamp) AND is_deleted <> 'true';",
+            "refId": "A",
+            "select": [
+              [
+                {
+                  "params": [
+                    "value"
+                  ],
+                  "type": "column"
+                }
+              ]
+            ],
+            "table": "tfs_slice_groups",
+            "timeColumn": "timestamp",
+            "where": []
+          }
+        ],
+        "title": "Slice Groups",
+        "transformations": [],
+        "type": "michaeldmoore-scatter-panel"
+      }
+    ],
+    "refresh": "5s",
+    "schemaVersion": 36,
+    "style": "dark",
+    "tags": [],
+    "templating": {
+      "list": []
+    },
+    "time": {
+      "from": "now-30m",
+      "to": "now"
+    },
+    "timepicker": {},
+    "timezone": "",
+    "title": "Slice Grouping",
+    "uid": "tfs-slice-grps",
+    "version": 2,
+    "weekStart": ""
+  }
+}

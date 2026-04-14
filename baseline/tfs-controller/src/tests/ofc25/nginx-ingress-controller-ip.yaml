@@ -1,0 +1,138 @@
+# Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-load-balancer-microk8s-conf-ip
+  namespace: ingress
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-ingress-udp-microk8s-conf-ip
+  namespace: ingress
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-ingress-tcp-microk8s-conf-ip
+  namespace: ingress
+---
+apiVersion: networking.k8s.io/v1
+kind: IngressClass
+metadata:
+  name: tfs-ingress-class-ip
+  annotations:
+    ingressclass.kubernetes.io/is-default-class: "false"
+spec:
+  controller: tfs.etsi.org/controller-class-ip
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: nginx-ingress-microk8s-controller-ip
+  namespace: ingress
+  labels:
+    microk8s-application: nginx-ingress-microk8s-ip
+spec:
+  selector:
+    matchLabels:
+      name: nginx-ingress-microk8s-ip
+  updateStrategy:
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        name: nginx-ingress-microk8s-ip
+    spec:
+      terminationGracePeriodSeconds: 60
+      restartPolicy: Always
+      serviceAccountName: nginx-ingress-microk8s-serviceaccount
+      containers:
+      - image: k8s.gcr.io/ingress-nginx/controller:v1.2.0
+        imagePullPolicy: IfNotPresent
+        name: nginx-ingress-microk8s
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 10254
+            scheme: HTTP
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          successThreshold: 1
+          failureThreshold: 3
+          timeoutSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 10254
+            scheme: HTTP
+          periodSeconds: 10
+          successThreshold: 1
+          failureThreshold: 3
+          timeoutSeconds: 5
+        lifecycle:
+          preStop:
+            exec:
+              command:
+                - /wait-shutdown
+        securityContext:
+          capabilities:
+            add:
+            - NET_BIND_SERVICE
+            drop:
+            - ALL
+          runAsUser: 101 # www-data
+        env:
+          - name: POD_NAME
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.name
+          - name: POD_NAMESPACE
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+        ports:
+        - name: http
+          containerPort: 80
+          hostPort: 8002
+          protocol: TCP
+        - name: https
+          containerPort: 443
+          hostPort: 4432
+          protocol: TCP
+        - name: health
+          containerPort: 10254
+          hostPort: 12542
+          protocol: TCP
+        - name: ws
+          containerPort: 8762
+          hostPort: 8762
+          protocol: TCP
+        args:
+        - /nginx-ingress-controller
+        - --configmap=$(POD_NAMESPACE)/nginx-load-balancer-microk8s-conf-ip
+        - --tcp-services-configmap=$(POD_NAMESPACE)/nginx-ingress-tcp-microk8s-conf-ip
+        - --udp-services-configmap=$(POD_NAMESPACE)/nginx-ingress-udp-microk8s-conf-ip
+        - --election-id=ingress-controller-leader-ip
+        - --controller-class=tfs.etsi.org/controller-class-ip
+        - --ingress-class=tfs-ingress-class-ip
+        - ' '
+        - --publish-status-address=127.0.0.1

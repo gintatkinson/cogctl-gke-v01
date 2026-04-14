@@ -1,0 +1,28 @@
+{
+  "tapi-connectivity:connectivity-service": [
+    {
+      "uuid" : "cs1",
+      "service-type":"POINT_TO_POINT_CONNECTIVITY",
+      "connectivity-constraint": {
+        "requested-capacity": {"total-size": { "value": "50", "unit": "GHz" }},
+        "connectivity-direction": "UNIDIRECTIONAL"
+      },
+      "end-point": [
+        {
+          "local-id": "csep-1",
+          "layer-protocol-name": "PHOTONIC_MEDIA",
+          "service-interface-point": {
+            "service-interface-point-uuid": "node-1-port-13-input"
+          }
+        },
+        {
+          "local-id":"csep-2",
+          "layer-protocol-name":"PHOTONIC_MEDIA",
+          "service-interface-point": {
+            "service-interface-point-uuid": "node-2-port-14-output"
+          }
+        } 
+      ]
+    }
+  ]
+}

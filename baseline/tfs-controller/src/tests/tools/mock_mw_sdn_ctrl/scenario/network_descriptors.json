@@ -1,0 +1,117 @@
+{
+    "contexts": [
+        {
+            "context_id": {"context_uuid": {"uuid": "admin"}},
+            "topology_ids": [],
+            "service_ids": []
+        }
+    ],
+    "topologies": [
+        {
+            "topology_id": {"topology_uuid": {"uuid": "admin"}, "context_id": {"context_uuid": {"uuid": "admin"}}},
+            "device_ids": [],
+            "link_ids": []
+        }
+    ],
+    "devices": [
+        {
+            "device_id": {"device_uuid": {"uuid": "R1"}}, "device_type": "emu-packet-router", "device_drivers": [0],
+            "device_operational_status": 2, "device_endpoints": [],
+            "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "127.0.0.1"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "0"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {"endpoints": [
+                    {"type": "copper", "uuid": "MW", "sample_types": []},
+                    {"type": "copper", "uuid": "R2", "sample_types": []},
+                    {"type": "copper", "uuid": "EXT", "sample_types": []}
+                ]}}}
+            ]}
+        },
+        {
+            "device_id": {"device_uuid": {"uuid": "R2"}}, "device_type": "emu-packet-router", "device_drivers": [0],
+            "device_operational_status": 2, "device_endpoints": [],
+            "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "127.0.0.1"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "0"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {"endpoints": [
+                    {"type": "copper", "uuid": "MW", "sample_types": []},
+                    {"type": "copper", "uuid": "R1", "sample_types": []},
+                    {"type": "copper", "uuid": "EXT", "sample_types": []}
+                ]}}}
+            ]}
+        },
+        {
+            "device_id": {"device_uuid": {"uuid": "R3"}}, "device_type": "emu-packet-router", "device_drivers": [0],
+            "device_operational_status": 2, "device_endpoints": [],
+            "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "127.0.0.1"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "0"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {"endpoints": [
+                    {"type": "copper", "uuid": "MW", "sample_types": []},
+                    {"type": "copper", "uuid": "R4", "sample_types": []},
+                    {"type": "copper", "uuid": "EXT", "sample_types": []}
+                ]}}}
+            ]}
+        },
+        {
+            "device_id": {"device_uuid": {"uuid": "R4"}}, "device_type": "emu-packet-router", "device_drivers": [0],
+            "device_operational_status": 2, "device_endpoints": [],
+            "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "127.0.0.1"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "0"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {"endpoints": [
+                    {"type": "copper", "uuid": "MW", "sample_types": []},
+                    {"type": "copper", "uuid": "R3", "sample_types": []},
+                    {"type": "copper", "uuid": "EXT", "sample_types": []}
+                ]}}}
+            ]}
+        },
+        {
+            "device_id": {"device_uuid": {"uuid": "MW"}}, "device_type": "microwave-radio-system", "device_drivers": [4],
+            "device_operational_status": 2, "device_endpoints": [],
+            "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "192.168.1.1"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "8443"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {"timeout": 120}}}
+            ]}
+        }
+    ],
+    "links": [
+        {
+            "link_id": {"link_uuid": {"uuid": "R1/R2==R2/R1"}}, "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "R1"}}, "endpoint_uuid": {"uuid": "R2"}},
+                {"device_id": {"device_uuid": {"uuid": "R2"}}, "endpoint_uuid": {"uuid": "R1"}}
+            ]
+        },
+        {
+            "link_id": {"link_uuid": {"uuid": "R3/R4==R4/R3"}}, "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "R3"}}, "endpoint_uuid": {"uuid": "R4"}},
+                {"device_id": {"device_uuid": {"uuid": "R4"}}, "endpoint_uuid": {"uuid": "R3"}}
+            ]
+        },
+        {
+            "link_id": {"link_uuid": {"uuid": "R1/MW==MW/172.18.0.1:1"}}, "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "R1"}}, "endpoint_uuid": {"uuid": "MW"}},
+                {"device_id": {"device_uuid": {"uuid": "MW"}}, "endpoint_uuid": {"uuid": "172.18.0.1:1"}}
+            ]
+        },
+        {
+            "link_id": {"link_uuid": {"uuid": "R2/MW==MW/172.18.0.2:1"}}, "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "R2"}}, "endpoint_uuid": {"uuid": "MW"}},
+                {"device_id": {"device_uuid": {"uuid": "MW"}}, "endpoint_uuid": {"uuid": "172.18.0.2:1"}}
+            ]
+        },
+        {
+            "link_id": {"link_uuid": {"uuid": "R3/MW==MW/172.18.0.3:1"}}, "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "R3"}}, "endpoint_uuid": {"uuid": "MW"}},
+                {"device_id": {"device_uuid": {"uuid": "MW"}}, "endpoint_uuid": {"uuid": "172.18.0.3:1"}}
+            ]
+        },
+        {
+            "link_id": {"link_uuid": {"uuid": "R4/MW==MW/172.18.0.4:1"}}, "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "R4"}}, "endpoint_uuid": {"uuid": "MW"}},
+                {"device_id": {"device_uuid": {"uuid": "MW"}}, "endpoint_uuid": {"uuid": "172.18.0.4:1"}}
+            ]
+        }
+    ]
+}

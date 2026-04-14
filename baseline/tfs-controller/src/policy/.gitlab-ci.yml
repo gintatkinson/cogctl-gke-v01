@@ -1,0 +1,102 @@
+# Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+variables:
+  IMAGE_NAME_POLICY: 'policy'
+  REPORTS_PATH_POLICY: "src/${IMAGE_NAME_POLICY}/reports"
+  BUILD_ENV_POLICY: build-policy.env
+
+# Package application needed to run tests & build the image on next stage
+build policy:
+  stage: build
+  before_script:
+    - docker image prune --force
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+  script:
+    - export IMAGE_TAG=$(grep -m1 '<version>' ./src/$IMAGE_NAME_POLICY/pom.xml | grep -oP  '(?<=>).*(?=<)')
+    - echo "IMAGE_TAG=${IMAGE_TAG}" >> ${BUILD_ENV_POLICY}
+    - cat ${BUILD_ENV_POLICY}
+    - docker buildx build -t "$IMAGE_NAME_POLICY:$IMAGE_TAG" -f ./src/$IMAGE_NAME_POLICY/src/main/docker/Dockerfile.multistage.jvm ./src/$IMAGE_NAME_POLICY/ --target builder
+  after_script:
+    - docker image prune --force
+  artifacts:
+    reports:
+      dotenv: ${BUILD_ENV_POLICY}
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop" || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH)'
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == "develop"'
+    - changes:
+        - src/$IMAGE_NAME_POLICY/**
+        - manifests/${IMAGE_NAME_POLICY}service.yaml
+        - .gitlab-ci.yml
+
+# Run tests, build & push the image
+unit_test policy:
+  variables:
+    REPORTS_CONTAINER: "${IMAGE_NAME_POLICY}-reports"
+  stage: unit_test
+  needs:
+    - build policy
+  before_script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+    - docker rm ${REPORTS_CONTAINER} || true
+  script:
+    - echo "Running tests for image ${IMAGE_TAG}"
+    - docker buildx build -t "$IMAGE_NAME_POLICY:$IMAGE_TAG" -f ./src/$IMAGE_NAME_POLICY/src/main/docker/Dockerfile.multistage.jvm ./src/$IMAGE_NAME_POLICY/ --target unit-test
+    # Transfer JaCoCo and Surefire reports from within tests image
+    - docker create --name ${REPORTS_CONTAINER} "$IMAGE_NAME_POLICY:$IMAGE_TAG"
+    - mkdir -p ${REPORTS_PATH_POLICY}
+    - docker cp ${REPORTS_CONTAINER}:/app/target/site/jacoco/index.html ${REPORTS_PATH_POLICY}/coverage.html
+    - docker cp ${REPORTS_CONTAINER}:/app/target/site/jacoco/jacoco.xml ${REPORTS_PATH_POLICY}/jacoco.xml
+    - docker cp ${REPORTS_CONTAINER}:/app/target/surefire-reports/ ${REPORTS_PATH_POLICY}/
+    - cat ${REPORTS_PATH_POLICY}/coverage.html | grep -o 'Total[^%]*%' | sed 's/<.*>/ /; s/Total/JaCoCo Coverage Total:/'
+    - docker run -v "$(pwd)/src/${IMAGE_NAME_POLICY}:/${IMAGE_NAME_POLICY}" --rm registry.gitlab.com/haynes/jacoco2cobertura:1.0.7 python /opt/cover2cover.py ${IMAGE_NAME_POLICY}/reports/jacoco.xml ${IMAGE_NAME_POLICY}/src/main/java > ${REPORTS_PATH_POLICY}/cobertura.xml
+    # Build final image
+    - docker buildx build -t "$IMAGE_NAME_POLICY:$IMAGE_TAG" -f ./src/$IMAGE_NAME_POLICY/src/main/docker/Dockerfile.multistage.jvm ./src/$IMAGE_NAME_POLICY/ --target release
+    - docker tag "$IMAGE_NAME_POLICY:$IMAGE_TAG" "$CI_REGISTRY_IMAGE/$IMAGE_NAME_POLICY:$IMAGE_TAG"
+    - docker push "$CI_REGISTRY_IMAGE/$IMAGE_NAME_POLICY:$IMAGE_TAG"
+  after_script:
+    - docker rm ${REPORTS_CONTAINER}
+    - docker rm -f "$IMAGE_NAME_POLICY:$IMAGE_TAG"
+  coverage: '/JaCoCo Coverage Total: ([0-9]{1,3})%/'
+  artifacts:
+    reports:
+      junit:
+        - ${REPORTS_PATH_POLICY}/surefire-reports/TEST-*.xml
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop" || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH)'
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == "develop"'
+    - changes:
+        - src/$IMAGE_NAME_POLICY/**
+        - manifests/${IMAGE_NAME_POLICY}service.yaml
+        - .gitlab-ci.yml
+
+## Deployment of policy service in Kubernetes Cluster
+#deploy policy:
+#  stage: deploy
+#  needs:
+#    - build policy
+#    - unit_test policy
+#  script:
+#    - kubectl version
+#    - kubectl get all
+#    - kubectl delete --ignore-not-found=true -f "manifests/policyservice.yaml"
+#    - kubectl apply -f "manifests/policyservice.yaml"
+#    - kubectl delete pods --selector app=policyservice
+#    - kubectl get all
+#  rules:
+#    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop" || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH)'
+#      when: manual
+#    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == "develop"'
+#      when: manual

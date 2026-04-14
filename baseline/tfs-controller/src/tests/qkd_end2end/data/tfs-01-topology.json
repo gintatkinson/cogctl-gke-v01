@@ -1,0 +1,52 @@
+{
+    "contexts": [
+        {"context_id": {"context_uuid": {"uuid": "admin"}}}
+    ],
+    "topologies": [
+        {"topology_id": {"context_id": {"context_uuid": {"uuid": "admin"}}, "topology_uuid": {"uuid": "admin"}}}
+    ],
+    "devices": [
+        {
+            "device_id": {"device_uuid": {"uuid": "QKD1"}}, "device_type": "qkd-node", "device_drivers": ["DEVICEDRIVER_QKD"],
+            "device_config": {"config_rules": [
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/address", "resource_value": "172.254.250.101"}},
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/port", "resource_value": "8080"}},
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/settings", "resource_value": {"scheme": "http"}}}
+            ]}
+        },
+        {
+            "device_id": {"device_uuid": {"uuid": "QKD2"}}, "device_type": "qkd-node", "device_drivers": ["DEVICEDRIVER_QKD"],
+            "device_config": {"config_rules": [
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/address", "resource_value": "172.254.250.102"}},
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/port", "resource_value": "8080"}},
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/settings", "resource_value": {"scheme": "http"}}}
+            ]}
+        },
+        {
+            "device_id": {"device_uuid": {"uuid": "QKD3"}}, "device_type": "qkd-node", "device_drivers": ["DEVICEDRIVER_QKD"],
+            "device_config": {"config_rules": [
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/address", "resource_value": "172.254.250.103"}},
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/port", "resource_value": "8080"}},
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/settings", "resource_value": {"scheme": "http"}}}
+            ]}
+        }
+    ],
+    "links": [
+        {"link_id": {"link_uuid": {"uuid": "QKD1/QKD2:201==QKD2/QKD1:102"}}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "QKD1"}}, "endpoint_uuid": {"uuid": "QKD2:201"}},
+            {"device_id": {"device_uuid": {"uuid": "QKD2"}}, "endpoint_uuid": {"uuid": "QKD1:102"}}
+        ]},
+        {"link_id": {"link_uuid": {"uuid": "QKD2/QKD1:102==QKD1/QKD2:201"}}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "QKD2"}}, "endpoint_uuid": {"uuid": "QKD1:102"}},
+            {"device_id": {"device_uuid": {"uuid": "QKD1"}}, "endpoint_uuid": {"uuid": "QKD2:201"}}
+        ]},
+        {"link_id": {"link_uuid": {"uuid": "QKD2/QKD3:302==QKD3/QKD2:203"}}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "QKD2"}}, "endpoint_uuid": {"uuid": "QKD3:302"}},
+            {"device_id": {"device_uuid": {"uuid": "QKD3"}}, "endpoint_uuid": {"uuid": "QKD2:203"}}
+        ]},
+        {"link_id": {"link_uuid": {"uuid": "QKD3/QKD2:203==QKD2/QKD3:302"}}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "QKD3"}}, "endpoint_uuid": {"uuid": "QKD2:203"}},
+            {"device_id": {"device_uuid": {"uuid": "QKD2"}}, "endpoint_uuid": {"uuid": "QKD3:302"}}
+        ]}
+    ]
+}

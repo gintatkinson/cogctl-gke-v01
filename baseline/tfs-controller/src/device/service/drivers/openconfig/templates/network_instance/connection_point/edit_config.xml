@@ -1,0 +1,29 @@
+<network-instances xmlns="http://openconfig.net/yang/network-instance">
+    <network-instance>
+        <name>{{name}}</name>
+        <connection-points>
+            <connection-point>
+                <connection-point-id>{{connection_point}}</connection-point-id>
+                <config>
+                    <connection-point-id>{{connection_point}}</connection-point-id>
+                </config>
+                <endpoints>
+                    <endpoint>
+                        <endpoint-id>{{connection_point}}</endpoint-id>
+                        <config>
+                            <endpoint-id>{{connection_point}}</endpoint-id>
+                            <precedence>1</precedence>
+                            <type xmlns:oc-ni-types="http://openconfig.net/yang/network-instance-types">oc-ni-types:REMOTE</type>
+                        </config>
+                        <remote>
+                            <config>
+                                <virtual-circuit-identifier>{{VC_ID}}</virtual-circuit-identifier>
+                                <remote-system>{{remote_system}}</remote-system>
+                            </config>
+                        </remote>
+                    </endpoint>
+                </endpoints>
+            </connection-point>
+        </connection-points>
+    </network-instance>
+</network-instances>

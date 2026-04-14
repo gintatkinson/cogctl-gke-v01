@@ -1,0 +1,371 @@
+This is a quick guide for having fast access to the commands.
+
+################################################################################
+# Prepare environment
+################################################################################
+
+# (done) Create PyEnv virtual environment
+cd ~/tfs-ctrl
+pyenv virtualenv 3.9.13 tfs
+pyenv local 3.9.13/envs/tfs
+./install_requirements.sh
+
+# (done) Install Python dependencies
+pip install pyang
+pip install git+https://github.com/robshakir/pyangbind.git
+pip install netconf
+
+# (done) Install PlantUML
+# (done) Install dependencies to run PlantUML
+sudo apt-get install -y graphviz openjdk-11-jre
+
+# (done) Download plantuml.7997.jar from http://sourceforge.net/projects/plantuml/files/plantuml.7997.jar/download
+cp ~/Downloads/plantuml.7997.jar ~/tfs-ctrl/hackfest/yang/plantuml.jar
+
+# (done) Install WireShark
+#   When asked "allow non-root users to capture?" answer "yes"
+sudo apt-get install -y wireshark
+# Add current user to wireshark group to allow capturing as non-root (requires log-out & log-in, or reboot)
+sudo usermod -a -G wireshark $USER
+
+
+
+################################################################################
+# YANG
+################################################################################
+
+## GUIDED
+
+# Convert Topology YANG to Text-based tree
+pyang -f tree topology.yang
+pyang -f tree topology.yang -o topology.tree
+
+# Report a sample message following Topology YANG data model
+pyang -f sample-xml-skeleton --sample-xml-skeleton-annotations topology.yang
+pyang -f sample-xml-skeleton --sample-xml-skeleton-annotations topology.yang -o topology-sample.xml
+
+# Convert Topology YANG to UML
+pyang -f uml topology.yang -o topology.uml
+java -jar plantuml.jar topology.uml
+
+# Convert Topology YANG to Python bindings
+export PYBINDPLUGIN=`/usr/bin/env python -c \
+'import pyangbind; import os; print ("{}/plugin".format(os.path.dirname(pyangbind.__file__)))'`
+echo $PYBINDPLUGIN
+pyang -f pybind topology.yang --plugindir $PYBINDPLUGIN -o binding_topology.py
+
+# Test creation of JSON-/XML-encoded Topology messages
+python topology.py
+
+## EXERCISE
+
+# Convert Connection YANG to Text-based tree
+pyang -f tree connection.yang
+
+# Report a sample message following Connection YANG data model
+pyang -f sample-xml-skeleton --sample-xml-skeleton-annotations connection.yang
+
+# Convert Connection YANG to UML
+pyang -f uml connection.yang -o connection.uml
+java -jar plantuml.jar connection.uml
+
+# Convert Connection YANG to Python bindings
+export PYBINDPLUGIN=`/usr/bin/env python -c \
+    'import pyangbind; import os; print ("{}/plugin".format(os.path.dirname(pyangbind.__file__)))'`
+pyang -f pybind connection.yang --plugindir $PYBINDPLUGIN -o binding_connection.py
+
+# Test creation of JSON-/XML-encoded Connection messages
+python connection.py
+
+
+
+################################################################################
+# NETCONF
+################################################################################
+
+## GUIDED
+
+Run server:
+cd ~/tfs-ctrl/hackfest/netconf
+python3 server_topology.py
+
+In another window, run client:
+cd ~/tfs-ctrl/hackfest/netconf
+python3 client_topology.py
+
+## EXERCISE
+
+Run server:
+cd ~/tfs-ctrl/hackfest/netconf/connection
+python3 server_topology_connection.py
+
+In another window, run client:
+cd ~/tfs-ctrl/hackfest/netconf/connection
+python3 client_connection.py
+
+
+
+################################################################################
+# TAPI
+################################################################################
+
+## GUIDED
+
+# (done) Install dependencies
+cd ~/tfs-ctrl/hackfest/tapi/server
+pip install -r requirements.txt
+
+cd ~/tfs-ctrl/hackfest/tapi/tapi_app
+./requirements.sh
+
+# (done) Build & Implement methods for the TAPI v2.1.3 server:
+cd ~/tfs-ctrl/hackfest/tapi
+wget https://repo1.maven.org/maven2/io/swagger/codegen/v3/swagger-codegen-cli/3.0.35/swagger-codegen-cli-3.0.35.jar
+wget -O tapi-connectivity.yaml https://github.com/OpenNetworkingFoundation/TAPI/raw/v2.1.3/OAS/tapi-connectivity%402020-06-16.yaml
+java -jar swagger-codegen-cli-3.0.35.jar generate --input-spec tapi-connectivity.yaml \
+    --lang python-flask --output server --disable-examples --config codegen-config.json
+pip install connexion==2.14.1
+cd ~/tfs-ctrl/hackfest/tapi/server
+# Rename methods in "tapi_server/controllers/tapi_path_computation_controller.py" as follows:
+#   operations_tapi_path_computationcompute_p2_p_path_post => operations_tapi_path_computationcompute_p_2_p_path_post
+#   operations_tapi_path_computationdelete_p2_p_path_post => operations_tapi_path_computationdelete_p_2_p_path_post
+#   operations_tapi_path_computationoptimize_p2_ppath_post => operations_tapi_path_computationoptimize_p_2_ppath_post
+# Implement database based on Reference Implementation [Ref-3] in tapi/server/Acknowledgements.txt
+
+# Run the TAPI server:
+cd ~/tfs-ctrl/hackfest/tapi/server
+python3 -m tapi_server 8080 database/mini-ols-context.json
+
+# Run TAPI client using cURL (In a new window):
+cd ~/tfs-ctrl/hackfest/tapi/client
+
+# Interrogate Context and SIPs:
+curl -X GET -H "Content-Type: application/json" http://127.0.0.1:8080/restconf/data/tapi-common:context/
+curl -X GET -H "Content-Type: application/json" http://127.0.0.1:8080/restconf/data/tapi-common:context/service-interface-point=node-4-port-16-output/
+
+# Interrogate Topology, Nodes and Links:
+curl -X GET -H "Content-Type: application/json" http://127.0.0.1:8080/restconf/data/tapi-common:context/tapi-topology:topology-context/
+curl -X GET -H "Content-Type: application/json" http://127.0.0.1:8080/restconf/data/tapi-common:context/tapi-topology:topology-context/topology=ols-topo/
+curl -X GET -H "Content-Type: application/json" http://127.0.0.1:8080/restconf/data/tapi-common:context/tapi-topology:topology-context/topology=ols-topo/node=node-4/
+curl -X GET -H "Content-Type: application/json" http://127.0.0.1:8080/restconf/data/tapi-common:context/tapi-topology:topology-context/topology=ols-topo/node=node-4/owned-node-edge-point=node-4-port-13/
+curl -X GET -H "Content-Type: application/json" http://127.0.0.1:8080/restconf/data/tapi-common:context/tapi-topology:topology-context/topology=ols-topo/node=node-4/owned-node-edge-point=node-4-port-13/tapi-connectivity:cep-list/
+curl -X GET -H "Content-Type: application/json" http://127.0.0.1:8080/restconf/data/tapi-common:context/tapi-topology:topology-context/topology=ols-topo/link=link-4:2-2:4/
+
+# Create ConnectivityServices and Connections:
+curl -X POST -H "Content-Type: application/json" \
+    http://127.0.0.1:8080/restconf/data/tapi-common:context/tapi-connectivity:connectivity-context/connectivity-service/ \
+    -d @/home/tfs/tfs-ctrl/hackfest/tapi/client/cs1.json
+
+# Interrogate ConnectivityServices and Connections:
+curl -X GET -H "Content-Type: application/json" http://127.0.0.1:8080/restconf/data/tapi-common:context/tapi-connectivity:connectivity-context/
+curl -X GET -H "Content-Type: application/json" http://127.0.0.1:8080/restconf/data/tapi-common:context/tapi-connectivity:connectivity-context/connectivity-service=cs1/
+curl -X GET -H "Content-Type: application/json" http://127.0.0.1:8080/restconf/data/tapi-common:context/tapi-connectivity:connectivity-context/connection=cs1/
+
+# Delete ConnectivityServices and Connections:
+curl -X DELETE -H "Content-Type: application/json" http://127.0.0.1:8080/restconf/data/tapi-common:context/tapi-connectivity:connectivity-context/connectivity-service=cs1/
+
+
+## EXERCISE
+
+# Exercise: retrieve and draw the topology
+# solution in folder tapi_app
+
+cd ~/tfs-ctrl/hackfest/tapi/tapi_app
+python3 tapi_app.py
+
+
+
+################################################################################
+# Deploy TeraFlowSDN
+################################################################################
+
+## GUIDED
+
+# Check status of MicroK8s
+microk8s.status --wait-ready
+
+# If not running, start MicroK8s
+microk8s.start
+
+# Periodically inspect status of MicroK8s until all addons are enabled
+watch -n 1 microk8s.status --wait-ready
+
+# Check all resources in Kubernetes
+watch -n 1 kubectl get all --all-namespaces
+
+# Deploy TeraFlowSDN
+cd ~/tfs-ctrl
+source my_deploy.sh 
+./deploy/all.sh 
+
+# Show status of your deployment
+(if new terminal) cd ~/tfs-ctrl && source my_deploy.sh
+./deploy/show.sh
+
+# Show logs of a specific component
+(if new terminal) cd ~/tfs-ctrl && source my_deploy.sh
+./scripts/show_logs_device.sh
+
+
+
+################################################################################
+# Programmable L3 routers
+################################################################################
+
+# (done) Build a Netconf server supporting basic OpenConfig data model
+
+## GUIDED
+
+# Start the Netconf/OpenConfig server
+cd ~/tfs-ctrl/hackfest/netconf-oc
+python3 server_openconfig.py 8300
+
+
+
+################################################################################
+# Service requests
+################################################################################
+
+## EXERCISE
+# Exercise: L3VPN service from JSON descriptors
+
+# (in a new terminal) Start OLS TAPI server:
+cd ~/tfs-ctrl/hackfest/tapi/server
+python3 -m tapi_server 8080 database/mini-ols-context.json
+
+# (in a new terminal) Start the Netconf/OpenConfig server for R1
+cd ~/tfs-ctrl/hackfest/netconf-oc
+python3 server_openconfig.py 8301
+
+# (in a new terminal) Start the Netconf/OpenConfig server for R2
+cd ~/tfs-ctrl/hackfest/netconf-oc
+python3 server_openconfig.py 8302
+
+# (in a new terminal) Start the Netconf/OpenConfig server for R3
+cd ~/tfs-ctrl/hackfest/netconf-oc
+python3 server_openconfig.py 8303
+
+# (in a new terminal) Start the Netconf/OpenConfig server for R4
+cd ~/tfs-ctrl/hackfest/netconf-oc
+python3 server_openconfig.py 8304
+
+
+
+## EXERCISE
+# Exercise: L2VPN slice from Mock OSM
+
+$ cd ~/tfs-ctrl/hackfest/
+$ python -m mock_osm
+Welcome to the MockOSM shell.
+Type help or ? to list commands.
+
+(mock-osm) create
+Service b8c99e2c-39d8-424d-9833-554634269555 created
+# Service should be created in TFS. Check "Slice" and "Service" pages on WebUI.
+# Check configuration rules in "Devices"
+
+(mock-osm) status
+response.status_code=200
+Status of Service b8c99e2c-39d8-424d-9833-554634269555 is {'sdn_status': 'ACTIVE'}
+
+(mock-osm) delete
+Service b8c99e2c-39d8-424d-9833-554634269555 deleted
+# Service should be removed from TFS. Check "Slice" and "Service" pages on WebUI.
+# Check configuration rules in "Devices"
+
+(mock-osm) exit
+Bye!
+
+
+
+############
+# gRPC
+############
+
+## GUIDED
+
+# Generate connection messages from .proto
+cd ~/tfs-ctrl/hackfest/grpc
+python -m grpc_tools.protoc -I=. --python_out=connection/ connection.proto
+
+# Create a connection message and save to a file
+cd ~/tfs-ctrl/hackfest/grpc/connection
+python3 create.py connection.txt 
+
+# List a connection from a file
+cd ~/tfs-ctrl/hackfest/grpc/connection
+python3 list.py connection.txt 
+
+# Build ConnectionService from .proto
+cd ~/tfs-ctrl/hackfest/grpc
+python -m grpc_tools.protoc -I=. --python_out=connectionService/ --grpc_python_out=connectionService/ connectionService.proto
+
+# Start ConnectionService server
+cd ~/tfs-ctrl/hackfest/grpc/connectionService
+python3 connectionService_server.py
+
+# Start ConnectionService client (in another terminal)
+cd ~/tfs-ctrl/hackfest/grpc/connectionService
+python3 connectionService_client.py
+
+
+## EXERCISE
+# Exercise: add streams
+
+# Build ConnectionServiceWithNotif from .proto
+cd ~/tfs-ctrl/hackfest/grpc
+python -m grpc_tools.protoc -I=. --python_out=connectionServiceWithNotif/ --grpc_python_out=connectionServiceWithNotif/ connectionServiceWithNotif.proto
+
+## Solution:
+# Run ConnectionServiceWithNotif server
+cd ~/tfs-ctrl/hackfest/grpc/connectionServiceWithNotif
+python3 connectionServiceWithNotif_server.py
+
+# Run ConnectionServiceWithNotif client (in another terminal)
+$ cd ~/tfs-ctrl/hackfest/grpc/connectionServiceWithNotif
+$ python3 connectionServiceWithNotif_client.py
+
+
+
+############
+# gNMI
+############
+
+## GUIDED
+
+## Download and install the latest release
+$ sudo bash -c "$(curl -sL https://get.containerlab.dev)"
+
+## Deploy proposed two SR node scenario
+$ cd ~/tfs-ctrl/hackfest/gnmi
+$ sudo containerlab deploy --topo srlinux.clab.yml
+
+## Access SR Bash
+$ docker exec -it clab-srlinux-srl1 bash
+
+## Acess SR CLI
+$ docker exec -it clab-srlinux-srl1 sr_cli
+
+## Destroy scenario
+$ sudo containerlab destroy --topo srlinux.clab.yml
+
+## Install gNMIc
+$ sudo bash -c "$(curl -sL https://get-gnmic.kmrd.dev)"
+
+## gNMI Capabilities request
+$ gnmic -a clab-srlinux-srl1 -u admin -p NokiaSrl1! --skip-verify capabilities
+
+## gNMI Get request
+$ gnmic -a clab-srlinux-srl1 -u admin -p NokiaSrl1! --skip-verify -e json_ietf get --path /system/name/host-name
+$ gnmic -a clab-srlinux-srl1 -u admin -p NokiaSrl1! --skip-verify -e json_ietf get --path /interface[name=mgmt0]
+
+## gNMI Set request
+$ gnmic -a clab-srlinux-srl1 -u admin -p NokiaSrl1! --skip-verify -e json_ietf set --update-path /system/name/host-name --update-value slr11
+
+(we check the changed value) 
+$ gnmic -a clab-srlinux-srl1 -u admin -p NokiaSrl1! --skip-verify -e json_ietf get --path /system/name/host-name 
+
+## Subscribe request
+$ gnmic -a clab-srlinux-srl1 -u admin -p NokiaSrl1! --skip-verify -e json_ietf subscribe --path /interface[name=mgmt0]/statistics
+(In another terminal, you can generate traffic) 
+$ssh admin@clab-srlinux-srl1

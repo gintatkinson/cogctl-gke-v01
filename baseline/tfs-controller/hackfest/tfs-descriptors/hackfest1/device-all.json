@@ -1,0 +1,84 @@
+{
+    "devices": [
+        {
+            "device_id": {"device_uuid": {"uuid": "R1"}},
+            "device_type": "packet-router",
+            "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "10.0.2.10"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "8301"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {
+                    "username": "admin", "password": "admin",
+                    "force_running": false, "hostkey_verify": false, "look_for_keys": false,
+                    "allow_agent": false, "commit_per_rule": true, "device_params": {"name": "default"},
+                    "manager_params": {"timeout" : 120}
+                }}}
+            ]},
+            "device_operational_status": 1,
+            "device_drivers": [1],
+            "device_endpoints": []
+        },
+        {
+            "device_id": {"device_uuid": {"uuid": "R2"}},
+            "device_type": "packet-router",
+            "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "10.0.2.10"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "8302"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {
+                    "username": "admin", "password": "admin",
+                    "force_running": false, "hostkey_verify": false, "look_for_keys": false,
+                    "allow_agent": false, "commit_per_rule": true, "device_params": {"name": "default"},
+                    "manager_params": {"timeout" : 120}
+                }}}
+            ]},
+            "device_operational_status": 1,
+            "device_drivers": [1],
+            "device_endpoints": []
+        },
+        {
+            "device_id": {"device_uuid": {"uuid": "R3"}},
+            "device_type": "packet-router",
+            "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "10.0.2.10"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "8303"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {
+                    "username": "admin", "password": "admin",
+                    "force_running": false, "hostkey_verify": false, "look_for_keys": false,
+                    "allow_agent": false, "commit_per_rule": true, "device_params": {"name": "default"},
+                    "manager_params": {"timeout" : 120}
+                }}}
+            ]},
+            "device_operational_status": 1,
+            "device_drivers": [1],
+            "device_endpoints": []
+        },
+        {
+            "device_id": {"device_uuid": {"uuid": "R4"}},
+            "device_type": "packet-router",
+            "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "10.0.2.10"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "8304"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {
+                    "username": "admin", "password": "admin",
+                    "force_running": false, "hostkey_verify": false, "look_for_keys": false,
+                    "allow_agent": false, "commit_per_rule": true, "device_params": {"name": "default"},
+                    "manager_params": {"timeout" : 120}
+                }}}
+            ]},
+            "device_operational_status": 1,
+            "device_drivers": [1],
+            "device_endpoints": []
+        },
+        {
+            "device_id": {"device_uuid": {"uuid": "OLS"}},
+            "device_type": "open-line-system",
+            "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "10.0.2.10"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "8080"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {"timeout": 120}}}
+            ]},
+            "device_operational_status": 1,
+            "device_drivers": [2],
+            "device_endpoints": []
+        }
+    ]
+}

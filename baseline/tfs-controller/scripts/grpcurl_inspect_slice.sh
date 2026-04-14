@@ -1,0 +1,44 @@
+#!/bin/bash
+# Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+########################################################################################################################
+# Define your deployment settings here
+########################################################################################################################
+
+# If not already set, set the name of the Kubernetes namespace to deploy to.
+export TFS_K8S_NAMESPACE=${TFS_K8S_NAMESPACE:-"tfs"}
+
+########################################################################################################################
+# Automated steps start here
+########################################################################################################################
+
+# Ref: https://github.com/fullstorydev/grpcurl
+
+source tfs_runtime_env_vars.sh
+
+GRPC_ENDPOINT="$SLICESERVICE_SERVICE_HOST:$SLICESERVICE_SERVICE_PORT_GRPC"
+GRP_CURL_CMD="docker run fullstorydev/grpcurl --plaintext $GRPC_ENDPOINT"
+
+GRPC_SERVICES=`$GRP_CURL_CMD list`
+echo "gRPC Services found in $GRPC_ENDPOINT:"
+printf "\n"
+
+for GRPC_SERVICE in $GRPC_SERVICES; do
+    echo "gRPC Service: $GRPC_SERVICE"
+    $GRP_CURL_CMD describe $GRPC_SERVICE
+    printf "\n"
+done
+
+echo "Done!"

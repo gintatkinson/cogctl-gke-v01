@@ -1,0 +1,129 @@
+# Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# build, tag and push the Docker image to the gitlab registry
+build opticalattackdetector:
+  variables:
+    IMAGE_NAME: 'opticalattackdetector' # name of the microservice
+    IMAGE_TAG: 'latest' # tag of the container image (production, development, etc)
+  stage: build
+  before_script:
+    - docker image prune --force
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+  script:
+    - docker buildx build -t "$IMAGE_NAME:$IMAGE_TAG" -f ./src/$IMAGE_NAME/Dockerfile .
+    - docker tag "$IMAGE_NAME:$IMAGE_TAG" "$CI_REGISTRY_IMAGE/$IMAGE_NAME:$IMAGE_TAG"
+    - docker push "$CI_REGISTRY_IMAGE/$IMAGE_NAME:$IMAGE_TAG"
+  after_script:
+    - docker image prune --force
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop" || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH)'
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == "develop"' 
+    - changes:
+      - src/$IMAGE_NAME/**/*.{py,in,yml}
+      - src/$IMAGE_NAME/Dockerfile
+      - src/$IMAGE_NAME/tests/*.py
+      - src/$IMAGE_NAME/tests/Dockerfile
+      - manifests/${IMAGE_NAME}service.yaml
+      - .gitlab-ci.yml
+
+## apply unit test to the opticalattackdetector component
+#unit_test opticalattackdetector:
+#  variables:
+#    IMAGE_NAME: 'opticalattackdetector' # name of the microservice
+#    IMAGE_TAG: 'latest' # tag of the container image (production, development, etc)
+#  stage: unit_test
+#  needs:
+#    - build opticalattackdetector
+#  before_script:
+#    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+#    - if docker network list | grep teraflowbridge; then echo "teraflowbridge is already created"; else docker network create -d bridge teraflowbridge; fi
+#    - if docker container ls | grep $IMAGE_NAME; then docker rm -f $IMAGE_NAME; else echo "$IMAGE_NAME image is not in the system"; fi
+#    - if docker container ls | grep redis; then docker rm -f redis; else echo "redis image is not in the system"; fi
+#    - if docker container ls | grep dbscanserving; then docker rm -f dbscanserving; else echo "dbscanserving image is not in the system"; fi
+#  script:
+#    - export REDIS_PASSWORD=$(uuidgen)
+#    - docker pull "redis:7.0-alpine"
+#    - docker run --name redis -d --network=teraflowbridge -p 16379:6379 -e REDIS_PASSWORD=${REDIS_PASSWORD} --rm redis:7.0-alpine redis-server --requirepass ${REDIS_PASSWORD}
+#    - while ! docker logs redis 2>&1 | grep -q 'Ready to accept connections'; do sleep 1; done
+#    - docker logs redis
+#    - REDIS_ADDRESS=$(docker inspect redis --format "{{.NetworkSettings.Networks.teraflowbridge.IPAddress}}")
+#    - docker pull "$CI_REGISTRY_IMAGE/dbscanserving:$IMAGE_TAG"
+#    - docker run --name dbscanserving -d -p 10008:10008 --network=teraflowbridge --rm $CI_REGISTRY_IMAGE/dbscanserving:$IMAGE_TAG "python -m dbscanserving.service"
+#    - docker logs dbscanserving
+#    - DBSCANSERVING_ADDRESS=$(docker inspect dbscanserving --format "{{.NetworkSettings.Networks.teraflowbridge.IPAddress}}")
+#    - docker pull "$CI_REGISTRY_IMAGE/$IMAGE_NAME:$IMAGE_TAG"
+#    - >
+#      docker run --name $IMAGE_NAME -d -p 10006:10006 
+#      -v "$PWD/src/$IMAGE_NAME/tests:/home/${IMAGE_NAME}/results" 
+#      -e REDIS_PASSWORD=${REDIS_PASSWORD}
+#      -e DBSCANSERVINGSERVICE_SERVICE_HOST=${DBSCANSERVING_ADDRESS}
+#      -e CACHINGSERVICE_SERVICE_HOST=${REDIS_ADDRESS}
+#      --network=teraflowbridge --rm $CI_REGISTRY_IMAGE/$IMAGE_NAME:$IMAGE_TAG
+#    - sleep 5
+#    - docker ps -a
+#    - docker logs $IMAGE_NAME
+#    - docker exec -i $IMAGE_NAME bash -c "coverage run -m pytest --log-level=DEBUG --verbose $IMAGE_NAME/tests/test_unitary.py --junitxml=/home/${IMAGE_NAME}/results/${IMAGE_NAME}_report.xml"
+#    - docker logs redis
+#    - docker logs dbscanserving
+#    - docker logs $IMAGE_NAME
+#    - docker exec -i $IMAGE_NAME bash -c "coverage xml -o /home/${IMAGE_NAME}/results/${IMAGE_NAME}_coverage.xml"
+#    - docker exec -i $IMAGE_NAME bash -c "coverage report --include='${IMAGE_NAME}/*' --show-missing"
+#  coverage: '/TOTAL\s+\d+\s+\d+\s+(\d+%)/'
+#  after_script:
+#    - docker rm -f $IMAGE_NAME
+#    - docker rm -f redis
+#    - docker rm -f dbscanserving
+#    - docker network rm teraflowbridge
+#  rules:
+#    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop" || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH)'
+#    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == "develop"' 
+#    - changes:
+#      - src/$IMAGE_NAME/**/*.{py,in,yml}
+#      - src/$IMAGE_NAME/Dockerfile
+#      - src/$IMAGE_NAME/tests/*.py
+#      - src/$IMAGE_NAME/tests/Dockerfile
+#      - manifests/${IMAGE_NAME}service.yaml
+#      - .gitlab-ci.yml
+#  artifacts:
+#    when: always
+#    reports:
+#      junit: src/$IMAGE_NAME/tests/${IMAGE_NAME}_report.xml
+
+
+# Deployment of the opticalattackdetector service in Kubernetes Cluster
+# deploy opticalattackdetector:
+#   variables:
+#     IMAGE_NAME: 'opticalattackdetector' # name of the microservice
+#     IMAGE_TAG: 'latest' # tag of the container image (production, development, etc)
+#   stage: deploy
+#   needs:
+#     - unit test opticalattackdetector
+#     # - integ_test execute
+#   script:
+#     - 'sed -i "s/$IMAGE_NAME:.*/$IMAGE_NAME:$IMAGE_TAG/" manifests/${IMAGE_NAME}service.yaml'
+#     - kubectl version
+#     - kubectl get all
+#     - kubectl apply -f "manifests/${IMAGE_NAME}service.yaml"
+#     - kubectl get all
+#   # environment:
+#   #   name: test
+#   #   url: https://example.com
+#   #   kubernetes:
+#   #     namespace: test
+#   rules:
+#     - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop" || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH)'
+#       when: manual    
+#     - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == "develop"'
+#       when: manual

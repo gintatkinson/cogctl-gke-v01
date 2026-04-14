@@ -1,0 +1,57 @@
+{
+    "ietf-network:networks": {
+        "network": [
+            {
+                "network-id": "admin",
+                "ietf-te-topology:te": {
+                    "name": "admin"
+                },
+                "network-types": {
+                    "ietf-te-topology:te-topology": {
+                        "ietf-eth-te-topology:eth-tran-topology": {}
+                    }
+                },
+                "node": [
+                    {
+                        "node-id": "ONT1", "ietf-te-topology:te-node-id": "172.16.61.10",
+                        "ietf-te-topology:te": {"te-node-attributes": {"name": "ONT1", "admin-status": "up"}, "oper-status": "up"},
+                        "ietf-network-topology:termination-point": [
+                            {"tp-id": "500", "ietf-te-topology:te": {"name": "500"}, "ietf-te-topology:te-tp-id": "10.1.1.2"},
+                            {"tp-id": "200", "ietf-te-topology:te": {"name": "200"}, "ietf-te-topology:te-tp-id": "10.0.0.1"}
+                        ]
+                    },
+                    {
+                        "node-id": "ONT2", "ietf-te-topology:te-node-id": "172.16.61.11",
+                        "ietf-te-topology:te": {"te-node-attributes": {"name": "ONT2", "admin-status": "up"}, "oper-status": "up"},
+                        "ietf-network-topology:termination-point": [
+                            {"tp-id": "500", "ietf-te-topology:te": {"name": "500"}, "ietf-te-topology:te-tp-id": "10.1.2.2"}, 
+                            {"tp-id": "200", "ietf-te-topology:te": {"name": "200"}, "ietf-te-topology:te-tp-id": "10.0.0.1"}
+                        ]
+                    },
+                    {
+                        "node-id": "OLT", "ietf-te-topology:te-node-id": "172.16.58.10",
+                        "ietf-te-topology:te": {"te-node-attributes": {"name": "OLT", "admin-status": "up"}, "oper-status": "up"},
+                        "ietf-network-topology:termination-point": [
+                            {"tp-id": "500", "ietf-te-topology:te": {"name": "500"}, "ietf-te-topology:te-tp-id": "128.32.33.2",
+                                "ietf-eth-te-topology:eth-svc": {"supported-classification": {"port-classification": false, "vlan-classification": {"vlan-tag-classification": true, "outer-tag": {
+                                    "supported-tag-types": ["ietf-eth-tran-types:classify-c-vlan"], "vlan-bundling": false, "vlan-range": "31"
+                                }}}}
+                            }, 
+                            {"tp-id": "501", "ietf-te-topology:te": {"name": "501"}, "ietf-te-topology:te-tp-id": "128.32.44.2",
+                                "ietf-eth-te-topology:eth-svc": {"supported-classification": {"port-classification": false, "vlan-classification": {"vlan-tag-classification": true, "outer-tag": {
+                                    "supported-tag-types": ["ietf-eth-tran-types:classify-c-vlan"], "vlan-bundling": false, "vlan-range": "21"
+                                }}}}
+                            },
+                            {"tp-id": "200", "ietf-te-topology:te": {"name": "200"}, "ietf-te-topology:te-tp-id": "10.1.1.1"}, 
+                            {"tp-id": "201", "ietf-te-topology:te": {"name": "201"}, "ietf-te-topology:te-tp-id": "10.1.2.1"}
+                        ]
+                    }
+                ],
+                "ietf-network-topology:link": [
+                    {"link-id": "L1", "source": {"source-node": "ONT1", "source-tp": "500"}, "destination": {"dest-node": "OLT", "dest-tp": "200"}},
+                    {"link-id": "L2", "source": {"source-node": "ONT2", "source-tp": "500"}, "destination": {"dest-node": "OLT", "dest-tp": "201"}}
+                ]
+            }
+        ]
+    }
+}

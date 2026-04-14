@@ -1,0 +1,93 @@
+{
+    "contexts": [
+        {"context_id": {"context_uuid": {"uuid": "admin"}}}
+    ],
+    "topologies": [
+        {"topology_id": {"context_id": {"context_uuid": {"uuid": "admin"}}, "topology_uuid": {"uuid": "admin"}}}
+    ],
+    "devices": [
+        {
+            "device_id": {"device_uuid": {"uuid": "R199"}}, "device_type": "packet-router", "device_drivers": [1],
+            "device_endpoints": [], "device_operational_status": 0, "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "10.95.86.199"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "830"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {
+                    "username": "admin", "password": "admin",
+                    "force_running": false, "hostkey_verify": false, "look_for_keys": false,
+                    "allow_agent": false, "commit_per_rule": true, "device_params": {"name": "huaweiyang"},
+                    "manager_params": {"timeout" : 86400}
+                }}}
+            ]}
+        },
+        {
+            "device_id": {"device_uuid": {"uuid": "R149"}}, "device_type": "packet-router", "device_drivers": [1],
+            "device_endpoints": [], "device_operational_status": 0, "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "10.95.86.149"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "830"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {
+                    "username": "admin", "password": "admin",
+                    "force_running": false, "hostkey_verify": false, "look_for_keys": false,
+                    "allow_agent": false, "commit_per_rule": true, "device_params": {"name": "huaweiyang"},
+                    "manager_params": {"timeout" : 86400}
+                }}}
+            ]}
+        },
+        {
+            "device_id": {"device_uuid": {"uuid": "R155"}}, "device_type": "packet-router", "device_drivers": [1],
+            "device_endpoints": [], "device_operational_status": 0, "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "10.95.86.155"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "830"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {
+                    "username": "admin", "password": "admin",
+                    "force_running": false, "hostkey_verify": false, "look_for_keys": false,
+                    "allow_agent": false, "commit_per_rule": true, "device_params": {"name": "huaweiyang"},
+                    "manager_params": {"timeout" : 86400}
+                }}}
+            ]}
+        }
+    ],
+    "links": [
+        {
+            "link_id": {"link_uuid": {"uuid": "R199/eth-1/0/19==R155/eth-1/0/19"}},
+            "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "R199"}}, "endpoint_uuid": {"uuid": "eth-1/0/19"}},
+                {"device_id": {"device_uuid": {"uuid": "R155"}}, "endpoint_uuid": {"uuid": "eth-1/0/19"}}
+            ]
+        },
+        {
+            "link_id": {"link_uuid": {"uuid": "R155/eth-1/0/19==R199/eth-1/0/19"}},
+            "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "R155"}}, "endpoint_uuid": {"uuid": "eth-1/0/19"}},
+                {"device_id": {"device_uuid": {"uuid": "R199"}}, "endpoint_uuid": {"uuid": "eth-1/0/19"}}
+            ]
+        },
+        {
+            "link_id": {"link_uuid": {"uuid": "R199/eth-1/0/20==R149/eth-1/0/20"}},
+            "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "R199"}}, "endpoint_uuid": {"uuid": "eth-1/0/20"}},
+                {"device_id": {"device_uuid": {"uuid": "R149"}}, "endpoint_uuid": {"uuid": "eth-1/0/20"}}
+            ]
+        },
+        {
+            "link_id": {"link_uuid": {"uuid": "R149/eth-1/0/20==R199/eth-1/0/20"}},
+            "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "R149"}}, "endpoint_uuid": {"uuid": "eth-1/0/20"}},
+                {"device_id": {"device_uuid": {"uuid": "R199"}}, "endpoint_uuid": {"uuid": "eth-1/0/20"}}
+            ]
+        },
+        {
+            "link_id": {"link_uuid": {"uuid": "R149/eth-1/0/25==R155/eth-1/0/25"}},
+            "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "R149"}}, "endpoint_uuid": {"uuid": "eth-1/0/25"}},
+                {"device_id": {"device_uuid": {"uuid": "R155"}}, "endpoint_uuid": {"uuid": "eth-1/0/25"}}
+            ]
+        },
+        {
+            "link_id": {"link_uuid": {"uuid": "R155/eth-1/0/25==R149/eth-1/0/25"}},
+            "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "R155"}}, "endpoint_uuid": {"uuid": "eth-1/0/25"}},
+                {"device_id": {"device_uuid": {"uuid": "R149"}}, "endpoint_uuid": {"uuid": "eth-1/0/25"}}
+            ]
+        }
+    ]
+}

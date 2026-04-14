@@ -1,0 +1,27 @@
+{"openconfig-acl:acl": {
+    "acl-sets": {"acl-set": [{
+        "name": "ip-filter-input", "type": "ACL_IPV4",
+        "config": {"name": "ip-filter-input", "type": "ACL_IPV4"},
+        "acl-entries": {"acl-entry": [
+            {
+                "sequence-id": 10000,
+                "config": {"sequence-id": 10000, "description": "reject-30435-from-all"},
+                "ipv4": {"config": {"protocol": "IP_TCP"}},
+                "transport": {"config": {"destination-port": 30435}},
+                "actions": {"config": {"forwarding-action": "REJECT"}}
+            }
+        ]}
+    }]},
+    "interfaces": {"interface": [{
+        "id": "enp0s3",
+        "config": {"id": "enp0s3"},
+        "interface-ref": {"config": {"interface": "enp0s3", "subinterface": 1}},
+        "ingress-acl-sets": {"ingress-acl-set": [
+            {
+                "set-name": "ip-filter-input", "type": "ACL_IPV4",
+                "config": {"set-name": "ip-filter-input", "type": "ACL_IPV4"},
+                "acl-entries": {"acl-entry": [{"sequence-id": 10000}]}
+            }
+        ]}
+    }]}
+}}

@@ -1,0 +1,29 @@
+{
+    "services": [
+        {
+            "service_id": {
+                "context_id": {"context_uuid": {"uuid": "admin"}},
+                "service_uuid": {"uuid": "IPoWDM"}
+            },
+            "service_type": 12,
+            "service_status": {"service_status": 1},
+            "service_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "IP1"}},"endpoint_uuid": {"uuid": "PORT-xe4"}},
+                {"device_id": {"device_uuid": {"uuid": "IP2"}},"endpoint_uuid": {"uuid": "PORT-xe4"}}
+            ],
+            "service_constraints": [],
+            "service_config": {"config_rules": [
+                {"action": 1, "ipowdm": {
+                    "endpoint_id": {
+                        "device_id": {"device_uuid": {"uuid": "IP1"}},
+                        "endpoint_uuid": {"uuid": "PORT-xe4"}
+                    },
+                    "rule_set": {
+                        "src"  : [],
+                        "dst"  : []
+                    }
+                }}
+            ]}
+        }
+    ]
+}

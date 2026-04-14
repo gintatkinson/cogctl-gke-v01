@@ -1,0 +1,510 @@
+<!--
+ Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Add New Service [L3VPN]</h1>
+<form method="POST" action="{{ url_for('service.add_configure_L3VPN') }}">
+    <fieldset>
+        <div class="row mb-3">
+            {{ form_l3vpn.hidden_tag() }}
+        </div> 
+        {% if form_l3vpn.l3vpn_params is not none %}
+        <h3>Generic Service Parameters</h3>
+        <div class="row mb-3">
+            {{ form_l3vpn.service_name.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-10">
+                {% if form_l3vpn.service_name.errors %}
+                {{ form_l3vpn.service_name(class="form-control is-invalid", placeholder="Mandatory") }}
+                <div class="invalid-feedback">
+                    {% for error in form_l3vpn.service_name.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form_l3vpn.service_name(class="form-control", placeholder="Mandatory") }}
+                {% endif %}
+            </div>
+        </div>
+        <div class="row mb-3">
+            {{ form_l3vpn.service_type.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-10">
+                {% if form_l3vpn.service_type.errors %}
+                {{ form_l3vpn.service_type(class="form-control is-invalid", placeholder="Mandatory") }}
+                <div class="invalid-feedback">
+                    {% for error in form_l3vpn.service_type.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form_l3vpn.service_type(class="form-control", placeholder="Mandatory") }}
+                {% endif %}
+            </div>
+        </div>
+        <div class="row mb-3">
+            {{ form_l3vpn.service_device_1.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-4">
+                {% if form_l3vpn.service_device_1.errors %}
+                {{ form_l3vpn.service_device_1(class="form-control is-invalid", placeholder="Mandatory") }}
+                <div class="invalid-feedback">
+                    {% for error in form_l3vpn.service_device_1.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form_l3vpn.service_device_1(class="form-control", placeholder="Mandatory") }}
+                {% endif %}
+            </div>
+            {{ form_l3vpn.service_device_2.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-4">
+                {% if form_l3vpn.service_device_2.errors %}
+                {{ form_l3vpn.service_device_2(class="form-control is-invalid", placeholder="Mandatory") }}
+                <div class="invalid-feedback">
+                    {% for error in form_l3vpn.service_device_2.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form_l3vpn.service_device_2(class="form-control", placeholder="Mandatory") }}
+                {% endif %}
+            </div>
+        </div>
+        <div class="row mb-3">
+            {{ form_l3vpn.service_endpoint_1.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-4">
+                {% if form_l3vpn.service_endpoint_1.errors %}
+                {{ form_l3vpn.service_endpoint_1(class="form-control is-invalid", placeholder="Mandatory") }}
+                <div class="invalid-feedback">
+                    {% for error in form_l3vpn.service_endpoint_1.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form_l3vpn.service_endpoint_1(class="form-control", placeholder="Mandatory") }}
+                {% endif %}
+            </div>
+            {{ form_l3vpn.service_endpoint_2.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-4">
+                {% if form_l3vpn.service_endpoint_2.errors %}
+                {{ form_l3vpn.service_endpoint_2(class="form-control is-invalid", placeholder="Mandatory") }}
+                <div class="invalid-feedback">
+                    {% for error in form_l3vpn.service_endpoint_2.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form_l3vpn.service_endpoint_2(class="form-control", placeholder="Mandatory") }}
+                {% endif %}
+            </div>
+        </div>
+        <h3>Generic Service Constraints</h3>
+        <div class="row mb-3">
+            {{ form_l3vpn.service_capacity.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-10">
+                {% if form_l3vpn.service_capacity.errors %}
+                {{ form_l3vpn.service_capacity(class="form-control is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form_l3vpn.service_capacity.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form_l3vpn.service_capacity(class="form-control") }}
+                {% endif %}
+            </div>
+        </div>
+        <div class="row mb-3">
+            {{ form_l3vpn.service_latency.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-10">
+                {% if form_l3vpn.service_latency.errors %}
+                {{ form_l3vpn.service_latency(class="form-control is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form_l3vpn.service_latency.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form_l3vpn.service_latency(class="form-control") }}
+                {% endif %}
+            </div>
+        </div>
+        <div class="row mb-3">
+            {{ form_l3vpn.service_availability.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-10">
+                {% if form_l3vpn.service_availability.errors %}
+                {{ form_l3vpn.service_availability(class="form-control is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form_l3vpn.service_availability.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form_l3vpn.service_availability(class="form-control") }}
+                {% endif %}
+            </div>
+        </div>
+        <div class="row mb-3">
+            {{ form_l3vpn.service_isolation.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-10">
+                {% if form_l3vpn.service_isolation.errors %}
+                {{ form_l3vpn.service_isolation(class="form-control is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form_l3vpn.service_isolation.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form_l3vpn.service_isolation(class="form-control") }}
+                {% endif %}
+            </div>
+        </div>
+        </br>
+        <h3>Specific Service Parameters</h3>
+        </br>
+        <h4>Network Instance Parameters</h4>
+        <div class="row mb-3">
+            {{ form_l3vpn.NI_name.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-10">
+                {% if form_l3vpn.NI_name.errors %}
+                {{ form_l3vpn.NI_name(class="form-control is-invalid", placeholder="Mandatory") }}
+                <div class="invalid-feedback">
+                    {% for error in form_l3vpn.NI_name.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form_l3vpn.NI_name(class="form-control", placeholder="Mandatory") }}
+                {% endif %}
+            </div>
+        </div>
+        <div class="row mb-3">
+            {{ form_l3vpn.NI_route_distinguisher.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-10">
+                {% if form_l3vpn.NI_route_distinguisher.errors %}
+                {{ form_l3vpn.NI_route_distinguisher(class="form-control is-invalid", placeholder="Mandatory") }}
+                <div class="invalid-feedback">
+                    {% for error in form_l3vpn.NI_route_distinguisher.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form_l3vpn.NI_route_distinguisher(class="form-control", placeholder="Mandatory") }}
+                {% endif %}
+            </div>
+        </div>
+        <div class="row mb-3">
+            {{ form_l3vpn.NI_protocol.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-10">
+                {% if form_l3vpn.NI_protocol.errors %}
+                {{ form_l3vpn.NI_protocol(class="form-control is-invalid", placeholder="Mandatory") }}
+                <div class="invalid-feedback">
+                    {% for error in form_l3vpn.NI_protocol.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form_l3vpn.NI_protocol(class="form-control", placeholder="Mandatory") }}
+                {% endif %}
+            </div>
+        </div>
+        <div class="row mb-3">
+            {{ form_l3vpn.NI_as.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-10">
+                {% if form_l3vpn.NI_as.errors %}
+                {{ form_l3vpn.NI_as(class="form-control is-invalid", placeholder="Mandatory if BGP protocol is selected") }}
+                <div class="invalid-feedback">
+                    {% for error in form_l3vpn.NI_as.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form_l3vpn.NI_as(class="form-control", placeholder="Mandatory if BGP protocol is selected") }}
+                {% endif %}
+            </div>
+        </div>
+        <div class="row mb-3">
+            {{ form_l3vpn.NI_address_family.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-10">
+                {% if form_l3vpn.NI_address_family.errors %}
+                {{ form_l3vpn.NI_address_family(class="form-control is-invalid", placeholder="Mandatory") }}
+                <div class="invalid-feedback">
+                    {% for error in form_l3vpn.NI_address_family.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form_l3vpn.NI_address_family(class="form-control", placeholder="Mandatory") }}
+                {% endif %}
+            </div>
+        </div>
+        <div class="row mb-3">
+            {{ form_l3vpn.NI_default_import_policy.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-10">
+                {% if form_l3vpn.NI_default_import_policy.errors %}
+                {{ form_l3vpn.NI_default_import_policy(class="form-control is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form_l3vpn.NI_default_import_policy.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form_l3vpn.NI_default_import_policy(class="form-control") }}
+                {% endif %}
+            </div>
+        </div>
+        <div class="row mb-3">
+            {{ form_l3vpn.NI_import_policy.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-10">
+                {% if form_l3vpn.NI_import_policy.errors %}
+                {{ form_l3vpn.NI_import_policy(class="form-control is-invalid", placeholder="Mandatory") }}
+                <div class="invalid-feedback">
+                    {% for error in form_l3vpn.NI_import_policy.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form_l3vpn.NI_import_policy(class="form-control", placeholder="Mandatory") }}
+                {% endif %}
+            </div>
+        </div>
+        <div class="row mb-3">
+            {{ form_l3vpn.NI_export_policy.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-10">
+                {% if form_l3vpn.NI_export_policy.errors %}
+                {{ form_l3vpn.NI_export_policy(class="form-control is-invalid", placeholder="Mandatory") }}
+                <div class="invalid-feedback">
+                    {% for error in form_l3vpn.NI_export_policy.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form_l3vpn.NI_export_policy(class="form-control", placeholder="Mandatory") }}
+                {% endif %}
+            </div>
+        </div>
+        <div class="row mb-3">
+            {{ form_l3vpn.NI_router_id.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-10">
+                {% if form_l3vpn.NI_router_id.errors %}
+                {{ form_l3vpn.NI_router_id(class="form-control is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form_l3vpn.NI_router_id.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form_l3vpn.NI_router_id(class="form-control") }}
+                {% endif %}
+            </div>
+        </div>
+        <div class="row mb-3">
+            {{ form_l3vpn.NI_description.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-10">
+                {% if form_l3vpn.NI_description.errors %}
+                {{ form_l3vpn.NI_description(class="form-control is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form_l3vpn.NI_description.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form_l3vpn.NI_description(class="form-control") }}
+                {% endif %}
+            </div>
+        </div>
+        <h4>Interface Parameters</h4>
+        <div class="row mb-3">
+            {{ form_l3vpn.Device_1_IF_index.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-4">
+                {% if form_l3vpn.Device_1_IF_index.errors %}
+                {{ form_l3vpn.Device_1_IF_index(class="form-control is-invalid", placeholder="Mandatory") }}
+                <div class="invalid-feedback">
+                    {% for error in form_l3vpn.Device_1_IF_index.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form_l3vpn.Device_1_IF_index(class="form-control", placeholder="Mandatory") }}
+                {% endif %}
+            </div>
+            {{ form_l3vpn.Device_2_IF_index.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-4">
+                {% if form_l3vpn.Device_2_IF_index.errors %}
+                {{ form_l3vpn.Device_2_IF_index(class="form-control is-invalid", placeholder="Mandatory") }}
+                <div class="invalid-feedback">
+                    {% for error in form_l3vpn.Device_2_IF_index.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form_l3vpn.Device_2_IF_index(class="form-control", placeholder="Mandatory") }}
+                {% endif %}
+            </div>
+        </div>
+        <div class="row mb-3">
+            {{ form_l3vpn.Device_1_IF_vlan_id.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-4">
+                {% if form_l3vpn.Device_1_IF_vlan_id.errors %}
+                {{ form_l3vpn.Device_1_IF_vlan_id(class="form-control is-invalid", placeholder="Mandatory") }}
+                <div class="invalid-feedback">
+                    {% for error in form_l3vpn.Device_1_IF_vlan_id.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form_l3vpn.Device_1_IF_vlan_id(class="form-control", placeholder="Mandatory") }}
+                {% endif %}
+            </div>
+            {{ form_l3vpn.Device_2_IF_vlan_id.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-4">
+                {% if form_l3vpn.Device_2_IF_vlan_id.errors %}
+                {{ form_l3vpn.Device_2_IF_vlan_id(class="form-control is-invalid", placeholder="Mandatory") }}
+                <div class="invalid-feedback">
+                    {% for error in form_l3vpn.Device_2_IF_vlan_id.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form_l3vpn.Device_2_IF_vlan_id(class="form-control", placeholder="Mandatory") }}
+                {% endif %}
+            </div>
+        </div>
+        <div class="row mb-3">
+            {{ form_l3vpn.Device_1_IF_address_ip.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-4">
+                {% if form_l3vpn.Device_1_IF_address_ip.errors %}
+                {{ form_l3vpn.Device_1_IF_address_ip(class="form-control is-invalid", placeholder="Mandatory") }}
+                <div class="invalid-feedback">
+                    {% for error in form_l3vpn.Device_1_IF_address_ip.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form_l3vpn.Device_1_IF_address_ip(class="form-control", placeholder="Mandatory") }}
+                {% endif %}
+            </div>
+            {{ form_l3vpn.Device_2_IF_address_ip.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-4">
+                {% if form_l3vpn.Device_2_IF_address_ip.errors %}
+                {{ form_l3vpn.Device_2_IF_address_ip(class="form-control is-invalid", placeholder="Mandatory") }}
+                <div class="invalid-feedback">
+                    {% for error in form_l3vpn.Device_2_IF_address_ip.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form_l3vpn.Device_2_IF_address_ip(class="form-control", placeholder="Mandatory") }}
+                {% endif %}
+            </div>
+        </div>
+        <div class="row mb-3">
+            {{ form_l3vpn.Device_1_IF_address_prefix.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-4">
+                {% if form_l3vpn.Device_1_IF_address_prefix.errors %}
+                {{ form_l3vpn.Device_1_IF_address_prefix(class="form-control is-invalid", placeholder="Mandatory") }}
+                <div class="invalid-feedback">
+                    {% for error in form_l3vpn.Device_1_IF_address_prefix.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form_l3vpn.Device_1_IF_address_prefix(class="form-control", placeholder="Mandatory") }}
+                {% endif %}
+            </div>
+            {{ form_l3vpn.Device_2_IF_address_prefix.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-4">
+                {% if form_l3vpn.Device_2_IF_address_prefix.errors %}
+                {{ form_l3vpn.Device_2_IF_address_prefix(class="form-control is-invalid", placeholder="Mandatory") }}
+                <div class="invalid-feedback">
+                    {% for error in form_l3vpn.Device_2_IF_address_prefix.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form_l3vpn.Device_2_IF_address_prefix(class="form-control", placeholder="Mandatory") }}
+                {% endif %}
+            </div>
+        </div>
+        <div class="row mb-3">
+            {{ form_l3vpn.Device_1_IF_mtu.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-4">
+                {% if form_l3vpn.Device_1_IF_mtu.errors %}
+                {{ form_l3vpn.Device_1_IF_mtu(class="form-control is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form_l3vpn.Device_1_IF_mtu.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form_l3vpn.Device_1_IF_mtu(class="form-control") }}
+                {% endif %}
+            </div>
+            {{ form_l3vpn.Device_2_IF_mtu.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-4">
+                {% if form_l3vpn.Device_2_IF_mtu.errors %}
+                {{ form_l3vpn.Device_2_IF_mtu(class="form-control is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form_l3vpn.Device_2_IF_mtu.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form_l3vpn.Device_2_IF_mtu(class="form-control") }}
+                {% endif %}
+            </div>
+        </div>
+        <div class="row mb-3">
+            {{ form_l3vpn.Device_1_IF_description.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-4">
+                {% if form_l3vpn.Device_1_IF_description.errors %}
+                {{ form_l3vpn.Device_1_IF_description(class="form-control is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form_l3vpn.Device_1_IF_description.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form_l3vpn.Device_1_IF_description(class="form-control") }}
+                {% endif %}
+            </div>
+            {{ form_l3vpn.Device_2_IF_description.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-4">
+                {% if form_l3vpn.Device_2_IF_description.errors %}
+                {{ form_l3vpn.Device_2_IF_description(class="form-control is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form_l3vpn.Device_2_IF_description.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form_l3vpn.Device_2_IF_description(class="form-control") }}
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+        <button type="submit" class="btn btn-primary">
+            <i class="bi bi-plus-circle-fill"></i>
+            {{ submit_text }}
+        </button>
+        <button type="button" class="btn btn-block btn-secondary" onclick="javascript: history.back()">
+            <i class="bi bi-box-arrow-in-left"></i>
+            Cancel
+        </button>
+    </div>
+    </fieldset>
+</form>
+{% endblock %}

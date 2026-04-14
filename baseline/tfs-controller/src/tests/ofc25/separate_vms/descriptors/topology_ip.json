@@ -1,0 +1,36 @@
+{
+    "contexts": [
+        {"context_id": {"context_uuid": {"uuid": "admin"}}}
+    ],
+    "topologies": [
+        {"topology_id": {"context_id": {"context_uuid": {"uuid": "admin"}}, "topology_uuid": {"uuid": "admin"}}}
+    ],
+    "devices": [
+        {
+            "device_id": {"device_uuid": {"uuid": "IP1"}}, "device_type": "emu-packet-router",
+            "device_drivers": ["DEVICEDRIVER_UNDEFINED"], "device_operational_status": "DEVICEOPERATIONALSTATUS_UNDEFINED",
+            "device_config": {"config_rules": [
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/address",  "resource_value": "127.0.0.1"}},
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/port",     "resource_value": "0"        }},
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/settings", "resource_value": {"endpoints": [
+                    {"uuid": "PORT-xe1", "type": "copper"},
+                    {"uuid": "PORT-xe2", "type": "copper"},
+                    {"uuid": "PORT-xe3", "type": "copper"}
+                ]}}}
+            ]}
+        },
+        {
+            "device_id": {"device_uuid": {"uuid": "IP2"}}, "device_type": "emu-packet-router",
+            "device_drivers": ["DEVICEDRIVER_UNDEFINED"], "device_operational_status": "DEVICEOPERATIONALSTATUS_UNDEFINED",
+            "device_config": {"config_rules": [
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/address",  "resource_value": "127.0.0.1"}},
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/port",     "resource_value": "0"        }},
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/settings", "resource_value": {"endpoints": [
+                    {"uuid": "PORT-xe1", "type": "copper"},
+                    {"uuid": "PORT-xe2", "type": "copper"},
+                    {"uuid": "PORT-xe3", "type": "copper"}
+                ]}}}
+            ]}
+        }
+    ]
+}

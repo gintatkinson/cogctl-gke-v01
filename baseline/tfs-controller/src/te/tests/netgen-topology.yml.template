@@ -1,0 +1,548 @@
+# Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+#
+#                          +---------+
+#                          |         |
+#                          |   SRC   |
+#                          | 9.9.9.1 |
+#                          |         |
+#                          +---------+
+#                               |eth-rt1 (.1)
+#                               |
+#                               |10.0.10.0/24
+#                               |
+#                               |eth-src (.2)
+#                          +---------+                      .
+#                          |         |                      .
+#                          |   RT1   |eth-rt1-pce (???)     .
+#                          | 1.1.1.1 +----------------------------------+
+#                          |  16010  |                      .       ??? |
+#                          +---------+                      .           |
+#                               |eth-sw1                    .           |
+#                               |                           .           |
+#                               |                           .           |
+#                               |                           .           |
+#          +---------+          |          +---------+      .           |
+#          |         |          |          |         |      .           |
+#          |   RT2   |eth-sw1   |   eth-sw1|   RT3   |      .           |
+#          | 2.2.2.2 +----------+----------+ 3.3.3.3 |      .           |
+#          |  16020  |     10.0.1.0/24     |  16030  |      .           |
+#          +---------+                     +---------+      .eth-pce-rt1|(???)
+#     eth-rt4-1|  |eth-rt4-2          eth-rt5-1|  |eth-rt5-2.      +----+----+
+#              |  |                            |  |         .      |         |
+#   10.0.2.0/24|  |10.0.3.0/24      10.0.4.0/24|  |10.0.5.0/24     |   PCE   |
+#              |  |                            |  |         .      |   ????  |
+#     eth-rt2-1|  |eth-rt2-2          eth-rt3-1|  |eth-rt3-2.      |         |
+#          +---------+                     +---------+      .      +----+----+
+#          |         |                     |         |      .eth-pce-rt6|(???)
+#          |   RT4   |     10.0.6.0/24     |   RT5   |      .           |
+#          | 4.4.4.4 +---------------------+ 5.5.5.5 |      .           |
+#          |  16040  |eth-rt5       eth-rt4|  16050  |      .           |
+#          +---------+                     +---------+      .           |
+#        eth-rt6|                                |eth-rt6   .           |
+#               |                                |          .           |
+#    10.0.7.0/24|                                |10.0.8.0/24           |
+#               |          +---------+           |          .           |
+#               +----------|         |-----------+          .           |
+#                   eth-rt4|   RT6   |eth-rt5               .           |
+#                          | 6.6.6.6 |eth-rt6-pce (????)    .      ???? |
+#                          |  16060  +----------------------------------+
+#                          +---------+                      .
+#                               |eth-dst (.1)               .
+#                               |                           .
+#                               |10.0.11.0/24
+#                               |
+#                               |eth-rt6 (.2)
+#                          +---------+
+#                          |         |
+#                          |   DST   |
+#                          | 9.9.9.2 |
+#                          |         |
+#                          +---------+
+#
+
+---
+
+routers:
+
+  src:
+    links:
+      lo:
+        ipv4: 9.9.9.1/32
+        ipv6: 2001:db8:1066::1/128
+        mpls: yes
+      eth-rt1:
+        peer: [rt1, eth-src]
+        ipv4: 10.0.10.1/24
+        mpls: yes
+    frr:
+      zebra:
+        run: yes
+        config:
+    shell: |
+      ip route add 9.9.9.2/32 encap mpls 1111 via inet 10.0.10.2 src 9.9.9.1
+
+  rt1:
+    links:
+      lo:
+        ipv4: 1.1.1.1/32
+        mpls: yes
+      eth-sw1:
+        peer: [sw1, sw1-rt1]
+        ipv4: 10.0.1.1/24
+        mpls: yes
+      eth-src:
+        peer: [src, eth-rt1]
+        ipv4: 10.0.10.2/24
+        mpls: yes
+    frr:
+      zebra:
+        run: yes
+        config:
+      pathd:
+        args: "-M pathd_pcep"
+        config: |
+          debug pathd pcep basic
+          segment-routing
+           traffic-eng
+            pcep
+             pce-config CONFIG
+              source-address ip 1.1.1.1
+             pce PCE
+              pce-initiated
+              address ip ${PCE_IP}
+              config CONFIG
+             pcc
+              peer PCE
+          !
+      isisd:
+        run: yes
+        config: |
+          interface lo
+           ip router isis 1
+           ipv6 router isis 1
+           isis passive
+          !
+          interface eth-sw1
+           ip router isis 1
+           ipv6 router isis 1
+           isis hello-multiplier 3
+          !
+          router isis 1
+           net 49.0000.0000.0000.0001.00
+           is-type level-1
+           redistribute ipv4 static level-1
+           redistribute ipv4 connected level-1
+           topology ipv6-unicast
+           segment-routing on
+           segment-routing global-block 16000 23999
+           segment-routing node-msd 8
+           segment-routing prefix 1.1.1.1/32 index 10 explicit-null
+           segment-routing prefix 2001:db8:1000::1/128 index 11 explicit-null
+          !
+    shell: |
+      ip route add 9.9.9.1/32 dev eth-src
+      ip link add eth-rt1-pce type veth peer name eth-pce-rt1
+      ip addr add ${RT1_PCE_INT_IF_IP}/24 dev eth-rt1-pce
+      ip link set eth-pce-rt1 netns ${PCE_NETNS}
+      ip -n ${PCE_NETNS} addr add ${RT1_PCE_EXT_IF_IP}/24 dev eth-pce-rt1
+      ip link set eth-rt1-pce up
+      ip -n ${PCE_NETNS} link set eth-pce-rt1 up
+      ip route add ${RT1_PCE_EXT_IF_IP}/24 via ${RT1_PCE_INT_IF_IP} dev eth-rt1-pce src 1.1.1.1
+      ip -n ${PCE_NETNS} route add ${RT1_PCE_INT_IF_IP}/32 via ${RT1_PCE_EXT_IF_IP} dev eth-pce-rt1
+      ip -n ${PCE_NETNS} route add 1.1.1.1/32 via ${RT1_PCE_EXT_IF_IP} dev eth-pce-rt1
+
+  rt2:
+    links:
+      lo:
+        ipv4: 2.2.2.2/32
+        ipv6: 2001:db8:1000::2/128
+        mpls: yes
+      eth-sw1:
+        peer: [sw1, sw1-rt2]
+        ipv4: 10.0.1.2/24
+        mpls: yes
+      eth-rt4-1:
+        peer: [rt4, eth-rt2-1]
+        ipv4: 10.0.2.2/24
+        mpls: yes
+      eth-rt4-2:
+        peer: [rt4, eth-rt2-2]
+        ipv4: 10.0.3.2/24
+        mpls: yes
+    frr:
+      zebra:
+        run: yes
+        config:
+      isisd:
+        run: yes
+        config: |
+          interface lo
+           ip router isis 1
+           ipv6 router isis 1
+           isis passive
+          !
+          interface eth-sw1
+           ip router isis 1
+           ipv6 router isis 1
+           isis hello-multiplier 3
+          !
+          interface eth-rt4-1
+           ip router isis 1
+           ipv6 router isis 1
+           isis network point-to-point
+           isis hello-multiplier 3
+          !
+          interface eth-rt4-2
+           ip router isis 1
+           ipv6 router isis 1
+           isis network point-to-point
+           isis hello-multiplier 3
+          !
+          router isis 1
+           net 49.0000.0000.0000.0002.00
+           is-type level-1
+           topology ipv6-unicast
+           segment-routing on
+           segment-routing global-block 16000 23999
+           segment-routing node-msd 8
+           segment-routing prefix 2.2.2.2/32 index 20 no-php-flag
+           segment-routing prefix 2001:db8:1000::2/128 index 21 no-php-flag
+          !
+
+  rt3:
+    links:
+      lo:
+        ipv4: 3.3.3.3/32
+        ipv6: 2001:db8:1000::3/128
+        mpls: yes
+      eth-sw1:
+        peer: [sw1, sw1-rt3]
+        ipv4: 10.0.1.3/24
+        mpls: yes
+      eth-rt5-1:
+        peer: [rt5, eth-rt3-1]
+        ipv4: 10.0.4.3/24
+        mpls: yes
+      eth-rt5-2:
+        peer: [rt5, eth-rt3-2]
+        ipv4: 10.0.5.3/24
+        mpls: yes
+    frr:
+      zebra:
+        run: yes
+        config:
+      isisd:
+        run: yes
+        config: |
+          interface lo
+           ip router isis 1
+           ipv6 router isis 1
+           isis passive
+          !
+          interface eth-sw1
+           ip router isis 1
+           ipv6 router isis 1
+           isis hello-multiplier 3
+          !
+          interface eth-rt5-1
+           ip router isis 1
+           ipv6 router isis 1
+           isis network point-to-point
+           isis hello-multiplier 3
+          !
+          interface eth-rt5-2
+           ip router isis 1
+           ipv6 router isis 1
+           isis network point-to-point
+           isis hello-multiplier 3
+          !
+          router isis 1
+           net 49.0000.0000.0000.0003.00
+           is-type level-1
+           topology ipv6-unicast
+           segment-routing on
+           segment-routing global-block 16000 23999
+           segment-routing node-msd 8
+           segment-routing prefix 3.3.3.3/32 index 30 no-php-flag
+           segment-routing prefix 2001:db8:1000::3/128 index 31 no-php-flag
+          !
+
+  rt4:
+    links:
+      lo:
+        ipv4: 4.4.4.4/32
+        ipv6: 2001:db8:1000::4/128
+        mpls: yes
+      eth-rt2-1:
+        peer: [rt2, eth-rt4-1]
+        ipv4: 10.0.2.4/24
+        mpls: yes
+      eth-rt2-2:
+        peer: [rt2, eth-rt4-2]
+        ipv4: 10.0.3.4/24
+        mpls: yes
+      eth-rt5:
+        peer: [rt5, eth-rt4]
+        ipv4: 10.0.6.4/24
+        mpls: yes
+      eth-rt6:
+        peer: [rt6, eth-rt4]
+        ipv4: 10.0.7.4/24
+        mpls: yes
+    frr:
+      zebra:
+        run: yes
+        config:
+      isisd:
+        run: yes
+        config: |
+          interface lo
+           ip router isis 1
+           ipv6 router isis 1
+           isis passive
+          !
+          interface eth-rt2-1
+           ip router isis 1
+           ipv6 router isis 1
+           isis network point-to-point
+           isis hello-multiplier 3
+          !
+          interface eth-rt2-2
+           ip router isis 1
+           ipv6 router isis 1
+           isis network point-to-point
+           isis hello-multiplier 3
+          !
+          interface eth-rt5
+           ip router isis 1
+           ipv6 router isis 1
+           isis network point-to-point
+           isis hello-multiplier 3
+          !
+          interface eth-rt6
+           ip router isis 1
+           ipv6 router isis 1
+           isis network point-to-point
+           isis hello-multiplier 3
+          !
+          router isis 1
+           net 49.0000.0000.0000.0004.00
+           is-type level-1
+           topology ipv6-unicast
+           segment-routing on
+           segment-routing global-block 16000 23999
+           segment-routing node-msd 8
+           segment-routing prefix 4.4.4.4/32 index 40 no-php-flag
+           segment-routing prefix 2001:db8:1000::4/128 index 41 no-php-flag
+          !
+
+  rt5:
+    links:
+      lo:
+        ipv4: 5.5.5.5/32
+        ipv6: 2001:db8:1000::5/128
+        mpls: yes
+      eth-rt3-1:
+        peer: [rt3, eth-rt5-1]
+        ipv4: 10.0.4.5/24
+        mpls: yes
+      eth-rt3-2:
+        peer: [rt3, eth-rt5-2]
+        ipv4: 10.0.5.5/24
+        mpls: yes
+      eth-rt4:
+        peer: [rt4, eth-rt5]
+        ipv4: 10.0.6.5/24
+        mpls: yes
+      eth-rt6:
+        peer: [rt6, eth-rt5]
+        ipv4: 10.0.8.5/24
+        mpls: yes
+    frr:
+      zebra:
+        run: yes
+        config:
+      isisd:
+        run: yes
+        config: |
+          interface lo
+           ip router isis 1
+           ipv6 router isis 1
+           isis passive
+          !
+          interface eth-rt3-1
+           ip router isis 1
+           ipv6 router isis 1
+           isis network point-to-point
+           isis hello-multiplier 3
+          !
+          interface eth-rt3-2
+           ip router isis 1
+           ipv6 router isis 1
+           isis network point-to-point
+           isis hello-multiplier 3
+          !
+          interface eth-rt4
+           ip router isis 1
+           ipv6 router isis 1
+           isis network point-to-point
+           isis hello-multiplier 3
+          !
+          interface eth-rt6
+           ip router isis 1
+           ipv6 router isis 1
+           isis network point-to-point
+           isis hello-multiplier 3
+          !
+          router isis 1
+           net 49.0000.0000.0000.0005.00
+           is-type level-1
+           topology ipv6-unicast
+           segment-routing on
+           segment-routing global-block 16000 23999
+           segment-routing node-msd 8
+           segment-routing prefix 5.5.5.5/32 index 50 no-php-flag
+           segment-routing prefix 2001:db8:1000::5/128 index 51 no-php-flag
+          !
+
+  rt6:
+    links:
+      lo:
+        ipv4: 6.6.6.6/32
+        ipv6: 2001:db8:1000::6/128
+        mpls: yes
+      eth-rt4:
+        peer: [rt4, eth-rt6]
+        ipv4: 10.0.7.6/24
+        mpls: yes
+      eth-rt5:
+        peer: [rt5, eth-rt6]
+        ipv4: 10.0.8.6/24
+        mpls: yes
+      eth-dst:
+        peer: [dst, eth-rt6]
+        ipv4: 10.0.11.1/24
+        mpls: yes
+    frr:
+      zebra:
+        run: yes
+        config:
+      pathd:
+        args: "-M pathd_pcep"
+        config: |
+          debug pathd pcep
+          segment-routing
+           traffic-eng
+            pcep
+             pce-config CONFIG
+              source-address ip 6.6.6.6
+             pce PCE
+              pce-initiated
+              address ip ${PCE_IP}
+              config CONFIG
+             pcc
+              peer PCE
+          !
+      isisd:
+        run: yes
+        config: |
+          interface lo
+           ip router isis 1
+           ipv6 router isis 1
+           isis passive
+          !
+          interface eth-rt4
+           ip router isis 1
+           ipv6 router isis 1
+           isis network point-to-point
+           isis hello-multiplier 3
+          !
+          interface eth-rt5
+           ip router isis 1
+           ipv6 router isis 1
+           isis network point-to-point
+           isis hello-multiplier 3
+          !
+          router isis 1
+           net 49.0000.0000.0000.0006.00
+           is-type level-1
+           redistribute ipv4 static level-1
+           redistribute ipv4 connected level-1
+           topology ipv6-unicast
+           segment-routing on
+           segment-routing global-block 16000 23999
+           segment-routing node-msd 8
+           segment-routing prefix 6.6.6.6/32 index 60 explicit-null
+           segment-routing prefix 2001:db8:1000::6/128 index 61 explicit-null
+          !
+    shell: |
+      ip route add 9.9.9.2/32 dev eth-dst
+      ip link add eth-rt6-pce type veth peer name eth-pce-rt6
+      ip addr add ${RT6_PCE_INT_IF_IP}/24 dev eth-rt6-pce
+      ip link set eth-pce-rt6 netns ${PCE_NETNS}
+      ip -n ${PCE_NETNS} addr add ${RT6_PCE_EXT_IF_IP}/24 dev eth-pce-rt6
+      ip link set eth-rt6-pce up
+      ip -n ${PCE_NETNS} link set eth-pce-rt6 up
+      ip route add ${RT6_PCE_EXT_IF_IP}/24 via ${RT6_PCE_INT_IF_IP} dev eth-rt6-pce src 6.6.6.6
+      ip -n ${PCE_NETNS} route add ${RT6_PCE_INT_IF_IP}/32 via ${RT6_PCE_EXT_IF_IP} dev eth-pce-rt6
+      ip -n ${PCE_NETNS} route add 6.6.6.6/32 via ${RT6_PCE_EXT_IF_IP} dev eth-pce-rt6
+
+  dst:
+    links:
+      lo:
+        ipv4: 9.9.9.2/32
+        ipv6: 2001:db8:1066::2/128
+        mpls: yes
+      eth-rt6:
+        peer: [rt6, eth-dst]
+        ipv4: 10.0.11.2/24
+        mpls: yes
+    frr:
+      zebra:
+        run: yes
+        config:
+    shell: |
+      ip route add 9.9.9.1/32 encap mpls 6666 via inet 10.0.11.1
+
+switches:
+  sw1:
+    links:
+      sw1-rt1:
+        peer: [rt1, rt1-sw1]
+      sw1-rt2:
+        peer: [rt2, rt2-sw1]
+      sw1-rt3:
+        peer: [rt3, rt3-sw1]
+
+frr:
+  #perf: yes
+  #valgrind: yes
+  base-configs:
+    all: |
+      hostname %(node)
+      password 1
+      log file %(logdir)/%(node)-%(daemon).log
+      log commands
+    zebra: |
+      debug zebra kernel
+      debug zebra packet
+      debug zebra mpls
+    isisd: |
+      debug isis events
+      debug isis route-events
+      debug isis spf-events
+      debug isis sr-events
+      debug isis lsp-gen

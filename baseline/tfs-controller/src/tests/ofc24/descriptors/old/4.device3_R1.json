@@ -1,0 +1,188 @@
+{
+    "devices": [
+        {
+            "device_id": {
+                "device_uuid": {
+                    "uuid": "R1"
+                }
+            },
+            "device_type": "optical-roadm",
+            "device_drivers": [
+                11
+            ],
+            "device_endpoints": [
+                {
+                    "endpoint_id": {
+                        "device_id": {
+                            "device_uuid": {
+                                "uuid": "R1"
+                            }
+                        },
+                        "topology_id": {
+                            "context_id": {
+                                "context_uuid": {
+                                    "uuid": "admin"
+                                }
+                            },
+                            "topology_uuid": {
+                                "uuid": "admin"
+                            }
+                        },
+                        "endpoint_uuid": {
+                            "uuid": "2"
+                        }
+                    }
+                },
+				{
+                    "endpoint_id": {
+                        "device_id": {
+                            "device_uuid": {
+                                "uuid": "R1"
+                            }
+                        },
+                        "topology_id": {
+                            "context_id": {
+                                "context_uuid": {
+                                    "uuid": "admin"
+                                }
+                            },
+                            "topology_uuid": {
+                                "uuid": "admin"
+                            }
+                        },
+                        "endpoint_uuid": {
+                            "uuid": "3"
+                        }
+                    }
+                },
+				{
+                    "endpoint_id": {
+                        "device_id": {
+                            "device_uuid": {
+                                "uuid": "R1"
+                            }
+                        },
+                        "topology_id": {
+                            "context_id": {
+                                "context_uuid": {
+                                    "uuid": "admin"
+                                }
+                            },
+                            "topology_uuid": {
+                                "uuid": "admin"
+                            }
+                        },
+                        "endpoint_uuid": {
+                            "uuid": "12"
+                        }
+                    }
+                },
+				{
+                    "endpoint_id": {
+                        "device_id": {
+                            "device_uuid": {
+                                "uuid": "R1"
+                            }
+                        },
+                        "topology_id": {
+                            "context_id": {
+                                "context_uuid": {
+                                    "uuid": "admin"
+                                }
+                            },
+                            "topology_uuid": {
+                                "uuid": "admin"
+                            }
+                        },
+                        "endpoint_uuid": {
+                            "uuid": "13"
+                        }
+                    }
+                }			
+            ],
+            "device_operational_status": 1,
+            "device_config": {
+                "config_rules": [
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "_connect/address",
+                            "resource_value": "10.0.2.4"
+                        }
+                    },
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "_connect/port",
+                            "resource_value": "2025"
+                        }
+                    },
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "_connect/settings",
+                            "resource_value": {
+                                "username": "admin",
+                                "password": "admin",
+                                "force_running": false,
+                                "hostkey_verify": false,
+                                "look_for_keys": false,
+                                "allow_agent": false,
+                                "commit_per_rule": false,
+                                "device_params": {
+                                    "name": "default"
+                                },
+                                "manager_params": {
+                                    "timeout": 120
+                                },
+                                "endpoints": [
+                                    {
+                                        "sample_types": [
+                                            101,
+                                            102,
+                                            201,
+                                            202
+                                        ],
+                                        "type": "optical",
+                                        "uuid": "2"
+                                    },
+									{
+                                        "sample_types": [
+                                            101,
+                                            102,
+                                            201,
+                                            202
+                                        ],
+                                        "type": "optical",
+                                        "uuid": "3"
+                                    },
+									                                    {
+                                        "sample_types": [
+                                            101,
+                                            102,
+                                            201,
+                                            202
+                                        ],
+                                        "type": "optical",
+                                        "uuid": "12"
+                                    },
+									{
+                                        "sample_types": [
+                                            101,
+                                            102,
+                                            201,
+                                            202
+                                        ],
+                                        "type": "optical",
+                                        "uuid": "13"
+                                    }
+
+                                ]
+                            }
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

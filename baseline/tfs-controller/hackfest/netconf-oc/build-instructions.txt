@@ -1,0 +1,14 @@
+# Build a Netconf server supporting basic OpenConfig data model
+
+mkdir -p ~/tfs-ctrl/netconf-oc/{git_openconfig,openconfig}
+
+git clone https://github.com/openconfig/public.git ~/tfs-ctrl/netconf-oc/git_openconfig
+
+cd ~/tfs-ctrl/netconf-oc
+
+export PYBINDPLUGIN=`/usr/bin/env python -c 'import pyangbind; import os; print ("{}/plugin".format(os.path.dirname(pyangbind.__file__)))'`
+pyang --plugindir $PYBINDPLUGIN -p git_openconfig/release/models/ -f pybind --split-class-dir openconfig \
+    git_openconfig/release/models/interfaces/openconfig-interfaces.yang \
+    git_openconfig/release/models/interfaces/openconfig-if-ethernet.yang \
+    git_openconfig/release/models/platform/openconfig-platform.yang \
+    git_openconfig/release/models/platform/openconfig-platform-port.yang

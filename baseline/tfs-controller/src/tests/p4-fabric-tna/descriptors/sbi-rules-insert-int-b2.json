@@ -1,0 +1,269 @@
+{
+	"devices": [
+		{
+			"device_id": {
+				"device_uuid": {
+					"uuid": "p4-sw1"
+				}
+			},
+			"name": "p4-sw1",
+			"device_operational_status": "DEVICEOPERATIONALSTATUS_ENABLED",
+			"device_config": {
+				"config_rules": [
+					{
+						"action": "CONFIGACTION_SET",
+						"custom": {
+							"resource_key": "/tables/table/FabricEgress.int_egress.report[1]",
+							"resource_value": {
+								"table-name": "FabricEgress.int_egress.report",
+								"match-fields": [
+									{
+										"match-field": "bmd_type",
+										"match-value": "4"
+									},
+									{
+										"match-field": "mirror_type",
+										"match-value": "0"
+									},
+									{
+										"match-field": "int_report_type",
+										"match-value": "4"
+									}
+								],
+								"action-name": "FabricEgress.int_egress.do_drop_report_encap",
+								"action-params": [
+									{
+										"action-param": "src_ip",
+										"action-value": "10.10.10.120"
+									},
+									{
+										"action-param": "mon_ip",
+										"action-value": "10.10.10.41"
+									},
+									{
+										"action-param": "mon_port",
+										"action-value": "32766"
+									},
+									{
+										"action-param": "switch_id",
+										"action-value": "1"
+									}
+								]
+							}
+						}
+					},
+					{
+						"action": "CONFIGACTION_SET",
+						"custom": {
+							"resource_key": "/tables/table/FabricEgress.int_egress.report[2]",
+							"resource_value": {
+								"table-name": "FabricEgress.int_egress.report",
+								"match-fields": [
+									{
+										"match-field": "bmd_type",
+										"match-value": "2"
+									},
+									{
+										"match-field": "mirror_type",
+										"match-value": "1"
+									},
+									{
+										"match-field": "int_report_type",
+										"match-value": "4"
+									}
+								],
+								"action-name": "FabricEgress.int_egress.do_drop_report_encap",
+								"action-params": [
+									{
+										"action-param": "src_ip",
+										"action-value": "10.10.10.120"
+									},
+									{
+										"action-param": "mon_ip",
+										"action-value": "10.10.10.41"
+									},
+									{
+										"action-param": "mon_port",
+										"action-value": "32766"
+									},
+									{
+										"action-param": "switch_id",
+										"action-value": "1"
+									}
+								]
+							}
+						}
+					},
+					{
+						"action": "CONFIGACTION_SET",
+						"custom": {
+							"resource_key": "/tables/table/FabricEgress.int_egress.report[3]",
+							"resource_value": {
+								"table-name": "FabricEgress.int_egress.report",
+								"match-fields": [
+									{
+										"match-field": "bmd_type",
+										"match-value": "2"
+									},
+									{
+										"match-field": "mirror_type",
+										"match-value": "1"
+									},
+									{
+										"match-field": "int_report_type",
+										"match-value": "1"
+									}
+								],
+								"action-name": "FabricEgress.int_egress.do_local_report_encap",
+								"action-params": [
+									{
+										"action-param": "src_ip",
+										"action-value": "10.10.10.120"
+									},
+									{
+										"action-param": "mon_ip",
+										"action-value": "10.10.10.41"
+									},
+									{
+										"action-param": "mon_port",
+										"action-value": "32766"
+									},
+									{
+										"action-param": "switch_id",
+										"action-value": "1"
+									}
+								]
+							}
+						}
+					},
+					{
+						"action": "CONFIGACTION_SET",
+						"custom": {
+							"resource_key": "/tables/table/FabricEgress.int_egress.report[4]",
+							"resource_value": {
+								"table-name": "FabricEgress.int_egress.report",
+								"match-fields": [
+									{
+										"match-field": "bmd_type",
+										"match-value": "5"
+									},
+									{
+										"match-field": "mirror_type",
+										"match-value": "0"
+									},
+									{
+										"match-field": "int_report_type",
+										"match-value": "4"
+									}
+								],
+								"action-name": "FabricEgress.int_egress.do_drop_report_encap",
+								"action-params": [
+									{
+										"action-param": "src_ip",
+										"action-value": "10.10.10.120"
+									},
+									{
+										"action-param": "mon_ip",
+										"action-value": "10.10.10.41"
+									},
+									{
+										"action-param": "mon_port",
+										"action-value": "32766"
+									},
+									{
+										"action-param": "switch_id",
+										"action-value": "1"
+									}
+								]
+							}
+						}
+					},
+					{
+						"action": "CONFIGACTION_SET",
+						"custom": {
+							"resource_key": "/tables/table/FabricEgress.int_egress.report[5]",
+							"resource_value": {
+								"table-name": "FabricEgress.int_egress.report",
+								"match-fields": [
+									{
+										"match-field": "bmd_type",
+										"match-value": "2"
+									},
+									{
+										"match-field": "mirror_type",
+										"match-value": "1"
+									},
+									{
+										"match-field": "int_report_type",
+										"match-value": "2"
+									}
+								],
+								"action-name": "FabricEgress.int_egress.do_local_report_encap",
+								"action-params": [
+									{
+										"action-param": "src_ip",
+										"action-value": "10.10.10.120"
+									},
+									{
+										"action-param": "mon_ip",
+										"action-value": "10.10.10.41"
+									},
+									{
+										"action-param": "mon_port",
+										"action-value": "32766"
+									},
+									{
+										"action-param": "switch_id",
+										"action-value": "1"
+									}
+								]
+							}
+						}
+					},
+					{
+						"action": "CONFIGACTION_SET",
+						"custom": {
+							"resource_key": "/tables/table/FabricEgress.int_egress.report[6]",
+							"resource_value": {
+								"table-name": "FabricEgress.int_egress.report",
+								"match-fields": [
+									{
+										"match-field": "bmd_type",
+										"match-value": "2"
+									},
+									{
+										"match-field": "mirror_type",
+										"match-value": "1"
+									},
+									{
+										"match-field": "int_report_type",
+										"match-value": "3"
+									}
+								],
+								"action-name": "FabricEgress.int_egress.do_local_report_encap",
+								"action-params": [
+									{
+										"action-param": "src_ip",
+										"action-value": "10.10.10.120"
+									},
+									{
+										"action-param": "mon_ip",
+										"action-value": "10.10.10.41"
+									},
+									{
+										"action-param": "mon_port",
+										"action-value": "32766"
+									},
+									{
+										"action-param": "switch_id",
+										"action-value": "1"
+									}
+								]
+							}
+						}
+					}
+				]
+			}
+		}
+	]
+}

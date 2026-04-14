@@ -1,0 +1,10 @@
+module: simap-telemetry-augmentation
+  augment /nw:networks/nw:network/nw:link:
+    +--rw simap-telemetry
+       +--rw bandwidth-utilization?      decimal64 (percent)
+       +--rw latency?                    decimal64 (milliseconds)
+       +--rw related-service-ids*        string
+  augment /nw:networks/nw:network/nw:node:
+    +--rw simap-telemetry
+       +--rw cpu-utilization?            decimal64 (percent)
+       +--rw related-service-ids*        string

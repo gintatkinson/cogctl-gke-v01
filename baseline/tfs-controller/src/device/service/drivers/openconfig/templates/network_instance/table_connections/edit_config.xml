@@ -1,0 +1,23 @@
+<network-instances xmlns="http://openconfig.net/yang/network-instance">
+    <network-instance>
+        <name>{{name}}</name>
+        <table-connections>
+            <table-connection{% if operation is defined %} xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" nc:operation="{{operation}}"{% endif %}>
+                <src-protocol xmlns:oc-pol-types="http://openconfig.net/yang/policy-types">oc-pol-types:{{src_protocol}}</src-protocol>
+                <dst-protocol xmlns:oc-pol-types="http://openconfig.net/yang/policy-types">oc-pol-types:{{dst_protocol}}</dst-protocol>
+                <address-family xmlns:oc-types="http://openconfig.net/yang/openconfig-types">oc-types:{{address_family}}</address-family>
+                {% if operation is not defined or operation != 'delete' %}
+                <config>
+                    <src-protocol xmlns:oc-pol-types="http://openconfig.net/yang/policy-types">oc-pol-types:{{src_protocol}}</src-protocol>
+                    <dst-protocol xmlns:oc-pol-types="http://openconfig.net/yang/policy-types">oc-pol-types:{{dst_protocol}}</dst-protocol>
+                    <address-family xmlns:oc-types="http://openconfig.net/yang/openconfig-types">oc-types:{{address_family}}</address-family>
+                    {% if False %}
+                        <dst-instance xmlns="http://www.ipinfusion.com/yang/ocnos/ipi-oc-ni-augments">{{as}}</dst-instance>
+                    {% endif %}
+                    {% if default_import_policy is defined %}<default-import-policy>{{default_import_policy}}</default-import-policy>{% endif %}
+                </config>
+                {% endif %}
+            </table-connection>
+        </table-connections>
+    </network-instance>
+</network-instances>

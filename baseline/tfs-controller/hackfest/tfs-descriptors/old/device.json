@@ -1,0 +1,77 @@
+{
+    "contexts": [
+        {
+            "context_id": {"context_uuid": {"uuid": "admin"}},
+            "topology_ids": [],
+            "service_ids": []
+        }
+    ],
+    "topologies": [
+        {
+            "topology_id": {"topology_uuid": {"uuid": "admin"}, "context_id": {"context_uuid": {"uuid": "admin"}}},
+            "device_ids": [
+                {"device_uuid": {"uuid": "R1"}},
+                {"device_uuid": {"uuid": "R2"}},
+                {"device_uuid": {"uuid": "R3"}}
+            ],
+            "link_ids": [
+                {"link_uuid":{"uuid":"R1-1/1==R2-1/2"}},
+                {"link_uuid":{"uuid":"R2-1/1==R3-1/2"}}
+            ]
+        }
+    ],
+    "devices": [
+        {
+            "device_id": {"device_uuid": {"uuid": "R1"}},
+            "device_type": "packet-router",
+            "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "10.0.2.15"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "8301"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": "{\"username\": \"admin\", \"password\": \"admin\", \"force_running\": true, \"hostkey_verify\": false, \"look_for_keys\": false, \"allow_agent\": true, \"commit_per_rule\": false, \"device_params\"  : {\"name\": \"default\"}, \"manager_params\" : {\"timeout\": 15}}"}}
+            ]},
+            "device_operational_status": 1,
+            "device_drivers": [1],
+            "device_endpoints": []
+        },
+        {
+            "device_id": {"device_uuid": {"uuid": "R2"}},
+            "device_type": "packet-router",
+            "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "10.0.2.15"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "8302"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": "{\"username\": \"admin\", \"password\": \"admin\", \"force_running\": true, \"hostkey_verify\": false, \"look_for_keys\": false, \"allow_agent\": true, \"commit_per_rule\": false, \"device_params\"  : {\"name\": \"default\"}, \"manager_params\" : {\"timeout\": 15}}"}}
+            ]},
+            "device_operational_status": 1,
+            "device_drivers": [1],
+            "device_endpoints": []
+        },
+        {
+            "device_id": {"device_uuid": {"uuid": "R3"}},
+            "device_type": "packet-router",
+            "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "10.0.2.15"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "8303"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": "{\"username\": \"admin\", \"password\": \"admin\", \"force_running\": true, \"hostkey_verify\": false, \"look_for_keys\": false, \"allow_agent\": true, \"commit_per_rule\": false, \"device_params\"  : {\"name\": \"default\"}, \"manager_params\" : {\"timeout\": 15}}"}}
+            ]},
+            "device_operational_status": 1,
+            "device_drivers": [1],
+            "device_endpoints": []
+        }
+    ],
+    "links": [
+        {
+            "link_id":{"link_uuid":{"uuid":"R1-1/1==R2-1/2"}},
+            "link_endpoint_ids":[
+                {"device_id":{"device_uuid":{"uuid":"R1"}},"endpoint_uuid":{"uuid":"1/1"}},
+                {"device_id":{"device_uuid":{"uuid":"R2"}},"endpoint_uuid":{"uuid":"1/2"}}
+            ]
+        },
+        {
+            "link_id":{"link_uuid":{"uuid":"R2-1/1==R3-1/2"}},
+            "link_endpoint_ids":[
+                {"device_id":{"device_uuid":{"uuid":"R2"}},"endpoint_uuid":{"uuid":"1/1"}},
+                {"device_id":{"device_uuid":{"uuid":"R3"}},"endpoint_uuid":{"uuid":"1/2"}}
+            ]
+        }
+    ]
+}

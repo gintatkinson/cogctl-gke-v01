@@ -1,0 +1,26 @@
+{
+
+    "contexts": [
+        {"context_id": {"context_uuid": {"uuid": "admin"}}}
+    ],
+    "topologies": [
+        {"topology_id": {"topology_uuid": {"uuid": "admin"}, "context_id": {"context_uuid": {"uuid": "admin"}}}}
+    ],
+    "devices": [
+        {
+            "device_id": {"device_uuid": {"uuid": "smp-01"}},
+            "device_type": "smartnic",
+            "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "172.17.0.3"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "8000"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {
+                    "username": "admin", "password": "admin", "base_url": "/manage-probe", "timeout" : 120
+                }}}
+            ]},
+            "device_operational_status": 1,
+            "device_drivers": [12],
+            "device_endpoints": []
+        }
+        
+    ]
+}

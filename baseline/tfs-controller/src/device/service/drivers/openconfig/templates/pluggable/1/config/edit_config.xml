@@ -1,0 +1,31 @@
+<components xmlns="http://openconfig.net/yang/platform">
+    <component{% if operation is defined %} xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" nc:operation="{{operation}}"{% endif %}>
+        <name>{{name}}</name>
+        <optical-channel xmlns="http://openconfig.net/yang/terminal-device-digital-subcarriers">
+            {% if operation is defined and operation != 'delete' %}
+            <config>
+                {% if frequency is defined %}<frequency>{{frequency}}</frequency>{% endif %}
+                {% if target_output_power is defined %}<target-output-power>{{target_output_power}}</target-output-power>{% endif %}
+                {% if operational_mode is defined %}<operational-mode>{{operational_mode}}</operational-mode>{% endif %}
+
+                {% if digital_sub_carriers_group is defined and digital_sub_carriers_group %}
+                    {% for group in digital_sub_carriers_group %}
+                    <digital-subcarriers-group>
+                        <digital-subcarriers-group-id>{{group.digital_sub_carriers_group_id}}</digital-subcarriers-group-id>
+
+                        {% if group.digital_sub_carrier_id is defined and group.digital_sub_carrier_id %}
+                            {% for sub_carrier in group.digital_sub_carrier_id %}
+                            <digital-subcarrier-id>
+                                <subcarrier-id>{{sub_carrier.sub_carrier_id}}</subcarrier-id>
+                                <active>{{sub_carrier.active}}</active>
+                            </digital-subcarrier-id>
+                            {% endfor %}
+                        {% endif %}
+                    </digital-subcarriers-group>
+                    {% endfor %}
+                {% endif %}
+            </config>
+            {% endif %}
+        </optical-channel>
+    </component>
+</components>

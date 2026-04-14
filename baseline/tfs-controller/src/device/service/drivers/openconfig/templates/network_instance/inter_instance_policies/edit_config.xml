@@ -1,0 +1,15 @@
+{% if operation is not defined or operation != 'delete' %}
+<network-instances xmlns="http://openconfig.net/yang/network-instance">
+    <network-instance>
+        <name>{{name}}</name>
+        <inter-instance-policies>
+            <apply-policy>
+                <config>
+                    {% if import_policy is defined %}<import-policy>{{import_policy}}</import-policy>{% endif%}
+                    {% if export_policy is defined %}<export-policy>{{export_policy}}</export-policy>{% endif%}
+                </config>
+            </apply-policy>
+        </inter-instance-policies>
+    </network-instance>
+</network-instances>
+{% endif %}

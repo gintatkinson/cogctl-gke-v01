@@ -1,0 +1,231 @@
+# Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Build, tag, and push the Docker image to the GitLab Docker registry
+build ofc24:
+  variables:
+    TEST_NAME: 'ofc24'
+  stage: build
+  before_script:
+    - docker image prune --force
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+  script:
+    - docker buildx build -t "${TEST_NAME}:latest" -f ./src/tests/${TEST_NAME}/Dockerfile .
+    - docker tag "${TEST_NAME}:latest" "$CI_REGISTRY_IMAGE/${TEST_NAME}:latest"
+    - docker push "$CI_REGISTRY_IMAGE/${TEST_NAME}:latest"
+  after_script:
+    - docker image prune --force
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop" || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH)'
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == "develop"'
+    - changes:
+      - src/common/**/*.py
+      - proto/*.proto
+      - src/tests/${TEST_NAME}/**/*.{py,in,sh,yml}
+      - src/tests/${TEST_NAME}/Dockerfile
+      - .gitlab-ci.yml
+
+# Deploy TeraFlowSDN and Execute end-2-end test
+end2end_test ofc24:
+  timeout: 45m
+  variables:
+    TEST_NAME: 'ofc24'
+  stage: end2end_test
+  # Disable to force running it after all other tasks
+  #needs:
+  #  - build ofc24
+  before_script:
+    # Do Docker cleanup
+    - docker ps --all --quiet | xargs --no-run-if-empty docker stop
+    - docker container prune --force
+    - docker ps --all --quiet | xargs --no-run-if-empty docker rm --force
+    - docker image prune --force
+    - docker network prune --force
+    - docker volume prune --all --force
+    - docker buildx prune --force
+
+    # Check MicroK8s is ready
+    - microk8s status --wait-ready
+    - LOOP_MAX_ATTEMPTS=10
+    - LOOP_COUNTER=0
+    - >
+      while ! kubectl get pods --all-namespaces &> /dev/null; do
+        printf "%c" "."
+        sleep 1
+        LOOP_COUNTER=$((LOOP_COUNTER + 1))
+        if [ "$LOOP_COUNTER" -ge "$LOOP_MAX_ATTEMPTS" ]; then
+          echo "Max attempts reached, exiting the loop."
+          exit 1
+        fi
+      done
+    - kubectl get pods --all-namespaces
+
+    # Always delete Kubernetes namespaces
+    - export K8S_NAMESPACES=$(kubectl get namespace -o jsonpath='{.items[*].metadata.name}')
+    - echo "K8S_NAMESPACES=${K8S_NAMESPACES}"
+
+    - export OLD_NATS_NAMESPACES=$(echo "${K8S_NAMESPACES}" | tr ' ' '\n' | grep -E '^nats')
+    - echo "OLD_NATS_NAMESPACES=${OLD_NATS_NAMESPACES}"
+    - >
+      for ns in ${OLD_NATS_NAMESPACES}; do
+        if [[ "$ns" == nats* ]]; then
+          if helm3 status "$ns" &>/dev/null; then
+            helm3 uninstall "$ns" -n "$ns"
+          else
+            echo "Release '$ns' not found, skipping..."
+          fi
+        fi
+      done
+    - export OLD_NAMESPACES=$(echo "${K8S_NAMESPACES}" | tr ' ' '\n' | grep -E '^(tfs|crdb|qdb|kafka|nats)')
+    - echo "OLD_NAMESPACES=${OLD_NAMESPACES}"
+    - kubectl delete namespace ${OLD_NAMESPACES} || true
+
+    # Clean-up Kubernetes Failed pods
+    - >
+      kubectl get pods --all-namespaces --no-headers --field-selector=status.phase=Failed
+      -o custom-columns=NAMESPACE:.metadata.namespace,NAME:.metadata.name |
+      xargs --no-run-if-empty --max-args=2 kubectl delete pod --namespace
+
+    # Login Docker repository
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+
+  script:
+    # Download Docker image to run the test
+    - docker pull "${CI_REGISTRY_IMAGE}/${TEST_NAME}:latest"
+    - docker pull asgamb1/oc23bgp.img:latest
+    - docker pull asgamb1/flexscale-node.img:latest
+
+    # Check MicroK8s is ready
+    - microk8s status --wait-ready
+    - LOOP_MAX_ATTEMPTS=10
+    - LOOP_COUNTER=0
+    - >
+      while ! kubectl get pods --all-namespaces &> /dev/null; do
+        printf "%c" "."
+        sleep 1
+        LOOP_COUNTER=$((LOOP_COUNTER + 1))
+        if [ "$LOOP_COUNTER" -ge "$LOOP_MAX_ATTEMPTS" ]; then
+          echo "Max attempts reached, exiting the loop."
+          exit 1
+        fi
+      done
+    - kubectl get pods --all-namespaces
+
+    # Deploy Optical Device Node Agents
+    - >
+      docker network create -d bridge --subnet=172.254.253.0/24 --gateway=172.254.253.254
+      --ip-range=172.254.253.0/24 na-br
+    - >
+      docker run -dit --init --name na-t1 --network=na-br --ip 172.254.253.101 --publish 2022
+      --volume "$PWD/src/tests/${TEST_NAME}/node-agents-config/startNetconfAgent-tp.sh:/confd/examples.confd/OC23/startNetconfAgent.sh"
+      --volume "$PWD/src/tests/${TEST_NAME}/node-agents-config/platform_t1.xml:/confd/examples.confd/OC23/platform.xml"
+      asgamb1/oc23bgp.img:latest /confd/examples.confd/OC23/startNetconfAgent.sh
+    - >
+      docker run -dit --init --name na-t2 --network=na-br --ip 172.254.253.102 --publish 2022
+      --volume "$PWD/src/tests/${TEST_NAME}/node-agents-config/startNetconfAgent-tp.sh:/confd/examples.confd/OC23/startNetconfAgent.sh"
+      --volume "$PWD/src/tests/${TEST_NAME}/node-agents-config/platform_t2.xml:/confd/examples.confd/OC23/platform.xml"
+      asgamb1/oc23bgp.img:latest /confd/examples.confd/OC23/startNetconfAgent.sh
+    - >
+      docker run -dit --init --name na-r1 --network=na-br --ip 172.254.253.201 --publish 2022
+      --volume "$PWD/src/tests/${TEST_NAME}/node-agents-config/startNetconfAgent-mg-on.sh:/confd/examples.confd/OC23/startNetconfAgent.sh"
+      --volume "$PWD/src/tests/${TEST_NAME}/node-agents-config/platform_r1.xml:/confd/examples.confd/OC23/platform.xml"
+      asgamb1/flexscale-node.img:latest /confd/examples.confd/OC23/startNetconfAgent.sh
+    - >
+      docker run -dit --init --name na-r2 --network=na-br --ip 172.254.253.202 --publish 2022
+      --volume "$PWD/src/tests/${TEST_NAME}/node-agents-config/startNetconfAgent-mg-on.sh:/confd/examples.confd/OC23/startNetconfAgent.sh"
+      --volume "$PWD/src/tests/${TEST_NAME}/node-agents-config/platform_r2.xml:/confd/examples.confd/OC23/platform.xml"
+      asgamb1/flexscale-node.img:latest /confd/examples.confd/OC23/startNetconfAgent.sh
+
+
+    # Wait for initialization of Optical Device Node Agents
+    - sleep 3
+    - docker ps -a
+    - while ! docker logs na-t1 2>&1 | grep -q '*** ConfD OpenConfig NETCONF agent ***'; do sleep 1; done
+    - while ! docker logs na-t2 2>&1 | grep -q '*** ConfD OpenConfig NETCONF agent ***'; do sleep 1; done
+    - while ! docker logs na-r1 2>&1 | grep -q '*** ConfD OpenConfig NETCONF agent ***'; do sleep 1; done
+    - while ! docker logs na-r2 2>&1 | grep -q '*** ConfD OpenConfig NETCONF agent ***'; do sleep 1; done
+    - sleep 3
+    - docker ps -a
+
+
+    # Configure TeraFlowSDN deployment
+    # Uncomment if DEBUG log level is needed for the components
+    #- yq -i '((select(.kind=="Deployment").spec.template.spec.containers.[] | select(.name=="server").env.[]) | select(.name=="LOG_LEVEL").value) |= "DEBUG"' manifests/contextservice.yaml
+    #- yq -i '((select(.kind=="Deployment").spec.template.spec.containers.[] | select(.name=="server").env.[]) | select(.name=="LOG_LEVEL").value) |= "DEBUG"' manifests/deviceservice.yaml
+    #- yq -i '((select(.kind=="Deployment").spec.template.spec.containers.[] | select(.name=="frontend").env.[]) | select(.name=="LOG_LEVEL").value) |= "DEBUG"' manifests/pathcompservice.yaml
+    #- yq -i '((select(.kind=="Deployment").spec.template.spec.containers.[] | select(.name=="server").env.[]) | select(.name=="LOG_LEVEL").value) |= "DEBUG"' manifests/serviceservice.yaml
+    #- yq -i '((select(.kind=="Deployment").spec.template.spec.containers.[] | select(.name=="server").env.[]) | select(.name=="LOG_LEVEL").value) |= "DEBUG"' manifests/sliceservice.yaml
+    #- yq -i '((select(.kind=="Deployment").spec.template.spec.containers.[] | select(.name=="server").env.[]) | select(.name=="LOG_LEVEL").value) |= "DEBUG"' manifests/nbiservice.yaml
+
+    - source src/tests/${TEST_NAME}/deploy_specs.sh
+    #- export TFS_REGISTRY_IMAGES="${CI_REGISTRY_IMAGE}"
+    #- export TFS_SKIP_BUILD="YES"
+    #- export TFS_IMAGE_TAG="latest"
+    #- echo "TFS_REGISTRY_IMAGES=${CI_REGISTRY_IMAGE}"
+
+    # Deploy TeraFlowSDN
+    - ./deploy/crdb.sh
+    - ./deploy/nats.sh
+    - ./deploy/kafka.sh
+    - ./deploy/qdb.sh
+    - ./deploy/expose_dashboard.sh
+    - ./deploy/tfs.sh
+    - ./deploy/show.sh
+
+    # Wait for Context to be subscribed to NATS
+    #- while ! kubectl --namespace $TFS_K8S_NAMESPACE logs deployment/contextservice -c server 2>&1 | grep -q 'Subscriber is Ready? True'; do sleep 1; done
+    #- kubectl --namespace $TFS_K8S_NAMESPACE logs deployment/contextservice -c server
+
+    # Run end-to-end tests
+    - if docker ps -a | grep ${TEST_NAME}; then docker rm -f ${TEST_NAME}; fi
+    - >
+      docker run -t --rm --name ${TEST_NAME} --network=host 
+      --volume "$PWD/tfs_runtime_env_vars.sh:/var/teraflow/tfs_runtime_env_vars.sh"
+      --volume "$PWD/src/tests/${TEST_NAME}:/opt/results"
+      $CI_REGISTRY_IMAGE/${TEST_NAME}:latest
+
+  after_script:
+    # Dump Optical Device Node Agents container status and logs
+    - docker ps -a
+    - docker logs na-t1
+    - docker logs na-t2
+    - docker logs na-r1
+    - docker logs na-r2
+
+    # Dump TeraFlowSDN component logs
+    - source src/tests/${TEST_NAME}/deploy_specs.sh
+    - kubectl --namespace $TFS_K8S_NAMESPACE logs deployment/contextservice -c server
+    - kubectl --namespace $TFS_K8S_NAMESPACE logs deployment/deviceservice -c server
+    - kubectl --namespace $TFS_K8S_NAMESPACE logs deployment/pathcompservice -c frontend
+    - kubectl --namespace $TFS_K8S_NAMESPACE logs deployment/serviceservice -c server
+    - kubectl --namespace $TFS_K8S_NAMESPACE logs deployment/nbiservice -c server
+    - kubectl --namespace $TFS_K8S_NAMESPACE logs deployment/opticalcontrollerservice -c server
+
+    # Clean up
+    - kubectl delete namespaces tfs || true
+    - docker ps --all --quiet | xargs --no-run-if-empty docker stop
+    - docker container prune --force
+    - docker ps --all --quiet | xargs --no-run-if-empty docker rm --force
+    - docker network prune --force
+    - docker volume prune --all --force
+    - docker image prune --force
+
+  #coverage: '/TOTAL\s+\d+\s+\d+\s+(\d+%)/'
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop" || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH)'
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == "develop"'
+  artifacts:
+      when: always
+      reports:
+        junit: ./src/tests/${TEST_NAME}/report_*.xml

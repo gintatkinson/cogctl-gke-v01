@@ -1,0 +1,24 @@
+{
+    "services": [
+        {
+            "service_id": {
+                "context_id": {"context_uuid": {"uuid": "admin"}},
+                "service_uuid": {"uuid": "2c025055-bf6c-4250-8560-cf62f2d29e72"}
+            },
+            "service_type": 4, "service_status": {"service_status": 1},
+            "service_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid":"RT1"}}, "endpoint_uuid": {"uuid":"eth-src"}},
+                {"device_id": {"device_uuid": {"uuid":"RT6"}}, "endpoint_uuid": {"uuid":"eth-dst"}}
+            ],
+            "service_constraints": [],
+            "service_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "/lsp-fw", "resource_value": {
+                    "symbolic_name": "foo", "binding_label": 1111
+                }}},
+                {"action": 1, "custom": {"resource_key": "/lsp-bw", "resource_value": {
+                    "symbolic_name": "bar", "binding_label": 6666
+                }}}
+            ]}
+        }
+    ]
+}

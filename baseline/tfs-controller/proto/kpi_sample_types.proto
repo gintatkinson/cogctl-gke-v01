@@ -1,0 +1,77 @@
+// Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+package kpi_sample_types;
+
+enum KpiSampleType {
+    KPISAMPLETYPE_UNKNOWN                       = 0;
+
+    KPISAMPLETYPE_PACKETS_TRANSMITTED           = 101;
+    KPISAMPLETYPE_PACKETS_RECEIVED              = 102;
+    KPISAMPLETYPE_PACKETS_DROPPED               = 103;
+    KPISAMPLETYPE_BYTES_TRANSMITTED             = 201;
+    KPISAMPLETYPE_BYTES_RECEIVED                = 202;
+    KPISAMPLETYPE_BYTES_DROPPED                 = 203;
+
+    KPISAMPLETYPE_LINK_TOTAL_CAPACITY_GBPS      = 301;
+    KPISAMPLETYPE_LINK_USED_CAPACITY_GBPS       = 302;
+
+    KPISAMPLETYPE_ML_CONFIDENCE                 = 401;  //. can be used by both optical and L3 without any issue
+
+    KPISAMPLETYPE_OPTICAL_SECURITY_STATUS       = 501;  //. can be used by both optical and L3 without any issue
+
+    KPISAMPLETYPE_L3_UNIQUE_ATTACK_CONNS        = 601;
+    KPISAMPLETYPE_L3_TOTAL_DROPPED_PACKTS       = 602;
+    KPISAMPLETYPE_L3_UNIQUE_ATTACKERS           = 603;
+    KPISAMPLETYPE_L3_UNIQUE_COMPROMISED_CLIENTS = 604;
+    KPISAMPLETYPE_L3_SECURITY_STATUS_CRYPTO     = 605;
+
+    KPISAMPLETYPE_SERVICE_LATENCY_MS            = 701;
+
+    // output KPIs
+    KPISAMPLETYPE_PACKETS_TRANSMITTED_AGG_OUTPUT = 1101;
+    KPISAMPLETYPE_PACKETS_RECEIVED_AGG_OUTPUT    = 1102;
+    KPISAMPLETYPE_PACKETS_DROPPED_AGG_OUTPUT     = 1103;
+    KPISAMPLETYPE_BYTES_TRANSMITTED_AGG_OUTPUT   = 1201;
+    KPISAMPLETYPE_BYTES_RECEIVED_AGG_OUTPUT      = 1202;
+    KPISAMPLETYPE_BYTES_DROPPED_AGG_OUTPUT       = 1203;
+
+    KPISAMPLETYPE_SERVICE_LATENCY_MS_AGG_OUTPUT  = 1701;
+
+    // INT KPIs
+    KPISAMPLETYPE_INT_SEQ_NUM        = 2001;
+    KPISAMPLETYPE_INT_TS_ING         = 2002;
+    KPISAMPLETYPE_INT_TS_EGR         = 2003;
+    KPISAMPLETYPE_INT_HOP_LAT        = 2004;
+    KPISAMPLETYPE_INT_PORT_ID_ING    = 2005;
+    KPISAMPLETYPE_INT_PORT_ID_EGR    = 2006;
+    KPISAMPLETYPE_INT_QUEUE_OCCUP    = 2007;
+    KPISAMPLETYPE_INT_QUEUE_ID       = 2008;
+
+    KPISAMPLETYPE_INT_HOP_LAT_SW01   = 2101;
+    KPISAMPLETYPE_INT_HOP_LAT_SW02   = 2102;
+    KPISAMPLETYPE_INT_HOP_LAT_SW03   = 2103;
+    KPISAMPLETYPE_INT_HOP_LAT_SW04   = 2104;
+    KPISAMPLETYPE_INT_HOP_LAT_SW05   = 2105;
+    KPISAMPLETYPE_INT_HOP_LAT_SW06   = 2106;
+    KPISAMPLETYPE_INT_HOP_LAT_SW07   = 2107;
+    KPISAMPLETYPE_INT_HOP_LAT_SW08   = 2108;
+    KPISAMPLETYPE_INT_HOP_LAT_SW09   = 2109;
+    KPISAMPLETYPE_INT_HOP_LAT_SW10   = 2110;
+    KPISAMPLETYPE_INT_LAT_ON_TOTAL   = 2120;
+
+    KPISAMPLETYPE_INT_IS_DROP        = 2201;
+    KPISAMPLETYPE_INT_DROP_REASON    = 2202;
+}

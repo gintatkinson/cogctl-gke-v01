@@ -1,0 +1,121 @@
+{
+    "contexts": [
+        {
+            "context_id": {"context_uuid": {"uuid": "admin"}},
+            "topology_ids": [],
+            "service_ids": []
+        }
+    ],
+    "topologies": [
+        {
+            "topology_id": {"topology_uuid": {"uuid": "admin"}, "context_id": {"context_uuid": {"uuid": "admin"}}},
+            "device_ids": [
+                {"device_uuid": {"uuid": "R1-EMU"}},
+                {"device_uuid": {"uuid": "R2-EMU"}},
+                {"device_uuid": {"uuid": "R3-EMU"}},
+                {"device_uuid": {"uuid": "R4-EMU"}},
+                {"device_uuid": {"uuid": "O1-OLS"}}                
+            ],
+            "link_ids": [
+                {"link_uuid": {"uuid": "R1-EMU/13/0/0==O1-OLS/aade6001-f00b-5e2f-a357-6a0a9d3de870"}},
+                {"link_uuid": {"uuid": "R2-EMU/13/0/0==O1-OLS/eb287d83-f05e-53ec-ab5a-adf6bd2b5418"}},
+                {"link_uuid": {"uuid": "R3-EMU/13/0/0==O1-OLS/0ef74f99-1acc-57bd-ab9d-4b958b06c513"}},
+                {"link_uuid": {"uuid": "R4-EMU/13/0/0==O1-OLS/50296d99-58cc-5ce7-82f5-fc8ee4eec2ec"}}
+            ]
+        }
+    ],
+    "devices": [
+        {
+            "device_id": {"device_uuid": {"uuid": "R1-EMU"}}, "device_type": "emu-packet-router",
+            "device_operational_status": 1, "device_drivers": [0], "device_endpoints": [],
+            "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "127.0.0.1"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "0"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {"endpoints": [
+                    {"uuid": "13/0/0", "type": "optical", "sample_types": []},
+                    {"uuid": "13/1/2", "type": "copper",  "sample_types": [101, 102, 201, 202]}
+                ]}}}
+            ]}
+        },
+        {
+            "device_id": {"device_uuid": {"uuid": "R2-EMU"}}, "device_type": "emu-packet-router",
+            "device_operational_status": 1, "device_drivers": [0], "device_endpoints": [],
+            "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "127.0.0.1"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "0"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {"endpoints": [
+                    {"uuid": "13/0/0", "type": "optical", "sample_types": []},
+                    {"uuid": "13/1/2", "type": "copper",  "sample_types": [101, 102, 201, 202]}
+                ]}}}
+            ]}
+        },
+        {
+            "device_id": {"device_uuid": {"uuid": "R3-EMU"}}, "device_type": "emu-packet-router",
+            "device_operational_status": 1, "device_drivers": [0], "device_endpoints": [],
+            "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "127.0.0.1"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "0"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {"endpoints": [
+                    {"uuid": "13/0/0", "type": "optical", "sample_types": []},
+                    {"uuid": "13/1/2", "type": "copper",  "sample_types": [101, 102, 201, 202]}
+                ]}}}
+            ]}
+        },
+        {
+            "device_id": {"device_uuid": {"uuid": "R4-EMU"}}, "device_type": "emu-packet-router",
+            "device_operational_status": 1, "device_drivers": [0], "device_endpoints": [],
+            "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "127.0.0.1"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "0"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {"endpoints": [
+                    {"uuid": "13/0/0", "type": "optical", "sample_types": []},
+                    {"uuid": "13/1/2", "type": "copper",  "sample_types": [101, 102, 201, 202]}
+                ]}}}
+            ]}
+        },
+        {
+            "device_id": {"device_uuid": {"uuid": "O1-OLS"}}, "device_type": "emu-open-line-system",
+            "device_operational_status": 1, "device_drivers": [0], "device_endpoints": [],
+            "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "127.0.0.1"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "0"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {"endpoints": [
+                    {"uuid": "aade6001-f00b-5e2f-a357-6a0a9d3de870", "type": "optical", "sample_types": []},
+                    {"uuid": "eb287d83-f05e-53ec-ab5a-adf6bd2b5418", "type": "optical", "sample_types": []},
+                    {"uuid": "0ef74f99-1acc-57bd-ab9d-4b958b06c513", "type": "optical", "sample_types": []},
+                    {"uuid": "50296d99-58cc-5ce7-82f5-fc8ee4eec2ec", "type": "optical", "sample_types": []}
+                ]}}}
+            ]}
+        }
+    ],
+    "links": [
+        {
+            "link_id": {"link_uuid": {"uuid": "R1-EMU/13/0/0==O1-OLS/aade6001-f00b-5e2f-a357-6a0a9d3de870"}},
+            "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "R1-EMU"}}, "endpoint_uuid": {"uuid": "13/0/0"}},
+                {"device_id": {"device_uuid": {"uuid": "O1-OLS"}}, "endpoint_uuid": {"uuid": "aade6001-f00b-5e2f-a357-6a0a9d3de870"}}
+            ]
+        },
+        {
+            "link_id": {"link_uuid": {"uuid": "R2-EMU/13/0/0==O1-OLS/eb287d83-f05e-53ec-ab5a-adf6bd2b5418"}},
+            "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "R2-EMU"}}, "endpoint_uuid": {"uuid": "13/0/0"}},
+                {"device_id": {"device_uuid": {"uuid": "O1-OLS"}}, "endpoint_uuid": {"uuid": "eb287d83-f05e-53ec-ab5a-adf6bd2b5418"}}
+            ]
+        },
+        {
+            "link_id": {"link_uuid": {"uuid": "R3-EMU/13/0/0==O1-OLS/0ef74f99-1acc-57bd-ab9d-4b958b06c513"}},
+            "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "R3-EMU"}}, "endpoint_uuid": {"uuid": "13/0/0"}},
+                {"device_id": {"device_uuid": {"uuid": "O1-OLS"}}, "endpoint_uuid": {"uuid": "0ef74f99-1acc-57bd-ab9d-4b958b06c513"}}
+            ]
+        },
+        {
+            "link_id": {"link_uuid": {"uuid": "R4-EMU/13/0/0==O1-OLS/50296d99-58cc-5ce7-82f5-fc8ee4eec2ec"}},
+            "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "R4-EMU"}}, "endpoint_uuid": {"uuid": "13/0/0"}},
+                {"device_id": {"device_uuid": {"uuid": "O1-OLS"}}, "endpoint_uuid": {"uuid": "50296d99-58cc-5ce7-82f5-fc8ee4eec2ec"}}
+            ]
+        }
+    ]
+}

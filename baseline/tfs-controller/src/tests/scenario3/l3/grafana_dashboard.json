@@ -1,0 +1,1211 @@
+{
+  "overwrite": true,
+  "folderId": 0,
+  "dashboard": {
+    "id": null,
+    "annotations": {
+      "list": [
+        {
+          "builtIn": 1,
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations & Alerts",
+          "target": {
+            "limit": 100,
+            "matchAny": false,
+            "tags": [],
+            "type": "dashboard"
+          },
+          "type": "dashboard"
+        }
+      ]
+    },
+    "editable": true,
+    "fiscalYearStartMonth": 0,
+    "graphTooltip": 0,
+    "iteration": 1675103296430,
+    "links": [],
+    "liveNow": false,
+    "panels": [
+      {
+        "datasource": {
+          "type": "postgres",
+          "uid": "questdb"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineInterpolation": "smooth",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "always",
+              "spanNulls": true,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byRegexp",
+                "options": ".*PACKETS_.*"
+              },
+              "properties": [
+                {
+                  "id": "custom.axisPlacement",
+                  "value": "left"
+                },
+                {
+                  "id": "unit",
+                  "value": "pps"
+                },
+                {
+                  "id": "custom.axisLabel",
+                  "value": "Packets / sec"
+                },
+                {
+                  "id": "custom.axisSoftMin",
+                  "value": 0
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byRegexp",
+                "options": ".*BYTES_.*"
+              },
+              "properties": [
+                {
+                  "id": "custom.axisPlacement",
+                  "value": "right"
+                },
+                {
+                  "id": "unit",
+                  "value": "Bps"
+                },
+                {
+                  "id": "custom.axisLabel",
+                  "value": "Bytes / sec"
+                },
+                {
+                  "id": "custom.axisSoftMin",
+                  "value": 0
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 9,
+          "w": 8,
+          "x": 0,
+          "y": 0
+        },
+        "id": 2,
+        "options": {
+          "legend": {
+            "calcs": [
+              "first",
+              "min",
+              "mean",
+              "max",
+              "lastNotNull"
+            ],
+            "displayMode": "table",
+            "placement": "bottom"
+          },
+          "tooltip": {
+            "mode": "multi",
+            "sort": "none"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "postgres",
+              "uid": "questdb"
+            },
+            "format": "time_series",
+            "group": [],
+            "hide": false,
+            "metricColumn": "kpi_value",
+            "rawQuery": true,
+            "rawSql": "SELECT\r\n  $__time(timestamp), kpi_value AS metric, service_id, kpi_sample_type\r\nFROM\r\n  tfs_monitoring\r\nWHERE\r\n  $__timeFilter(timestamp) AND device_name IN (${device_name}) AND endpoint_name IN (${endpoint_name}) AND kpi_sample_type IN (${kpi_sample_type}) AND kpi_sample_type LIKE 'L3_SECURITY_STATUS_CRYPTO'\r\nGROUP BY\r\n  device_name, endpoint_name, kpi_sample_type\r\nORDER BY\r\n  timestamp",
+            "refId": "A",
+            "select": [
+              [
+                {
+                  "params": [
+                    "kpi_value"
+                  ],
+                  "type": "column"
+                }
+              ]
+            ],
+            "table": "monitoring",
+            "timeColumn": "timestamp",
+            "where": [
+              {
+                "name": "",
+                "params": [
+                  "device_id",
+                  "IN",
+                  "$device_id"
+                ],
+                "type": "expression"
+              }
+            ]
+          }
+        ],
+        "title": "L3 Security Status Crypto",
+        "transformations": [
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "metric {kpi_sample_type=\\\"([^\\\"]+)\\\", service_id=\\\"([^\\\"]+)\\\"}",
+              "renamePattern": "Security Status Crypto - L3 (Service Id: $2)"
+            }
+          }
+        ],
+        "type": "timeseries"
+      },
+      {
+        "datasource": {
+          "type": "postgres",
+          "uid": "questdb"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "fixedColor": "#2635d4",
+              "mode": "fixed"
+            },
+            "custom": {
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineInterpolation": "smooth",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "always",
+              "spanNulls": true,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byRegexp",
+                "options": ".*PACKETS_.*"
+              },
+              "properties": [
+                {
+                  "id": "custom.axisPlacement",
+                  "value": "left"
+                },
+                {
+                  "id": "unit",
+                  "value": "pps"
+                },
+                {
+                  "id": "custom.axisLabel",
+                  "value": "Packets / sec"
+                },
+                {
+                  "id": "custom.axisSoftMin",
+                  "value": 0
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byRegexp",
+                "options": ".*BYTES_.*"
+              },
+              "properties": [
+                {
+                  "id": "custom.axisPlacement",
+                  "value": "right"
+                },
+                {
+                  "id": "unit",
+                  "value": "Bps"
+                },
+                {
+                  "id": "custom.axisLabel",
+                  "value": "Bytes / sec"
+                },
+                {
+                  "id": "custom.axisSoftMin",
+                  "value": 0
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 9,
+          "w": 8,
+          "x": 8,
+          "y": 0
+        },
+        "id": 3,
+        "options": {
+          "legend": {
+            "calcs": [
+              "first",
+              "min",
+              "mean",
+              "max",
+              "lastNotNull"
+            ],
+            "displayMode": "table",
+            "placement": "bottom"
+          },
+          "tooltip": {
+            "mode": "multi",
+            "sort": "none"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "postgres",
+              "uid": "questdb"
+            },
+            "format": "time_series",
+            "group": [],
+            "hide": false,
+            "metricColumn": "kpi_value",
+            "rawQuery": true,
+            "rawSql": "SELECT\r\n  $__time(timestamp), kpi_value AS metric, service_id, kpi_sample_type\r\nFROM\r\n  tfs_monitoring\r\nWHERE\r\n  $__timeFilter(timestamp) AND device_name IN (${device_name}) AND endpoint_name IN (${endpoint_name}) AND kpi_sample_type IN (${kpi_sample_type}) AND kpi_sample_type LIKE 'ML_CONFIDENCE'\r\nGROUP BY\r\n  device_name, endpoint_name, kpi_sample_type\r\nORDER BY\r\n  timestamp",
+            "refId": "A",
+            "select": [
+              [
+                {
+                  "params": [
+                    "kpi_value"
+                  ],
+                  "type": "column"
+                }
+              ]
+            ],
+            "table": "monitoring",
+            "timeColumn": "timestamp",
+            "where": [
+              {
+                "name": "",
+                "params": [
+                  "device_id",
+                  "IN",
+                  "$device_id"
+                ],
+                "type": "expression"
+              }
+            ]
+          }
+        ],
+        "title": "L3 ML Confidence",
+        "transformations": [
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "metric {kpi_sample_type=\\\"([^\\\"]+)\\\", service_id=\\\"([^\\\"]+)\\\"}",
+              "renamePattern": "ML Confidence - L3 (Service Id: $2)"
+            }
+          }
+        ],
+        "type": "timeseries"
+      },
+      {
+        "datasource": {
+          "type": "postgres",
+          "uid": "questdb"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "fixedColor": "dark-orange",
+              "mode": "fixed"
+            },
+            "custom": {
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineInterpolation": "smooth",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "always",
+              "spanNulls": true,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byRegexp",
+                "options": ".*PACKETS_.*"
+              },
+              "properties": [
+                {
+                  "id": "custom.axisPlacement",
+                  "value": "left"
+                },
+                {
+                  "id": "unit",
+                  "value": "pps"
+                },
+                {
+                  "id": "custom.axisLabel",
+                  "value": "Packets / sec"
+                },
+                {
+                  "id": "custom.axisSoftMin",
+                  "value": 0
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byRegexp",
+                "options": ".*BYTES_.*"
+              },
+              "properties": [
+                {
+                  "id": "custom.axisPlacement",
+                  "value": "right"
+                },
+                {
+                  "id": "unit",
+                  "value": "Bps"
+                },
+                {
+                  "id": "custom.axisLabel",
+                  "value": "Bytes / sec"
+                },
+                {
+                  "id": "custom.axisSoftMin",
+                  "value": 0
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 9,
+          "w": 8,
+          "x": 16,
+          "y": 0
+        },
+        "id": 4,
+        "options": {
+          "legend": {
+            "calcs": [
+              "first",
+              "min",
+              "mean",
+              "max",
+              "lastNotNull"
+            ],
+            "displayMode": "table",
+            "placement": "bottom"
+          },
+          "tooltip": {
+            "mode": "multi",
+            "sort": "none"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "postgres",
+              "uid": "questdb"
+            },
+            "format": "time_series",
+            "group": [],
+            "hide": false,
+            "metricColumn": "kpi_value",
+            "rawQuery": true,
+            "rawSql": "SELECT\r\n  $__time(timestamp), kpi_value AS metric, service_id, kpi_sample_type\r\nFROM\r\n  tfs_monitoring\r\nWHERE\r\n  $__timeFilter(timestamp) AND device_name IN (${device_name}) AND endpoint_name IN (${endpoint_name}) AND kpi_sample_type IN (${kpi_sample_type}) AND kpi_sample_type LIKE 'L3_UNIQUE_ATTACK_CONNS'\r\nGROUP BY\r\n  device_name, endpoint_name, kpi_sample_type\r\nORDER BY\r\n  timestamp",
+            "refId": "A",
+            "select": [
+              [
+                {
+                  "params": [
+                    "kpi_value"
+                  ],
+                  "type": "column"
+                }
+              ]
+            ],
+            "table": "monitoring",
+            "timeColumn": "timestamp",
+            "where": [
+              {
+                "name": "",
+                "params": [
+                  "device_id",
+                  "IN",
+                  "$device_id"
+                ],
+                "type": "expression"
+              }
+            ]
+          }
+        ],
+        "title": "L3 Unique Attack Connections",
+        "transformations": [
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "metric {kpi_sample_type=\\\"([^\\\"]+)\\\", service_id=\\\"([^\\\"]+)\\\"}",
+              "renamePattern": "Unique Attack Connections - L3 (Service Id: $2)"
+            }
+          }
+        ],
+        "type": "timeseries"
+      },
+      {
+        "datasource": {
+          "type": "postgres",
+          "uid": "questdb"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "fixedColor": "#ad3fe3",
+              "mode": "fixed"
+            },
+            "custom": {
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineInterpolation": "smooth",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "always",
+              "spanNulls": true,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byRegexp",
+                "options": ".*PACKETS_.*"
+              },
+              "properties": [
+                {
+                  "id": "custom.axisPlacement",
+                  "value": "left"
+                },
+                {
+                  "id": "unit",
+                  "value": "pps"
+                },
+                {
+                  "id": "custom.axisLabel",
+                  "value": "Packets / sec"
+                },
+                {
+                  "id": "custom.axisSoftMin",
+                  "value": 0
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byRegexp",
+                "options": ".*BYTES_.*"
+              },
+              "properties": [
+                {
+                  "id": "custom.axisPlacement",
+                  "value": "right"
+                },
+                {
+                  "id": "unit",
+                  "value": "Bps"
+                },
+                {
+                  "id": "custom.axisLabel",
+                  "value": "Bytes / sec"
+                },
+                {
+                  "id": "custom.axisSoftMin",
+                  "value": 0
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 9,
+          "w": 12,
+          "x": 0,
+          "y": 9
+        },
+        "id": 5,
+        "options": {
+          "legend": {
+            "calcs": [
+              "first",
+              "min",
+              "mean",
+              "max",
+              "lastNotNull"
+            ],
+            "displayMode": "table",
+            "placement": "bottom"
+          },
+          "tooltip": {
+            "mode": "multi",
+            "sort": "none"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "postgres",
+              "uid": "questdb"
+            },
+            "format": "time_series",
+            "group": [],
+            "hide": false,
+            "metricColumn": "kpi_value",
+            "rawQuery": true,
+            "rawSql": "SELECT\r\n  $__time(timestamp), kpi_value AS metric, service_id, kpi_sample_type\r\nFROM\r\n  tfs_monitoring\r\nWHERE\r\n  $__timeFilter(timestamp) AND device_name IN (${device_name}) AND endpoint_name IN (${endpoint_name}) AND kpi_sample_type IN (${kpi_sample_type}) AND kpi_sample_type LIKE 'L3_UNIQUE_COMPROMISED_CLIENTS'\r\nGROUP BY\r\n  device_name, endpoint_name, kpi_sample_type\r\nORDER BY\r\n  timestamp",
+            "refId": "A",
+            "select": [
+              [
+                {
+                  "params": [
+                    "kpi_value"
+                  ],
+                  "type": "column"
+                }
+              ]
+            ],
+            "table": "monitoring",
+            "timeColumn": "timestamp",
+            "where": [
+              {
+                "name": "",
+                "params": [
+                  "device_id",
+                  "IN",
+                  "$device_id"
+                ],
+                "type": "expression"
+              }
+            ]
+          }
+        ],
+        "title": "L3 Unique Compromised Clients",
+        "transformations": [
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "metric {kpi_sample_type=\\\"([^\\\"]+)\\\", service_id=\\\"([^\\\"]+)\\\"}",
+              "renamePattern": "Unique Compromised Clients - L3 (Service Id: $2)"
+            }
+          }
+        ],
+        "type": "timeseries"
+      },
+      {
+        "datasource": {
+          "type": "postgres",
+          "uid": "questdb"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "fixedColor": "#f6ca1b",
+              "mode": "fixed"
+            },
+            "custom": {
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineInterpolation": "smooth",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "always",
+              "spanNulls": true,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byRegexp",
+                "options": ".*PACKETS_.*"
+              },
+              "properties": [
+                {
+                  "id": "custom.axisPlacement",
+                  "value": "left"
+                },
+                {
+                  "id": "unit",
+                  "value": "pps"
+                },
+                {
+                  "id": "custom.axisLabel",
+                  "value": "Packets / sec"
+                },
+                {
+                  "id": "custom.axisSoftMin",
+                  "value": 0
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byRegexp",
+                "options": ".*BYTES_.*"
+              },
+              "properties": [
+                {
+                  "id": "custom.axisPlacement",
+                  "value": "right"
+                },
+                {
+                  "id": "unit",
+                  "value": "Bps"
+                },
+                {
+                  "id": "custom.axisLabel",
+                  "value": "Bytes / sec"
+                },
+                {
+                  "id": "custom.axisSoftMin",
+                  "value": 0
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 9,
+          "w": 12,
+          "x": 12,
+          "y": 9
+        },
+        "id": 6,
+        "options": {
+          "legend": {
+            "calcs": [
+              "first",
+              "min",
+              "mean",
+              "max",
+              "lastNotNull"
+            ],
+            "displayMode": "table",
+            "placement": "bottom"
+          },
+          "tooltip": {
+            "mode": "multi",
+            "sort": "none"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "postgres",
+              "uid": "questdb"
+            },
+            "format": "time_series",
+            "group": [],
+            "hide": false,
+            "metricColumn": "kpi_value",
+            "rawQuery": true,
+            "rawSql": "SELECT\r\n  $__time(timestamp), kpi_value AS metric, service_id, kpi_sample_type\r\nFROM\r\n  tfs_monitoring\r\nWHERE\r\n  $__timeFilter(timestamp) AND device_name IN (${device_name}) AND endpoint_name IN (${endpoint_name}) AND kpi_sample_type IN (${kpi_sample_type}) AND kpi_sample_type LIKE 'L3_UNIQUE_ATTACKERS'\r\nGROUP BY\r\n  device_name, endpoint_name, kpi_sample_type\r\nORDER BY\r\n  timestamp",
+            "refId": "A",
+            "select": [
+              [
+                {
+                  "params": [
+                    "kpi_value"
+                  ],
+                  "type": "column"
+                }
+              ]
+            ],
+            "table": "monitoring",
+            "timeColumn": "timestamp",
+            "where": [
+              {
+                "name": "",
+                "params": [
+                  "device_id",
+                  "IN",
+                  "$device_id"
+                ],
+                "type": "expression"
+              }
+            ]
+          }
+        ],
+        "title": "L3 Unique Attackers",
+        "transformations": [
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "metric {kpi_sample_type=\\\"([^\\\"]+)\\\", service_id=\\\"([^\\\"]+)\\\"}",
+              "renamePattern": "Unique Attackers - L3 (Service Id: $2)"
+            }
+          }
+        ],
+        "type": "timeseries"
+      },
+      {
+        "datasource": {
+          "type": "postgres",
+          "uid": "questdb"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineInterpolation": "smooth",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "always",
+              "spanNulls": true,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byRegexp",
+                "options": ".*PACKETS_.*"
+              },
+              "properties": [
+                {
+                  "id": "custom.axisPlacement",
+                  "value": "left"
+                },
+                {
+                  "id": "unit",
+                  "value": "pps"
+                },
+                {
+                  "id": "custom.axisLabel",
+                  "value": "Packets / sec"
+                },
+                {
+                  "id": "custom.axisSoftMin",
+                  "value": 0
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byRegexp",
+                "options": ".*BYTES_.*"
+              },
+              "properties": [
+                {
+                  "id": "custom.axisPlacement",
+                  "value": "right"
+                },
+                {
+                  "id": "unit",
+                  "value": "Bps"
+                },
+                {
+                  "id": "custom.axisLabel",
+                  "value": "Bytes / sec"
+                },
+                {
+                  "id": "custom.axisSoftMin",
+                  "value": 0
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 19,
+          "w": 24,
+          "x": 0,
+          "y": 18
+        },
+        "id": 7,
+        "options": {
+          "legend": {
+            "calcs": [
+              "first",
+              "min",
+              "mean",
+              "max",
+              "lastNotNull"
+            ],
+            "displayMode": "table",
+            "placement": "bottom"
+          },
+          "tooltip": {
+            "mode": "multi",
+            "sort": "none"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "postgres",
+              "uid": "questdb"
+            },
+            "format": "time_series",
+            "group": [],
+            "hide": false,
+            "metricColumn": "kpi_value",
+            "rawQuery": true,	
+            "rawSql": "SELECT\r\n  $__time(timestamp), kpi_value AS metric, device_name, endpoint_name, kpi_sample_type\r\nFROM\r\n  tfs_monitoring\r\nWHERE\r\n  $__timeFilter(timestamp) AND device_name IN (${device_name}) AND endpoint_name IN (${endpoint_name}) AND kpi_sample_type IN (${kpi_sample_type})\r\nGROUP BY\r\n  device_name, endpoint_name, kpi_sample_type\r\nORDER BY\r\n  timestamp",	
+            "refId": "A",
+            "select": [
+              [
+                {
+                  "params": [
+                    "kpi_value"
+                  ],
+                  "type": "column"
+                }
+              ]
+            ],
+            "table": "monitoring",
+            "timeColumn": "timestamp",
+            "where": [
+              {
+                "name": "",
+                "params": [
+                  "device_id",
+                  "IN",
+                  "$device_id"
+                ],
+                "type": "expression"
+              }
+            ]
+          }
+        ],
+        "title": "L3 Monitoring Packets/Bytes Received/Sent",
+        "transformations": [
+          {
+            "id": "renameByRegex",
+            "options": {	
+              "regex": "metric {device_name=\\\"([^\\\"]+)\\\", endpoint_name=\\\"([^\\\"]+)\\\", kpi_sample_type=\\\"([^\\\"]+)\\\"}",	
+              "renamePattern": "$3 ($1 : $2)"	
+            }
+          }
+        ],
+        "type": "timeseries"
+      }
+    ],
+    "refresh": "5s",
+    "schemaVersion": 36,
+    "style": "dark",
+    "tags": [],
+    "templating": {
+      "list": [
+        {
+          "current": {
+            "selected": true,
+            "text": [
+              "All"
+            ],
+            "value": [
+              "$__all"
+            ]
+          },
+          "datasource": {
+            "type": "postgres",
+            "uid": "questdb"
+          },
+          "definition": "SELECT DISTINCT device_name FROM tfs_monitoring;",
+          "hide": 0,
+          "includeAll": true,
+          "label": "Device",
+          "multi": true,
+          "name": "device_name",
+          "options": [],
+          "query": "SELECT DISTINCT device_name FROM tfs_monitoring;",
+          "refresh": 2,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "type": "query"
+        },
+        {
+          "current": {
+            "selected": true,
+            "text": [
+              "All"
+            ],
+            "value": [
+              "$__all"
+            ]
+          },
+          "datasource": {
+            "type": "postgres",
+            "uid": "questdb"
+          },
+          "definition": "SELECT DISTINCT endpoint_name FROM tfs_monitoring WHERE device_name IN (${device_name})",
+          "hide": 0,
+          "includeAll": true,
+          "label": "EndPoint",
+          "multi": true,
+          "name": "endpoint_name",
+          "options": [],
+          "query": "SELECT DISTINCT endpoint_name FROM tfs_monitoring WHERE device_name IN (${device_name})",
+          "refresh": 2,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "type": "query"
+        },
+        {
+          "current": {
+            "selected": true,
+            "text": [
+              "All"
+            ],
+            "value": [
+              "$__all"
+            ]
+          },
+          "datasource": {
+            "type": "postgres",
+            "uid": "questdb"
+          },
+          "definition": "SELECT DISTINCT kpi_sample_type FROM tfs_monitoring;",
+          "hide": 0,
+          "includeAll": true,
+          "label": "Kpi Sample Type",
+          "multi": true,
+          "name": "kpi_sample_type",
+          "options": [],
+          "query": "SELECT DISTINCT kpi_sample_type FROM tfs_monitoring;",
+          "refresh": 2,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "type": "query"
+        }
+      ]
+    },
+    "time": {
+      "from": "now-5m",
+      "to": "now"
+    },
+    "timepicker": {},
+    "timezone": "utc",
+    "title": "L3 Monitoring",
+    "uid": "tf-l3-monit",
+    "version": 6,
+    "weekStart": ""
+  }
+}

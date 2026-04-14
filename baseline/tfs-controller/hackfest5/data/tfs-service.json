@@ -1,0 +1,26 @@
+{
+    "services": [
+        {
+            "service_id": {
+                "context_id": {"context_uuid": {"uuid": "admin"}}, "service_uuid": {"uuid": "tfs-l3vpn-svc"}
+            },
+            "service_type": "SERVICETYPE_L3NM",
+            "service_status": {"service_status": "SERVICESTATUS_PLANNED"},
+            "service_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "dc1"}}, "endpoint_uuid": {"uuid": "int"}},
+                {"device_id": {"device_uuid": {"uuid": "dc2"}}, "endpoint_uuid": {"uuid": "int"}}
+            ],
+            "service_constraints": [],
+            "service_config": {"config_rules": [
+                {"action": "CONFIGACTION_SET", "custom": {
+                    "resource_key": "/device[dc1]/endpoint[eth1]/settings",
+                    "resource_value": {"address_ip": "192.168.1.10", "address_prefix": 24, "index": 0}
+                }},
+                {"action": "CONFIGACTION_SET", "custom": {
+                    "resource_key": "/device[dc2]/endpoint[eth1]/settings",
+                    "resource_value": {"address_ip": "192.168.2.10", "address_prefix": 24, "index": 0}
+                }}
+            ]}
+        }
+    ]
+}

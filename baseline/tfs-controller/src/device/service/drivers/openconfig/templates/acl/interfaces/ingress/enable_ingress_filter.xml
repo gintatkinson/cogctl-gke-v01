@@ -1,0 +1,9 @@
+<profiles xmlns="http://www.ipinfusion.com/yang/ocnos/ipi-platform"> 
+	<hardware-profile> 
+	<filters> 
+	<config> 
+		<ingress-ipv4-extended {% if operation == "delete" %}operation="delete"{% endif %}></ingress-ipv4-extended>
+	</config> 
+	</filters> 
+	</hardware-profile> 
+</profiles>

@@ -1,0 +1,79 @@
+# Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: qkd-appservice
+spec:
+  selector:
+    matchLabels:
+      app: qkd-appservice
+  #replicas: 1
+  template:
+    metadata:
+      labels:
+        app: qkd-appservice
+    spec:
+      terminationGracePeriodSeconds: 5
+      containers:
+        - name: server
+          image: labs.etsi.org:5050/tfs/controller/qkd_app:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 10060
+            - containerPort: 9192
+          env:
+            - name: LOG_LEVEL
+              value: "INFO"
+            - name: CRDB_DATABASE
+              value: "tfs_qkd_app"
+          envFrom:
+            - secretRef:
+                name: crdb-data
+            - secretRef:
+                name: nats-data
+          readinessProbe:
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:10060"]
+          livenessProbe:
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:10060"]
+          resources:
+            requests:
+              cpu: 150m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: qkd-appservice
+  labels:
+    app: qkd-appservice
+spec:
+  type: ClusterIP
+  selector:
+    app: qkd-appservice
+  ports:
+    - name: grpc
+      protocol: TCP
+      port: 10060
+      targetPort: 10060
+    - name: metrics
+      protocol: TCP
+      port: 9192
+      targetPort: 9192

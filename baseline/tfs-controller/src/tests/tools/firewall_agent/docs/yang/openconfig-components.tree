@@ -1,0 +1,188 @@
+module: openconfig-platform
+  +--rw components
+     +--rw component* [name]
+        +--rw name                  -> ../config/name
+        +--rw config
+        |  +--rw name?   string
+        +--ro state
+        |  +--ro name?                     string
+        |  +--ro type?                     union
+        |  +--ro id?                       string
+        |  +--ro location?                 string
+        |  +--ro description?              string
+        |  +--ro mfg-name?                 string
+        |  +--ro mfg-date?                 oc-yang:date
+        |  +--ro hardware-version?         string
+        |  +--ro firmware-version?         string
+        |  +--ro software-version?         string
+        |  +--ro serial-no?                string
+        |  +--ro part-no?                  string
+        |  +--ro model-name?               string
+        |  +--ro clei-code?                string
+        |  +--ro removable?                boolean
+        |  +--ro oper-status?              identityref
+        |  +--ro empty?                    boolean
+        |  +--ro parent?                   -> ../../../component/config/name
+        |  +--ro redundant-role?           oc-platform-types:component-redundant-role
+        |  +--ro last-switchover-reason
+        |  |  +--ro trigger?   component-redundant-role-switchover-reason-trigger
+        |  |  +--ro details?   string
+        |  +--ro last-switchover-time?     oc-types:timeticks64
+        |  +--ro last-reboot-reason?       identityref
+        |  +--ro last-reboot-time?         oc-types:timeticks64
+        |  +--ro switchover-ready?         boolean
+        |  +--ro base-mac-address?         oc-yang:mac-address
+        |  +--ro temperature
+        |  |  +--ro instant?           decimal64
+        |  |  +--ro avg?               decimal64
+        |  |  +--ro min?               decimal64
+        |  |  +--ro max?               decimal64
+        |  |  +--ro interval?          oc-types:stat-interval
+        |  |  +--ro min-time?          oc-types:timeticks64
+        |  |  +--ro max-time?          oc-types:timeticks64
+        |  |  +--ro alarm-status?      boolean
+        |  |  +--ro alarm-threshold?   uint32
+        |  |  +--ro alarm-severity?    identityref
+        |  +--ro memory
+        |  |  +--ro available?   uint64
+        |  |  +--ro utilized?    uint64
+        |  +--ro allocated-power?          uint32
+        |  +--ro used-power?               uint32
+        |  +--ro pcie
+        |     +--ro fatal-errors
+        |     |  +--ro total-errors?                   oc-yang:counter64
+        |     |  +--ro undefined-errors?               oc-yang:counter64
+        |     |  +--ro data-link-errors?               oc-yang:counter64
+        |     |  +--ro surprise-down-errors?           oc-yang:counter64
+        |     |  +--ro poisoned-tlp-errors?            oc-yang:counter64
+        |     |  +--ro flow-control-protocol-errors?   oc-yang:counter64
+        |     |  +--ro completion-timeout-errors?      oc-yang:counter64
+        |     |  +--ro completion-abort-errors?        oc-yang:counter64
+        |     |  +--ro unexpected-completion-errors?   oc-yang:counter64
+        |     |  +--ro receiver-overflow-errors?       oc-yang:counter64
+        |     |  +--ro malformed-tlp-errors?           oc-yang:counter64
+        |     |  +--ro ecrc-errors?                    oc-yang:counter64
+        |     |  +--ro unsupported-request-errors?     oc-yang:counter64
+        |     |  +--ro acs-violation-errors?           oc-yang:counter64
+        |     |  +--ro internal-errors?                oc-yang:counter64
+        |     |  +--ro blocked-tlp-errors?             oc-yang:counter64
+        |     |  +--ro atomic-op-blocked-errors?       oc-yang:counter64
+        |     |  +--ro tlp-prefix-blocked-errors?      oc-yang:counter64
+        |     +--ro non-fatal-errors
+        |     |  +--ro total-errors?                   oc-yang:counter64
+        |     |  +--ro undefined-errors?               oc-yang:counter64
+        |     |  +--ro data-link-errors?               oc-yang:counter64
+        |     |  +--ro surprise-down-errors?           oc-yang:counter64
+        |     |  +--ro poisoned-tlp-errors?            oc-yang:counter64
+        |     |  +--ro flow-control-protocol-errors?   oc-yang:counter64
+        |     |  +--ro completion-timeout-errors?      oc-yang:counter64
+        |     |  +--ro completion-abort-errors?        oc-yang:counter64
+        |     |  +--ro unexpected-completion-errors?   oc-yang:counter64
+        |     |  +--ro receiver-overflow-errors?       oc-yang:counter64
+        |     |  +--ro malformed-tlp-errors?           oc-yang:counter64
+        |     |  +--ro ecrc-errors?                    oc-yang:counter64
+        |     |  +--ro unsupported-request-errors?     oc-yang:counter64
+        |     |  +--ro acs-violation-errors?           oc-yang:counter64
+        |     |  +--ro internal-errors?                oc-yang:counter64
+        |     |  +--ro blocked-tlp-errors?             oc-yang:counter64
+        |     |  +--ro atomic-op-blocked-errors?       oc-yang:counter64
+        |     |  +--ro tlp-prefix-blocked-errors?      oc-yang:counter64
+        |     +--ro correctable-errors
+        |        +--ro total-errors?                oc-yang:counter64
+        |        +--ro receiver-errors?             oc-yang:counter64
+        |        +--ro bad-tlp-errors?              oc-yang:counter64
+        |        +--ro bad-dllp-errors?             oc-yang:counter64
+        |        +--ro relay-rollover-errors?       oc-yang:counter64
+        |        +--ro replay-timeout-errors?       oc-yang:counter64
+        |        +--ro advisory-non-fatal-errors?   oc-yang:counter64
+        |        +--ro internal-errors?             oc-yang:counter64
+        |        +--ro hdr-log-overflow-errors?     oc-yang:counter64
+        +--rw properties
+        |  +--rw property* [name]
+        |     +--rw name      -> ../config/name
+        |     +--rw config
+        |     |  +--rw name?    string
+        |     |  +--rw value?   union
+        |     +--ro state
+        |        +--ro name?           string
+        |        +--ro value?          union
+        |        +--ro configurable?   boolean
+        +--rw subcomponents
+        |  +--rw subcomponent* [name]
+        |     +--rw name      -> ../config/name
+        |     +--rw config
+        |     |  +--rw name?   -> ../../../../../component/config/name
+        |     +--ro state
+        |        +--ro name?   -> ../../../../../component/config/name
+        +--rw chassis
+        |  +--rw config
+        |  +--ro state
+        |  +--rw utilization
+        |     +--rw resources
+        |        +--rw resource* [name]
+        |           +--rw name      -> ../config/name
+        |           +--rw config
+        |           |  +--rw name?                         string
+        |           |  +--rw used-threshold-upper?         oc-types:percentage
+        |           |  +--rw used-threshold-upper-clear?   oc-types:percentage
+        |           +--ro state
+        |              +--ro name?                            string
+        |              +--ro used-threshold-upper?            oc-types:percentage
+        |              +--ro used-threshold-upper-clear?      oc-types:percentage
+        |              +--ro used?                            uint64
+        |              +--ro committed?                       uint64
+        |              +--ro free?                            uint64
+        |              +--ro max-limit?                       uint64
+        |              +--ro high-watermark?                  uint64
+        |              +--ro last-high-watermark?             oc-types:timeticks64
+        |              +--ro used-threshold-upper-exceeded?   boolean
+        +--rw port
+        |  +--rw config
+        |  +--ro state
+        +--rw power-supply
+        |  +--rw config
+        |  +--ro state
+        +--rw fan
+        |  +--rw config
+        |  +--ro state
+        +--rw fabric
+        |  +--rw config
+        |  +--ro state
+        +--rw storage
+        |  +--rw config
+        |  +--ro state
+        +--rw cpu
+        |  +--rw config
+        |  +--ro state
+        +--rw integrated-circuit
+        |  +--rw config
+        |  +--ro state
+        |  +--rw utilization
+        |     +--rw resources
+        |        +--rw resource* [name]
+        |           +--rw name      -> ../config/name
+        |           +--rw config
+        |           |  +--rw name?                         string
+        |           |  +--rw used-threshold-upper?         oc-types:percentage
+        |           |  +--rw used-threshold-upper-clear?   oc-types:percentage
+        |           +--ro state
+        |              +--ro name?                            string
+        |              +--ro used-threshold-upper?            oc-types:percentage
+        |              +--ro used-threshold-upper-clear?      oc-types:percentage
+        |              +--ro used?                            uint64
+        |              +--ro committed?                       uint64
+        |              +--ro free?                            uint64
+        |              +--ro max-limit?                       uint64
+        |              +--ro high-watermark?                  uint64
+        |              +--ro last-high-watermark?             oc-types:timeticks64
+        |              +--ro used-threshold-upper-exceeded?   boolean
+        +--rw backplane
+        |  +--rw config
+        |  +--ro state
+        +--rw software-module
+        |  +--rw config
+        |  +--ro state
+        +--rw controller-card
+           +--rw config
+           +--ro state
+

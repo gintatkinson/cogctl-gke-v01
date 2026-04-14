@@ -1,0 +1,142 @@
+<!--
+ Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>App {{ app.app_id.app_uuid.uuid }}</h1>
+
+<!-- Action Buttons -->
+<div class="row mb-3">
+    <div class="col-sm-3">
+        <button type="button" class="btn btn-success" onclick="window.location.href='{{ url_for('qkd_app.home') }}';">
+            <i class="bi bi-box-arrow-in-left"></i> Back to app list
+        </button>
+    </div>
+    <div class="col-sm-3">
+        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+            <i class="bi bi-x-square"></i> Delete app
+        </button>
+    </div>
+</div>
+
+<!-- App Basic Info -->
+<div class="row mb-3">
+    <div class="col-sm-4">
+        <b>UUID: </b>{{ app.app_id.app_uuid.uuid }}<br>
+        <b>Status: </b>{{ ase.Name(app.app_status).replace('QKDAPPSTATUS_', '') }}<br>
+        <b>Type: </b>{{ ate.Name(app.app_type).replace('QKDAPPTYPES_', '').replace('CLIENT', 'EXTERNAL') }}<br>
+    </div>
+
+    <!-- Associated Devices -->
+    <div class="col-sm-8">
+        <h5>Associated Devices</h5>
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Device</th>
+                    <th scope="col">Endpoint Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <a href="{{ url_for('device.detail', device_uuid=app.local_device_id.device_uuid.uuid) }}">
+                            {{ device_names.get(app.local_device_id.device_uuid.uuid, app.local_device_id.device_uuid.uuid) }}
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                                <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8z"/>
+                                <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5z"/>
+                                <path d="M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+                            </svg>
+                        </a>
+                    </td>
+                    <td>Local Device</td>
+                </tr>
+                {% if app.remote_device_id.device_uuid.uuid %}
+                <tr>
+                    <td>
+                        <a href="{{ url_for('device.detail', device_uuid=app.remote_device_id.device_uuid.uuid) }}">
+                            {{ device_names.get(app.remote_device_id.device_uuid.uuid, app.remote_device_id.device_uuid.uuid) }}
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                                <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8z"/>
+                                <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5z"/>
+                                <path d="M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+                            </svg>
+                        </a>
+                    </td>
+                    <td>Remote Device</td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- QoS -->
+<div class="row mb-3">
+    <div class="col-sm-12">
+        <h5>App QoS</h5>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">QoS Parameter</th>
+                    <th scope="col">Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Max Bandwidth</td>
+                    <td>{{ app.qos.max_bandwidth }} bps</td>
+                </tr>
+                <tr>
+                    <td>Min Bandwidth</td>
+                    <td>{{ app.qos.min_bandwidth or 'N/A' }} bps</td>
+                </tr>
+                <tr>
+                    <td>Jitter</td>
+                    <td>{{ app.qos.jitter or 'N/A' }} ms</td>
+                </tr>
+                <tr>
+                    <td>TTL</td>
+                    <td>{{ app.qos.ttl or 'N/A' }} seconds</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Modal for Deleting App -->
+<div class="modal fade" id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Delete app?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete the app "{{ app.app_id.app_uuid.uuid }}"?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                <a type="button" class="btn btn-danger" href="{{ url_for('qkd_app.delete', app_uuid=app.app_id.app_uuid.uuid) }}">
+                    <i class="bi bi-exclamation-diamond"></i>Yes
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

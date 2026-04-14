@@ -1,0 +1,101 @@
+############
+# ContainerLab
+############
+
+Refs:
+https://documentation.nokia.com/srlinux/22-6/SR_Linux_Book_Files/SysMgmt_Guide/data-models.html#openconfig-ov
+https://documentation.nokia.com/srlinux/SR_Linux_HTML_R21-11/SysMgmt_Guide/gnmi-interface.html#ai9ersv4qe
+https://github.com/openconfig/kne/blob/v0.1.9/examples/nokia/srlinux-services/srl-openconfig.cfg.json
+https://containerlab.dev/manual/kinds/srl/#default-node-configuration
+https://learn.srlinux.dev/tutorials/infrastructure/kne/srl-with-oc-services/
+https://github.com/openconfig/reference/blob/master/rpc/gnmi/gnmi-specification.md
+https://gnmic.kmrd.dev/cmd/get/
+
+
+IMPORTANT: for Nokia SR Linux, use kind "srl" and type "ixr6"
+
+## Download and install the latest release
+$ sudo bash -c "$(curl -sL https://get.containerlab.dev)" -- -v 0.42.0
+
+## Deploy proposed two SR node scenario
+$ cd ~/tfs-ctrl/hackfest/containerlab
+$ sudo containerlab deploy --topo tfs-scenario.clab.yml
+
+## Access SR Bash
+$ docker exec -it clab-tfs-scenario-srl1 bash
+
+## Access SR CLI
+$ docker exec -it clab-tfs-scenario-srl1 sr_cli
+
+## Destroy scenario
+$ sudo containerlab destroy --topo tfs-scenario.clab.yml
+
+
+## Enable OpenConfig data models and set as default:
+$ docker exec -it clab-tfs-scenario-srl1 sr_cli
+# enter candidate
+# system management openconfig admin-state enable
+# system gnmi-server network-instance mgmt yang-models openconfig
+# commit stay
+# quit
+
+
+# Configure containerlab clients
+docker exec -it clab-tfs-scenario-client1 bash
+    ip address add 172.16.1.10/24 dev eth1
+    ip route add 172.16.2.0/24 via 172.16.1.1
+
+    ping 172.16.2.1 or 172.16.2.10
+
+docker exec -it clab-tfs-scenario-client2 bash
+    ip address add 172.16.2.10/24 dev eth1
+    ip route add 172.16.1.0/24 via 172.16.2.1
+
+    ping 172.16.1.1 or 172.16.1.10
+
+
+
+
+## Install gNMIc
+$ sudo bash -c "$(curl -sL https://get-gnmic.kmrd.dev)"
+
+## gNMI Capabilities request
+$ gnmic -a clab-tfs-scenario-srl1 -u admin -p NokiaSrl1! --skip-verify capabilities
+
+## gNMI Get request
+$ gnmic -a clab-tfs-scenario-srl1 -u admin -p NokiaSrl1! --skip-verify -e json_ietf get --path /system/config/hostname
+$ gnmic -a clab-tfs-scenario-srl1 -u admin -p NokiaSrl1! --skip-verify -e json_ietf get --path /interfaces/interface[name=mgmt0]
+
+
+## gNMI Set request
+$ gnmic -a clab-tfs-scenario-srl1 -u admin -p NokiaSrl1! --skip-verify -e json_ietf set --update-path /system/config/hostname --update-value srl11
+
+(we check the changed value)
+$ gnmic -a clab-tfs-scenario-srl1 -u admin -p NokiaSrl1! --skip-verify -e json_ietf get --path /system/config/hostname
+
+## Subscribe request
+$ gnmic -a clab-tfs-scenario-srl1 -u admin -p NokiaSrl1! --skip-verify -e json_ietf subscribe --path /interfaces/interface[name=mgmt0]/state/
+
+(In another terminal, you can generate traffic) 
+$ssh admin@clab-tfs-scenario-srl1
+
+
+
+
+# Check configurations done:
+gnmic -a clab-tfs-scenario-srl1 -u admin -p NokiaSrl1! --skip-verify -e json_ietf get --path '/network-instances' > srl1-nis.json
+gnmic -a clab-tfs-scenario-srl1 -u admin -p NokiaSrl1! --skip-verify -e json_ietf get --path '/interfaces' > srl1-ifs.json
+gnmic -a clab-tfs-scenario-srl2 -u admin -p NokiaSrl1! --skip-verify -e json_ietf get --path '/network-instances' > srl2-nis.json
+gnmic -a clab-tfs-scenario-srl2 -u admin -p NokiaSrl1! --skip-verify -e json_ietf get --path '/interfaces' > srl2-ifs.json
+
+
+# Delete elements:
+gnmic -a clab-tfs-scenario-srl1 -u admin -p NokiaSrl1! --skip-verify -e json_ietf set --delete '/network-instances/network-instance[name=b19229e8]'
+gnmic -a clab-tfs-scenario-srl1 -u admin -p NokiaSrl1! --skip-verify -e json_ietf set --delete '/interfaces/interface[name=ethernet-1/1]/subinterfaces/subinterface[index=0]'
+gnmic -a clab-tfs-scenario-srl1 -u admin -p NokiaSrl1! --skip-verify -e json_ietf set --delete '/interfaces/interface[name=ethernet-1/2]/subinterfaces/subinterface[index=0]'
+gnmic -a clab-tfs-scenario-srl2 -u admin -p NokiaSrl1! --skip-verify -e json_ietf set --delete '/network-instances/network-instance[name=b19229e8]'
+gnmic -a clab-tfs-scenario-srl2 -u admin -p NokiaSrl1! --skip-verify -e json_ietf set --delete '/interfaces/interface[name=ethernet-1/1]/subinterfaces/subinterface[index=0]'
+gnmic -a clab-tfs-scenario-srl2 -u admin -p NokiaSrl1! --skip-verify -e json_ietf set --delete '/interfaces/interface[name=ethernet-1/2]/subinterfaces/subinterface[index=0]'
+
+# Run gNMI Driver in standalone mode (advanced)
+PYTHONPATH=./src python -m src.device.tests.test_gnmi

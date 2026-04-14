@@ -1,0 +1,25 @@
+{
+    "services": [
+        {
+            "service_id": {
+                "context_id": {"context_uuid": {"uuid": "admin"}},
+                "service_uuid": {"uuid": "mw-svc"}
+            },
+            "service_type": 2,
+            "service_status": {"service_status": 1},
+            "service_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "R1"}}, "endpoint_uuid": {"uuid": "EXT"}},
+                {"device_id": {"device_uuid": {"uuid": "R3"}}, "endpoint_uuid": {"uuid": "EXT"}}
+            ],
+            "service_constraints": [
+                {"sla_capacity": {"capacity_gbps": 10.0}},
+                {"sla_latency": {"e2e_latency_ms": 15.2}}
+            ],
+            "service_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "/settings", "resource_value": {
+                    "vlan_id": 121
+                }}}
+            ]}
+        }
+    ]
+}

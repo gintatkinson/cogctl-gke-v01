@@ -1,0 +1,261 @@
+# IETF draft-ietf-teas-ietf-network-slice-nbi-yang-02 - IETF Network Slice Service YANG Model
+# Ref: https://datatracker.ietf.org/doc/draft-ietf-teas-ietf-network-slice-nbi-yang/
+
+module: ietf-network-slice-service
+  +--rw network-slice-services
+     +--rw slo-sle-templates
+     |  +--rw slo-sle-template* [id]
+     |     +--rw id                      string
+     |     +--rw template-description?   string
+     +--rw slice-service* [service-id]
+        +--rw service-id                      string
+        +--rw service-description?            string
+        +--rw service-tags
+        |  +--rw tag-type* [tag-type]
+        |  |  +--rw tag-type    identityref
+        |  |  +--rw value*      string
+        |  +--rw tag-opaque* [tag-name]
+        |     +--rw tag-name    string
+        |     +--rw value*      string
+        +--rw (slo-sle-policy)?
+        |  +--:(standard)
+        |  |  +--rw slo-sle-template?         leafref
+        |  +--:(custom)
+        |     +--rw service-slo-sle-policy
+        |        +--rw policy-description?     string
+        |        +--rw metric-bounds
+        |        |  +--rw metric-bound* [metric-type]
+        |        |     +--rw metric-type          identityref
+        |        |     +--rw metric-unit          string
+        |        |     +--rw value-description?   string
+        |        |     +--rw bound?               uint64
+        |        +--rw security*               identityref
+        |        +--rw isolation?              identityref
+        |        +--rw max-occupancy-level?    uint8
+        |        +--rw mtu?                    uint16
+        |        +--rw steering-constraints
+        |           +--rw path-constraints
+        |           +--rw service-function
+        +--rw status
+        |  +--rw admin-status
+        |  |  +--rw status?         identityref
+        |  |  +--rw last-updated?   yang:date-and-time
+        |  +--ro oper-status
+        |     +--ro status?         identityref
+        |     +--ro last-updated?   yang:date-and-time
+        +--rw sdps
+        |  +--rw sdp* [sdp-id]
+        |     +--rw sdp-id                    string
+        |     +--rw sdp-description?          string
+        |     +--rw location
+        |     |  +--rw altitude?    int64
+        |     |  +--rw latitude?    decimal64
+        |     |  +--rw longitude?   decimal64
+        |     +--rw node-id?                  string
+        |     +--rw sdp-ip?                   inet:ip-address
+        |     +--rw service-match-criteria
+        |     |  +--rw match-criterion* [index]
+        |     |     +--rw index                               uint32
+        |     |     +--rw match-type
+        |     |     |       identityref
+        |     |     +--rw value*                              string
+        |     |     +--rw target-connection-group-id          leafref
+        |     |     +--rw connection-group-sdp-role?
+        |     |     |       identityref
+        |     |     +--rw target-connectivity-construct-id?   leafref
+        |     +--rw sdp-peering
+        |     |  +--rw protocol* [protocol-type]
+        |     |  |  +--rw protocol-type    identityref
+        |     |  |  +--rw attribute* [attribute-type]
+        |     |  |     +--rw attribute-type    identityref
+        |     |  |     +--rw value*            string
+        |     |  +--rw opaque* [attribute-name]
+        |     |     +--rw attribute-name    string
+        |     |     +--rw value*            string
+        |     +--rw attachment-circuits
+        |     |  +--rw attachment-circuit* [ac-id]
+        |     |     +--rw ac-id                     string
+        |     |     +--rw ac-description?           string
+        |     |     +--rw ac-node-id?               string
+        |     |     +--rw ac-tp-id?                 string
+        |     |     +--rw ac-ip-address?            inet:ip-address
+        |     |     +--rw ac-ip-prefix-length?      uint8
+        |     |     +--rw ac-qos-policy-name?       string
+        |     |     +--rw mtu?                      uint16
+        |     |     +--rw ac-tags
+        |     |     |  +--rw ac-tags* [ac-tag-type]
+        |     |     |  |  +--rw ac-tag-type    identityref
+        |     |     |  |  +--rw value*         string
+        |     |     |  +--rw ac-tag-opaque* [tag-name]
+        |     |     |     +--rw tag-name    string
+        |     |     |     +--rw value*      string
+        |     |     +--rw service-match-criteria
+        |     |     |  +--rw match-criterion* [index]
+        |     |     |     +--rw index
+        |     |     |     |       uint32
+        |     |     |     +--rw match-type
+        |     |     |     |       identityref
+        |     |     |     +--rw value*
+        |     |     |     |       string
+        |     |     |     +--rw target-connection-group-id          leafref
+        |     |     |     +--rw connection-group-sdp-role?
+        |     |     |     |       identityref
+        |     |     |     +--rw target-connectivity-construct-id?   leafref
+        |     |     +--rw sdp-peering
+        |     |     |  +--rw protocol* [protocol-type]
+        |     |     |  |  +--rw protocol-type    identityref
+        |     |     |  |  +--rw attribute* [attribute-type]
+        |     |     |  |     +--rw attribute-type    identityref
+        |     |     |  |     +--rw value*            string
+        |     |     |  +--rw opaque* [attribute-name]
+        |     |     |     +--rw attribute-name    string
+        |     |     |     +--rw value*            string
+        |     |     +--rw incoming-rate-limits
+        |     |     |  +--rw cir?   uint64
+        |     |     |  +--rw cbs?   uint64
+        |     |     |  +--rw eir?   uint64
+        |     |     |  +--rw ebs?   uint64
+        |     |     |  +--rw pir?   uint64
+        |     |     |  +--rw pbs?   uint64
+        |     |     +--rw outgoing-rate-limits
+        |     |        +--rw cir?   uint64
+        |     |        +--rw cbs?   uint64
+        |     |        +--rw eir?   uint64
+        |     |        +--rw ebs?   uint64
+        |     |        +--rw pir?   uint64
+        |     |        +--rw pbs?   uint64
+        |     +--rw incoming-rate-limits
+        |     |  +--rw cir?   uint64
+        |     |  +--rw cbs?   uint64
+        |     |  +--rw eir?   uint64
+        |     |  +--rw ebs?   uint64
+        |     |  +--rw pir?   uint64
+        |     |  +--rw pbs?   uint64
+        |     +--rw outgoing-rate-limits
+        |     |  +--rw cir?   uint64
+        |     |  +--rw cbs?   uint64
+        |     |  +--rw eir?   uint64
+        |     |  +--rw ebs?   uint64
+        |     |  +--rw pir?   uint64
+        |     |  +--rw pbs?   uint64
+        |     +--rw status
+        |     |  +--rw admin-status
+        |     |  |  +--rw status?         identityref
+        |     |  |  +--rw last-updated?   yang:date-and-time
+        |     |  +--ro oper-status
+        |     |     +--ro status?         identityref
+        |     |     +--ro last-updated?   yang:date-and-time
+        |     +--ro sdp-monitoring
+        |        +--ro incoming-utilized-bandwidth?
+        |        |       te-types:te-bandwidth
+        |        +--ro incoming-bw-utilization        decimal64
+        |        +--ro outgoing-utilized-bandwidth?
+        |        |       te-types:te-bandwidth
+        |        +--ro outgoing-bw-utilization        decimal64
+        +--rw connection-groups
+           +--rw connection-group* [connection-group-id]
+              +--rw connection-group-id             string
+              +--rw connectivity-type?              identityref
+              +--rw (slo-sle-policy)?
+              |  +--:(standard)
+              |  |  +--rw slo-sle-template?         leafref
+              |  +--:(custom)
+              |     +--rw service-slo-sle-policy
+              |        +--rw policy-description?     string
+              |        +--rw metric-bounds
+              |        |  +--rw metric-bound* [metric-type]
+              |        |     +--rw metric-type          identityref
+              |        |     +--rw metric-unit          string
+              |        |     +--rw value-description?   string
+              |        |     +--rw bound?               uint64
+              |        +--rw security*               identityref
+              |        +--rw isolation?              identityref
+              |        +--rw max-occupancy-level?    uint8
+              |        +--rw mtu?                    uint16
+              |        +--rw steering-constraints
+              |           +--rw path-constraints
+              |           +--rw service-function
+              +--rw connectivity-construct* [cc-id]
+              |  +--rw cc-id                                uint32
+              |  +--rw (connectivity-construct-type)?
+              |  |  +--:(p2p)
+              |  |  |  +--rw p2p-sender-sdp?
+              |  |  |  |       -> ../../../../sdps/sdp/sdp-id
+              |  |  |  +--rw p2p-receiver-sdp?
+              |  |  |          -> ../../../../sdps/sdp/sdp-id
+              |  |  +--:(p2mp)
+              |  |  |  +--rw p2mp-sender-sdp?
+              |  |  |  |       -> ../../../../sdps/sdp/sdp-id
+              |  |  |  +--rw p2mp-receiver-sdp*
+              |  |  |          -> ../../../../sdps/sdp/sdp-id
+              |  |  +--:(a2a)
+              |  |     +--rw a2a-sdp* [sdp-id]
+              |  |        +--rw sdp-id
+              |  |        |       -> ../../../../../sdps/sdp/sdp-id
+              |  |        +--rw (slo-sle-policy)?
+              |  |           +--:(standard)
+              |  |           |  +--rw slo-sle-template?         leafref
+              |  |           +--:(custom)
+              |  |              +--rw service-slo-sle-policy
+              |  |                 +--rw policy-description?
+              |  |                 |       string
+              |  |                 +--rw metric-bounds
+              |  |                 |  +--rw metric-bound*
+              |  |                 |          [metric-type]
+              |  |                 |     +--rw metric-type
+              |  |                 |     |       identityref
+              |  |                 |     +--rw metric-unit
+              |  |                 |     |       string
+              |  |                 |     +--rw value-description?
+              |  |                 |     |       string
+              |  |                 |     +--rw bound?
+              |  |                 |             uint64
+              |  |                 +--rw security*
+              |  |                 |       identityref
+              |  |                 +--rw isolation?
+              |  |                 |       identityref
+              |  |                 +--rw max-occupancy-level?
+              |  |                 |       uint8
+              |  |                 +--rw mtu?
+              |  |                 |       uint16
+              |  |                 +--rw steering-constraints
+              |  |                    +--rw path-constraints
+              |  |                    +--rw service-function
+              |  +--rw (slo-sle-policy)?
+              |  |  +--:(standard)
+              |  |  |  +--rw slo-sle-template?              leafref
+              |  |  +--:(custom)
+              |  |     +--rw service-slo-sle-policy
+              |  |        +--rw policy-description?     string
+              |  |        +--rw metric-bounds
+              |  |        |  +--rw metric-bound* [metric-type]
+              |  |        |     +--rw metric-type
+              |  |        |     |       identityref
+              |  |        |     +--rw metric-unit          string
+              |  |        |     +--rw value-description?   string
+              |  |        |     +--rw bound?               uint64
+              |  |        +--rw security*               identityref
+              |  |        +--rw isolation?              identityref
+              |  |        +--rw max-occupancy-level?    uint8
+              |  |        +--rw mtu?                    uint16
+              |  |        +--rw steering-constraints
+              |  |           +--rw path-constraints
+              |  |           +--rw service-function
+              |  +--ro connectivity-construct-monitoring
+              |     +--ro one-way-min-delay?         uint32
+              |     +--ro one-way-max-delay?         uint32
+              |     +--ro one-way-delay-variation?   uint32
+              |     +--ro one-way-packet-loss?       decimal64
+              |     +--ro two-way-min-delay?         uint32
+              |     +--ro two-way-max-delay?         uint32
+              |     +--ro two-way-delay-variation?   uint32
+              |     +--ro two-way-packet-loss?       decimal64
+              +--ro connection-group-monitoring
+                 +--ro one-way-min-delay?         uint32
+                 +--ro one-way-max-delay?         uint32
+                 +--ro one-way-delay-variation?   uint32
+                 +--ro one-way-packet-loss?       decimal64
+                 +--ro two-way-min-delay?         uint32
+                 +--ro two-way-max-delay?         uint32
+                 +--ro two-way-delay-variation?   uint32
+                 +--ro two-way-packet-loss?       decimal64

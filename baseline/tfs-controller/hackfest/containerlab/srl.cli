@@ -1,0 +1,2 @@
+set / system management openconfig admin-state enable
+set / system gnmi-server network-instance mgmt yang-models openconfig

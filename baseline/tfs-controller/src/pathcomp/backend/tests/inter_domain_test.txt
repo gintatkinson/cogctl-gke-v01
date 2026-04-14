@@ -1,0 +1,543 @@
+{
+"serviceList": [
+{
+"algId": "KSP",
+"syncPaths": false,
+"serviceId": {
+"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"service_uuid": "651550d8-46a0-4f36-9fb9-21b8e4f1b8d2"
+},
+"serviceType": 1,
+"service_endpoints_ids": [
+{
+"topology_id": {
+"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "aaaaaaaa-aaaa-aaaa-aaaaaaaaaaa"
+},
+"device_id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaa11",
+"endpoint_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaa111"
+},
+{
+"topology_id": {
+"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "cccccccc-cccc-cccc-cccc-cccccccccccc"
+},
+"device_id": "cccccccc-cccc-cccc-cccc-cccccccccc33",
+"endpoint_uuid": "cccccccc-cccc-cccc-cccc-ccccccccc331"
+}
+],
+"service_constraints": [
+{"constraint_type": "bandwidth", "constraint_value": "100"},
+{"constraint_type": "latency", "constraint_value": "20"}
+],
+"kPaths": 3
+}
+],
+"deviceList": [
+{"device_Id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaa11", "device_type": "L3", 
+"device_endpoints": [
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "aaaaaaaa-aaaa-aaaa-aaaaaaaaaaaa"}, "device_id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaa11", "endpoint_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaa111"},
+"endpoint_type": "termination", "link_port_direction": 0, "termination-direction": 0, "termination-state": 4, "total-potential-capacity": {"total-size": {"value": 200,
+"unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "aaaaaaaa-aaaa-aaaa-aaaaaaaaaaaa"}, "device_id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaa11", "endpoint_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaa112"},
+"endpoint_type": "termination", "link_port_direction": 0, "termination-direction": 0, "termination-state": 0, "total-potential-capacity": {"total-size": {"value": 200,
+"unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "aaaaaaaa-aaaa-aaaa-aaaaaaaaaaaa"}, "device_id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaa11", "endpoint_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaa113"},
+"endpoint_type": "termination", "link_port_direction": 0, "termination-direction": 0, "termination-state": 0, "total-potential-capacity": {"total-size": {"value": 200,
+"unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}}} 
+]
+},
+{"device_Id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaa13", "device_type": "L3", 
+"device_endpoints": [
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "aaaaaaaa-aaaa-aaaa-aaaaaaaaaaaa"}, "device_id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaa13", "endpoint_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaa132"},
+"endpoint_type": "termination", "link_port_direction": 0, "termination-direction": 0, "termination-state": 0, "total-potential-capacity": {"total-size": {"value": 200,
+"unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "aaaaaaaa-aaaa-aaaa-aaaaaaaaaaaa"}, "device_id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaa13", "endpoint_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaa133"},
+"endpoint_type": "termination", "link_port_direction": 0, "termination-direction": 0, "termination-state": 0, "total-potential-capacity": {"total-size": {"value": 200,
+"unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "aaaaaaaa-aaaa-aaaa-aaaaaaaaaaaa"}, "device_id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaa13", "endpoint_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaa134"},
+"endpoint_type": "termination", "link_port_direction": 0, "termination-direction": 0, "termination-state": 0, "total-potential-capacity": {"total-size": {"value": 200,
+"unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}}} 
+]
+},
+{"device_Id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaa12", "device_type": "L3", 
+"device_endpoints": [
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "aaaaaaaa-aaaa-aaaa-aaaaaaaaaaaa"}, "device_id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaa12", "endpoint_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaa122"},
+"endpoint_type": "termination", "link_port_direction": 0, "termination-direction": 0, "termination-state": 0, "total-potential-capacity": {"total-size": {"value": 200,
+"unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "aaaaaaaa-aaaa-aaaa-aaaaaaaaaaaa"}, "device_id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaa12", "endpoint_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaa123"},
+"endpoint_type": "termination", "link_port_direction": 0, "termination-direction": 0, "termination-state": 0, "total-potential-capacity": {"total-size": {"value": 200,
+"unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "aaaaaaaa-aaaa-aaaa-aaaaaaaaaaaa"}, "device_id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaa12", "endpoint_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaa124"},
+"endpoint_type": "termination", "link_port_direction": 0, "termination-direction": 0, "termination-state": 0, "total-potential-capacity": {"total-size": {"value": 200,
+"unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}}} 
+]
+},
+{"device_Id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaa14", "device_type": "L3", 
+"device_endpoints": [
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "aaaaaaaa-aaaa-aaaa-aaaaaaaaaaaa"}, "device_id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaa14", "endpoint_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaa142"},
+"endpoint_type": "termination", "link_port_direction": 0, "termination-direction": 0, "termination-state": 0, "total-potential-capacity": {"total-size": {"value": 200,
+"unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "aaaaaaaa-aaaa-aaaa-aaaaaaaaaaaa"}, "device_id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaa14", "endpoint_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaa143"},
+"endpoint_type": "termination", "link_port_direction": 0, "termination-direction": 0, "termination-state": 0, "total-potential-capacity": {"total-size": {"value": 200,
+"unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "aaaaaaaa-aaaa-aaaa-aaaaaaaaaaaa"}, "device_id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaa14", "endpoint_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaa141"},
+"endpoint_type": "termination", "link_port_direction": 0, "termination-direction": 0, "termination-state": 0, "total-potential-capacity": {"total-size": {"value": 200,
+"unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}}, "inter-domain-plug-in": {"plug-id-inter-domain-local-id": "a2", "plug-id-inter-domain-remote-id":"c1"}} 
+]
+},
+{"device_Id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaa15", "device_type": "L3", 
+"device_endpoints": [
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "aaaaaaaa-aaaa-aaaa-aaaaaaaaaaaa"}, "device_id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaa15", "endpoint_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaa151"},
+"endpoint_type": "termination", "link_port_direction": 0, "termination-direction": 0, "termination-state": 0, "total-potential-capacity": {"total-size": {"value": 200,
+"unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}}, "inter-domain-plug-in":{"plug-id-inter-domain-local-id":"a1",
+"plug-id-inter-domain-remote-id":"b1"}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "aaaaaaaa-aaaa-aaaa-aaaaaaaaaaaa"}, "device_id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaa15", "endpoint_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaa152"},
+"endpoint_type": "termination", "link_port_direction": 0, "termination-direction": 0, "termination-state": 0, "total-potential-capacity": {"total-size": {"value": 200,
+"unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "aaaaaaaa-aaaa-aaaa-aaaaaaaaaaaa"}, "device_id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaa15", "endpoint_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaa153"},
+"endpoint_type": "termination", "link_port_direction": 0, "termination-direction": 0, "termination-state": 0, "total-potential-capacity": {"total-size": {"value": 200,
+"unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}}} 
+]
+},
+{"device_Id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbb21", "device_type": "L3", 
+"device_endpoints": [
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"}, "device_id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbb21", "endpoint_uuid": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbb211"},
+"endpoint_type": "termination", "link_port_direction": 0, "termination-direction": 0, "termination-state": 0, "total-potential-capacity": {"total-size": {"value": 200,
+"unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}}, "inter-domain-plug-in":{"plug-id-inter-domain-local-id":"b1",
+"plug-id-inter-domain-remote-id":"a1"}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"}, "device_id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbb21", "endpoint_uuid": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbb212"},
+"endpoint_type": "termination", "link_port_direction": 0, "termination-direction": 0, "termination-state": 0, "total-potential-capacity": {"total-size": {"value": 200,
+"unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"}, "device_id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbb21", "endpoint_uuid": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbb213"},
+"endpoint_type": "termination", "link_port_direction": 0, "termination-direction": 0, "termination-state": 0, "total-potential-capacity": {"total-size": {"value": 200,
+"unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}}} 
+]
+},
+{"device_Id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbb23", "device_type": "L3", 
+"device_endpoints": [
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"}, "device_id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbb23", "endpoint_uuid": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbb231"},
+"endpoint_type": "termination", "link_port_direction": 0, "termination-direction": 0, "termination-state": 0, "total-potential-capacity": {"total-size": {"value": 200,
+"unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}}, "inter-domain-plug-in":{"plug-id-inter-domain-local-id":"b2",
+"plug-id-inter-domain-remote-id":"c2"}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"}, "device_id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbb23", "endpoint_uuid": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbb232"},
+"endpoint_type": "termination", "link_port_direction": 0, "termination-direction": 0, "termination-state": 0, "total-potential-capacity": {"total-size": {"value": 200,
+"unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"}, "device_id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbb23", "endpoint_uuid": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbb233"},
+"endpoint_type": "termination", "link_port_direction": 0, "termination-direction": 0, "termination-state": 0, "total-potential-capacity": {"total-size": {"value": 200,
+"unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}}} 
+]
+},
+{"device_Id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbb24", "device_type": "L3", 
+"device_endpoints": [
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"}, "device_id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbb24", "endpoint_uuid": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbb241"},
+"endpoint_type": "termination", "link_port_direction": 0, "termination-direction": 0, "termination-state": 0, "total-potential-capacity": {"total-size": {"value": 200,
+"unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}}, "inter-domain-plug-in":{"plug-id-inter-domain-local-id":"b4",
+"plug-id-inter-domain-remote-id":"c3"}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"}, "device_id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbb24", "endpoint_uuid": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbb242"},
+"endpoint_type": "termination", "link_port_direction": 0, "termination-direction": 0, "termination-state": 0, "total-potential-capacity": {"total-size": {"value": 200,
+"unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"}, "device_id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbb24", "endpoint_uuid": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbb243"},
+"endpoint_type": "termination", "link_port_direction": 0, "termination-direction": 0, "termination-state": 0, "total-potential-capacity": {"total-size": {"value": 200,
+"unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}}} 
+]
+},
+{"device_Id": "cccccccc-cccc-cccc-cccc-cccccccccc31", "device_type": "L3", 
+"device_endpoints": [
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "cccccccc-cccc-cccc-cccc-cccccccccccc"}, "device_id": "cccccccc-cccc-cccc-cccc-cccccccccc31", "endpoint_uuid": "cccccccc-cccc-cccc-cccc-ccccccccc311"},
+"endpoint_type": "termination", "link_port_direction": 0, "termination-direction": 0, "termination-state": 0, "total-potential-capacity": {"total-size": {"value": 200,
+"unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}}, "inter-domain-plug-in":{"plug-id-inter-domain-local-id":"c1",
+"plug-id-inter-domain-remote-id":"a2"}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "cccccccc-cccc-cccc-cccc-cccccccccccc"}, "device_id": "cccccccc-cccc-cccc-cccc-cccccccccc31", "endpoint_uuid": "cccccccc-cccc-cccc-cccc-ccccccccc312"},
+"endpoint_type": "termination", "link_port_direction": 0, "termination-direction": 0, "termination-state": 0, "total-potential-capacity": {"total-size": {"value": 200,
+"unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "cccccccc-cccc-cccc-cccc-cccccccccccc"}, "device_id": "cccccccc-cccc-cccc-cccc-cccccccccc31", "endpoint_uuid": "cccccccc-cccc-cccc-cccc-ccccccccc313"},
+"endpoint_type": "termination", "link_port_direction": 0, "termination-direction": 0, "termination-state": 0, "total-potential-capacity": {"total-size": {"value": 200,
+"unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}}} 
+]
+},
+{"device_Id": "cccccccc-cccc-cccc-cccc-cccccccccc32", "device_type": "L3", 
+"device_endpoints": [
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "cccccccc-cccc-cccc-cccc-cccccccccccc"}, "device_id": "cccccccc-cccc-cccc-cccc-cccccccccc32", "endpoint_uuid": "cccccccc-cccc-cccc-cccc-ccccccccc321"},
+"endpoint_type": "termination", "link_port_direction": 0, "termination-direction": 0, "termination-state": 0, "total-potential-capacity": {"total-size": {"value": 200,
+"unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}}, "inter-domain-plug-in":{"plug-id-inter-domain-local-id":"c2",
+"plug-id-inter-domain-remote-id":"b2"}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "cccccccc-cccc-cccc-cccc-cccccccccccc"}, "device_id": "cccccccc-cccc-cccc-cccc-cccccccccc32", "endpoint_uuid": "cccccccc-cccc-cccc-cccc-ccccccccc322"},
+"endpoint_type": "termination", "link_port_direction": 0, "termination-direction": 0, "termination-state": 0, "total-potential-capacity": {"total-size": {"value": 200,
+"unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "cccccccc-cccc-cccc-cccc-cccccccccccc"}, "device_id": "cccccccc-cccc-cccc-cccc-cccccccccc32", "endpoint_uuid": "cccccccc-cccc-cccc-cccc-ccccccccc323"},
+"endpoint_type": "termination", "link_port_direction": 0, "termination-direction": 0, "termination-state": 0, "total-potential-capacity": {"total-size": {"value": 200,
+"unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}}} 
+]
+},
+{"device_Id": "cccccccc-cccc-cccc-cccc-cccccccccc33", "device_type": "L3", 
+"device_endpoints": [
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "cccccccc-cccc-cccc-cccc-cccccccccccc"}, "device_id": "cccccccc-cccc-cccc-cccc-cccccccccc33", "endpoint_uuid": "cccccccc-cccc-cccc-cccc-ccccccccc331"},
+"endpoint_type": "termination", "link_port_direction": 0, "termination-direction": 0, "termination-state": 0, "total-potential-capacity": {"total-size": {"value": 200,
+"unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}}, "inter-domain-plug-in":{"plug-id-inter-domain-local-id":"c3",
+"plug-id-inter-domain-remote-id":"b4"}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "cccccccc-cccc-cccc-cccc-cccccccccccc"}, "device_id": "cccccccc-cccc-cccc-cccc-cccccccccc33", "endpoint_uuid": "cccccccc-cccc-cccc-cccc-ccccccccc332"},
+"endpoint_type": "termination", "link_port_direction": 0, "termination-direction": 0, "termination-state": 0, "total-potential-capacity": {"total-size": {"value": 200,
+"unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "cccccccc-cccc-cccc-cccc-cccccccccccc"}, "device_id": "cccccccc-cccc-cccc-cccc-cccccccccc33", "endpoint_uuid": "cccccccc-cccc-cccc-cccc-ccccccccc333"},
+"endpoint_type": "termination", "link_port_direction": 0, "termination-direction": 0, "termination-state": 0, "total-potential-capacity": {"total-size": {"value": 200,
+"unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}}} 
+]
+}
+],
+"linkList": [
+{"link_Id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaa1112",
+"link_endpoint_ids": [
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"}, "device_id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaa11", "endpoint_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaa113"}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"}, "device_id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaa12", "endpoint_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaa122"}}
+],
+"forwarding_direction": 1, "total-potential-capacity": { "total-size": {"value": 200, "unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}},
+"cost-characteristics": {"cost-name": "linkcost","cost-value": "1","cost-algorithm": "0"},"latency-characteristics": {"fixed-latency-characteristic": "2"}
+},
+{"link_Id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaa1211",
+"link_endpoint_ids": [
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"}, "device_id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaa12", "endpoint_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaa122"}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"}, "device_id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaa11", "endpoint_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaa113"}}
+],
+"forwarding_direction": 1, "total-potential-capacity": { "total-size": {"value": 200, "unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}},
+"cost-characteristics": {"cost-name": "linkcost","cost-value": "1","cost-algorithm": "0"},"latency-characteristics": {"fixed-latency-characteristic": "2"}
+},
+{"link_Id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaa1113",
+"link_endpoint_ids": [
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"}, "device_id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaa11", "endpoint_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaa112"}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"}, "device_id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaa13", "endpoint_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaa132"}}
+],
+"forwarding_direction": 1, "total-potential-capacity": { "total-size": {"value": 200, "unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}},
+"cost-characteristics": {"cost-name": "linkcost","cost-value": "1","cost-algorithm": "0"},"latency-characteristics": {"fixed-latency-characteristic": "2"}
+},
+{"link_Id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaa1311",
+"link_endpoint_ids": [
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"}, "device_id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaa13", "endpoint_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaa132"}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"}, "device_id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaa11", "endpoint_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaa112"}}
+],
+"forwarding_direction": 1, "total-potential-capacity": { "total-size": {"value": 200, "unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}},
+"cost-characteristics": {"cost-name": "linkcost","cost-value": "1","cost-algorithm": "0"},"latency-characteristics": {"fixed-latency-characteristic": "2"}
+},
+{"link_Id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaa1312",
+"link_endpoint_ids": [
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"}, "device_id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaa13", "endpoint_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaa133"}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"}, "device_id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaa12", "endpoint_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaa123"}}
+],
+"forwarding_direction": 1, "total-potential-capacity": { "total-size": {"value": 200, "unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}},
+"cost-characteristics": {"cost-name": "linkcost","cost-value": "1","cost-algorithm": "0"},"latency-characteristics": {"fixed-latency-characteristic": "2"}
+},
+{"link_Id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaa1213",
+"link_endpoint_ids": [
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"}, "device_id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaa12", "endpoint_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaa123"}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"}, "device_id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaa13", "endpoint_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaa133"}}
+],
+"forwarding_direction": 1, "total-potential-capacity": { "total-size": {"value": 200, "unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}},
+"cost-characteristics": {"cost-name": "linkcost","cost-value": "1","cost-algorithm": "0"},"latency-characteristics": {"fixed-latency-characteristic": "2"}
+},
+{"link_Id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaa1214",
+"link_endpoint_ids": [
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"}, "device_id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaa12", "endpoint_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaa124"}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"}, "device_id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaa14", "endpoint_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaa142"}}
+],
+"forwarding_direction": 1, "total-potential-capacity": { "total-size": {"value": 200, "unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}},
+"cost-characteristics": {"cost-name": "linkcost","cost-value": "1","cost-algorithm": "0"},"latency-characteristics": {"fixed-latency-characteristic": "2"}
+},
+{"link_Id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaa1412",
+"link_endpoint_ids": [
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"}, "device_id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaa14", "endpoint_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaa142"}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"}, "device_id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaa12", "endpoint_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaa124"}}
+],
+"forwarding_direction": 1, "total-potential-capacity": { "total-size": {"value": 200, "unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}},
+"cost-characteristics": {"cost-name": "linkcost","cost-value": "1","cost-algorithm": "0"},"latency-characteristics": {"fixed-latency-characteristic": "2"}
+},
+{"link_Id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaa1315",
+"link_endpoint_ids": [
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"}, "device_id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaa13", "endpoint_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaa134"}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"}, "device_id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaa15", "endpoint_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaa152"}}
+],
+"forwarding_direction": 1, "total-potential-capacity": { "total-size": {"value": 200, "unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}},
+"cost-characteristics": {"cost-name": "linkcost","cost-value": "1","cost-algorithm": "0"},"latency-characteristics": {"fixed-latency-characteristic": "2"}
+},
+{"link_Id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaa1513",
+"link_endpoint_ids": [
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"}, "device_id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaa15", "endpoint_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaa152"}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"}, "device_id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaa13", "endpoint_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaa134"}}
+],
+"forwarding_direction": 1, "total-potential-capacity": { "total-size": {"value": 200, "unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}},
+"cost-characteristics": {"cost-name": "linkcost","cost-value": "1","cost-algorithm": "0"},"latency-characteristics": {"fixed-latency-characteristic": "2"}
+},
+{"link_Id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaa1415",
+"link_endpoint_ids": [
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"}, "device_id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaa14", "endpoint_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaa143"}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"}, "device_id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaa15", "endpoint_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaa153"}}
+],
+"forwarding_direction": 1, "total-potential-capacity": { "total-size": {"value": 200, "unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}},
+"cost-characteristics": {"cost-name": "linkcost","cost-value": "1","cost-algorithm": "0"},"latency-characteristics": {"fixed-latency-characteristic": "2"}
+},
+{"link_Id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaa1514",
+"link_endpoint_ids": [
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"}, "device_id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaa15", "endpoint_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaa153"}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"}, "device_id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaa14", "endpoint_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaa143"}}
+],
+"forwarding_direction": 1, "total-potential-capacity": { "total-size": {"value": 200, "unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}},
+"cost-characteristics": {"cost-name": "linkcost","cost-value": "1","cost-algorithm": "0"},"latency-characteristics": {"fixed-latency-characteristic": "2"}
+},
+{"link_Id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaa1521",
+"link_endpoint_ids": [
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"}, "device_id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaa15", "endpoint_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaa151"}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"}, "device_id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbb21", "endpoint_uuid": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbb211"}}
+],
+"forwarding_direction": 1, "total-potential-capacity": { "total-size": {"value": 200, "unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}},
+"cost-characteristics": {"cost-name": "linkcost","cost-value": "1","cost-algorithm": "0"},"latency-characteristics": {"fixed-latency-characteristic": "2"}
+},
+{"link_Id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbb2115",
+"link_endpoint_ids": [
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"}, "device_id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbb21", "endpoint_uuid": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbb211"}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"}, "device_id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaa15", "endpoint_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaa151"}}
+],
+"forwarding_direction": 1, "total-potential-capacity": { "total-size": {"value": 200, "unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}},
+"cost-characteristics": {"cost-name": "linkcost","cost-value": "1","cost-algorithm": "0"},"latency-characteristics": {"fixed-latency-characteristic": "2"}
+},
+{"link_Id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaa1431",
+"link_endpoint_ids": [
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"}, "device_id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaa14", "endpoint_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaa141"}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "cccccccc-cccc-cccc-cccc-cccccccccccc"}, "device_id": "cccccccc-cccc-cccc-cccc-cccccccccc31", "endpoint_uuid": "cccccccc-cccc-cccc-cccc-ccccccccc311"}}
+],
+"forwarding_direction": 1, "total-potential-capacity": { "total-size": {"value": 200, "unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}},
+"cost-characteristics": {"cost-name": "linkcost","cost-value": "1","cost-algorithm": "0"},"latency-characteristics": {"fixed-latency-characteristic": "2"}
+},
+{"link_Id": "cccccccc-cccc-cccc-cccc-cccccccc3114",
+"link_endpoint_ids": [
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "cccccccc-cccc-cccc-cccc-cccccccccccc"}, "device_id": "cccccccc-cccc-cccc-cccc-cccccccccc31", "endpoint_uuid": "cccccccc-cccc-cccc-cccc-ccccccccc311"}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"}, "device_id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaa14", "endpoint_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaa141"}}
+],
+"forwarding_direction": 1, "total-potential-capacity": { "total-size": {"value": 200, "unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}},
+"cost-characteristics": {"cost-name": "linkcost","cost-value": "1","cost-algorithm": "0"},"latency-characteristics": {"fixed-latency-characteristic": "2"}
+},
+{"link_Id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbb2124",
+"link_endpoint_ids": [
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"}, "device_id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbb21", "endpoint_uuid": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbb212"}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"}, "device_id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbb24", "endpoint_uuid": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbb242"}}
+],
+"forwarding_direction": 1, "total-potential-capacity": { "total-size": {"value": 200, "unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}},
+"cost-characteristics": {"cost-name": "linkcost","cost-value": "1","cost-algorithm": "0"},"latency-characteristics": {"fixed-latency-characteristic": "2"}
+},
+{"link_Id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbb2421",
+"link_endpoint_ids": [
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"}, "device_id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbb24", "endpoint_uuid": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbb242"}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"}, "device_id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbb21", "endpoint_uuid": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbb212"}}
+],
+"forwarding_direction": 1, "total-potential-capacity": { "total-size": {"value": 200, "unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}},
+"cost-characteristics": {"cost-name": "linkcost","cost-value": "1","cost-algorithm": "0"},"latency-characteristics": {"fixed-latency-characteristic": "2"}
+},
+{"link_Id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbb2123",
+"link_endpoint_ids": [
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"}, "device_id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbb21", "endpoint_uuid": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbb213"}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"}, "device_id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbb23", "endpoint_uuid": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbb233"}}
+],
+"forwarding_direction": 1, "total-potential-capacity": { "total-size": {"value": 200, "unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}},
+"cost-characteristics": {"cost-name": "linkcost","cost-value": "1","cost-algorithm": "0"},"latency-characteristics": {"fixed-latency-characteristic": "2"}
+},
+{"link_Id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbb2321",
+"link_endpoint_ids": [
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"}, "device_id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbb23", "endpoint_uuid": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbb233"}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"}, "device_id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbb21", "endpoint_uuid": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbb213"}}
+],
+"forwarding_direction": 1, "total-potential-capacity": { "total-size": {"value": 200, "unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}},
+"cost-characteristics": {"cost-name": "linkcost","cost-value": "1","cost-algorithm": "0"},"latency-characteristics": {"fixed-latency-characteristic": "2"}
+},
+{"link_Id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbb2324",
+"link_endpoint_ids": [
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"}, "device_id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbb23", "endpoint_uuid": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbb232"}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"}, "device_id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbb24", "endpoint_uuid": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbb243"}}
+],
+"forwarding_direction": 1, "total-potential-capacity": { "total-size": {"value": 200, "unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}},
+"cost-characteristics": {"cost-name": "linkcost","cost-value": "1","cost-algorithm": "0"},"latency-characteristics": {"fixed-latency-characteristic": "2"}
+},
+{"link_Id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbb2424",
+"link_endpoint_ids": [
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"}, "device_id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbb24", "endpoint_uuid": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbb243"}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"}, "device_id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbb23", "endpoint_uuid": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbb232"}}
+],
+"forwarding_direction": 1, "total-potential-capacity": { "total-size": {"value": 200, "unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}},
+"cost-characteristics": {"cost-name": "linkcost","cost-value": "1","cost-algorithm": "0"},"latency-characteristics": {"fixed-latency-characteristic": "2"}
+},
+{"link_Id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbb2332",
+"link_endpoint_ids": [
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"}, "device_id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbb23", "endpoint_uuid": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbb231"}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "cccccccc-cccc-cccc-cccc-cccccccccccc"}, "device_id": "cccccccc-cccc-cccc-cccc-cccccccccc32", "endpoint_uuid": "cccccccc-cccc-cccc-cccc-ccccccccc321"}}
+],
+"forwarding_direction": 1, "total-potential-capacity": { "total-size": {"value": 200, "unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}},
+"cost-characteristics": {"cost-name": "linkcost","cost-value": "1","cost-algorithm": "0"},"latency-characteristics": {"fixed-latency-characteristic": "2"}
+},
+{"link_Id": "cccccccc-cccc-cccc-cccc-cccccccc3223",
+"link_endpoint_ids": [
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "cccccccc-cccc-cccc-cccc-cccccccccccc"}, "device_id": "cccccccc-cccc-cccc-cccc-cccccccccc32", "endpoint_uuid": "cccccccc-cccc-cccc-cccc-ccccccccc321"}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"}, "device_id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbb23", "endpoint_uuid": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbb231"}}
+],
+"forwarding_direction": 1, "total-potential-capacity": { "total-size": {"value": 200, "unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}},
+"cost-characteristics": {"cost-name": "linkcost","cost-value": "1","cost-algorithm": "0"},"latency-characteristics": {"fixed-latency-characteristic": "2"}
+},
+{"link_Id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbb2433",
+"link_endpoint_ids": [
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"}, "device_id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbb24", "endpoint_uuid": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbb241"}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "cccccccc-cccc-cccc-cccc-cccccccccccc"}, "device_id": "cccccccc-cccc-cccc-cccc-cccccccccc34", "endpoint_uuid": "cccccccc-cccc-cccc-cccc-ccccccccc331"}}
+],
+"forwarding_direction": 1, "total-potential-capacity": { "total-size": {"value": 200, "unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}},
+"cost-characteristics": {"cost-name": "linkcost","cost-value": "1","cost-algorithm": "0"},"latency-characteristics": {"fixed-latency-characteristic": "2"}
+},
+{"link_Id": "cccccccc-cccc-cccc-cccc-cccccccc3324",
+"link_endpoint_ids": [
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "cccccccc-cccc-cccc-cccc-cccccccccccc"}, "device_id": "cccccccc-cccc-cccc-cccc-cccccccccc33", "endpoint_uuid": "cccccccc-cccc-cccc-cccc-ccccccccc331"}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"}, "device_id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbb24", "endpoint_uuid": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbb241"}}
+],
+"forwarding_direction": 1, "total-potential-capacity": { "total-size": {"value": 200, "unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}},
+"cost-characteristics": {"cost-name": "linkcost","cost-value": "1","cost-algorithm": "0"},"latency-characteristics": {"fixed-latency-characteristic": "2"}
+},
+{"link_Id": "cccccccc-cccc-cccc-cccc-cccccccc3132",
+"link_endpoint_ids": [
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "cccccccc-cccc-cccc-cccc-cccccccccccc"}, "device_id": "cccccccc-cccc-cccc-cccc-cccccccccc31", "endpoint_uuid": "cccccccc-cccc-cccc-cccc-ccccccccc312"}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "cccccccc-cccc-cccc-cccc-cccccccccccc"}, "device_id": "cccccccc-cccc-cccc-cccc-cccccccccc32", "endpoint_uuid": "cccccccc-cccc-cccc-cccc-ccccccccc323"}}
+],
+"forwarding_direction": 1, "total-potential-capacity": { "total-size": {"value": 200, "unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}},
+"cost-characteristics": {"cost-name": "linkcost","cost-value": "1","cost-algorithm": "0"},"latency-characteristics": {"fixed-latency-characteristic": "2"}
+},
+{"link_Id": "cccccccc-cccc-cccc-cccc-cccccccc3231",
+"link_endpoint_ids": [
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "cccccccc-cccc-cccc-cccc-cccccccccccc"}, "device_id": "cccccccc-cccc-cccc-cccc-cccccccccc32", "endpoint_uuid": "cccccccc-cccc-cccc-cccc-ccccccccc323"}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "cccccccc-cccc-cccc-cccc-cccccccccccc"}, "device_id": "cccccccc-cccc-cccc-cccc-cccccccccc31", "endpoint_uuid": "cccccccc-cccc-cccc-cccc-ccccccccc312"}}
+],
+"forwarding_direction": 1, "total-potential-capacity": { "total-size": {"value": 200, "unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}},
+"cost-characteristics": {"cost-name": "linkcost","cost-value": "1","cost-algorithm": "0"},"latency-characteristics": {"fixed-latency-characteristic": "2"}
+},
+{"link_Id": "cccccccc-cccc-cccc-cccc-cccccccc3133",
+"link_endpoint_ids": [
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "cccccccc-cccc-cccc-cccc-cccccccccccc"}, "device_id": "cccccccc-cccc-cccc-cccc-cccccccccc31", "endpoint_uuid": "cccccccc-cccc-cccc-cccc-ccccccccc313"}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "cccccccc-cccc-cccc-cccc-cccccccccccc"}, "device_id": "cccccccc-cccc-cccc-cccc-cccccccccc33", "endpoint_uuid": "cccccccc-cccc-cccc-cccc-ccccccccc333"}}
+],
+"forwarding_direction": 1, "total-potential-capacity": { "total-size": {"value": 200, "unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}},
+"cost-characteristics": {"cost-name": "linkcost","cost-value": "1","cost-algorithm": "0"},"latency-characteristics": {"fixed-latency-characteristic": "2"}
+},
+{"link_Id": "cccccccc-cccc-cccc-cccc-cccccccc3331",
+"link_endpoint_ids": [
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "cccccccc-cccc-cccc-cccc-cccccccccccc"}, "device_id": "cccccccc-cccc-cccc-cccc-cccccccccc33", "endpoint_uuid": "cccccccc-cccc-cccc-cccc-ccccccccc333"}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "cccccccc-cccc-cccc-cccc-cccccccccccc"}, "device_id": "cccccccc-cccc-cccc-cccc-cccccccccc31", "endpoint_uuid": "cccccccc-cccc-cccc-cccc-ccccccccc313"}}
+],
+"forwarding_direction": 1, "total-potential-capacity": { "total-size": {"value": 200, "unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}},
+"cost-characteristics": {"cost-name": "linkcost","cost-value": "1","cost-algorithm": "0"},"latency-characteristics": {"fixed-latency-characteristic": "2"}
+},
+{"link_Id": "cccccccc-cccc-cccc-cccc-cccccccc3233",
+"link_endpoint_ids": [
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "cccccccc-cccc-cccc-cccc-cccccccccccc"}, "device_id": "cccccccc-cccc-cccc-cccc-cccccccccc32", "endpoint_uuid": "cccccccc-cccc-cccc-cccc-ccccccccc322"}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "cccccccc-cccc-cccc-cccc-cccccccccccc"}, "device_id": "cccccccc-cccc-cccc-cccc-cccccccccc33", "endpoint_uuid": "cccccccc-cccc-cccc-cccc-ccccccccc332"}}
+],
+"forwarding_direction": 1, "total-potential-capacity": { "total-size": {"value": 200, "unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}},
+"cost-characteristics": {"cost-name": "linkcost","cost-value": "1","cost-algorithm": "0"},"latency-characteristics": {"fixed-latency-characteristic": "2"}
+},
+{"link_Id": "cccccccc-cccc-cccc-cccc-cccccccc3332",
+"link_endpoint_ids": [
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "cccccccc-cccc-cccc-cccc-cccccccccccc"}, "device_id": "cccccccc-cccc-cccc-cccc-cccccccccc33", "endpoint_uuid": "cccccccc-cccc-cccc-cccc-ccccccccc332"}},
+{"endpoint_id": {"topology_id": {"contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+"topology_uuid": "cccccccc-cccc-cccc-cccc-cccccccccccc"}, "device_id": "cccccccc-cccc-cccc-cccc-cccccccccc32", "endpoint_uuid": "cccccccc-cccc-cccc-cccc-ccccccccc322"}}
+],
+"forwarding_direction": 1, "total-potential-capacity": { "total-size": {"value": 200, "unit": 5}}, "available-capacity": {"total-size": {"value": 200, "unit": 5}},
+"cost-characteristics": {"cost-name": "linkcost","cost-value": "1","cost-algorithm": "0"},"latency-characteristics": {"fixed-latency-characteristic": "2"}
+}
+]
+}

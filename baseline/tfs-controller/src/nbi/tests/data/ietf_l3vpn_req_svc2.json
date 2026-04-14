@@ -1,0 +1,231 @@
+{
+  "ietf-l3vpn-svc:l3vpn-svc": {
+    "vpn-services": {
+      "vpn-service": [
+        {
+          "vpn-id": "vpn2"
+        }
+      ]
+    },
+    "sites": {
+      "site": [
+        {
+          "site-id": "site_OLT",
+          "management": {
+            "type": "ietf-l3vpn-svc:provider-managed"
+          },
+          "locations": {
+            "location": [
+              {
+                "location-id": "OLT"
+              }
+            ]
+          },
+          "devices": {
+            "device": [
+              {
+                "device-id": "128.32.33.5",
+                "location": "OLT"
+              }
+            ]
+          },
+          "routing-protocols": {
+            "routing-protocol": [
+              {
+                "type": "ietf-l3vpn-svc:static",
+                "static": {
+                  "cascaded-lan-prefixes": {
+                    "ipv4-lan-prefixes": [
+                      {
+                        "lan": "128.32.10.1/24",
+                        "lan-tag": "vlan31",
+                        "next-hop": "128.32.33.2"
+                      },
+                      {
+                        "lan": "128.32.20.1/24",
+                        "lan-tag": "vlan31",
+                        "next-hop": "128.32.33.2"
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          "site-network-accesses": {
+            "site-network-access": [
+              {
+                "site-network-access-id": "500",
+                "site-network-access-type": "ietf-l3vpn-svc:multipoint",
+                "device-reference": "128.32.33.5",
+                "vpn-attachment": {
+                  "vpn-id": "vpn2",
+                  "site-role": "ietf-l3vpn-svc:spoke-role"
+                },
+                "ip-connection": {
+                  "ipv4": {
+                    "address-allocation-type": "ietf-l3vpn-svc:static-address",
+                    "addresses": {
+                      "provider-address": "128.32.33.254",
+                      "customer-address": "128.32.33.2",
+                      "prefix-length": 24
+                    }
+                  }
+                },
+                "routing-protocols": {
+                  "routing-protocol": [
+                    {
+                      "type": "ietf-l3vpn-svc:static",
+                      "static": {
+                        "cascaded-lan-prefixes": {
+                          "ipv4-lan-prefixes": [
+                            {
+                              "lan": "172.1.201.1/24",
+                              "lan-tag": "vlan31",
+                              "next-hop": "128.32.33.254"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "service": {
+                  "svc-mtu": 1500,
+                  "svc-input-bandwidth": 1000000000,
+                  "svc-output-bandwidth": 1000000000,
+                  "qos": {
+                    "qos-profile": {
+                      "classes": {
+                        "class": [
+                          {
+                            "class-id": "qos-realtime",
+                            "direction": "ietf-l3vpn-svc:both",
+                            "latency": {
+                              "latency-boundary": 10
+                            },
+                            "bandwidth": {
+                              "guaranteed-bw-percent": 100
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "site-id": "site_POP",
+          "management": {
+            "type": "ietf-l3vpn-svc:provider-managed"
+          },
+          "locations": {
+            "location": [
+              {
+                "location-id": "POP"
+              }
+            ]
+          },
+          "devices": {
+            "device": [
+              {
+                "device-id": "172.10.33.5",
+                "location": "POP"
+              }
+            ]
+          },
+          "routing-protocols": {
+            "routing-protocol": [
+              {
+                "type": "ietf-l3vpn-svc:static",
+                "static": {
+                  "cascaded-lan-prefixes": {
+                    "ipv4-lan-prefixes": [
+                      {
+                        "lan": "172.1.201.1/24",
+                        "lan-tag": "vlan201",
+                        "next-hop": "172.10.33.2"
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          "site-network-accesses": {
+            "site-network-access": [
+              {
+                "site-network-access-id": "500",
+                "site-network-access-type": "ietf-l3vpn-svc:multipoint",
+                "device-reference": "172.10.33.5",
+                "vpn-attachment": {
+                  "vpn-id": "vpn2",
+                  "site-role": "ietf-l3vpn-svc:hub-role"
+                },
+                "ip-connection": {
+                  "ipv4": {
+                    "address-allocation-type": "ietf-l3vpn-svc:static-address",
+                    "addresses": {
+                      "provider-address": "172.10.33.254",
+                      "customer-address": "172.10.33.2",
+                      "prefix-length": 24
+                    }
+                  }
+                },
+                "routing-protocols": {
+                  "routing-protocol": [
+                    {
+                      "type": "ietf-l3vpn-svc:static",
+                      "static": {
+                        "cascaded-lan-prefixes": {
+                          "ipv4-lan-prefixes": [
+                            {
+                              "lan": "128.32.10.1/24",
+                              "lan-tag": "vlan201",
+                              "next-hop": "172.10.33.254"
+                            },
+                            {
+                              "lan": "128.32.20.1/24",
+                              "lan-tag": "vlan201",
+                              "next-hop": "172.10.33.254"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "service": {
+                  "svc-mtu": 1500,
+                  "svc-input-bandwidth": 1000000000,
+                  "svc-output-bandwidth": 1000000000,
+                  "qos": {
+                    "qos-profile": {
+                      "classes": {
+                        "class": [
+                          {
+                            "class-id": "qos-realtime",
+                            "direction": "ietf-l3vpn-svc:both",
+                            "latency": {
+                              "latency-boundary": 10
+                            },
+                            "bandwidth": {
+                              "guaranteed-bw-percent": 100
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

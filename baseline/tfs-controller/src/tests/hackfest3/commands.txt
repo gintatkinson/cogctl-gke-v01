@@ -1,0 +1,111 @@
+################## TFS deployment and setup #######################
+
+###### Deployment
+# To deploy TFS:
+cd ~/contoller
+source my_deploy.sh
+./deploy.sh
+
+###### Experiments
+# To onboard the experiment
+cd ~/contoller
+
+# Setup the compiled files
+./src/tests/hackfest3/setup.sh
+
+# Register the devices
+./src/tests/hackfest3/run_test_01_bootstrap.sh
+
+# Create the service
+./src/tests/hackfest3/run_test_02_create_service.sh
+
+# Delete the service
+./src/tests/hackfest3/run_test_03_delete_service.sh
+
+# Cleanup TFS
+./src/tests/hackfest3/run_test_04_cleanup.sh
+
+
+########################## MININET ##################
+# To get the mininet cli 
+cd ~/ngsdn-tutorial
+make mn-cli
+
+#### screen
+# To open a screen in mininet 
+  # For client
+  MN: client screen -S <name>
+  
+  # For server
+  MN: server screen -S <name>
+  
+# To get out 
+Press <Ctrl+A> + d
+ 
+# To reconnect 
+MN: client screen -r <name>
+
+
+####################### PROBE ######################
+### old probe
+# agent
+source tfs_runtime_env_vars.sh
+
+cd ~/controller/src/tests/hackfest3/probe/probe-tfs
+
+./deploy.sh
+./connect_to_mininet.sh
+./tfsagent
+
+# pinger
+# In mininet
+cd ~/ngsdn-tutorial
+make mn-cli
+MN: client ./tfsping
+
+
+### new probe
+cd ~/controller/src/tests/hackfest3/new-probe
+./copy.sh
+
+# agent:
+# import PYTHONPATH by tfs_enviromental variables
+source tfs_runtime_env_vars.sh
+python agent.py
+
+# pinger
+# In mininet
+cd ~/ngsdn-tutorial
+make mn-cli
+MN: client python ping2.py 10.0.0.2
+
+# To enter delay or packet loss
+cd ~/controller/src/tests/hackfest3/new-probe
+./connect_to_mininet.sh
+tc qdisc add dev <switch-iface> root netem delay <x>ms
+tc qdisc add dev <switch-iface> root netem loss <x>%
+
+################ INT (interactive session 2) ###########
+# build the new code
+cd ~/controller/src/tests/hackfest3/int
+build_p4.sh <p4-program to build>
+
+# copy the receiver, sender and helper script to docker container
+cd ~/controller/src/tests/hackfest3/int
+./copy_int_helpers.sh
+./connect_to_mininet.sh
+./install-scapy.sh
+
+# Run the receiver in server screen
+cd ~/ngsdn-tutorial
+make mn-cli
+MN: server screen -S rec
+  MN/Screen: python receive.py
+  <Ctrl+A> + d
+
+# Run the sender in client
+MN: client python send.py 10.0.0.1 "test" 1
+
+# Check the output in receiver
+MN: server screen -r rec
+  <Ctrl+A> + d

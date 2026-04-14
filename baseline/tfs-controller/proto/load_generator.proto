@@ -1,0 +1,72 @@
+// Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+package load_generator;
+
+import "context.proto";
+
+service LoadGeneratorService {
+  rpc Start    (Parameters   ) returns (context.Empty) {}
+  rpc GetStatus(context.Empty) returns (Status       ) {}
+  rpc Stop     (context.Empty) returns (context.Empty) {}
+}
+
+enum RequestTypeEnum {
+  REQUESTTYPE_UNDEFINED    = 0;
+  REQUESTTYPE_SERVICE_L2NM = 1;
+  REQUESTTYPE_SERVICE_L3NM = 2;
+  REQUESTTYPE_SERVICE_MW   = 3;
+  REQUESTTYPE_SERVICE_TAPI = 4;
+  REQUESTTYPE_SLICE_L2NM   = 5;
+  REQUESTTYPE_SLICE_L3NM   = 6;
+}
+
+message Range {
+  float minimum = 1;
+  float maximum = 2;
+}
+
+message ScalarOrRange {
+  oneof value {
+    float scalar = 1; // select the scalar value
+    Range range = 2;  // select a random uniformly dstributed value between minimum and maximum
+  }
+}
+
+message Parameters {
+  uint64 num_requests = 1;  // if == 0, generate infinite requests
+  repeated RequestTypeEnum request_types = 2;
+  string device_regex = 3;      // Only devices and endpoints matching the regex expression will be considered as
+  string endpoint_regex = 4;    // source-destination candidates for the requests generated.
+  float offered_load = 5;
+  float holding_time = 6;
+  float inter_arrival_time = 7;
+  repeated ScalarOrRange availability = 8;    // One from the list is selected to populate the constraint
+  repeated ScalarOrRange capacity_gbps = 9;   // One from the list is selected to populate the constraint
+  repeated ScalarOrRange e2e_latency_ms = 10; // One from the list is selected to populate the constraint
+  uint32 max_workers = 11;
+  bool do_teardown = 12;
+  bool dry_mode = 13;
+  bool record_to_dlt = 14;
+  string dlt_domain_id = 15;
+}
+
+message Status {
+  Parameters parameters = 1;
+  uint64 num_generated = 2;
+  uint64 num_released = 3;
+  bool infinite_loop = 4;
+  bool running = 5;
+}

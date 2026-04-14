@@ -1,0 +1,73 @@
+{
+    "connections": [
+        {
+            "connection_id": {"connection_uuid": {"uuid": "d8cb463a-77c4-4149-80fc-32c4842a191d"}},
+            "path_hops_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "DC1-GW"}}, "endpoint_uuid": {"uuid": "int"},
+                    "topology_id": {"context_id": {"context_uuid": {"uuid": "admin"}}, "topology_uuid": {"uuid": "DC1"}}},
+                {"device_id": {"device_uuid": {"uuid": "DC1-GW"}}, "endpoint_uuid": {"uuid": "eth1"},
+                    "topology_id": {"context_id": {"context_uuid": {"uuid": "admin"}}, "topology_uuid": {"uuid": "DC1"}}},
+                {"device_id": {"device_uuid": {"uuid": "CS1-GW1"}}, "endpoint_uuid": {"uuid": "200"},
+                    "topology_id": {"context_id": {"context_uuid": {"uuid": "admin"}}, "topology_uuid": {"uuid": "CS1"}}},
+                {"device_id": {"device_uuid": {"uuid": "TN-R2"}}, "endpoint_uuid": {"uuid": "1"},
+                    "topology_id": {"context_id": {"context_uuid": {"uuid": "admin"}}, "topology_uuid": {"uuid": "TN"}}},
+                {"device_id": {"device_uuid": {"uuid": "TN-R3"}}, "endpoint_uuid": {"uuid": "100"},
+                    "topology_id": {"context_id": {"context_uuid": {"uuid": "admin"}}, "topology_uuid": {"uuid": "TN"}}},
+                {"device_id": {"device_uuid": {"uuid": "CS2-GW1"}}, "endpoint_uuid": {"uuid": "1000"},
+                    "topology_id": {"context_id": {"context_uuid": {"uuid": "admin"}}, "topology_uuid": {"uuid": "CS2"}}},
+                {"device_id": {"device_uuid": {"uuid": "DC2-GW"}}, "endpoint_uuid": {"uuid": "int"},
+                    "topology_id": {"context_id": {"context_uuid": {"uuid": "admin"}}, "topology_uuid": {"uuid": "DC2"}}}
+            ],
+            "service_id": {
+                "context_id": {"context_uuid": {"uuid": "admin"}},
+                "service_uuid": {"uuid": "svc:DC1-GW/int==DC2-GW/int"}
+            },
+            "sub_service_ids": []
+        },
+        {
+            "connection_id": {"connection_uuid": {"uuid": "9f7c5075-0736-4d2a-8435-b8e8c37fa6ea"}},
+            "path_hops_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "DC1-GW"}}, "endpoint_uuid": {"uuid": "int"},
+                    "topology_id": {"context_id": {"context_uuid": {"uuid": "admin"}}, "topology_uuid": {"uuid": "DC1"}}},
+                {"device_id": {"device_uuid": {"uuid": "DC1-GW"}}, "endpoint_uuid": {"uuid": "eth2"},
+                    "topology_id": {"context_id": {"context_uuid": {"uuid": "admin"}}, "topology_uuid": {"uuid": "DC1"}}},
+                {"device_id": {"device_uuid": {"uuid": "CS1-GW2"}}, "endpoint_uuid": {"uuid": "200"},
+                    "topology_id": {"context_id": {"context_uuid": {"uuid": "admin"}}, "topology_uuid": {"uuid": "CS1"}}},
+                {"device_id": {"device_uuid": {"uuid": "TN-R1"}}, "endpoint_uuid": {"uuid": "3"},
+                    "topology_id": {"context_id": {"context_uuid": {"uuid": "admin"}}, "topology_uuid": {"uuid": "TN"}}},
+                {"device_id": {"device_uuid": {"uuid": "TN-R3"}}, "endpoint_uuid": {"uuid": "200"},
+                    "topology_id": {"context_id": {"context_uuid": {"uuid": "admin"}}, "topology_uuid": {"uuid": "TN"}}},
+                {"device_id": {"device_uuid": {"uuid": "CS2-GW2"}}, "endpoint_uuid": {"uuid": "1000"},
+                    "topology_id": {"context_id": {"context_uuid": {"uuid": "admin"}}, "topology_uuid": {"uuid": "CS2"}}},
+                {"device_id": {"device_uuid": {"uuid": "DC2-GW"}}, "endpoint_uuid": {"uuid": "int"},
+                    "topology_id": {"context_id": {"context_uuid": {"uuid": "admin"}}, "topology_uuid": {"uuid": "DC2"}}}
+            ],
+            "service_id": {
+                "context_id": {"context_uuid": {"uuid": "admin"}},
+                "service_uuid": {"uuid": "svc:DC1-GW/int==DC2-GW/int"}
+            },
+            "sub_service_ids": []
+        }
+    ],
+    "services": [
+        {
+            "service_id": {
+                "context_id": {"context_uuid": {"uuid": "admin"}},
+                "service_uuid": {"uuid": "svc:DC1-GW/int==DC2-GW/int"}
+            },
+            "service_type": "SERVICETYPE_L3NM",
+            "service_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "DC1-GW"}}, "endpoint_uuid": {"uuid": "int"},
+                    "topology_id": {"context_id": {"context_uuid": {"uuid": "admin"}}, "topology_uuid": {"uuid": "DC1"}}},
+                {"device_id": {"device_uuid": {"uuid": "DC2-GW"}}, "endpoint_uuid": {"uuid": "int"},
+                    "topology_id": {"context_id": {"context_uuid": {"uuid": "admin"}}, "topology_uuid": {"uuid": "DC2"}}}
+            ],
+            "service_status": {"service_status": "SERVICESTATUS_PLANNED"},
+            "service_constraints": [
+                {"sla_capacity": {"capacity_gbps": 10.0}},
+                {"sla_latency": {"e2e_latency_ms": 12.0}}
+            ],
+            "service_config": {"config_rules": []}
+        }
+    ]
+}

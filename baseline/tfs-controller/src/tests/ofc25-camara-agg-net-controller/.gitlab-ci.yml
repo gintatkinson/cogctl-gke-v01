@@ -1,0 +1,91 @@
+# Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Deploy TeraFlowSDN and Execute end-2-end test
+end2end_test ofc25_camara_agg_net:
+  timeout: 40m
+  variables:
+    TEST_NAME: 'ofc25-camara-agg-net-controller'
+    IP_NAME: 'ip'
+    IP_PORT: '9092'
+  stage: end2end_test
+  # Disable to force running it after all other tasks
+  before_script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+    - HOST_IP=$(kubectl get nodes -o json | jq -r '.items[].status.addresses[] | select(.type=="InternalIP") | .address')
+    - sed -i "s/IP_NET_IP/${HOST_IP}/g" src/tests/${TEST_NAME}/data/agg-net-descriptor.json
+    - sed -i "s/IP_NET_PORT/${IP_PORT}/g" src/tests/${TEST_NAME}/data/agg-net-descriptor.json
+    - docker buildx build -t "${TEST_NAME}:latest" -f ./src/tests/${TEST_NAME}/Dockerfile .
+    - docker buildx build -t "${IP_NAME}:latest" -f ./src/tests/tools/mock_ietf_l3vpn_sdn_ctrl/Dockerfile ./src/tests/tools/mock_ietf_l3vpn_sdn_ctrl
+    - docker rm -f ${TEST_NAME} || true
+    - docker rm -f ${IP_NAME} || true
+    - docker run -d --name ${IP_NAME} -p ${IP_PORT}:8443 ${IP_NAME}:latest
+
+  script:
+    # Check MicroK8s is ready
+    - microk8s status --wait-ready
+    - kubectl get pods --all-namespaces
+
+    - source src/tests/${TEST_NAME}/deploy_specs.sh
+
+    # Deploy TeraFlowSDN
+    - ./deploy/crdb.sh
+    - ./deploy/nats.sh
+    - ./deploy/kafka.sh
+    - ./deploy/qdb.sh
+    - ./deploy/tfs.sh
+    - ./deploy/show.sh
+
+    - kubectl --namespace $TFS_K8S_NAMESPACE logs deployment/contextservice -c server
+
+    # Run end-to-end test: onboard scenario
+    - >
+      docker run -t --rm --name ${TEST_NAME} --network=host
+      --volume "$PWD/tfs_runtime_env_vars.sh:/var/teraflow/tfs_runtime_env_vars.sh"
+      --volume "$PWD/src/tests/${TEST_NAME}:/opt/results"
+      ${TEST_NAME}:latest /var/teraflow/run-onboarding.sh
+
+    # Run end-to-end test: configure service TFS
+    - >
+      docker run -t --rm --name ${TEST_NAME} --network=host
+      --volume "$PWD/tfs_runtime_env_vars.sh:/var/teraflow/tfs_runtime_env_vars.sh"
+      --volume "$PWD/src/tests/${TEST_NAME}:/opt/results"
+      ${TEST_NAME}:latest /var/teraflow/run-agg-net-ietf-slice-operations.sh
+
+  after_script:
+    - kubectl --namespace tfs logs deployment/contextservice -c server
+    - kubectl --namespace tfs logs deployment/deviceservice -c server
+    - kubectl --namespace tfs logs deployment/pathcompservice -c frontend
+    - kubectl --namespace tfs logs deployment/serviceservice -c server
+    - kubectl --namespace tfs logs deployment/sliceservice -c server
+    - kubectl --namespace tfs logs deployment/nbiservice -c server
+    - docker logs ${IP_NAME}
+
+    # Destroy Scenario
+    - kubectl delete namespaces tfs || true
+
+    - docker rm -f ${TEST_NAME} || true
+    - docker rm -f ${IP_NAME} || true
+
+    # Clean old docker images
+    - docker image prune --force
+
+  #coverage: '/TOTAL\s+\d+\s+\d+\s+(\d+%)/'
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop" || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH)'
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == "develop"'
+  artifacts:
+      when: always
+      reports:
+        junit: ./src/tests/${TEST_NAME}/report_*.xml

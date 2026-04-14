@@ -1,0 +1,88 @@
+pkg_info {
+  arch: "v1model"
+}
+tables {
+  preamble {
+    id: 33605373
+    name: "IngressPipeImpl.l2_exact_table"
+    alias: "l2_exact_table"
+  }
+  match_fields {
+    id: 1
+    name: "hdr.ethernet.dst_addr"
+    bitwidth: 48
+    match_type: EXACT
+  }
+  action_refs {
+    id: 16812802
+  }
+  action_refs {
+    id: 16841371
+  }
+  action_refs {
+    id: 16796182
+    annotations: "@defaultonly"
+    scope: DEFAULT_ONLY
+  }
+  const_default_action_id: 16796182
+  size: 1024
+}
+tables {
+  preamble {
+    id: 33573501
+    name: "IngressPipeImpl.l2_ternary_table"
+    alias: "l2_ternary_table"
+  }
+  match_fields {
+    id: 1
+    name: "hdr.ethernet.dst_addr"
+    bitwidth: 48
+    match_type: TERNARY
+  }
+  action_refs {
+    id: 16812802
+  }
+  action_refs {
+    id: 16841371
+  }
+  action_refs {
+    id: 16796182
+    annotations: "@defaultonly"
+    scope: DEFAULT_ONLY
+  }
+  const_default_action_id: 16796182
+  size: 1024
+}
+actions {
+  preamble {
+    id: 16796182
+    name: "IngressPipeImpl.drop"
+    alias: "drop"
+  }
+}
+actions {
+  preamble {
+    id: 16812802
+    name: "IngressPipeImpl.set_egress_port"
+    alias: "set_egress_port"
+  }
+  params {
+    id: 1
+    name: "port_num"
+    bitwidth: 9
+  }
+}
+actions {
+  preamble {
+    id: 16841371
+    name: "IngressPipeImpl.set_multicast_group"
+    alias: "set_multicast_group"
+  }
+  params {
+    id: 1
+    name: "gid"
+    bitwidth: 16
+  }
+}
+type_info {
+}

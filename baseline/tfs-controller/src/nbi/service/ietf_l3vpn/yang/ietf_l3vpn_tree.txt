@@ -1,0 +1,413 @@
+module: ietf-l3vpn-svc
+  +--rw l3vpn-svc
+     +--rw vpn-profiles
+     |  +--rw valid-provider-identifiers
+     |     +--rw cloud-identifier* [id] {cloud-access}?
+     |     |  +--rw id    string
+     |     +--rw encryption-profile-identifier* [id]
+     |     |  +--rw id    string
+     |     +--rw qos-profile-identifier* [id]
+     |     |  +--rw id    string
+     |     +--rw bfd-profile-identifier* [id]
+     |        +--rw id    string
+     +--rw vpn-services
+     |  +--rw vpn-service* [vpn-id]
+     |     +--rw vpn-id                  svc-id
+     |     +--rw customer-name?          string
+     |     +--rw vpn-service-topology?   identityref
+     |     +--rw cloud-accesses {cloud-access}?
+     |     |  +--rw cloud-access* [cloud-identifier]
+     |     |     +--rw cloud-identifier       -> /l3vpn-svc/vpn-profiles/valid-provider-identifiers/cloud-identifier/id
+     |     |     +--rw (list-flavor)?
+     |     |     |  +--:(permit-any)
+     |     |     |  |  +--rw permit-any?   empty
+     |     |     |  +--:(deny-any-except)
+     |     |     |  |  +--rw permit-site*   -> /l3vpn-svc/sites/site/site-id
+     |     |     |  +--:(permit-any-except)
+     |     |     |     +--rw deny-site*   -> /l3vpn-svc/sites/site/site-id
+     |     |     +--rw address-translation
+     |     |        +--rw nat44
+     |     |           +--rw enabled?                  boolean
+     |     |           +--rw nat44-customer-address?   inet:ipv4-address
+     |     +--rw multicast {multicast}?
+     |     |  +--rw enabled?                 boolean
+     |     |  +--rw customer-tree-flavors
+     |     |  |  +--rw tree-flavor*   identityref
+     |     |  +--rw rp
+     |     |     +--rw rp-group-mappings
+     |     |     |  +--rw rp-group-mapping* [id]
+     |     |     |     +--rw id                  uint16
+     |     |     |     +--rw provider-managed
+     |     |     |     |  +--rw enabled?                    boolean
+     |     |     |     |  +--rw rp-redundancy?              boolean
+     |     |     |     |  +--rw optimal-traffic-delivery?   boolean
+     |     |     |     +--rw rp-address          inet:ip-address
+     |     |     |     +--rw groups
+     |     |     |        +--rw group* [id]
+     |     |     |           +--rw id                uint16
+     |     |     |           +--rw (group-format)
+     |     |     |              +--:(singleaddress)
+     |     |     |              |  +--rw group-address?   inet:ip-address
+     |     |     |              +--:(startend)
+     |     |     |                 +--rw group-start?   inet:ip-address
+     |     |     |                 +--rw group-end?     inet:ip-address
+     |     |     +--rw rp-discovery
+     |     |        +--rw rp-discovery-type?   identityref
+     |     |        +--rw bsr-candidates
+     |     |           +--rw bsr-candidate-address*   inet:ip-address
+     |     +--rw carrierscarrier?        boolean {carrierscarrier}?
+     |     +--rw extranet-vpns {extranet-vpn}?
+     |        +--rw extranet-vpn* [vpn-id]
+     |           +--rw vpn-id              svc-id
+     |           +--rw local-sites-role?   identityref
+     +--rw sites
+        +--rw site* [site-id]
+           +--rw site-id                  svc-id
+           +--rw requested-site-start?    yang:date-and-time
+           +--rw requested-site-stop?     yang:date-and-time
+           +--rw locations
+           |  +--rw location* [location-id]
+           |     +--rw location-id     svc-id
+           |     +--rw address?        string
+           |     +--rw postal-code?    string
+           |     +--rw state?          string
+           |     +--rw city?           string
+           |     +--rw country-code?   string
+           +--rw devices
+           |  +--rw device* [device-id]
+           |     +--rw device-id     svc-id
+           |     +--rw location      -> ../../../locations/location/location-id
+           |     +--rw management
+           |        +--rw address-family?   address-family
+           |        +--rw address           inet:ip-address
+           +--rw site-diversity {site-diversity}?
+           |  +--rw groups
+           |     +--rw group* [group-id]
+           |        +--rw group-id    string
+           +--rw management
+           |  +--rw type    identityref
+           +--rw vpn-policies
+           |  +--rw vpn-policy* [vpn-policy-id]
+           |     +--rw vpn-policy-id    svc-id
+           |     +--rw entries* [id]
+           |        +--rw id         svc-id
+           |        +--rw filters
+           |        |  +--rw filter* [type]
+           |        |     +--rw type               identityref
+           |        |     +--rw lan-tag*           string {lan-tag}?
+           |        |     +--rw ipv4-lan-prefix*   inet:ipv4-prefix {ipv4}?
+           |        |     +--rw ipv6-lan-prefix*   inet:ipv6-prefix {ipv6}?
+           |        +--rw vpn* [vpn-id]
+           |           +--rw vpn-id       -> /l3vpn-svc/vpn-services/vpn-service/vpn-id
+           |           +--rw site-role?   identityref
+           +--rw site-vpn-flavor?         identityref
+           +--rw maximum-routes
+           |  +--rw address-family* [af]
+           |     +--rw af                address-family
+           |     +--rw maximum-routes?   uint32
+           +--rw security
+           |  +--rw authentication
+           |  +--rw encryption {encryption}?
+           |     +--rw enabled?              boolean
+           |     +--rw layer?                enumeration
+           |     +--rw encryption-profile
+           |        +--rw (profile)?
+           |           +--:(provider-profile)
+           |           |  +--rw profile-name?   -> /l3vpn-svc/vpn-profiles/valid-provider-identifiers/encryption-profile-identifier/id
+           |           +--:(customer-profile)
+           |              +--rw algorithm?    string
+           |              +--rw (key-type)?
+           |                 +--:(psk)
+           |                    +--rw preshared-key?   string
+           +--rw service
+           |  +--rw qos {qos}?
+           |  |  +--rw qos-classification-policy
+           |  |  |  +--rw rule* [id]
+           |  |  |     +--rw id                 string
+           |  |  |     +--rw (match-type)?
+           |  |  |     |  +--:(match-flow)
+           |  |  |     |  |  +--rw match-flow
+           |  |  |     |  |     +--rw dscp?                inet:dscp
+           |  |  |     |  |     +--rw dot1p?               uint8
+           |  |  |     |  |     +--rw ipv4-src-prefix?     inet:ipv4-prefix
+           |  |  |     |  |     +--rw ipv6-src-prefix?     inet:ipv6-prefix
+           |  |  |     |  |     +--rw ipv4-dst-prefix?     inet:ipv4-prefix
+           |  |  |     |  |     +--rw ipv6-dst-prefix?     inet:ipv6-prefix
+           |  |  |     |  |     +--rw l4-src-port?         inet:port-number
+           |  |  |     |  |     +--rw target-sites*        svc-id {target-sites}?
+           |  |  |     |  |     +--rw l4-src-port-range
+           |  |  |     |  |     |  +--rw lower-port?   inet:port-number
+           |  |  |     |  |     |  +--rw upper-port?   inet:port-number
+           |  |  |     |  |     +--rw l4-dst-port?         inet:port-number
+           |  |  |     |  |     +--rw l4-dst-port-range
+           |  |  |     |  |     |  +--rw lower-port?   inet:port-number
+           |  |  |     |  |     |  +--rw upper-port?   inet:port-number
+           |  |  |     |  |     +--rw protocol-field?      union
+           |  |  |     |  +--:(match-application)
+           |  |  |     |     +--rw match-application?   identityref
+           |  |  |     +--rw target-class-id?   string
+           |  |  +--rw qos-profile
+           |  |     +--rw (qos-profile)?
+           |  |        +--:(standard)
+           |  |        |  +--rw profile?   -> /l3vpn-svc/vpn-profiles/valid-provider-identifiers/qos-profile-identifier/id
+           |  |        +--:(custom)
+           |  |           +--rw classes {qos-custom}?
+           |  |              +--rw class* [class-id]
+           |  |                 +--rw class-id      string
+           |  |                 +--rw direction?    identityref
+           |  |                 +--rw rate-limit?   decimal64
+           |  |                 +--rw latency
+           |  |                 |  +--rw (flavor)?
+           |  |                 |     +--:(lowest)
+           |  |                 |     |  +--rw use-lowest-latency?   empty
+           |  |                 |     +--:(boundary)
+           |  |                 |        +--rw latency-boundary?   uint16
+           |  |                 +--rw jitter
+           |  |                 |  +--rw (flavor)?
+           |  |                 |     +--:(lowest)
+           |  |                 |     |  +--rw use-lowest-jitter?   empty
+           |  |                 |     +--:(boundary)
+           |  |                 |        +--rw latency-boundary?   uint32
+           |  |                 +--rw bandwidth
+           |  |                    +--rw guaranteed-bw-percent    decimal64
+           |  |                    +--rw end-to-end?              empty
+           |  +--rw carrierscarrier {carrierscarrier}?
+           |  |  +--rw signalling-type?   enumeration
+           |  +--rw multicast {multicast}?
+           |     +--rw multicast-site-type?        enumeration
+           |     +--rw multicast-address-family
+           |     |  +--rw ipv4?   boolean {ipv4}?
+           |     |  +--rw ipv6?   boolean {ipv6}?
+           |     +--rw protocol-type?              enumeration
+           +--rw traffic-protection {fast-reroute}?
+           |  +--rw enabled?   boolean
+           +--rw routing-protocols
+           |  +--rw routing-protocol* [type]
+           |     +--rw type      identityref
+           |     +--rw ospf {rtg-ospf}?
+           |     |  +--rw address-family*   address-family
+           |     |  +--rw area-address      yang:dotted-quad
+           |     |  +--rw metric?           uint16
+           |     |  +--rw sham-links {rtg-ospf-sham-link}?
+           |     |     +--rw sham-link* [target-site]
+           |     |        +--rw target-site    svc-id
+           |     |        +--rw metric?        uint16
+           |     +--rw bgp {rtg-bgp}?
+           |     |  +--rw autonomous-system    uint32
+           |     |  +--rw address-family*      address-family
+           |     +--rw static
+           |     |  +--rw cascaded-lan-prefixes
+           |     |     +--rw ipv4-lan-prefixes* [lan next-hop] {ipv4}?
+           |     |     |  +--rw lan         inet:ipv4-prefix
+           |     |     |  +--rw next-hop    inet:ipv4-address
+           |     |     |  +--rw lan-tag?    string
+           |     |     +--rw ipv6-lan-prefixes* [lan next-hop] {ipv6}?
+           |     |        +--rw lan         inet:ipv6-prefix
+           |     |        +--rw next-hop    inet:ipv6-address
+           |     |        +--rw lan-tag?    string
+           |     +--rw rip {rtg-rip}?
+           |     |  +--rw address-family*   address-family
+           |     +--rw vrrp {rtg-vrrp}?
+           |        +--rw address-family*   address-family
+           +--ro actual-site-start?       yang:date-and-time
+           +--ro actual-site-stop?        yang:date-and-time
+           +--rw site-network-accesses
+              +--rw site-network-access* [site-network-access-id]
+                 +--rw site-network-access-id      svc-id
+                 +--rw site-network-access-type?   identityref
+                 +--rw (location-flavor)
+                 |  +--:(location)
+                 |  |  +--rw location-reference?   -> ../../../locations/location/location-id
+                 |  +--:(device)
+                 |     +--rw device-reference?   -> ../../../devices/device/device-id
+                 +--rw access-diversity {site-diversity}?
+                 |  +--rw groups
+                 |  |  +--rw group* [group-id]
+                 |  |     +--rw group-id    string
+                 |  +--rw constraints
+                 |     +--rw constraint* [constraint-type]
+                 |        +--rw constraint-type    identityref
+                 |        +--rw target
+                 |           +--rw (target-flavor)?
+                 |              +--:(id)
+                 |              |  +--rw group* [group-id]
+                 |              |     +--rw group-id    string
+                 |              +--:(all-accesses)
+                 |              |  +--rw all-other-accesses?   empty
+                 |              +--:(all-groups)
+                 |                 +--rw all-other-groups?   empty
+                 +--rw bearer
+                 |  +--rw requested-type {requested-type}?
+                 |  |  +--rw requested-type?   string
+                 |  |  +--rw strict?           boolean
+                 |  +--rw always-on?          boolean {always-on}?
+                 |  +--rw bearer-reference?   string {bearer-reference}?
+                 +--rw ip-connection
+                 |  +--rw ipv4 {ipv4}?
+                 |  |  +--rw address-allocation-type?   identityref
+                 |  |  +--rw provider-dhcp
+                 |  |  |  +--rw provider-address?   inet:ipv4-address
+                 |  |  |  +--rw prefix-length?      uint8
+                 |  |  |  +--rw (address-assign)?
+                 |  |  |     +--:(number)
+                 |  |  |     |  +--rw number-of-dynamic-address?   uint16
+                 |  |  |     +--:(explicit)
+                 |  |  |        +--rw customer-addresses
+                 |  |  |           +--rw address-group* [group-id]
+                 |  |  |              +--rw group-id         string
+                 |  |  |              +--rw start-address?   inet:ipv4-address
+                 |  |  |              +--rw end-address?     inet:ipv4-address
+                 |  |  +--rw dhcp-relay
+                 |  |  |  +--rw provider-address?        inet:ipv4-address
+                 |  |  |  +--rw prefix-length?           uint8
+                 |  |  |  +--rw customer-dhcp-servers
+                 |  |  |     +--rw server-ip-address*   inet:ipv4-address
+                 |  |  +--rw addresses
+                 |  |     +--rw provider-address?   inet:ipv4-address
+                 |  |     +--rw customer-address?   inet:ipv4-address
+                 |  |     +--rw prefix-length?      uint8
+                 |  +--rw ipv6 {ipv6}?
+                 |  |  +--rw address-allocation-type?   identityref
+                 |  |  +--rw provider-dhcp
+                 |  |  |  +--rw provider-address?   inet:ipv6-address
+                 |  |  |  +--rw prefix-length?      uint8
+                 |  |  |  +--rw (address-assign)?
+                 |  |  |     +--:(number)
+                 |  |  |     |  +--rw number-of-dynamic-address?   uint16
+                 |  |  |     +--:(explicit)
+                 |  |  |        +--rw customer-addresses
+                 |  |  |           +--rw address-group* [group-id]
+                 |  |  |              +--rw group-id         string
+                 |  |  |              +--rw start-address?   inet:ipv6-address
+                 |  |  |              +--rw end-address?     inet:ipv6-address
+                 |  |  +--rw dhcp-relay
+                 |  |  |  +--rw provider-address?        inet:ipv6-address
+                 |  |  |  +--rw prefix-length?           uint8
+                 |  |  |  +--rw customer-dhcp-servers
+                 |  |  |     +--rw server-ip-address*   inet:ipv6-address
+                 |  |  +--rw addresses
+                 |  |     +--rw provider-address?   inet:ipv6-address
+                 |  |     +--rw customer-address?   inet:ipv6-address
+                 |  |     +--rw prefix-length?      uint8
+                 |  +--rw oam
+                 |     +--rw bfd {bfd}?
+                 |        +--rw enabled?      boolean
+                 |        +--rw (holdtime)?
+                 |           +--:(fixed)
+                 |           |  +--rw fixed-value?   uint32
+                 |           +--:(profile)
+                 |              +--rw profile-name?   -> /l3vpn-svc/vpn-profiles/valid-provider-identifiers/bfd-profile-identifier/id
+                 +--rw security
+                 |  +--rw authentication
+                 |  +--rw encryption {encryption}?
+                 |     +--rw enabled?              boolean
+                 |     +--rw layer?                enumeration
+                 |     +--rw encryption-profile
+                 |        +--rw (profile)?
+                 |           +--:(provider-profile)
+                 |           |  +--rw profile-name?   -> /l3vpn-svc/vpn-profiles/valid-provider-identifiers/encryption-profile-identifier/id
+                 |           +--:(customer-profile)
+                 |              +--rw algorithm?    string
+                 |              +--rw (key-type)?
+                 |                 +--:(psk)
+                 |                    +--rw preshared-key?   string
+                 +--rw service
+                 |  +--rw svc-input-bandwidth     uint64
+                 |  +--rw svc-output-bandwidth    uint64
+                 |  +--rw svc-mtu                 uint16
+                 |  +--rw qos {qos}?
+                 |  |  +--rw qos-classification-policy
+                 |  |  |  +--rw rule* [id]
+                 |  |  |     +--rw id                 string
+                 |  |  |     +--rw (match-type)?
+                 |  |  |     |  +--:(match-flow)
+                 |  |  |     |  |  +--rw match-flow
+                 |  |  |     |  |     +--rw dscp?                inet:dscp
+                 |  |  |     |  |     +--rw dot1p?               uint8
+                 |  |  |     |  |     +--rw ipv4-src-prefix?     inet:ipv4-prefix
+                 |  |  |     |  |     +--rw ipv6-src-prefix?     inet:ipv6-prefix
+                 |  |  |     |  |     +--rw ipv4-dst-prefix?     inet:ipv4-prefix
+                 |  |  |     |  |     +--rw ipv6-dst-prefix?     inet:ipv6-prefix
+                 |  |  |     |  |     +--rw l4-src-port?         inet:port-number
+                 |  |  |     |  |     +--rw target-sites*        svc-id {target-sites}?
+                 |  |  |     |  |     +--rw l4-src-port-range
+                 |  |  |     |  |     |  +--rw lower-port?   inet:port-number
+                 |  |  |     |  |     |  +--rw upper-port?   inet:port-number
+                 |  |  |     |  |     +--rw l4-dst-port?         inet:port-number
+                 |  |  |     |  |     +--rw l4-dst-port-range
+                 |  |  |     |  |     |  +--rw lower-port?   inet:port-number
+                 |  |  |     |  |     |  +--rw upper-port?   inet:port-number
+                 |  |  |     |  |     +--rw protocol-field?      union
+                 |  |  |     |  +--:(match-application)
+                 |  |  |     |     +--rw match-application?   identityref
+                 |  |  |     +--rw target-class-id?   string
+                 |  |  +--rw qos-profile
+                 |  |     +--rw (qos-profile)?
+                 |  |        +--:(standard)
+                 |  |        |  +--rw profile?   -> /l3vpn-svc/vpn-profiles/valid-provider-identifiers/qos-profile-identifier/id
+                 |  |        +--:(custom)
+                 |  |           +--rw classes {qos-custom}?
+                 |  |              +--rw class* [class-id]
+                 |  |                 +--rw class-id      string
+                 |  |                 +--rw direction?    identityref
+                 |  |                 +--rw rate-limit?   decimal64
+                 |  |                 +--rw latency
+                 |  |                 |  +--rw (flavor)?
+                 |  |                 |     +--:(lowest)
+                 |  |                 |     |  +--rw use-lowest-latency?   empty
+                 |  |                 |     +--:(boundary)
+                 |  |                 |        +--rw latency-boundary?   uint16
+                 |  |                 +--rw jitter
+                 |  |                 |  +--rw (flavor)?
+                 |  |                 |     +--:(lowest)
+                 |  |                 |     |  +--rw use-lowest-jitter?   empty
+                 |  |                 |     +--:(boundary)
+                 |  |                 |        +--rw latency-boundary?   uint32
+                 |  |                 +--rw bandwidth
+                 |  |                    +--rw guaranteed-bw-percent    decimal64
+                 |  |                    +--rw end-to-end?              empty
+                 |  +--rw carrierscarrier {carrierscarrier}?
+                 |  |  +--rw signalling-type?   enumeration
+                 |  +--rw multicast {multicast}?
+                 |     +--rw multicast-site-type?        enumeration
+                 |     +--rw multicast-address-family
+                 |     |  +--rw ipv4?   boolean {ipv4}?
+                 |     |  +--rw ipv6?   boolean {ipv6}?
+                 |     +--rw protocol-type?              enumeration
+                 +--rw routing-protocols
+                 |  +--rw routing-protocol* [type]
+                 |     +--rw type      identityref
+                 |     +--rw ospf {rtg-ospf}?
+                 |     |  +--rw address-family*   address-family
+                 |     |  +--rw area-address      yang:dotted-quad
+                 |     |  +--rw metric?           uint16
+                 |     |  +--rw sham-links {rtg-ospf-sham-link}?
+                 |     |     +--rw sham-link* [target-site]
+                 |     |        +--rw target-site    svc-id
+                 |     |        +--rw metric?        uint16
+                 |     +--rw bgp {rtg-bgp}?
+                 |     |  +--rw autonomous-system    uint32
+                 |     |  +--rw address-family*      address-family
+                 |     +--rw static
+                 |     |  +--rw cascaded-lan-prefixes
+                 |     |     +--rw ipv4-lan-prefixes* [lan next-hop] {ipv4}?
+                 |     |     |  +--rw lan         inet:ipv4-prefix
+                 |     |     |  +--rw next-hop    inet:ipv4-address
+                 |     |     |  +--rw lan-tag?    string
+                 |     |     +--rw ipv6-lan-prefixes* [lan next-hop] {ipv6}?
+                 |     |        +--rw lan         inet:ipv6-prefix
+                 |     |        +--rw next-hop    inet:ipv6-address
+                 |     |        +--rw lan-tag?    string
+                 |     +--rw rip {rtg-rip}?
+                 |     |  +--rw address-family*   address-family
+                 |     +--rw vrrp {rtg-vrrp}?
+                 |        +--rw address-family*   address-family
+                 +--rw availability
+                 |  +--rw access-priority?   uint32
+                 +--rw vpn-attachment
+                    +--rw (attachment-flavor)
+                       +--:(vpn-policy-id)
+                       |  +--rw vpn-policy-id?   -> ../../../../vpn-policies/vpn-policy/vpn-policy-id
+                       +--:(vpn-id)
+                          +--rw vpn-id?      -> /l3vpn-svc/vpn-services/vpn-service/vpn-id
+                          +--rw site-role?   identityref

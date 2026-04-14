@@ -1,0 +1,32 @@
+{
+    "contexts": [
+        {"context_id": {"context_uuid": {"uuid": "admin"}}}
+    ],
+    "topologies": [
+        {"topology_id": {"context_id": {"context_uuid": {"uuid": "admin"}}, "topology_uuid": {"uuid": "admin"}}}
+    ],
+    "devices": [
+        {
+            "device_id": {"device_uuid": {"uuid": "r10"}}, "device_type": "packet-router",
+            "device_drivers": ["DEVICEDRIVER_GNMI_OPENCONFIG"],
+            "device_config": {"config_rules": [
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/address", "resource_value": "172.20.20.101"}},
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/port", "resource_value": "6030"}},
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/settings", "resource_value": {
+                    "username": "admin", "password": "admin", "use_tls": false
+                }}}
+            ]}
+        },
+        {
+            "device_id": {"device_uuid": {"uuid": "r5"}}, "device_type": "packet-router",
+            "device_drivers": ["DEVICEDRIVER_GNMI_OPENCONFIG"],
+            "device_config": {"config_rules": [
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/address", "resource_value": "172.20.20.102"}},
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/port", "resource_value": "6030"}},
+                {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/settings", "resource_value": {
+                    "username": "admin", "password": "admin", "use_tls": false
+                }}}
+            ]}
+        }
+    ]
+}

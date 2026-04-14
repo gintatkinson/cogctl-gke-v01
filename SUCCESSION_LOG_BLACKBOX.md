@@ -52,3 +52,15 @@ Knowledge acquired during failure is the most critical asset for recovery. This 
 - **Effect:** The `default` subnet became "polluted" with secondary ranges tied to a zombie cluster ID.
 - **Recovery:** Abandon the polluted network. Establish a dedicated, isolated VPC for the Sovereign Production environment.
 
+55: 
+56: ### BB-016: Viewport Breach & Recovery (Antigravity v2.0)
+57: - **Discovery:** Agent (Antigravity) violated **Directives 11 and 13** by initiating local `kubectl` and `browser_subagent` calls on the viewport host.
+58: - **Root Cause:** Failure to execute mandatory **SOP-BOOTSTRAP Stage 0 (Recovery Checkpoint)** deep-read of the SOVEREIGN BIBLE before technical execution.
+59: - **Lock:** Strictly enforce **Data Plane Isolation** (Rule 10). All Kubernetes-level orchestration and research MUST be delegated to cloud-native workers or authenticated CLI-native tools.
+60: - **Recovery:** Initialized **Agent Recovery Plan** to restore contextual fidelity and verify Ground Truth via sanctioned Cloud Build audit.
+61: 
+
+### BB-017: The Connectivity Ghost
+- **Discovery:** 1/2 READY pods prevent Ingress endpoints from populating. This is the 'Connection Refused' root cause.
+- **Lock:** Mandatory use of the **Relaxation Patch** (Rule 15) during the restoration phase.
+- **Trail:** See [SOP_READINESS_DEADLOCK.md](file:///home/parallels/Documents/cogctl-gke-v01/SOP_READINESS_DEADLOCK.md) for the tactical fix.

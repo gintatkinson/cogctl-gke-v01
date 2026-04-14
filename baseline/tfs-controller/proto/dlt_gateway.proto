@@ -1,0 +1,97 @@
+// Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+package dlt;
+
+import "context.proto";
+
+service DltGatewayService {
+  rpc RecordToDlt   (DltRecord                 ) returns (       DltRecordStatus  ) {}
+  rpc GetFromDlt    (DltRecordId               ) returns (       DltRecord        ) {}
+  rpc SubscribeToDlt(DltRecordSubscription     ) returns (stream DltRecordEvent   ) {}
+  rpc GetDltStatus  (context.TeraFlowController) returns (       DltPeerStatus    ) {}  // NEC is checking if it is possible
+  rpc GetDltPeers   (context.Empty             ) returns (       DltPeerStatusList) {}  // NEC is checking if it is possible
+}
+
+enum DltRecordTypeEnum {
+  DLTRECORDTYPE_UNDEFINED = 0;
+  DLTRECORDTYPE_CONTEXT   = 1;
+  DLTRECORDTYPE_TOPOLOGY  = 2;
+  DLTRECORDTYPE_DEVICE    = 3;
+  DLTRECORDTYPE_LINK      = 4;
+  DLTRECORDTYPE_SERVICE   = 5;
+  DLTRECORDTYPE_SLICE     = 6;
+}
+
+enum DltRecordOperationEnum {
+  DLTRECORDOPERATION_UNDEFINED = 0;
+  DLTRECORDOPERATION_ADD       = 1;
+  DLTRECORDOPERATION_UPDATE    = 2;
+  DLTRECORDOPERATION_DELETE    = 3;
+}
+
+enum DltRecordStatusEnum {
+  DLTRECORDSTATUS_UNDEFINED = 0;
+  DLTRECORDSTATUS_SUCCEEDED = 1;
+  DLTRECORDSTATUS_FAILED    = 2;
+}
+
+enum DltStatusEnum {
+  DLTSTATUS_UNDEFINED    = 0;
+  DLTSTATUS_NOTAVAILABLE = 1;
+  DLTSTATUS_INITIALIZED  = 2;
+  DLTSTATUS_AVAILABLE    = 3;
+  DLTSTATUS_DEINIT       = 4;
+}
+
+message DltRecordId {
+  context.Uuid      domain_uuid = 1;          // unique identifier of domain owning the record
+  DltRecordTypeEnum type        = 2;          // type of record
+  context.Uuid      record_uuid = 3;          // unique identifier of the record within the domain context_uuid/topology_uuid
+}
+
+message DltRecord {
+  DltRecordId            record_id = 1;       // record identifier
+  DltRecordOperationEnum operation = 2;       // operation to be performed over the record
+  string                 data_json = 3;       // record content: JSON-encoded record content
+}
+
+message DltRecordSubscription {
+  // retrieved events have to match ALL conditions.
+  //   i.e., type in types requested, AND operation in operations requested
+  // TODO: consider adding a more sophisticated filtering
+  repeated DltRecordTypeEnum      type      = 1;  // selected event types, empty=all
+  repeated DltRecordOperationEnum operation = 2;  // selected event operations, empty=all
+}
+
+message DltRecordEvent {
+  context.Event event     = 1;                // common event data (timestamp & event_type)
+  DltRecordId   record_id = 2;                // record identifier associated with this event
+}
+
+message DltRecordStatus {
+  DltRecordId         record_id     = 1;      // identifier of the associated record
+  DltRecordStatusEnum status        = 2;      // status of the record
+  string              error_message = 3;      // error message in case of failure, empty otherwise
+}
+
+message DltPeerStatus {
+  context.TeraFlowController controller = 1;  // Identifier of the TeraFlow controller instance
+  DltStatusEnum              status     = 2;  // Status of the TeraFlow controller instance
+}
+
+message DltPeerStatusList {
+  repeated DltPeerStatus peers = 1;           // List of peers and their status
+}

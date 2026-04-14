@@ -1,0 +1,6 @@
+ietf-yang-types.yang -> https://github.com/YangModels/yang/blob/main/vendor/cisco/xe/1661/ietf-yang-types.yang
+openconfig-extensions.yang -> https://github.com/openconfig/public/blob/master/release/models/openconfig-extensions.yang
+openconfig-inet-types.yang -> https://github.com/openconfig/public/blob/master/release/models/types/openconfig-inet-types.yang
+openconfig-probes-types.yang -> https://github.com/openconfig/public/blob/master/release/models/probes/openconfig-probes-types.yang
+openconfig-probes.yang -> https://github.com/openconfig/public/blob/master/release/models/probes/openconfig-probes.yang
+openconfig-types.yang -> https://github.com/openconfig/public/blob/master/release/models/types/openconfig-types.yang

@@ -1,0 +1,176 @@
+{
+    "ietf-eth-tran-service:etht-svc": {
+        "etht-svc-instances": [
+            {
+                "etht-svc-name": "etht_service_1",
+                "etht-svc-title": "ETHT_SERVICE_1",
+                "etht-svc-type": "op-mp2mp-svc",
+                "source-endpoints": {
+                    "source-endpoint": [
+                        {
+                            "node-id": "10.0.10.1",
+                            "tp-id": "200",
+                            "protection-role": "work",
+                            "layer-specific": {
+                                "access-type": "port"
+                            },
+                            "is-extendable": false,
+                            "is-terminal": true,
+                            "static-route-list": [
+                                {
+                                    "destination": "128.32.10.5",
+                                    "destination-mask": 24,
+                                    "next-hop": "128.32.33.5"
+                                },
+                                {
+                                    "destination": "128.32.20.5",
+                                    "destination-mask": 24,
+                                    "next-hop": "128.32.33.5"
+                                }
+                            ],
+                            "outer-tag": {
+                                "tag-type": "ietf-eth-tran-types:classify-c-vlan",
+                                "vlan-value": 21
+                            },
+                            "service-classification-type": "ietf-eth-tran-type:vlan-classification",
+                            "ingress-egress-bandwidth-profile" : {
+                                "bandwidth-profile-type": "ietf-eth-tran-types:mef-10-bwp",
+                                "CIR": 10000000,
+                                "EIR": 10000000
+                            }
+                        }
+                    ]
+                },
+                "destination-endpoints": {
+                    "destination-endpoint": [
+                        {
+                            "node-id": "10.0.30.1",
+                            "tp-id": "200",
+                            "protection-role": "work",
+                            "layer-specific": {
+                                "access-type": "port"
+                            },
+                            "is-extendable": false,
+                            "is-terminal": true,
+                            "static-route-list": [
+                                {
+                                    "destination": "172.1.101.22",
+                                    "destination-mask": 24,
+                                    "next-hop": "172.10.33.5"
+                                }
+                            ],
+                            "outer-tag": {
+                                "tag-type": "ietf-eth-tran-types:classify-c-vlan",
+                                "vlan-value": 101
+                            },
+                            "service-classification-type": "ietf-eth-tran-type:vlan-classification",
+                            "ingress-egress-bandwidth-profile" : {
+                                "bandwidth-profile-type": "ietf-eth-tran-types:mef-10-bwp",
+                                "CIR": 10000000,
+                                "EIR": 10000000
+                            }
+                        }
+                    ]
+                },
+                "svc-tunnel": [
+                    {
+                        "tunnel-name": "osu_tunnel_1"
+                    }
+                ],
+                "optimizations": {
+                    "optimization-metric": [
+                        {
+                            "metric-role": "work",
+                            "metric-type": "ietf-te-types:path-metric-te"
+                        }
+                    ]
+                }
+            },
+            {
+                "etht-svc-name": "etht_service_2",
+                "etht-svc-title": "ETHT_SERVICE_2",
+                "etht-svc-type": "op-mp2mp-svc",
+                "source-endpoints": {
+                    "source-endpoint": [
+                        {
+                            "node-id": "10.0.10.1",
+                            "tp-id": "200",
+                            "protection-role": "work",
+                            "layer-specific": {
+                                "access-type": "port"
+                            },
+                            "is-extendable": false,
+                            "is-terminal": true,
+                            "static-route-list": [
+                                {
+                                    "destination": "128.32.10.5",
+                                    "destination-mask": 24,
+                                    "next-hop": "128.32.33.5"
+                                },
+                                {
+                                    "destination": "128.32.20.5",
+                                    "destination-mask": 24,
+                                    "next-hop": "128.32.33.5"
+                                }
+                            ],
+                            "outer-tag": {
+                                "tag-type": "ietf-eth-tran-types:classify-c-vlan",
+                                "vlan-value": 31
+                            },
+                            "service-classification-type": "ietf-eth-tran-type:vlan-classification",
+                            "ingress-egress-bandwidth-profile" : {
+                                "bandwidth-profile-type": "ietf-eth-tran-types:mef-10-bwp",
+                                "CIR": 10000000,
+                                "EIR": 10000000
+                            }
+                        }
+                    ]
+                },
+                "destination-endpoints": {
+                    "destination-endpoint": [
+                        {
+                            "node-id": "10.0.30.1",
+                            "tp-id": "200",
+                            "protection-role": "work",
+                            "layer-specific": {
+                                "access-type": "port"
+                            },
+                            "is-extendable": false,
+                            "is-terminal": true,
+                            "static-route-list": [
+                                {
+                                    "destination": "172.1.201.22",
+                                    "destination-mask": 24,
+                                    "next-hop": "172.10.33.5"
+                                }
+                            ],
+                            "outer-tag": {
+                                "tag-type": "ietf-eth-tran-types:classify-c-vlan",
+                                "vlan-value": 201
+                            },
+                            "service-classification-type": "ietf-eth-tran-type:vlan-classification",
+                            "ingress-egress-bandwidth-profile" : {
+                                "bandwidth-profile-type": "ietf-eth-tran-types:mef-10-bwp",
+                                "CIR": 10000000,
+                                "EIR": 10000000
+                            }
+                        }
+                    ]
+                },
+                "svc-tunnel": [
+                    {
+                        "tunnel-name": "osu_tunnel_2"
+                    }
+                ],
+                "optimizations": {
+                    "optimization-metric": [
+                        {
+                            "metric-role": "work",
+                            "metric-type": "ietf-te-types:path-metric-te"
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+}

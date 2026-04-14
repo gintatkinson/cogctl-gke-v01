@@ -1,0 +1,535 @@
+{
+    "contexts": [
+        {
+            "context_id": {
+                "context_uuid": {
+                    "uuid": "admin"
+                }
+            }
+        }
+    ],
+    "topologies": [
+        {
+            "topology_id": {
+                "context_id": {
+                    "context_uuid": {
+                        "uuid": "admin"
+                    }
+                },
+                "topology_uuid": {
+                    "uuid": "admin"
+                }
+            }
+        }
+    ],
+    "devices": [
+        {
+            "device_id": {
+                "device_uuid": {
+                    "uuid": "172.16.182.25"
+                }
+            },
+            "name": "172.16.182.25",
+            "device_type": "emu-packet-router",
+            "device_operational_status": 1,
+            "device_drivers": [
+                0
+            ],
+            "device_config": {
+                "config_rules": [
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "_connect/address",
+                            "resource_value": "127.0.0.1"
+                        }
+                    },
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "_connect/port",
+                            "resource_value": "0"
+                        }
+                    },
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "_connect/settings",
+                            "resource_value": {
+                                "endpoints": [
+                                    {
+                                        "uuid": "mgmt",
+                                        "name": "mgmt",
+                                        "type": "mgmt"
+                                    },
+                                    {
+                                        "uuid": "200",
+                                        "name": "200",
+                                        "type": "optical"
+                                    },
+                                    {
+                                        "uuid": "500",
+                                        "name": "500",
+                                        "type": "optical"
+                                    },
+                                    {
+                                        "uuid": "501",
+                                        "name": "501",
+                                        "type": "optical"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "device_id": {
+                "device_uuid": {
+                    "uuid": "172.16.185.31"
+                }
+            },
+            "name": "172.16.185.31",
+            "device_type": "emu-packet-router",
+            "device_operational_status": 1,
+            "device_drivers": [
+                0
+            ],
+            "device_config": {
+                "config_rules": [
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "_connect/address",
+                            "resource_value": "127.0.0.1"
+                        }
+                    },
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "_connect/port",
+                            "resource_value": "0"
+                        }
+                    },
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "_connect/settings",
+                            "resource_value": {
+                                "endpoints": [
+                                    {
+                                        "uuid": "mgmt",
+                                        "name": "mgmt",
+                                        "type": "mgmt"
+                                    },
+                                    {
+                                        "uuid": "500",
+                                        "name": "500",
+                                        "type": "optical"
+                                    },
+                                    {
+                                        "uuid": "501",
+                                        "name": "501",
+                                        "type": "optical"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "device_id": {
+                "device_uuid": {
+                    "uuid": "172.16.185.33"
+                }
+            },
+            "name": "172.16.185.33",
+            "device_type": "emu-packet-router",
+            "device_operational_status": 1,
+            "device_drivers": [
+                0
+            ],
+            "device_config": {
+                "config_rules": [
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "_connect/address",
+                            "resource_value": "127.0.0.1"
+                        }
+                    },
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "_connect/port",
+                            "resource_value": "0"
+                        }
+                    },
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "_connect/settings",
+                            "resource_value": {
+                                "endpoints": [
+                                    {
+                                        "uuid": "mgmt",
+                                        "name": "mgmt",
+                                        "type": "mgmt"
+                                    },
+                                    {
+                                        "uuid": "500",
+                                        "name": "500",
+                                        "type": "optical"
+                                    },
+                                    {
+                                        "uuid": "501",
+                                        "name": "501",
+                                        "type": "optical"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "device_id": {
+                "device_uuid": {
+                    "uuid": "172.16.185.32"
+                }
+            },
+            "name": "172.16.185.32",
+            "device_type": "emu-packet-router",
+            "device_operational_status": 1,
+            "device_drivers": [
+                0
+            ],
+            "device_config": {
+                "config_rules": [
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "_connect/address",
+                            "resource_value": "127.0.0.1"
+                        }
+                    },
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "_connect/port",
+                            "resource_value": "0"
+                        }
+                    },
+                    {
+                        "action": 1,
+                        "custom": {
+                            "resource_key": "_connect/settings",
+                            "resource_value": {
+                                "endpoints": [
+                                    {
+                                        "uuid": "mgmt",
+                                        "name": "mgmt",
+                                        "type": "mgmt"
+                                    },
+                                    {
+                                        "uuid": "200",
+                                        "name": "200",
+                                        "type": "optical"
+                                    },
+                                    {
+                                        "uuid": "500",
+                                        "name": "500",
+                                        "type": "optical"
+                                    },
+                                    {
+                                        "uuid": "501",
+                                        "name": "501",
+                                        "type": "optical"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                ]
+            }
+        }
+    ],
+    "links": [
+        {
+            "link_id": {
+                "link_uuid": {
+                    "uuid": "172.16.182.25-500"
+                }
+            },
+            "name": "172.16.182.25-500",
+            "attributes": {
+                "total_capacity_gbps": 10,
+                "used_capacity_gbps": 0
+            },
+            "link_endpoint_ids": [
+                {
+                    "device_id": {
+                        "device_uuid": {
+                            "uuid": "172.16.182.25"
+                        }
+                    },
+                    "endpoint_uuid": {
+                        "uuid": "500"
+                    }
+                },
+                {
+                    "device_id": {
+                        "device_uuid": {
+                            "uuid": "172.16.185.33"
+                        }
+                    },
+                    "endpoint_uuid": {
+                        "uuid": "500"
+                    }
+                }
+            ]
+        },
+        {
+            "link_id": {
+                "link_uuid": {
+                    "uuid": "172.16.185.33-500"
+                }
+            },
+            "name": "172.16.185.33-500",
+            "attributes": {
+                "total_capacity_gbps": 10,
+                "used_capacity_gbps": 0
+            },
+            "link_endpoint_ids": [
+                {
+                    "device_id": {
+                        "device_uuid": {
+                            "uuid": "172.16.185.33"
+                        }
+                    },
+                    "endpoint_uuid": {
+                        "uuid": "500"
+                    }
+                },
+                {
+                    "device_id": {
+                        "device_uuid": {
+                            "uuid": "172.16.182.25"
+                        }
+                    },
+                    "endpoint_uuid": {
+                        "uuid": "500"
+                    }
+                }
+            ]
+        },
+        {
+            "link_id": {
+                "link_uuid": {
+                    "uuid": "172.16.182.25-501"
+                }
+            },
+            "name": "172.16.182.25-501",
+            "attributes": {
+                "total_capacity_gbps": 10,
+                "used_capacity_gbps": 0
+            },
+            "link_endpoint_ids": [
+                {
+                    "device_id": {
+                        "device_uuid": {
+                            "uuid": "172.16.182.25"
+                        }
+                    },
+                    "endpoint_uuid": {
+                        "uuid": "501"
+                    }
+                },
+                {
+                    "device_id": {
+                        "device_uuid": {
+                            "uuid": "172.16.185.31"
+                        }
+                    },
+                    "endpoint_uuid": {
+                        "uuid": "501"
+                    }
+                }
+            ]
+        },
+        {
+            "link_id": {
+                "link_uuid": {
+                    "uuid": "172.16.185.31-501"
+                }
+            },
+            "name": "172.16.185.31-501",
+            "attributes": {
+                "total_capacity_gbps": 10,
+                "used_capacity_gbps": 0
+            },
+            "link_endpoint_ids": [
+                {
+                    "device_id": {
+                        "device_uuid": {
+                            "uuid": "172.16.185.31"
+                        }
+                    },
+                    "endpoint_uuid": {
+                        "uuid": "501"
+                    }
+                },
+                {
+                    "device_id": {
+                        "device_uuid": {
+                            "uuid": "172.16.182.25"
+                        }
+                    },
+                    "endpoint_uuid": {
+                        "uuid": "501"
+                    }
+                }
+            ]
+        },
+        {
+            "link_id": {
+                "link_uuid": {
+                    "uuid": "172.16.185.31-500"
+                }
+            },
+            "name": "172.16.185.31-500",
+            "attributes": {
+                "total_capacity_gbps": 10,
+                "used_capacity_gbps": 0
+            },
+            "link_endpoint_ids": [
+                {
+                    "device_id": {
+                        "device_uuid": {
+                            "uuid": "172.16.185.31"
+                        }
+                    },
+                    "endpoint_uuid": {
+                        "uuid": "500"
+                    }
+                },
+                {
+                    "device_id": {
+                        "device_uuid": {
+                            "uuid": "172.16.185.32"
+                        }
+                    },
+                    "endpoint_uuid": {
+                        "uuid": "500"
+                    }
+                }
+            ]
+        },
+        {
+            "link_id": {
+                "link_uuid": {
+                    "uuid": "172.16.185.32-500"
+                }
+            },
+            "name": "172.16.185.32-500",
+            "attributes": {
+                "total_capacity_gbps": 10,
+                "used_capacity_gbps": 0
+            },
+            "link_endpoint_ids": [
+                {
+                    "device_id": {
+                        "device_uuid": {
+                            "uuid": "172.16.185.32"
+                        }
+                    },
+                    "endpoint_uuid": {
+                        "uuid": "500"
+                    }
+                },
+                {
+                    "device_id": {
+                        "device_uuid": {
+                            "uuid": "172.16.185.31"
+                        }
+                    },
+                    "endpoint_uuid": {
+                        "uuid": "500"
+                    }
+                }
+            ]
+        },
+        {
+            "link_id": {
+                "link_uuid": {
+                    "uuid": "172.16.185.33-501"
+                }
+            },
+            "name": "172.16.185.33-501",
+            "attributes": {
+                "total_capacity_gbps": 10,
+                "used_capacity_gbps": 0
+            },
+            "link_endpoint_ids": [
+                {
+                    "device_id": {
+                        "device_uuid": {
+                            "uuid": "172.16.185.33"
+                        }
+                    },
+                    "endpoint_uuid": {
+                        "uuid": "501"
+                    }
+                },
+                {
+                    "device_id": {
+                        "device_uuid": {
+                            "uuid": "172.16.185.32"
+                        }
+                    },
+                    "endpoint_uuid": {
+                        "uuid": "501"
+                    }
+                }
+            ]
+        },
+        {
+            "link_id": {
+                "link_uuid": {
+                    "uuid": "172.16.185.32-501"
+                }
+            },
+            "name": "172.16.185.32-501",
+            "attributes": {
+                "total_capacity_gbps": 10,
+                "used_capacity_gbps": 0
+            },
+            "link_endpoint_ids": [
+                {
+                    "device_id": {
+                        "device_uuid": {
+                            "uuid": "172.16.185.32"
+                        }
+                    },
+                    "endpoint_uuid": {
+                        "uuid": "501"
+                    }
+                },
+                {
+                    "device_id": {
+                        "device_uuid": {
+                            "uuid": "172.16.185.33"
+                        }
+                    },
+                    "endpoint_uuid": {
+                        "uuid": "501"
+                    }
+                }
+            ]
+        }
+    ]
+}

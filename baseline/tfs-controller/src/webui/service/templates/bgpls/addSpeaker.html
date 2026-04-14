@@ -1,0 +1,88 @@
+<!--
+    Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+   
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+   
+         http://www.apache.org/licenses/LICENSE-2.0
+   
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+   -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+     <h1>Add Device </h1>
+     <!-- TEST -->
+     <h5>New bglps speaker</h5>
+     
+      <br />
+     <div>
+          <form action='{{ url_for("bgpls.addSpeaker")}}' method="post">
+               {{ form.hidden_tag() }}
+               <fieldset>
+                    <div class="row mb-3">
+                         {{ form.speaker_address.label(class="col-sm-2 col-form-label") }}
+                         <div class="col-sm-10">
+                         {% if form.speaker_address.errors %}
+                         {{ form.speaker_address(class="form-control is-invalid") }}
+                         <div class="invalid-feedback">
+                              {% for error in form.speaker_address.errors %}
+                              <span>{{ error }}</span>
+                              {% endfor %}
+                         </div>
+                         {% else %}
+                         {{ form.speaker_address(class="form-control") }}
+                         {% endif %}
+                         </div>
+                    </div>
+                    <div class="row mb-3">
+                         {{ form.speaker_port.label(class="col-sm-2 col-form-label") }}
+                         <div class="col-sm-10">
+                         {% if form.speaker_port.errors %}
+                         {{ form.speaker_port(class="form-control is-invalid") }}
+                         <div class="invalid-feedback">
+                              {% for error in form.speaker_port.errors %}
+                              <span>{{ error }}</span>
+                              {% endfor %}
+                         </div>
+                         {% else %}
+                         {{ form.speaker_port(class="form-control") }}
+                         {% endif %}
+                         </div>
+                    </div>
+                    <div class="row mb-3">
+                         {{ form.speaker_as.label(class="col-sm-2 col-form-label") }}
+                         <div class="col-sm-10">
+                         {% if form.speaker_as.errors %}
+                         {{ form.speaker_as(class="form-control is-invalid") }}
+                         <div class="invalid-feedback">
+                              {% for error in form.speaker_as.errors %}
+                              <span>{{ error }}</span>
+                              {% endfor %}
+                         </div>
+                         {% else %}
+                         {{ form.speaker_as(class="form-control") }}
+                         {% endif %}
+                         </div>
+                    </div>
+               </fieldset>
+          <button type="submit" class="btn btn-primary">
+               <i class="bi bi-plus-circle-fill"></i>
+               Add Speaker
+               </button>
+          </form>
+     </div>
+     
+
+     <script src="https://d3js.org/d3.v4.min.js"></script>
+     <div id="topology"></div>
+     <script src="{{ url_for('js.topology_js') }}"></script>
+
+{% endblock %}
+   

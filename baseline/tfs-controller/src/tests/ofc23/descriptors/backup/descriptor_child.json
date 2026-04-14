@@ -1,0 +1,183 @@
+{
+    "contexts": [
+        {"context_id": {"context_uuid": {"uuid": "admin"}}}
+    ],
+    "topologies": [
+        {"topology_id": {"context_id": {"context_uuid": {"uuid": "admin"}}, "topology_uuid": {"uuid": "admin"}}}
+    ],
+    "devices": [
+        {
+            "device_id": {"device_uuid": {"uuid": "R199"}}, "device_type": "packet-router", "device_drivers": [1],
+            "device_endpoints": [], "device_operational_status": 0, "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "10.95.86.199"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "830"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {
+                    "username": "admin", "password": "admin",
+                    "force_running": false, "hostkey_verify": false, "look_for_keys": false,
+                    "allow_agent": false, "commit_per_rule": true, "device_params": {"name": "huaweiyang"},
+                    "manager_params": {"timeout" : 120},
+                    "endpoints": [
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/1"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/2"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/3"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/4"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/5"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/6"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/7"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/8"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/9"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/10"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/11"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/12"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/13"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/14"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/15"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/16"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/17"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/18"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/19"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/20"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/21"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/22"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/23"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/24"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/25"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/26"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/27"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/28"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/29"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/30"}
+                    ]
+                }}}
+            ]}
+        },
+        {
+            "device_id": {"device_uuid": {"uuid": "R155"}}, "device_type": "packet-router", "device_drivers": [1],
+            "device_endpoints": [], "device_operational_status": 0, "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "10.95.86.155"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "830"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {
+                    "username": "admin", "password": "admin",
+                    "force_running": false, "hostkey_verify": false, "look_for_keys": false,
+                    "allow_agent": false, "commit_per_rule": true, "device_params": {"name": "huaweiyang"},
+                    "manager_params": {"timeout" : 120},
+                    "endpoints": [
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/1"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/2"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/3"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/4"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/5"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/6"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/7"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/8"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/9"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/10"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/11"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/12"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/13"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/14"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/15"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/16"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/17"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/18"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/19"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/20"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/21"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/22"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/23"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/24"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/25"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/26"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/27"}
+                    ]
+                }}}
+            ]}
+        },
+        {
+            "device_id": {"device_uuid": {"uuid": "R149"}}, "device_type": "packet-router", "device_drivers": [1],
+            "device_endpoints": [], "device_operational_status": 0, "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "10.95.86.149"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "830"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {
+                    "username": "admin", "password": "admin",
+                    "force_running": false, "hostkey_verify": false, "look_for_keys": false,
+                    "allow_agent": false, "commit_per_rule": true, "device_params": {"name": "huaweiyang"},
+                    "manager_params": {"timeout" : 120},
+                    "endpoints": [
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/1"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/2"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/3"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/4"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/5"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/6"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/7"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/8"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/9"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/10"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/11"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/12"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/13"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/14"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/15"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/16"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/17"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/18"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/19"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/20"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/21"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/22"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/23"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/24"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/25"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/26"},
+                        {"sample_types": [], "type": "copper/internal", "uuid": "eth-1/0/27"}
+                    ]
+                }}}
+            ]}
+        }
+    ],
+    "links": [
+        {
+            "link_id": {"link_uuid": {"uuid": "R199/eth-1/0/19==R155/eth-1/0/19"}},
+            "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "R199"}}, "endpoint_uuid": {"uuid": "eth-1/0/19"}},
+                {"device_id": {"device_uuid": {"uuid": "R155"}}, "endpoint_uuid": {"uuid": "eth-1/0/19"}}
+            ]
+        },
+        {
+            "link_id": {"link_uuid": {"uuid": "R155/eth-1/0/19==R199/eth-1/0/19"}},
+            "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "R155"}}, "endpoint_uuid": {"uuid": "eth-1/0/19"}},
+                {"device_id": {"device_uuid": {"uuid": "R199"}}, "endpoint_uuid": {"uuid": "eth-1/0/19"}}
+            ]
+        },
+        {
+            "link_id": {"link_uuid": {"uuid": "R199/eth-1/0/20==R149/eth-1/0/20"}},
+            "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "R199"}}, "endpoint_uuid": {"uuid": "eth-1/0/20"}},
+                {"device_id": {"device_uuid": {"uuid": "R149"}}, "endpoint_uuid": {"uuid": "eth-1/0/20"}}
+            ]
+        },
+        {
+            "link_id": {"link_uuid": {"uuid": "R149/eth-1/0/20==R199/eth-1/0/20"}},
+            "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "R149"}}, "endpoint_uuid": {"uuid": "eth-1/0/20"}},
+                {"device_id": {"device_uuid": {"uuid": "R199"}}, "endpoint_uuid": {"uuid": "eth-1/0/20"}}
+            ]
+        },
+        {
+            "link_id": {"link_uuid": {"uuid": "R149/eth-1/0/25==R155/eth-1/0/25"}},
+            "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "R149"}}, "endpoint_uuid": {"uuid": "eth-1/0/25"}},
+                {"device_id": {"device_uuid": {"uuid": "R155"}}, "endpoint_uuid": {"uuid": "eth-1/0/25"}}
+            ]
+        },
+        {
+            "link_id": {"link_uuid": {"uuid": "R155/eth-1/0/25==R149/eth-1/0/25"}},
+            "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "R155"}}, "endpoint_uuid": {"uuid": "eth-1/0/25"}},
+                {"device_id": {"device_uuid": {"uuid": "R149"}}, "endpoint_uuid": {"uuid": "eth-1/0/25"}}
+            ]
+        }
+    ]
+}

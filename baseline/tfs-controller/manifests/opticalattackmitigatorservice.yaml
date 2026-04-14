@@ -1,0 +1,91 @@
+# Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: opticalattackmitigatorservice
+spec:
+  selector:
+    matchLabels:
+      app: opticalattackmitigatorservice
+  template:
+    metadata:
+      labels:
+        app: opticalattackmitigatorservice
+    spec:
+      terminationGracePeriodSeconds: 5
+      containers:
+        - name: server
+          image: labs.etsi.org:5050/tfs/controller/opticalattackmitigator:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 10007
+            - containerPort: 9192
+          env:
+            - name: LOG_LEVEL
+              value: "INFO"
+          readinessProbe:
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:10007"]
+          livenessProbe:
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:10007"]
+          resources:
+            requests:
+              cpu: 250m
+              memory: 128Mi
+            limits:
+              cpu: 1000m
+              memory: 1024Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: opticalattackmitigatorservice
+  labels:
+    app: opticalattackmitigatorservice
+spec:
+  type: ClusterIP
+  selector:
+    app: opticalattackmitigatorservice
+  ports:
+    - name: grpc
+      port: 10007
+      targetPort: 10007
+    - name: metrics
+      port: 9192
+      targetPort: 9192
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: opticalattackmitigatorservice-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: opticalattackmitigatorservice
+  minReplicas: 1
+  maxReplicas: 20
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 80
+  #behavior:
+  #  scaleDown:
+  #    stabilizationWindowSeconds: 30

@@ -1,0 +1,58 @@
+{
+  "App_Flow_2_1_slice1": {
+    "app-flow": [
+      {
+        "app-name": "App_Flow_2_1_slice1",
+        "duration": 9999,
+        "max-online-users": 1,
+        "name": "App_Flow_2_1_slice1",
+        "qos-profile": "AR_VR_Gaming",
+        "service-profile": "service_2_1_slice1",
+        "stas": "00:3D:E1:18:82:9E",
+        "user-id": "a8b5b840-1548-46c9-892e-5c18f9ec8d99"
+      }
+    ]
+  },
+  "App_Flow_3_1_slice1": {
+    "app-flow": [
+      {
+        "app-name": "App_Flow_3_1_slice1",
+        "duration": 9999,
+        "max-online-users": 1,
+        "name": "App_Flow_3_1_slice1",
+        "qos-profile": "AR_VR_Gaming",
+        "service-profile": "service_3_1_slice1",
+        "stas": "00:3D:E1:18:82:9E",
+        "user-id": "28a1c47b-0179-4ab8-85da-632e6f946491"
+      }
+    ]
+  },
+  "App_Flow_2_1_slice2": {
+    "app-flow": [
+      {
+        "app-name": "App_Flow_2_1_slice2",
+        "duration": 9999,
+        "max-online-users": 1,
+        "name": "App_Flow_2_1_slice2",
+        "qos-profile": "AR_VR_Gaming",
+        "service-profile": "service_2_1_slice2",
+        "stas": "00:3D:E1:18:82:9E",
+        "user-id": "9df7b98a-d5c0-43d4-bd0e-8d81ee4485f0"
+      }
+    ]
+  },
+  "App_Flow_3_1_slice2": {
+    "app-flow": [
+      {
+        "app-name": "App_Flow_3_1_slice2",
+        "duration": 9999,
+        "max-online-users": 1,
+        "name": "App_Flow_3_1_slice2",
+        "qos-profile": "AR_VR_Gaming",
+        "service-profile": "service_3_1_slice2",
+        "stas": "00:3D:E1:18:82:9E",
+        "user-id": "79b2becb-8500-42cc-b6be-c27c2ea60b22"
+      }
+    ]
+  }
+}

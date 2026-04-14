@@ -1,0 +1,71 @@
+<network-instances xmlns="http://openconfig.net/yang/network-instance">
+    <network-instance>
+        <name>{{name}}</name>
+        <protocols>
+            <protocol{% if operation is defined %} xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" nc:operation="{{operation}}"{% endif %}>
+                <identifier xmlns:oc-pol-types="http://openconfig.net/yang/policy-types">oc-pol-types:{{identifier}}</identifier>
+                <name>{{protocol_name}}</name>
+                {% if operation is not defined or operation != 'delete' %}
+                <config>
+                    <identifier xmlns:oc-pol-types="http://openconfig.net/yang/policy-types">oc-pol-types:{{identifier}}</identifier>
+                    <name>{{protocol_name}}</name>
+                    <enabled>true</enabled>
+                </config>
+                {% if identifier=='BGP' %}
+                <bgp>
+                    <name>{{as}}</name>
+                    <global>
+                        <config>
+                            <as>{{as}}</as>
+                            <router-id>{{router_id}}</router-id>
+                        </config>
+                        <afi-safis>
+                            <afi-safi xmlns:oc-bgp-types="http://openconfig.net/yang/bgp-types">
+                                <afi-safi-name>oc-bgp-types:IPV4_UNICAST</afi-safi-name>
+                                <config>
+                                    <afi-safi-name>oc-bgp-types:IPV4_UNICAST</afi-safi-name>
+                                    <enabled>true</enabled>
+                                </config>
+                            </afi-safi>
+                        </afi-safis>
+                    </global>
+                    {% if neighbors is defined %}
+                    <neighbors>
+                        {% for neighbor in neighbors %}
+                        <neighbor>
+                            <neighbor-address>{{neighbor['ip_address']}}</neighbor-address>
+                            <afi-safis>
+                                <afi-safi xmlns:oc-bgp-types="http://openconfig.net/yang/bgp-types">
+                                    <afi-safi-name>oc-bgp-types:IPV4_UNICAST</afi-safi-name>
+                                    <enabled>true</enabled>
+                                </afi-safi>
+                            </afi-safis>
+                            <config>
+                                <neighbor-address>{{neighbor['ip_address']}}</neighbor-address>
+                                <enabled>true</enabled>
+                                <peer-as>{{as}}</peer-as>
+                            </config>
+                        </neighbor>
+                        {% endfor %}
+                    </neighbors>
+                    {% endif %}
+                </bgp>
+                {% endif %}
+                {% endif %}
+            </protocol>
+        </protocols>
+        {% if operation is not defined or operation != 'delete' %}
+
+        <tables>
+            <table>
+                <protocol xmlns:oc-pol-types="http://openconfig.net/yang/policy-types">oc-pol-types:{{identifier}}</protocol>
+                <address-family xmlns:oc-types="http://openconfig.net/yang/openconfig-types">oc-types:IPV4</address-family>
+                <config>
+                    <protocol xmlns:oc-pol-types="http://openconfig.net/yang/policy-types">oc-pol-types:{{identifier}}</protocol>
+                    <address-family xmlns:oc-types="http://openconfig.net/yang/openconfig-types">oc-types:IPV4</address-family>
+                </config>
+            </table>
+        </tables>
+        {% endif %}
+    </network-instance>
+</network-instances>

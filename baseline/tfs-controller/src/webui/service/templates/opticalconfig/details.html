@@ -1,0 +1,168 @@
+<!--
+ Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Optical Configurations</h1>
+
+<div class="row">
+  {% if device %}
+    <div class="col-sm-12">
+      <span>Device ID:</span>
+      <h5>{{config_id}}</h5>
+    </div>
+    <div class="col-sm-12">
+      <div class="col-sm-12">
+        <div class="row mb-3 ">
+          <div class="col-sm-3">
+            <button type="button" class="btn btn-success" onclick="window.location.href='{{ url_for('opticalconfig.home') }}'">
+                <i class="bi bi-box-arrow-in-left"></i>
+                Back to device list
+            </button>
+          </div>
+          <div class="col-sm-3">
+            <!-- <button type="button" class="btn btn-danger"><i class="bi bi-x-square"></i>Delete device</button> -->
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                <i class="bi bi-x-square"></i>
+                Delete Optical Config
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-12">
+        <span>Device Name:</span>
+        <span>{{device_name}}</span>
+      </div>
+    </div>
+
+    {% if type == 'optical-transponder' %}
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th scope="col">channel name</th>
+            <th scope="col">Frequency</th>
+            <th scope="col">Target Output Power</th>
+            <th scope="col">Operational Mode</th>
+            <th scope="col">Line Port</th>
+            <th scope="col">Channel Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for channel in device %}
+            <tr style="background-color:{%if channel.status == 'DISABLED' %} gray {% endif %};">
+              <td>{{channel.name.index}}</td>
+              <td>{{channel.frequency}}</td>
+              <td>{{channel.targetOutputPower}}</td>
+              <td>{{channel.operationalMode}}</td>
+              <td>{{channel.line_port}}</td>
+              <td>{{channel.status}}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% elif type == 'openroadm' %}  
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th scope="col"> name</th>
+            <th scope="col"> type</th>
+            <th scope="col">administrative state</th>
+            <th scope="col">circuit pack name</th>
+            <th scope="col">port</th>
+            <th scope="col">interface list</th>
+            <th scope="col">frequency</th>
+            <th scope="col">width</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for channel in device %}
+              <tr style="background-color:{%if channel.status == 'DISABLED' %} gray {% endif %};">
+                <td>{{channel.name}}</td>
+                <td>{{channel.type}}</td>
+                <td>{{channel.administrative_state}}</td>
+                <td>{{channel.circuit_pack_name}}</td>
+                <td>{{channel.port}}</td>
+                <td>{{channel.interface_list}}</td>
+                <td>{{channel.frequency}}</td>
+                <td>{{channel.width}}</td>
+              </tr>
+            {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th scope="col">Channel Index</th>
+            <th scope="col">Optical Band Parent</th>
+            <th scope="col">Band Name</th>
+            <th scope="col">Lower Frequency</th>
+            <th scope="col">Upper Frequency</th>
+            <th scope="col">type</th>
+            <th scope="col">Source Port</th>
+            <th scope="col">Destination Port</th>
+            <th scope="col">Channel Status </th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for channel in device %} 
+            <tr>
+              <td>{{channel.channel_index}}</td>
+              <td>{{channel.optical_band_parent}}</td>
+              <td>{{channel.band_name}}</td>
+              <td>{{channel.lower_frequency}}</td>
+              <td>{{channel.upper_frequency}}</td>
+              <td>{{channel.type}}</td>
+              <td>{{channel.src_port}}</td>
+              <td>{{channel.dest_port}}</td>
+              <td>{{channel.status}}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% endif%}
+  </div>
+
+{% else %}
+<div class="col">
+  <h4 colspan="7">No devices found</h4>
+</div>
+{% endif %}
+<div class="modal fade" id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Delete Optical Config?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete the Optical Config "{{config_id}}"?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                <a type="button" class="btn btn-danger"
+                    href="{{ url_for('opticalconfig.delete_opitcalconfig', opticalconfig_uuid=config_id) }}"><i
+                        class="bi bi-exclamation-diamond"></i>Yes</a>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+{% endblock %}

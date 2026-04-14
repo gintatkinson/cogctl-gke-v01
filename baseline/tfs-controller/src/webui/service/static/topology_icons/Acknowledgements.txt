@@ -1,0 +1,43 @@
+Network Topology Icons taken from https://vecta.io/symbols
+
+https://symbols.getvecta.com/stencil_240/51_cloud.4d0a827676.png => network.png
+    #modified to be grey instead of white
+
+https://symbols.getvecta.com/stencil_240/15_atm-switch.1bbf9a7cca.png => packet-switch.png
+https://symbols.getvecta.com/stencil_241/45_atm-switch.6a7362c1df.png => emu-packet-switch.png
+
+https://symbols.getvecta.com/stencil_240/204_router.7b208c1133.png => packet-router.png
+https://symbols.getvecta.com/stencil_241/224_router.be30fb87e7.png => emu-packet-router.png
+
+https://symbols.getvecta.com/stencil_240/269_virtual-layer-switch.ed10fdede6.png => open-line-system.png
+https://symbols.getvecta.com/stencil_241/281_virtual-layer-switch.29420aff2f.png => emu-open-line-system.png
+
+# Temporal icon; to be updated
+https://symbols.getvecta.com/stencil_240/269_virtual-layer-switch.ed10fdede6.png => microwave-radio-system.png
+https://symbols.getvecta.com/stencil_241/281_virtual-layer-switch.29420aff2f.png => emu-microwave-radio-system.png
+
+https://symbols.getvecta.com/stencil_240/102_ibm-tower.2cc133f3d0.png => datacenter.png
+https://symbols.getvecta.com/stencil_241/133_ibm-tower.995c44696c.png => emu-datacenter.png
+
+https://symbols.getvecta.com/stencil_240/193_programmable-switch.6d97768882.png => optical-roadm.png
+https://symbols.getvecta.com/stencil_241/213_programmable-sw.32d3794d56.png => emu-optical-roadm.png
+
+https://symbols.getvecta.com/stencil_240/275_wae.c06b769cd7.png => optical-transponder.png
+https://symbols.getvecta.com/stencil_241/289_wae.216d930c17.png => emu-optical-transponder.png
+
+https://symbols.getvecta.com/stencil_240/128_localdirector.c1e561769f.png => optical-splitter.png
+https://symbols.getvecta.com/stencil_241/158_local-director.6b38eab9e4.png => emu-optical-splitter.png
+
+https://symbols.getvecta.com/stencil_240/197_radio-tower.b6138c8c29.png => radio-router.png
+https://symbols.getvecta.com/stencil_241/216_radio-tower.5159339bc0.png => emu-radio-router.png
+
+https://symbols.getvecta.com/stencil_240/124_laptop.be264ceb77.png => client.png
+https://symbols.getvecta.com/stencil_241/154_laptop.c01910b6c8.png => emu-client.png
+
+https://symbols.getvecta.com/stencil_240/16_atm-tag-switch-router.3149d7e933.png => ip-sdn-controller.png
+https://symbols.getvecta.com/stencil_241/46_atm-tag-sw-rtr.776719c0b0.png => emu-ip-sdn-controller.png
+
+https://onfstaging1.opennetworking.org/wp-content/uploads/2020/02/p4-transparent-logo.png => p4-switch.png
+
+https://symbols.getvecta.com/stencil_240/81_firewall.21bd3abec8.png => firewall.png
+https://symbols.getvecta.com/stencil_241/110_firewall.e262f4364e.png => emu-firewall.png

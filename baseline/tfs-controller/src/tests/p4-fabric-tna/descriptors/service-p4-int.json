@@ -1,0 +1,58 @@
+{
+    "services": [
+        {
+            "service_id": {
+                "context_id": {"context_uuid": {"uuid": "admin"}}, "service_uuid": {"uuid": "p4-service-int"}
+            },
+            "name": "p4-service-int",
+            "service_type": "SERVICETYPE_INT",
+            "service_status": {"service_status": "SERVICESTATUS_PLANNED"},
+            "service_endpoint_ids": [
+                {
+                    "device_id": {"device_uuid": {"uuid": "sw1"}},
+                    "endpoint_uuid": {"uuid": "1"}
+                },
+                {
+                    "device_id": {"device_uuid": {"uuid": "sw1"}},
+                    "endpoint_uuid": {"uuid": "2"}
+                }
+            ],
+            "service_config": {
+                "config_rules": [
+                    {
+                        "action": "CONFIGACTION_SET",
+                        "custom": {
+                            "resource_key": "/settings",
+                            "resource_value": {
+                                "switch_info": [
+                                    {
+                                        "sw1": {
+                                            "arch": "v1model",
+                                            "dpid": 1,
+                                            "mac": "ee:ee:8c:6c:f3:2c",
+                                            "ip": "192.168.5.139",
+                                            "int_port": {
+                                                "port_id": 3,
+                                                "port_type": "host"
+                                            }
+                                        }
+                                    }
+                                ],
+                                "int_collector_info": {
+                                    "iface": "eth0",
+                                    "mac": "3e:87:de:3d:6d:33",
+                                    "ip": "192.168.5.131",
+                                    "port": 12345,
+                                    "vlan_id": 4094,
+                                    "duration_sec": 2000,
+                                    "interval_sec": 1
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            "service_constraints": []
+        }
+    ]
+}

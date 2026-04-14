@@ -1,0 +1,84 @@
+{
+    "ietf-te:tunnel": [
+        {
+            "name": "osu_tunnel_1",
+            "title": "OSU_TUNNEL_1",
+            "admin-state": "ietf-te-types:tunnel-admin-state-up",
+            "delay": 20,
+            "te-bandwidth": {
+                "layer": "odu",
+                "odu-type": "osuflex",
+                "number": 40
+            },
+            "bidirectional": true,
+            "destination-endpoints": {
+                "destination-endpoint": [
+                    {
+                        "node-id": "10.0.30.1",
+                        "tp-id": "200",
+                        "ttp-channel-name": "och:1-odu2:1-oduflex:3-osuflex:1",
+                        "protection-role": "work"
+                    }
+                ]
+            },
+            "source-endpoints": {
+                "source-endpoint": [
+                    {
+                        "node-id": "10.0.10.1",
+                        "tp-id": "200",
+                        "ttp-channel-name": "och:1-odu2:1-oduflex:1-osuflex:2",
+                        "protection-role": "work"
+                    }
+                ]
+            },
+            "restoration": {
+                "restoration-type": "ietf-te-types:lsp-restoration-not-applicable",
+                "restoration-lock": false
+            },
+            "protection": {
+                "protection-type": "ietf-te-types:lsp-protection-unprotected",
+                "protection-reversion-disable": true
+            }
+        },
+        {
+            "name": "osu_tunnel_2",
+            "title": "OSU_TUNNEL_2",
+            "admin-state": "ietf-te-types:tunnel-admin-state-up",
+            "delay": 20,
+            "te-bandwidth": {
+                "layer": "odu",
+                "odu-type": "osuflex",
+                "number": 40
+            },
+            "bidirectional": true,
+            "destination-endpoints": {
+                "destination-endpoint": [
+                    {
+                        "node-id": "10.0.30.1",
+                        "tp-id": "200",
+                        "ttp-channel-name": "och:1-odu2:1-oduflex:3-osuflex:1",
+                        "protection-role": "work"
+                    }
+                ]
+            },
+            "source-endpoints": {
+                "source-endpoint": [
+                    {
+                        "node-id": "10.0.10.1",
+                        "tp-id": "200",
+                        "ttp-channel-name": "och:1-odu2:1-oduflex:1-osuflex:2",
+                        "protection-role": "work"
+                    }
+                ]
+            },
+            "restoration": {
+                "restoration-type": "ietf-te-types:lsp-restoration-not-applicable",
+                "restoration-lock": false
+            },
+            "protection": {
+                "protection-type": "ietf-te-types:lsp-protection-unprotected",
+                "protection-reversion-disable": true
+            }
+        }
+    ]
+}

@@ -1,0 +1,65 @@
+# Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Example based on clos01 example (http://containerlab.dev/lab-examples/min-clos/)
+
+# TFS 2 Nokia SR Linux nodes + 2 Linux clients
+name: tfs-scenario
+
+mgmt:
+  network: mgmt-net
+  ipv4-subnet: 172.100.100.0/24
+
+topology:
+  kinds:
+    nokia_srlinux:
+      image: ghcr.io/nokia/srlinux:23.10.3
+    linux:
+      image: ghcr.io/hellt/network-multitool
+  nodes:
+    srl1:
+      kind: nokia_srlinux
+      type: ixr6
+      cpu: 0.5
+      memory: 2GB
+      mgmt-ipv4: 172.100.100.101
+      startup-config: srl.cli
+    srl2:
+      kind: nokia_srlinux
+      type: ixr6
+      cpu: 0.5
+      memory: 2GB
+      mgmt-ipv4: 172.100.100.102
+      startup-config: srl.cli
+    client1:
+      kind: linux
+      cpu: 0.1
+      memory: 100MB
+      mgmt-ipv4: 172.100.100.201
+      exec:
+        - ip address add 172.16.1.10/24 dev eth1
+        - ip route add 172.16.2.0/24 via 172.16.1.1
+    client2:
+      kind: linux
+      cpu: 0.1
+      memory: 100MB
+      mgmt-ipv4: 172.100.100.202
+      exec:
+        - ip address add 172.16.2.10/24 dev eth1
+        - ip route add 172.16.1.0/24 via 172.16.2.1
+
+  links:
+    - endpoints: ["srl1:e1-1", "srl2:e1-1"]
+    - endpoints: ["client1:eth1", "srl1:e1-2"]
+    - endpoints: ["client2:eth1", "srl2:e1-2"]

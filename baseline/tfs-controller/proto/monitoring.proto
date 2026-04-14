@@ -1,0 +1,192 @@
+// Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+package monitoring;
+
+import "context.proto";
+import "kpi_sample_types.proto";
+
+service MonitoringService {
+  rpc SetKpi                (KpiDescriptor      ) returns (KpiId               ) {} // Stable not final
+  rpc DeleteKpi             (KpiId              ) returns (context.Empty       ) {} // Stable and final
+  rpc GetKpiDescriptor      (KpiId              ) returns (KpiDescriptor       ) {} // Stable and final
+  rpc GetKpiDescriptorList  (context.Empty      ) returns (KpiDescriptorList   ) {} // Stable and final
+  rpc IncludeKpi            (Kpi                ) returns (context.Empty       ) {} // Stable and final
+  rpc MonitorKpi            (MonitorKpiRequest  ) returns (context.Empty       ) {} // Stable and final
+  rpc QueryKpiData          (KpiQuery           ) returns (RawKpiTable         ) {} // Not implemented
+  rpc SetKpiSubscription    (SubsDescriptor     ) returns (stream SubsResponse ) {} // Stable not final
+  rpc GetSubsDescriptor     (SubscriptionID     ) returns (SubsDescriptor      ) {} // Stable and final
+  rpc GetSubscriptions      (context.Empty      ) returns (SubsList            ) {} // Stable and final
+  rpc DeleteSubscription    (SubscriptionID     ) returns (context.Empty       ) {} // Stable and final
+  rpc SetKpiAlarm           (AlarmDescriptor    ) returns (AlarmID             ) {} // Stable not final
+  rpc GetAlarms             (context.Empty      ) returns (AlarmList           ) {} // Stable and final
+  rpc GetAlarmDescriptor    (AlarmID            ) returns (AlarmDescriptor     ) {} // Stable and final
+  rpc GetAlarmResponseStream(AlarmSubscription  ) returns (stream AlarmResponse) {} // Not Stable not final
+  rpc DeleteAlarm           (AlarmID            ) returns (context.Empty       ) {} // Stable and final
+  rpc GetStreamKpi          (KpiId              ) returns (stream Kpi          ) {} // Stable not final
+  rpc GetInstantKpi         (KpiId              ) returns (Kpi                 ) {} // Stable not final
+}
+
+message KpiDescriptor {
+  KpiId                          kpi_id          = 1;
+  string                         kpi_description = 2;
+  repeated KpiId                 kpi_id_list     = 3;
+  kpi_sample_types.KpiSampleType kpi_sample_type = 4;
+  context.DeviceId               device_id       = 5;
+  context.EndPointId             endpoint_id     = 6;
+  context.ServiceId              service_id      = 7;
+  context.SliceId                slice_id        = 8;
+  context.ConnectionId           connection_id   = 9;
+  context.LinkId                 link_id         = 10;
+}
+
+message MonitorKpiRequest {
+  KpiId kpi_id              = 1;
+  float monitoring_window_s = 2;
+  float sampling_rate_s     = 3;
+  // Pending add field to reflect Available Device Protocols
+}
+
+message KpiQuery {
+  repeated KpiId    kpi_ids             = 1;
+  float             monitoring_window_s = 2;
+  uint32            last_n_samples      = 3;  // used when you want something like "get the last N many samples
+  context.Timestamp start_timestamp     = 4;  // used when you want something like "get the samples since X date/time"
+  context.Timestamp end_timestamp       = 5;  // used when you want something like "get the samples until X date/time"
+}
+
+
+message RawKpi { // cell
+  context.Timestamp timestamp = 1;
+  KpiValue          kpi_value = 2;
+}
+
+message RawKpiList { // column
+  KpiId           kpi_id    = 1;
+  repeated RawKpi raw_kpis  = 2;
+}
+
+message RawKpiTable { // table
+  repeated RawKpiList raw_kpi_lists = 1;
+}
+
+message KpiId {
+  context.Uuid kpi_id = 1;
+}
+
+message Kpi {
+  KpiId             kpi_id    = 1;
+  context.Timestamp timestamp = 2;
+  KpiValue          kpi_value = 3;
+}
+
+message KpiValueRange {
+  KpiValue  kpiMinValue     = 1;
+  KpiValue  kpiMaxValue     = 2;
+  bool      inRange         = 3;  // by default True
+  bool      includeMinValue = 4;  // False is outside the interval
+  bool      includeMaxValue = 5;  // False is outside the interval
+}
+
+message KpiValue {
+  oneof value {
+    int32  int32Val  = 1;
+    uint32 uint32Val = 2;
+    int64  int64Val  = 3;
+    uint64 uint64Val = 4;
+    float  floatVal  = 5;
+    string stringVal = 6;
+    bool   boolVal   = 7;
+  }
+}
+
+
+message KpiList {
+  repeated Kpi kpi = 1;
+}
+
+message KpiDescriptorList {
+  repeated KpiDescriptor kpi_descriptor_list = 1;
+}
+
+message SubsDescriptor{
+  SubscriptionID    subs_id             = 1;
+  KpiId             kpi_id              = 2;
+  float             sampling_duration_s = 3;
+  float             sampling_interval_s = 4;
+  context.Timestamp start_timestamp     = 5;  // used when you want something like "get the samples since X date/time"
+  context.Timestamp end_timestamp       = 6;  // used when you want something like "get the samples until X date/time"
+  // Pending add field to reflect Available Device Protocols
+}
+
+message SubscriptionID {
+  context.Uuid subs_id = 1;
+}
+
+message SubsResponse {
+  SubscriptionID   subs_id  = 1;
+  KpiList          kpi_list = 2;
+}
+
+message SubsList {
+  repeated SubsDescriptor subs_descriptor = 1;
+}
+
+message AlarmDescriptor {
+  AlarmID           alarm_id          = 1;
+  string            alarm_description = 2;
+  string            name              = 3;
+  KpiId             kpi_id            = 4;
+  KpiValueRange     kpi_value_range   = 5;
+  context.Timestamp timestamp         = 6;
+}
+
+message AlarmID{
+  context.Uuid alarm_id = 1;
+}
+
+message AlarmSubscription{
+  AlarmID alarm_id                  = 1;
+  float   subscription_timeout_s    = 2;
+  float   subscription_frequency_ms = 3;
+}
+
+message AlarmResponse {
+  AlarmID           alarm_id  = 1;
+  string            text      = 2;
+  KpiList           kpi_list  = 3;
+}
+
+message AlarmList {
+  repeated AlarmDescriptor alarm_descriptor = 1;
+}
+
+message SSEMonitoringSubscriptionConfig {
+    enum ConfigType {
+        Subscribe = 0;
+        Unsubscribe = 1;
+        GetTelemetry = 2;
+    }
+    context.DeviceId device_id = 1;
+    ConfigType config_type = 2;
+    string uri = 3;
+    string sampling_interval = 4; // in seconds
+    string identifier = 5;
+}
+
+message SSEMonitoringSubscriptionResponse {
+    string identifier = 1;
+    string uri = 2;
+}

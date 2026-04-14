@@ -1,0 +1,13 @@
+<interfaces xmlns="http://openconfig.net/yang/interfaces">
+    <interface{% if operation is defined %} xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" nc:operation="{{operation}}"{% endif %}>
+        <name>{{name}}</name>
+        {% if operation is defined and operation != 'delete' %}
+        <config>
+            <name>{{name}}</name>
+            <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:{{type}}</type>
+            <description></description>
+            <mtu>{{mtu}}</mtu>
+        </config>
+       {% endif %}
+    </interface>
+</interfaces>

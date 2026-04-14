@@ -1,0 +1,81 @@
+-----------------------GET-----------------------
+
+curl --request GET \
+  --url http://10.1.7.203:80/restconf/bwm/v1/bw_allocations
+
+
+-----------------------POST-----------------------
+curl --request POST \
+  --url http://10.1.7.203:80/restconf/bwm/v1/bw_allocations \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "allocationDirection": "string",
+  "appInsId": "service_uuid",
+  "fixedAllocation": "123",
+  "fixedBWPriority": "SEE_DESCRIPTION",
+  "requestType": 0,
+  "sessionFilter": [
+    {
+      "dstAddress": "192.168.3.2",
+      "dstPort": [
+        "b"
+      ],
+      "protocol": "string",
+      "sourceIp": "192.168.1.2",
+      "sourcePort": [
+        "a"
+      ]
+    }
+  ],
+  "timeStamp": {
+    "nanoSeconds": 1,
+    "seconds": 1
+  }
+}'
+
+
+-----------------------GET2-----------------------
+curl --request GET \
+  --url http://10.1.7.203:80/restconf/bwm/v1/bw_allocations/service_uuid
+
+-----------------------PUT-----------------------
+  curl --request PUT \
+  --url http://10.1.7.203:80/restconf/bwm/v1/bw_allocations/service_uuid \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "allocationDirection": "string",
+  "appInsId": "service_uuid",
+  "fixedAllocation": "123",
+  "fixedBWPriority": "efefe",
+  "requestType": 0,
+  "sessionFilter": [
+    {
+      "dstAddress": "192.168.3.2",
+      "dstPort": [
+        "b"
+      ],
+      "protocol": "string",
+      "sourceIp": "192.168.1.2",
+      "sourcePort": [
+        "a"
+      ]
+    }
+  ],
+  "timeStamp": {
+    "nanoSeconds": 1,
+    "seconds": 1
+  }
+}'
+
+-----------------------PATCH-----------------------
+curl --request PATCH \
+  --url http://10.1.7.203:80/restconf/bwm/v1/bw_allocations/service_uuid \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "fixedBWPriority": "uuuuuuuuuuuuuu"
+}'
+
+
+-----------------------DELETE-----------------------
+curl --request DELETE \
+  --url http://10.1.7.203:80/restconf/bwm/v1/bw_allocations/service_uuid

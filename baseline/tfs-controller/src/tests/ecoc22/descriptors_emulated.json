@@ -1,0 +1,190 @@
+{
+    "contexts": [
+        {"context_id": {"context_uuid": {"uuid": "admin"}}}
+    ],
+    "topologies": [
+        {"topology_id": {"context_id": {"context_uuid": {"uuid": "admin"}}, "topology_uuid": {"uuid": "admin"}}}
+    ],
+    "devices": [
+        {
+            "device_id": {"device_uuid": {"uuid": "DC1-GW"}}, "device_type": "emu-datacenter",
+            "device_drivers": ["DEVICEDRIVER_UNDEFINED"], "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "127.0.0.1"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "0"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {"endpoints": [
+                    {"uuid": "eth1", "type": "copper"},
+                    {"uuid": "eth2", "type": "copper"},
+                    {"uuid": "int",  "type": "copper"}
+                ]}}}
+            ]}
+        },
+        {
+            "device_id": {"device_uuid": {"uuid": "DC2-GW"}}, "device_type": "emu-datacenter",
+            "device_drivers": ["DEVICEDRIVER_UNDEFINED"], "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "127.0.0.1"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "0"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {"endpoints": [
+                    {"uuid": "eth1", "type": "copper"},
+                    {"uuid": "eth2", "type": "copper"},
+                    {"uuid": "int",  "type": "copper"}
+                ]}}}
+            ]}
+        },
+        {
+            "device_id": {"device_uuid": {"uuid": "CS1-GW1"}}, "device_type": "emu-packet-router",
+            "device_drivers": ["DEVICEDRIVER_UNDEFINED"], "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "127.0.0.1"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "0"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {"endpoints": [
+                    {"uuid": "10/1", "type": "copper", "sample_types": [101, 102, 201, 202]},
+                    {"uuid": "1/1",  "type": "copper", "sample_types": [101, 102, 201, 202]}
+                ]}}}
+            ]}
+        },
+        {
+            "device_id": {"device_uuid": {"uuid": "CS1-GW2"}}, "device_type": "emu-packet-router",
+            "device_drivers": ["DEVICEDRIVER_UNDEFINED"], "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "127.0.0.1"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "0"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {"endpoints": [
+                    {"uuid": "10/1", "type": "copper", "sample_types": [101, 102, 201, 202]},
+                    {"uuid": "1/1",  "type": "copper", "sample_types": [101, 102, 201, 202]}
+                ]}}}
+            ]}
+        },
+        {
+            "device_id": {"device_uuid": {"uuid": "CS2-GW1"}}, "device_type": "emu-packet-router",
+            "device_drivers": ["DEVICEDRIVER_UNDEFINED"], "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "127.0.0.1"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "0"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {"endpoints": [
+                    {"uuid": "10/1", "type": "copper", "sample_types": [101, 102, 201, 202]},
+                    {"uuid": "1/1",  "type": "copper", "sample_types": [101, 102, 201, 202]}
+                ]}}}
+            ]}
+        },
+        {
+            "device_id": {"device_uuid": {"uuid": "CS2-GW2"}}, "device_type": "emu-packet-router",
+            "device_drivers": ["DEVICEDRIVER_UNDEFINED"], "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "127.0.0.1"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "0"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {"endpoints": [
+                    {"uuid": "10/1", "type": "copper", "sample_types": [101, 102, 201, 202]},
+                    {"uuid": "1/1",  "type": "copper", "sample_types": [101, 102, 201, 202]}
+                ]}}}
+            ]}
+        },
+        {
+            "device_id": {"device_uuid": {"uuid": "OLS"}}, "device_type": "emu-open-line-system",
+            "device_drivers": ["DEVICEDRIVER_UNDEFINED"], "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "127.0.0.1"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "0"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {"endpoints": [
+                    {"uuid": "aade6001-f00b-5e2f-a357-6a0a9d3de870", "type": "optical"},
+                    {"uuid": "eb287d83-f05e-53ec-ab5a-adf6bd2b5418", "type": "optical"},
+                    {"uuid": "0ef74f99-1acc-57bd-ab9d-4b958b06c513", "type": "optical"},
+                    {"uuid": "50296d99-58cc-5ce7-82f5-fc8ee4eec2ec", "type": "optical"}
+                ]}}}
+            ]}
+        }
+    ],
+    "links": [
+        {
+            "link_id": {"link_uuid": {"uuid": "DC1-GW/eth1==CS1-GW1/10/1"}}, "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "DC1-GW"}}, "endpoint_uuid": {"uuid": "eth1"}},
+                {"device_id": {"device_uuid": {"uuid": "CS1-GW1"}}, "endpoint_uuid": {"uuid": "10/1"}}
+            ]
+        },
+        {
+            "link_id": {"link_uuid": {"uuid": "DC1-GW/eth2==CS1-GW2/10/1"}}, "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "DC1-GW"}}, "endpoint_uuid": {"uuid": "eth2"}},
+                {"device_id": {"device_uuid": {"uuid": "CS1-GW2"}}, "endpoint_uuid": {"uuid": "10/1"}}
+            ]
+        },
+        {
+            "link_id": {"link_uuid": {"uuid": "DC2-GW/eth1==CS2-GW1/10/1"}}, "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "DC2-GW"}}, "endpoint_uuid": {"uuid": "eth1"}},
+                {"device_id": {"device_uuid": {"uuid": "CS2-GW1"}}, "endpoint_uuid": {"uuid": "10/1"}}
+            ]
+        },
+        {
+            "link_id": {"link_uuid": {"uuid": "DC2-GW/eth2==CS2-GW2/10/1"}}, "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "DC2-GW"}}, "endpoint_uuid": {"uuid": "eth2"}},
+                {"device_id": {"device_uuid": {"uuid": "CS2-GW2"}}, "endpoint_uuid": {"uuid": "10/1"}}
+            ]
+        },
+        {
+            "link_id": {"link_uuid": {"uuid": "CS1-GW1/1/1==OLS/aade6001-f00b-5e2f-a357-6a0a9d3de870"}}, "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "CS1-GW1"}}, "endpoint_uuid": {"uuid": "1/1"}},
+                {"device_id": {"device_uuid": {"uuid": "OLS"}}, "endpoint_uuid": {"uuid": "aade6001-f00b-5e2f-a357-6a0a9d3de870"}}
+            ]
+        },
+        {
+            "link_id": {"link_uuid": {"uuid": "CS1-GW2/1/1==OLS/eb287d83-f05e-53ec-ab5a-adf6bd2b5418"}}, "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "CS1-GW2"}}, "endpoint_uuid": {"uuid": "1/1"}},
+                {"device_id": {"device_uuid": {"uuid": "OLS"}}, "endpoint_uuid": {"uuid": "eb287d83-f05e-53ec-ab5a-adf6bd2b5418"}}
+            ]
+        },
+        {
+            "link_id": {"link_uuid": {"uuid": "CS2-GW1/1/1==OLS/0ef74f99-1acc-57bd-ab9d-4b958b06c513"}}, "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "CS2-GW1"}}, "endpoint_uuid": {"uuid": "1/1"}},
+                {"device_id": {"device_uuid": {"uuid": "OLS"}}, "endpoint_uuid": {"uuid": "0ef74f99-1acc-57bd-ab9d-4b958b06c513"}}
+            ]
+        },
+        {
+            "link_id": {"link_uuid": {"uuid": "CS2-GW2/1/1==OLS/50296d99-58cc-5ce7-82f5-fc8ee4eec2ec"}}, "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "CS2-GW2"}}, "endpoint_uuid": {"uuid": "1/1"}},
+                {"device_id": {"device_uuid": {"uuid": "OLS"}}, "endpoint_uuid": {"uuid": "50296d99-58cc-5ce7-82f5-fc8ee4eec2ec"}}
+            ]
+        },
+
+        {
+            "link_id": {"link_uuid": {"uuid": "CS1-GW1/10/1==DC1-GW/eth1"}}, "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "CS1-GW1"}}, "endpoint_uuid": {"uuid": "10/1"}},
+                {"device_id": {"device_uuid": {"uuid": "DC1-GW"}}, "endpoint_uuid": {"uuid": "eth1"}}
+            ]
+        },
+        {
+            "link_id": {"link_uuid": {"uuid": "CS1-GW2/10/1==DC1-GW/eth2"}}, "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "CS1-GW2"}}, "endpoint_uuid": {"uuid": "10/1"}},
+                {"device_id": {"device_uuid": {"uuid": "DC1-GW"}}, "endpoint_uuid": {"uuid": "eth2"}}
+            ]
+        },
+        {
+            "link_id": {"link_uuid": {"uuid": "CS2-GW1/10/1==DC2-GW/eth1"}}, "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "CS2-GW1"}}, "endpoint_uuid": {"uuid": "10/1"}},
+                {"device_id": {"device_uuid": {"uuid": "DC2-GW"}}, "endpoint_uuid": {"uuid": "eth1"}}
+            ]
+        },
+        {
+            "link_id": {"link_uuid": {"uuid": "CS2-GW2/10/1==DC2-GW/eth2"}}, "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "CS2-GW2"}}, "endpoint_uuid": {"uuid": "10/1"}},
+                {"device_id": {"device_uuid": {"uuid": "DC2-GW"}}, "endpoint_uuid": {"uuid": "eth2"}}
+            ]
+        },
+        {
+            "link_id": {"link_uuid": {"uuid": "OLS/aade6001-f00b-5e2f-a357-6a0a9d3de870==CS1-GW1/1/1"}}, "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "OLS"}}, "endpoint_uuid": {"uuid": "aade6001-f00b-5e2f-a357-6a0a9d3de870"}},
+                {"device_id": {"device_uuid": {"uuid": "CS1-GW1"}}, "endpoint_uuid": {"uuid": "1/1"}}
+            ]
+        },
+        {
+            "link_id": {"link_uuid": {"uuid": "OLS/eb287d83-f05e-53ec-ab5a-adf6bd2b5418==CS1-GW2/1/1"}}, "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "OLS"}}, "endpoint_uuid": {"uuid": "eb287d83-f05e-53ec-ab5a-adf6bd2b5418"}},
+                {"device_id": {"device_uuid": {"uuid": "CS1-GW2"}}, "endpoint_uuid": {"uuid": "1/1"}}
+            ]
+        },
+        {
+            "link_id": {"link_uuid": {"uuid": "OLS/0ef74f99-1acc-57bd-ab9d-4b958b06c513==CS2-GW1/1/1"}}, "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "OLS"}}, "endpoint_uuid": {"uuid": "0ef74f99-1acc-57bd-ab9d-4b958b06c513"}},
+                {"device_id": {"device_uuid": {"uuid": "CS2-GW1"}}, "endpoint_uuid": {"uuid": "1/1"}}
+            ]
+        },
+        {
+            "link_id": {"link_uuid": {"uuid": "OLS/50296d99-58cc-5ce7-82f5-fc8ee4eec2ec==CS2-GW2/1/1"}}, "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "OLS"}}, "endpoint_uuid": {"uuid": "50296d99-58cc-5ce7-82f5-fc8ee4eec2ec"}},
+                {"device_id": {"device_uuid": {"uuid": "CS2-GW2"}}, "endpoint_uuid": {"uuid": "1/1"}}
+            ]
+        }
+    ]
+}

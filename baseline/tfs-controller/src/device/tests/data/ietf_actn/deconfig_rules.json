@@ -1,0 +1,14 @@
+[
+    {"action": 2, "custom": {"resource_key": "/osu_tunnels/osu_tunnel[osu_tunnel_1]", "resource_value": {
+        "name": "osu_tunnel_1"
+    }}},
+    {"action": 2, "custom": {"resource_key": "/osu_tunnels/osu_tunnel[osu_tunnel_2]", "resource_value": {
+        "name": "osu_tunnel_2"
+    }}},
+    {"action": 2, "custom": {"resource_key": "/etht_services/etht_service[etht_service_1]", "resource_value": {
+        "name": "etht_service_1"
+    }}},
+    {"action": 2, "custom": {"resource_key": "/etht_services/etht_service[etht_service_2]", "resource_value": {
+        "name": "etht_service_2"
+    }}}
+]

@@ -1,0 +1,4 @@
++C multi_time_warp
++sbwt none
+-name ${ERLANG_NODE_NAME}@${ERLANG_NODE_IP}
+-setcookie ${ERLANG_COOKIE}

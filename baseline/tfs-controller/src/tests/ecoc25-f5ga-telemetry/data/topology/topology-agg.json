@@ -1,0 +1,95 @@
+{
+    "contexts": [
+        {"context_id": {"context_uuid": {"uuid": "admin"}}}
+    ],
+    "topologies": [
+        {"topology_id": {"context_id": {"context_uuid": {"uuid": "admin"}}, "topology_uuid": {"uuid": "admin"}}},
+        {"topology_id": {"context_id": {"context_uuid": {"uuid": "admin"}}, "topology_uuid": {"uuid": "agg"}}}
+    ],
+    "devices": [
+        {"device_id": {"device_uuid": {"uuid": "TFS-IP"}}, "device_type": "teraflowsdn",
+        "device_drivers": ["DEVICEDRIVER_IETF_L3VPN"],
+        "device_config": {"config_rules": [
+            {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/address",  "resource_value": "10.254.0.12"}},
+            {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/port",     "resource_value": "80"}},
+            {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/settings", "resource_value": {
+                "scheme": "http", "username": "admin", "password": "admin", "base_url": "/restconf/v2/data",
+                "timeout": 120, "verify_certs": false, "import_topology": "topology"
+            }}}
+        ]}},
+        {"device_id": {"device_uuid": {"uuid": "NCE-T"}}, "device_type": "nce",
+        "device_drivers": ["DEVICEDRIVER_IETF_ACTN"],
+        "device_config": {"config_rules": [
+            {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/address",  "resource_value": "10.254.0.9"}},
+            {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/port",     "resource_value": "8082"}},
+            {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/settings", "resource_value": {
+                "scheme": "http", "username": "admin", "password": "admin", "base_url": "/restconf/v2/data",
+                "timeout": 120, "verify_certs": false, "import_topology": "topology"
+            }}}
+        ]}},
+        {"device_id": {"device_uuid": {"uuid": "POP1"}}, "device_type": "packet-pop",
+        "device_drivers": ["DEVICEDRIVER_UNDEFINED"],
+        "device_config": {"config_rules": [
+            {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/address",  "resource_value": "172.16.204.220"}},
+            {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/port",     "resource_value": "0"}},
+            {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/settings", "resource_value": {"endpoints": [
+                {"uuid": "lo",  "name": "lo",  "type": "loopback"},
+                {"uuid": "200", "name": "200", "type": "copper"},
+                {"uuid": "201", "name": "201", "type": "copper"},
+                {"uuid": "500", "name": "500", "type": "copper"}
+            ]}}},
+            {"action": "CONFIGACTION_SET", "custom": {"resource_key": "/endpoints/endpoint[200]", "resource_value": {
+                "uuid": "200", "name": "200", "type": "optical",
+                "address_ip": "172.1.201.1", "address_prefix": "24",
+                "site_location": "cloud", "mtu": "1500"
+            }}},
+            {"action": "CONFIGACTION_SET", "custom": {"resource_key": "/endpoints/endpoint[201]", "resource_value": {
+                "uuid": "201", "name": "201", "type": "optical",
+                "site_location": "transport", "mtu": "1500"
+            }}},
+            {"action": "CONFIGACTION_SET", "custom": {"resource_key": "/endpoints/endpoint[500]", "resource_value": {
+                "uuid": "500", "name": "500", "type": "optical",
+                "address_ip": "172.10.44.2", "address_prefix": "24", "vlan_tag": 101,
+                "site_location": "transport", "mtu": "1500"
+            }}}
+        ]}},
+        {"device_id": {"device_uuid": {"uuid": "POP2"}}, "device_type": "packet-pop",
+        "device_drivers": ["DEVICEDRIVER_UNDEFINED"],
+        "device_config": {"config_rules": [
+            {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/address",  "resource_value": "172.16.204.221"}},
+            {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/port",     "resource_value": "0"}},
+            {"action": "CONFIGACTION_SET", "custom": {"resource_key": "_connect/settings", "resource_value": {"endpoints": [
+                {"uuid": "lo",  "name": "lo",  "type": "loopback"},
+                {"uuid": "200", "name": "200", "type": "copper"},
+                {"uuid": "201", "name": "201", "type": "copper"},
+                {"uuid": "500", "name": "500", "type": "copper"}
+            ]}}},
+            {"action": "CONFIGACTION_SET", "custom": {"resource_key": "/endpoints/endpoint[200]", "resource_value": {
+                "uuid": "200", "name": "200", "type": "optical",
+                "address_ip": "172.1.101.1", "address_prefix": "24",
+                "site_location": "cloud", "mtu": "1500"
+            }}},
+            {"action": "CONFIGACTION_SET", "custom": {"resource_key": "/endpoints/endpoint[201]", "resource_value": {
+                "uuid": "201", "name": "201", "type": "optical",
+                "site_location": "transport", "mtu": "1500"
+            }}},
+            {"action": "CONFIGACTION_SET", "custom": {"resource_key": "/endpoints/endpoint[500]", "resource_value": {
+                "uuid": "500", "name": "500", "type": "optical",
+                "address_ip": "172.10.44.2", "address_prefix": "24", "vlan_tag": 201,
+                "site_location": "transport", "mtu": "1500"
+            }}}
+        ]}}
+    ],
+    "links": [
+        {"link_id": {"link_uuid": {"uuid": "L13"}}, "link_type" : "LINKTYPE_COPPER",
+            "attributes": {"is_bidirectional": true, "total_capacity_gbps": 10, "used_capacity_gbps": 0}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "P-PE2"}}, "endpoint_uuid": {"uuid": "200"}},
+            {"device_id": {"device_uuid": {"uuid": "POP2" }}, "endpoint_uuid": {"uuid": "500"}}
+        ]},
+        {"link_id": {"link_uuid": {"uuid": "L14"}}, "link_type" : "LINKTYPE_COPPER",
+            "attributes": {"is_bidirectional": true, "total_capacity_gbps": 10, "used_capacity_gbps": 0}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "O-PE2"}}, "endpoint_uuid": {"uuid": "200"}},
+            {"device_id": {"device_uuid": {"uuid": "POP1" }}, "endpoint_uuid": {"uuid": "500"}}
+        ]}
+    ]
+}

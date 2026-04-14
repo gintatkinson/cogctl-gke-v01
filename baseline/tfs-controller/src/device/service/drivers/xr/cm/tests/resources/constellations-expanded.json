@@ -1,0 +1,662 @@
+[
+    {
+        "href": "/xr-networks/6774cc4e-b0b1-43a1-923f-80fb1bec094b",
+        "hubModule": {
+            "href": "/xr-networks/6774cc4e-b0b1-43a1-923f-80fb1bec094b/hubModule",
+            "id": "353563a1-895f-4110-abec-8f59ffb5ecc7",
+            "parentId": "6774cc4e-b0b1-43a1-923f-80fb1bec094b",
+            "rt": [
+                "cm.xr-network.hubModule"
+            ],
+            "state": {
+                "endpoints": [
+                    {
+                        "hostPort": {
+                            "chassisId": "192.168.100.1",
+                            "chassisIdSubtype": "networkAddress",
+                            "portDescr": "et-2/0/0:0",
+                            "portId": "et-2/0/0:0",
+                            "portIdSubtype": "interfaceName",
+                            "portSourceMAC": "58:00:BB:00:00:21",
+                            "sysName": "SanJose"
+                        },
+                        "moduleIf": {
+                            "clientIfAid": "XR-T1",
+                            "clientIfColId": 1,
+                            "clientIfPortSpeed": 100
+                        }
+                    },
+                    {
+                        "hostPort": {
+                            "chassisId": "192.168.100.1",
+                            "chassisIdSubtype": "networkAddress",
+                            "portDescr": "et-2/0/0:1",
+                            "portId": "et-2/0/0:1",
+                            "portIdSubtype": "interfaceName",
+                            "portSourceMAC": "58:00:BB:00:00:22",
+                            "sysName": "SanJose"
+                        },
+                        "moduleIf": {
+                            "clientIfAid": "XR-T2",
+                            "clientIfColId": 2,
+                            "clientIfPortSpeed": 100
+                        }
+                    },
+                    {
+                        "hostPort": {
+                            "chassisId": "192.168.100.1",
+                            "chassisIdSubtype": "networkAddress",
+                            "portDescr": "et-2/0/0:2",
+                            "portId": "et-2/0/0:2",
+                            "portIdSubtype": "interfaceName",
+                            "portSourceMAC": "58:00:BB:00:00:23",
+                            "sysName": "SanJose"
+                        },
+                        "moduleIf": {
+                            "clientIfAid": "XR-T3",
+                            "clientIfColId": 3,
+                            "clientIfPortSpeed": 100
+                        }
+                    },
+                    {
+                        "hostPort": {
+                            "chassisId": "192.168.100.1",
+                            "chassisIdSubtype": "networkAddress",
+                            "portDescr": "et-2/0/0:3",
+                            "portId": "et-2/0/0:3",
+                            "portIdSubtype": "interfaceName",
+                            "portSourceMAC": "58:00:BB:00:00:24",
+                            "sysName": "SanJose"
+                        },
+                        "moduleIf": {
+                            "clientIfAid": "XR-T4",
+                            "clientIfColId": 4,
+                            "clientIfPortSpeed": 100
+                        }
+                    }
+                ],
+                "lifecycleState": "configured",
+                "module": {
+                    "baudRate": 50,
+                    "capacity": 400,
+                    "clientPortMode": "ethernet",
+                    "configuredRole": "auto",
+                    "constellationFrequency": 193000000,
+                    "currentRole": "hub",
+                    "fiberConnectionMode": "dual",
+                    "frequencyCtrl": "xr",
+                    "macAddress": "00:0B:F8:00:00:02",
+                    "modulation": "16QAM",
+                    "moduleId": "3a2b5cfe-6265-4b68-549d-340c58363b85",
+                    "moduleName": "XR HUB 2",
+                    "ncoFrequency": 0,
+                    "operatingFrequency": 193000000,
+                    "roleStatus": "ready",
+                    "serialNumber": "00000000A",
+                    "trafficMode": "L1Mode",
+                    "txPowerTargetPerDsc": -6.4
+                }
+            }
+        },
+        "id": "6774cc4e-b0b1-43a1-923f-80fb1bec094b",
+        "leafModules": [
+            {
+                "href": "/xr-networks/6774cc4e-b0b1-43a1-923f-80fb1bec094b/leafModules/e659ad54-9e6d-492c-ac56-09b3b681c5ed",
+                "id": "e659ad54-9e6d-492c-ac56-09b3b681c5ed",
+                "parentId": "6774cc4e-b0b1-43a1-923f-80fb1bec094b",
+                "rt": [
+                    "cm.xr-network.leafModule"
+                ],
+                "state": {
+                    "endpoints": [
+                        {
+                            "hostPort": {
+                                "chassisId": "192.168.101.3",
+                                "chassisIdSubtype": "networkAddress",
+                                "portDescr": "et-3/0/0:0",
+                                "portId": "et-3/0/0:0",
+                                "portIdSubtype": "interfaceName",
+                                "portSourceMAC": "58:00:BB:00:13:01",
+                                "sysName": "Sunnnyvale"
+                            },
+                            "moduleIf": {
+                                "clientIfAid": "XR-T1",
+                                "clientIfColId": 1,
+                                "clientIfPortSpeed": 100
+                            }
+                        }
+                    ],
+                    "lifecycleState": "configured",
+                    "module": {
+                        "baudRate": 50,
+                        "capacity": 100,
+                        "clientPortMode": "ethernet",
+                        "configuredRole": "auto",
+                        "constellationFrequency": 193000000,
+                        "currentRole": "leaf",
+                        "fiberConnectionMode": "dual",
+                        "frequencyCtrl": "xr",
+                        "macAddress": "00:0B:F8:00:01:03",
+                        "modulation": "16QAM",
+                        "moduleId": "572b2d8a-8d0b-40a0-5823-e53041ca2194",
+                        "moduleName": "XR LEAF 3",
+                        "ncoFrequency": 0,
+                        "operatingFrequency": 193000000,
+                        "roleStatus": "ready",
+                        "serialNumber": "00000000D",
+                        "trafficMode": "L1Mode",
+                        "txPowerTargetPerDsc": -6.4
+                    }
+                }
+            }
+        ],
+        "reachableModules": [
+            {
+                "href": "/xr-networks/6774cc4e-b0b1-43a1-923f-80fb1bec094b/reachableModules/ede4b98b-a6a7-48fa-89c0-b981e7d4a98c",
+                "id": "ede4b98b-a6a7-48fa-89c0-b981e7d4a98c",
+                "parentId": "6774cc4e-b0b1-43a1-923f-80fb1bec094b",
+                "rt": [
+                    "cm.xr-network.reachableModule"
+                ],
+                "state": {
+                    "discoveredTime": "2022-06-28T09:04:08Z",
+                    "endpoints": [
+                        {
+                            "hostPort": {
+                                "chassisId": "192.168.101.3",
+                                "chassisIdSubtype": "networkAddress",
+                                "portDescr": "et-3/0/0:0",
+                                "portId": "et-3/0/0:0",
+                                "portIdSubtype": "interfaceName",
+                                "portSourceMAC": "58:00:BB:00:13:01",
+                                "sysName": "Sunnnyvale"
+                            },
+                            "moduleIf": {
+                                "clientIfAid": "XR-T1",
+                                "clientIfColId": 1,
+                                "clientIfPortSpeed": 100
+                            }
+                        }
+                    ],
+                    "module": {
+                        "baudRate": 50,
+                        "capacity": 100,
+                        "clientPortMode": "ethernet",
+                        "configuredRole": "auto",
+                        "constellationFrequency": 193000000,
+                        "currentRole": "leaf",
+                        "fiberConnectionMode": "dual",
+                        "frequencyCtrl": "xr",
+                        "macAddress": "00:0B:F8:00:01:03",
+                        "modulation": "16QAM",
+                        "moduleId": "572b2d8a-8d0b-40a0-5823-e53041ca2194",
+                        "moduleName": "XR LEAF 3",
+                        "ncoFrequency": 0,
+                        "operatingFrequency": 193000000,
+                        "roleStatus": "ready",
+                        "serialNumber": "00000000D",
+                        "trafficMode": "L1Mode",
+                        "txPowerTargetPerDsc": -6.4
+                    }
+                }
+            },
+            {
+                "href": "/xr-networks/6774cc4e-b0b1-43a1-923f-80fb1bec094b/reachableModules/004ffffb-290f-45d8-90bf-4e0c914eb39c",
+                "id": "004ffffb-290f-45d8-90bf-4e0c914eb39c",
+                "parentId": "6774cc4e-b0b1-43a1-923f-80fb1bec094b",
+                "rt": [
+                    "cm.xr-network.reachableModule"
+                ],
+                "state": {
+                    "discoveredTime": "2022-06-28T09:04:05Z",
+                    "endpoints": [
+                        {
+                            "hostPort": {
+                                "chassisId": "192.168.101.1",
+                                "chassisIdSubtype": "networkAddress",
+                                "portDescr": "et-1/0/0:0",
+                                "portId": "et-1/0/0:0",
+                                "portIdSubtype": "interfaceName",
+                                "portSourceMAC": "58:00:BB:00:11:01",
+                                "sysName": "PaloAlto"
+                            },
+                            "moduleIf": {
+                                "clientIfAid": "XR-T1",
+                                "clientIfColId": 1,
+                                "clientIfPortSpeed": 100
+                            }
+                        }
+                    ],
+                    "module": {
+                        "baudRate": 50,
+                        "capacity": 100,
+                        "clientPortMode": "ethernet",
+                        "configuredRole": "auto",
+                        "constellationFrequency": 192000000,
+                        "currentRole": "leaf",
+                        "fiberConnectionMode": "dual",
+                        "frequencyCtrl": "xr",
+                        "macAddress": "00:0B:F8:00:01:01",
+                        "modulation": "16QAM",
+                        "moduleId": "7c33d7d0-4f7b-4525-5d57-58589adbd47c",
+                        "moduleName": "XR LEAF 1",
+                        "ncoFrequency": 0,
+                        "operatingFrequency": 192000000,
+                        "roleStatus": "ready",
+                        "serialNumber": "00000000B",
+                        "trafficMode": "L1Mode",
+                        "txPowerTargetPerDsc": -6.4
+                    }
+                }
+            }
+        ],
+        "rt": [
+            "cm.xr-network"
+        ],
+        "state": {
+            "constellationFrequency": 193000000,
+            "controlLinks": [
+                {
+                    "conState": "active",
+                    "destinationModuleId": "3a2b5cfe-6265-4b68-549d-340c58363b85",
+                    "lastConStateChange": "2022-06-28T09:04:07Z",
+                    "sourceModuleId": "572b2d8a-8d0b-40a0-5823-e53041ca2194"
+                },
+                {
+                    "conState": "active",
+                    "destinationModuleId": "572b2d8a-8d0b-40a0-5823-e53041ca2194",
+                    "lastConStateChange": "2022-06-28T09:04:08Z",
+                    "sourceModuleId": "3a2b5cfe-6265-4b68-549d-340c58363b85"
+                }
+            ],
+            "lifecycleState": "configured",
+            "modulation": "16QAM"
+        }
+    },
+    {
+        "href": "/xr-networks/233e169b-5d88-481d-bfe2-c909a2a859dd",
+        "hubModule": {
+            "href": "/xr-networks/233e169b-5d88-481d-bfe2-c909a2a859dd/hubModule",
+            "id": "519cc31f-b736-4e4c-b78d-600562d92911",
+            "parentId": "233e169b-5d88-481d-bfe2-c909a2a859dd",
+            "rt": [
+                "cm.xr-network.hubModule"
+            ],
+            "state": {
+                "endpoints": [
+                    {
+                        "hostPort": {
+                            "chassisId": "192.168.100.1",
+                            "chassisIdSubtype": "networkAddress",
+                            "portDescr": "et-1/0/0:0",
+                            "portId": "et-1/0/0:0",
+                            "portIdSubtype": "interfaceName",
+                            "portSourceMAC": "58:00:BB:00:00:11",
+                            "sysName": "SanJose"
+                        },
+                        "moduleIf": {
+                            "clientIfAid": "XR-T1",
+                            "clientIfColId": 1,
+                            "clientIfPortSpeed": 100
+                        }
+                    },
+                    {
+                        "hostPort": {
+                            "chassisId": "192.168.100.1",
+                            "chassisIdSubtype": "networkAddress",
+                            "portDescr": "et-1/0/0:1",
+                            "portId": "et-1/0/0:1",
+                            "portIdSubtype": "interfaceName",
+                            "portSourceMAC": "58:00:BB:00:00:12",
+                            "sysName": "SanJose"
+                        },
+                        "moduleIf": {
+                            "clientIfAid": "XR-T2",
+                            "clientIfColId": 2,
+                            "clientIfPortSpeed": 100
+                        }
+                    },
+                    {
+                        "hostPort": {
+                            "chassisId": "192.168.100.1",
+                            "chassisIdSubtype": "networkAddress",
+                            "portDescr": "et-1/0/0:2",
+                            "portId": "et-1/0/0:2",
+                            "portIdSubtype": "interfaceName",
+                            "portSourceMAC": "58:00:BB:00:00:13",
+                            "sysName": "SanJose"
+                        },
+                        "moduleIf": {
+                            "clientIfAid": "XR-T3",
+                            "clientIfColId": 3,
+                            "clientIfPortSpeed": 100
+                        }
+                    },
+                    {
+                        "hostPort": {
+                            "chassisId": "192.168.100.1",
+                            "chassisIdSubtype": "networkAddress",
+                            "portDescr": "et-1/0/0:3",
+                            "portId": "et-1/0/0:3",
+                            "portIdSubtype": "interfaceName",
+                            "portSourceMAC": "58:00:BB:00:00:14",
+                            "sysName": "SanJose"
+                        },
+                        "moduleIf": {
+                            "clientIfAid": "XR-T4",
+                            "clientIfColId": 4,
+                            "clientIfPortSpeed": 100
+                        }
+                    }
+                ],
+                "lifecycleState": "configured",
+                "module": {
+                    "baudRate": 50,
+                    "capacity": 400,
+                    "clientPortMode": "ethernet",
+                    "configuredRole": "auto",
+                    "constellationFrequency": 192000000,
+                    "currentRole": "hub",
+                    "fiberConnectionMode": "dual",
+                    "frequencyCtrl": "xr",
+                    "macAddress": "00:0B:F8:00:00:01",
+                    "modulation": "16QAM",
+                    "moduleId": "d859de3c-c463-4be5-7a8d-a198275f10f4",
+                    "moduleName": "XR HUB 1",
+                    "ncoFrequency": 0,
+                    "operatingFrequency": 192000000,
+                    "roleStatus": "ready",
+                    "serialNumber": "000000009",
+                    "trafficMode": "L1Mode",
+                    "txPowerTargetPerDsc": -6.4
+                }
+            }
+        },
+        "id": "233e169b-5d88-481d-bfe2-c909a2a859dd",
+        "leafModules": [
+            {
+                "href": "/xr-networks/233e169b-5d88-481d-bfe2-c909a2a859dd/leafModules/7e9da66b-8bf8-4eea-b4a7-045e5ba3bfd8",
+                "id": "7e9da66b-8bf8-4eea-b4a7-045e5ba3bfd8",
+                "parentId": "233e169b-5d88-481d-bfe2-c909a2a859dd",
+                "rt": [
+                    "cm.xr-network.leafModule"
+                ],
+                "state": {
+                    "endpoints": [
+                        {
+                            "hostPort": {
+                                "chassisId": "192.168.101.1",
+                                "chassisIdSubtype": "networkAddress",
+                                "portDescr": "et-1/0/0:0",
+                                "portId": "et-1/0/0:0",
+                                "portIdSubtype": "interfaceName",
+                                "portSourceMAC": "58:00:BB:00:11:01",
+                                "sysName": "PaloAlto"
+                            },
+                            "moduleIf": {
+                                "clientIfAid": "XR-T1",
+                                "clientIfColId": 1,
+                                "clientIfPortSpeed": 100
+                            }
+                        }
+                    ],
+                    "lifecycleState": "configured",
+                    "module": {
+                        "baudRate": 50,
+                        "capacity": 100,
+                        "clientPortMode": "ethernet",
+                        "configuredRole": "auto",
+                        "constellationFrequency": 192000000,
+                        "currentRole": "leaf",
+                        "fiberConnectionMode": "dual",
+                        "frequencyCtrl": "xr",
+                        "macAddress": "00:0B:F8:00:01:01",
+                        "maxAllowedDSCs": 4,
+                        "modulation": "16QAM",
+                        "moduleId": "7c33d7d0-4f7b-4525-5d57-58589adbd47c",
+                        "moduleName": "XR LEAF 1",
+                        "ncoFrequency": 0,
+                        "operatingFrequency": 192000000,
+                        "roleStatus": "ready",
+                        "serialNumber": "00000000B",
+                        "trafficMode": "L1Mode",
+                        "txPowerTargetPerDsc": -6.4
+                    }
+                }
+            },
+            {
+                "href": "/xr-networks/233e169b-5d88-481d-bfe2-c909a2a859dd/leafModules/7473b336-ef92-4508-b260-c096d05e4943",
+                "id": "7473b336-ef92-4508-b260-c096d05e4943",
+                "parentId": "233e169b-5d88-481d-bfe2-c909a2a859dd",
+                "rt": [
+                    "cm.xr-network.leafModule"
+                ],
+                "state": {
+                    "endpoints": [
+                        {
+                            "hostPort": {
+                                "chassisId": "192.168.101.2",
+                                "chassisIdSubtype": "networkAddress",
+                                "portDescr": "et-2/0/0:0",
+                                "portId": "et-2/0/0:0",
+                                "portIdSubtype": "interfaceName",
+                                "portSourceMAC": "58:00:BB:00:12:01",
+                                "sysName": "Cupertino"
+                            },
+                            "moduleIf": {
+                                "clientIfAid": "XR-T1",
+                                "clientIfColId": 1,
+                                "clientIfPortSpeed": 100
+                            }
+                        }
+                    ],
+                    "lifecycleState": "configured",
+                    "module": {
+                        "baudRate": 50,
+                        "capacity": 100,
+                        "clientPortMode": "ethernet",
+                        "configuredRole": "auto",
+                        "constellationFrequency": 192000000,
+                        "currentRole": "leaf",
+                        "fiberConnectionMode": "dual",
+                        "frequencyCtrl": "xr",
+                        "macAddress": "00:0B:F8:00:01:02",
+                        "maxAllowedDSCs": 4,
+                        "modulation": "16QAM",
+                        "moduleId": "d68a6b4e-03e4-4c89-5ad5-c5e782325e40",
+                        "moduleName": "XR LEAF 2",
+                        "ncoFrequency": 0,
+                        "operatingFrequency": 192000000,
+                        "roleStatus": "ready",
+                        "serialNumber": "00000000C",
+                        "trafficMode": "L1Mode",
+                        "txPowerTargetPerDsc": -6.4
+                    }
+                }
+            }
+        ],
+        "reachableModules": [
+            {
+                "href": "/xr-networks/233e169b-5d88-481d-bfe2-c909a2a859dd/reachableModules/58785cd9-c642-43e4-a8b5-6d136acd8ae5",
+                "id": "58785cd9-c642-43e4-a8b5-6d136acd8ae5",
+                "parentId": "233e169b-5d88-481d-bfe2-c909a2a859dd",
+                "rt": [
+                    "cm.xr-network.reachableModule"
+                ],
+                "state": {
+                    "discoveredTime": "2022-06-28T09:04:08Z",
+                    "endpoints": [
+                        {
+                            "hostPort": {
+                                "chassisId": "192.168.101.3",
+                                "chassisIdSubtype": "networkAddress",
+                                "portDescr": "et-3/0/0:0",
+                                "portId": "et-3/0/0:0",
+                                "portIdSubtype": "interfaceName",
+                                "portSourceMAC": "58:00:BB:00:13:01",
+                                "sysName": "Sunnnyvale"
+                            },
+                            "moduleIf": {
+                                "clientIfAid": "XR-T1",
+                                "clientIfColId": 1,
+                                "clientIfPortSpeed": 100
+                            }
+                        }
+                    ],
+                    "module": {
+                        "baudRate": 50,
+                        "capacity": 100,
+                        "clientPortMode": "ethernet",
+                        "configuredRole": "auto",
+                        "constellationFrequency": 193000000,
+                        "currentRole": "leaf",
+                        "fiberConnectionMode": "dual",
+                        "frequencyCtrl": "xr",
+                        "macAddress": "00:0B:F8:00:01:03",
+                        "modulation": "16QAM",
+                        "moduleId": "572b2d8a-8d0b-40a0-5823-e53041ca2194",
+                        "moduleName": "XR LEAF 3",
+                        "ncoFrequency": 0,
+                        "operatingFrequency": 193000000,
+                        "roleStatus": "ready",
+                        "serialNumber": "00000000D",
+                        "trafficMode": "L1Mode",
+                        "txPowerTargetPerDsc": -6.4
+                    }
+                }
+            },
+            {
+                "href": "/xr-networks/233e169b-5d88-481d-bfe2-c909a2a859dd/reachableModules/be85d276-6f30-4c7b-9f63-de8679dfab85",
+                "id": "be85d276-6f30-4c7b-9f63-de8679dfab85",
+                "parentId": "233e169b-5d88-481d-bfe2-c909a2a859dd",
+                "rt": [
+                    "cm.xr-network.reachableModule"
+                ],
+                "state": {
+                    "discoveredTime": "2022-06-28T09:04:05Z",
+                    "endpoints": [
+                        {
+                            "hostPort": {
+                                "chassisId": "192.168.101.1",
+                                "chassisIdSubtype": "networkAddress",
+                                "portDescr": "et-1/0/0:0",
+                                "portId": "et-1/0/0:0",
+                                "portIdSubtype": "interfaceName",
+                                "portSourceMAC": "58:00:BB:00:11:01",
+                                "sysName": "PaloAlto"
+                            },
+                            "moduleIf": {
+                                "clientIfAid": "XR-T1",
+                                "clientIfColId": 1,
+                                "clientIfPortSpeed": 100
+                            }
+                        }
+                    ],
+                    "module": {
+                        "baudRate": 50,
+                        "capacity": 100,
+                        "clientPortMode": "ethernet",
+                        "configuredRole": "auto",
+                        "constellationFrequency": 192000000,
+                        "currentRole": "leaf",
+                        "fiberConnectionMode": "dual",
+                        "frequencyCtrl": "xr",
+                        "macAddress": "00:0B:F8:00:01:01",
+                        "modulation": "16QAM",
+                        "moduleId": "7c33d7d0-4f7b-4525-5d57-58589adbd47c",
+                        "moduleName": "XR LEAF 1",
+                        "ncoFrequency": 0,
+                        "operatingFrequency": 192000000,
+                        "roleStatus": "ready",
+                        "serialNumber": "00000000B",
+                        "trafficMode": "L1Mode",
+                        "txPowerTargetPerDsc": -6.4
+                    }
+                }
+            },
+            {
+                "href": "/xr-networks/233e169b-5d88-481d-bfe2-c909a2a859dd/reachableModules/212cf331-c133-4321-8e74-023549b9afee",
+                "id": "212cf331-c133-4321-8e74-023549b9afee",
+                "parentId": "233e169b-5d88-481d-bfe2-c909a2a859dd",
+                "rt": [
+                    "cm.xr-network.reachableModule"
+                ],
+                "state": {
+                    "discoveredTime": "2022-06-28T09:04:06Z",
+                    "endpoints": [
+                        {
+                            "hostPort": {
+                                "chassisId": "192.168.101.2",
+                                "chassisIdSubtype": "networkAddress",
+                                "portDescr": "et-2/0/0:0",
+                                "portId": "et-2/0/0:0",
+                                "portIdSubtype": "interfaceName",
+                                "portSourceMAC": "58:00:BB:00:12:01",
+                                "sysName": "Cupertino"
+                            },
+                            "moduleIf": {
+                                "clientIfAid": "XR-T1",
+                                "clientIfColId": 1,
+                                "clientIfPortSpeed": 100
+                            }
+                        }
+                    ],
+                    "module": {
+                        "baudRate": 50,
+                        "capacity": 100,
+                        "clientPortMode": "ethernet",
+                        "configuredRole": "auto",
+                        "constellationFrequency": 192000000,
+                        "currentRole": "leaf",
+                        "fiberConnectionMode": "dual",
+                        "frequencyCtrl": "xr",
+                        "macAddress": "00:0B:F8:00:01:02",
+                        "modulation": "16QAM",
+                        "moduleId": "d68a6b4e-03e4-4c89-5ad5-c5e782325e40",
+                        "moduleName": "XR LEAF 2",
+                        "ncoFrequency": 0,
+                        "operatingFrequency": 192000000,
+                        "roleStatus": "ready",
+                        "serialNumber": "00000000C",
+                        "trafficMode": "L1Mode",
+                        "txPowerTargetPerDsc": -6.4
+                    }
+                }
+            }
+        ],
+        "rt": [
+            "cm.xr-network"
+        ],
+        "state": {
+            "constellationFrequency": 192000000,
+            "controlLinks": [
+                {
+                    "conState": "active",
+                    "destinationModuleId": "7c33d7d0-4f7b-4525-5d57-58589adbd47c",
+                    "lastConStateChange": "2022-06-28T09:04:05Z",
+                    "sourceModuleId": "d859de3c-c463-4be5-7a8d-a198275f10f4"
+                },
+                {
+                    "conState": "active",
+                    "destinationModuleId": "d859de3c-c463-4be5-7a8d-a198275f10f4",
+                    "lastConStateChange": "2022-06-28T09:04:05Z",
+                    "sourceModuleId": "7c33d7d0-4f7b-4525-5d57-58589adbd47c"
+                },
+                {
+                    "conState": "active",
+                    "destinationModuleId": "d68a6b4e-03e4-4c89-5ad5-c5e782325e40",
+                    "lastConStateChange": "2022-06-28T09:04:06Z",
+                    "sourceModuleId": "d859de3c-c463-4be5-7a8d-a198275f10f4"
+                },
+                {
+                    "conState": "active",
+                    "destinationModuleId": "d859de3c-c463-4be5-7a8d-a198275f10f4",
+                    "lastConStateChange": "2022-06-28T09:04:05Z",
+                    "sourceModuleId": "d68a6b4e-03e4-4c89-5ad5-c5e782325e40"
+                }
+            ],
+            "lifecycleState": "configured",
+            "modulation": "16QAM"
+        }
+    }
+]

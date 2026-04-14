@@ -1,0 +1,9 @@
+<interfaces xmlns="http://openconfig.net/yang/interfaces">
+  <interface>
+    <state>
+      <counters>
+        <out-octets></out-octets>
+      </counters>
+    </state>
+  </interface>
+</interfaces>

@@ -1,0 +1,70 @@
+// Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+package automation;
+
+import "context.proto";
+import "policy.proto";
+import "analytics_frontend.proto";
+
+// Automation service RPCs
+service AutomationService {
+  rpc ZSMCreate       (ZSMCreateRequest ) returns (ZSMService     ) {}
+  rpc ZSMDelete       (ZSMServiceID     ) returns (ZSMServiceState) {}
+  rpc ZSMGetById      (ZSMServiceID     ) returns (ZSMService     ) {}
+  rpc ZSMGetByService (context.ServiceId) returns (ZSMService     ) {}
+}
+
+// ZSM service states
+enum ZSMServiceStateEnum {
+  ZSM_UNDEFINED = 0;     // Undefined ZSM loop state
+  ZSM_FAILED = 1;        // ZSM loop failed
+  ZSM_ACTIVE = 2;        // ZSM loop is currently active
+  ZSM_INACTIVE = 3;      // ZSM loop is currently inactive
+  ZSM_UPDATED = 4;       // ZSM loop is updated
+  ZSM_REMOVED = 5;       // ZSM loop is removed
+}
+
+enum ZSMTypeEnum {
+  ZSMTYPE_UNKNOWN = 0;
+}
+
+message ZSMCreateRequest {
+  context.ServiceId target_service_id = 1;
+  context.ServiceId telemetry_service_id = 2;
+  analytics_frontend.Analyzer analyzer = 3;
+  policy.PolicyRuleService policy = 4;
+}
+
+// A unique identifier per ZSM service
+message ZSMServiceID {
+  context.Uuid uuid = 1;
+}
+
+// The state of a ZSM service
+message ZSMServiceState {
+  ZSMServiceStateEnum zsmServiceState = 1;
+  string zsmServiceStateMessage = 2;
+}
+
+// Basic ZSM service attributes
+message ZSMService {
+  ZSMServiceID zsmServiceId = 1;
+
+  context.ServiceId serviceId = 2;
+  policy.PolicyRuleList policyList = 3;
+
+  // TODO: When new Analytics and updated Monitoring are in place, add the necessary binding to them
+}

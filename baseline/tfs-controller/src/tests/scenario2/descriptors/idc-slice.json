@@ -1,0 +1,20 @@
+{
+    "slices":[
+        {
+            "slice_id":{"context_id":{"context_uuid":{"uuid":"admin"}},"slice_uuid":{"uuid":"idc-slice"}},
+            "slice_endpoint_ids":[
+                {"device_id":{"device_uuid":{"uuid":"DC1"}},"endpoint_uuid":{"uuid":"int"}},
+                {"device_id":{"device_uuid":{"uuid":"DC2"}},"endpoint_uuid":{"uuid":"int"}}
+            ],
+            "slice_status":{"slice_status":1},
+            "slice_service_ids":[],
+            "slice_subslice_ids":[],
+            "slice_constraints":[],
+            "slice_config":{"config_rules":[
+                {"action":1,"custom":{"resource_key":"/settings","resource_value":"{}"}},
+                {"action":1,"custom":{"resource_key":"/device[DC1]/endpoint[int]/settings","resource_value":"{}"}},
+                {"action":1,"custom":{"resource_key":"/device[DC2]/endpoint[int]/settings","resource_value":"{}"}}
+            ]}
+        }
+    ]
+}

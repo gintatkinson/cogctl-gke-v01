@@ -1,0 +1,44 @@
+{
+    "services": [
+        {
+            "service_id": {
+                "context_id": {"context_uuid": {"uuid": "admin"}},
+                "service_uuid": {"uuid": "l3-service"}
+            },
+            "service_type": 1,
+            "service_status": {"service_status": 1},
+            "service_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "R1"}}, "endpoint_uuid": {"uuid": "1/2"}},
+                {"device_id": {"device_uuid": {"uuid": "R4"}}, "endpoint_uuid": {"uuid": "1/2"}}
+            ],
+            "service_constraints": [
+                {"custom": {"constraint_type": "bandwidth[gbps]", "constraint_value": "10.0"}},
+                {"custom": {"constraint_type": "latency[ms]", "constraint_value": "15.2"}}
+            ],
+            "service_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "/settings", "resource_value": {
+                    "address_families": ["IPV4"],
+                    "bgp_as": 65000,
+                    "bgp_route_target": "65000:333",
+                    "mtu": 1512
+                }}},
+                {"action": 1, "custom": {"resource_key": "/device[R1]/endpoint[1/2]/settings", "resource_value": {
+                    "address_ip": "3.3.2.1",
+                    "address_prefix": 24,
+                    "route_distinguisher": "65000:123",
+                    "router_id": "10.10.10.1",
+                    "sub_interface_index": 400,
+                    "vlan_id": 400
+                }}},
+                {"action": 1, "custom": {"resource_key": "/device[R4]/endpoint[1/2]/settings", "resource_value": {
+                    "address_ip": "3.3.1.1",
+                    "address_prefix": 24,
+                    "route_distinguisher": "65000:123",
+                    "router_id": "20.20.20.1",
+                    "sub_interface_index": 400,
+                    "vlan_id": 500
+                }}}
+            ]}
+        }
+    ]
+}

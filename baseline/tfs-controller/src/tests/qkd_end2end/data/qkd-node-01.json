@@ -1,0 +1,36 @@
+{
+    "fc-restconf": {
+        "web": {
+            "port": ":8080"
+        }
+    },
+    "etsi-qkd-sdn-node": {
+        "qkd_node": {
+            "qkdn_id": "00000001-0000-0000-0000-000000000000",
+            "qkdn_capabilities": {},
+            "qkd_applications": {
+                "qkd_app": []
+            },
+            "qkd_interfaces": {
+                "qkd_interface": [
+                    {
+                        "qkdi_id": "100",
+                        "qkdi_att_point": {},
+                        "qkdi_capabilities": {}
+                    },
+                    {
+                        "qkdi_id": "102",
+                        "qkdi_att_point": {
+                            "device": "QKD2",
+                            "port": "201"
+                        },
+                        "qkdi_capabilities": {}
+                    }
+                ]
+            },
+            "qkd_links": {
+                "qkd_link": []
+            }
+        }
+    }
+}

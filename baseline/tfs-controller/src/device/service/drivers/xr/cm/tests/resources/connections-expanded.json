@@ -1,0 +1,294 @@
+[
+    {
+        "config": {
+            "name": "FooBar123",
+            "serviceMode": "XR-L1",
+            "implicitTransportCapacity": "portMode"
+        },
+        "endpoints": [
+            {
+                "acs": [],
+                "config": {
+                    "selector": {}
+                },
+                "href": "/network-connections/4505d5d3-b2f3-40b8-8ec2-4a5b28523c03/endpoints/230516d0-7e38-44b1-b174-1ba7d4454ee6",
+                "id": "230516d0-7e38-44b1-b174-1ba7d4454ee6",
+                "parentId": "4505d5d3-b2f3-40b8-8ec2-4a5b28523c03",
+                "rt": [
+                    "cm.network-connection.endpoint"
+                ],
+                "state": {
+                    "hostPort": {
+                        "chassisId": "192.168.101.1",
+                        "chassisIdSubtype": "networkAddress",
+                        "name": "",
+                        "portDescr": "et-1/0/0:0",
+                        "portId": "et-1/0/0:0",
+                        "portIdSubtype": "interfaceName",
+                        "portSourceMAC": "58:00:BB:00:11:01",
+                        "sysName": "PaloAlto"
+                    },
+                    "moduleIf": {
+                        "clientIfAid": "XR-T1",
+                        "clientIfColId": 1,
+                        "clientIfPortSpeed": 100,
+                        "currentRole": "leaf",
+                        "macAddress": "00:0B:F8:00:01:01",
+                        "moduleId": "555a0f6e-285d-4a97-70f2-9fa4201d422d",
+                        "moduleName": "XR LEAF 1",
+                        "serialNumber": "00000000B"
+                    }
+                }
+            },
+            {
+                "acs": [],
+                "config": {
+                    "selector": {}
+                },
+                "href": "/network-connections/4505d5d3-b2f3-40b8-8ec2-4a5b28523c03/endpoints/1d58ba8f-4d51-4213-83e1-97a0e0bdd388",
+                "id": "1d58ba8f-4d51-4213-83e1-97a0e0bdd388",
+                "parentId": "4505d5d3-b2f3-40b8-8ec2-4a5b28523c03",
+                "rt": [
+                    "cm.network-connection.endpoint"
+                ],
+                "state": {
+                    "hostPort": {
+                        "chassisId": "192.168.100.1",
+                        "chassisIdSubtype": "networkAddress",
+                        "name": "",
+                        "portDescr": "et-1/0/0:0",
+                        "portId": "et-1/0/0:0",
+                        "portIdSubtype": "interfaceName",
+                        "portSourceMAC": "58:00:BB:00:00:11",
+                        "sysName": "SanJose"
+                    },
+                    "moduleIf": {
+                        "clientIfAid": "XR-T1",
+                        "clientIfColId": 1,
+                        "clientIfPortSpeed": 100,
+                        "currentRole": "hub",
+                        "macAddress": "00:0B:F8:00:00:01",
+                        "moduleId": "e1d3a030-4f19-4efc-50c0-5a48609ad356",
+                        "moduleName": "XR HUB 1",
+                        "serialNumber": "000000009"
+                    }
+                }
+            }
+        ],
+        "href": "/network-connections/4505d5d3-b2f3-40b8-8ec2-4a5b28523c03",
+        "id": "4505d5d3-b2f3-40b8-8ec2-4a5b28523c03",
+        "lcs": [
+            {
+                "config": {
+                    "clientAid": "XR-T1",
+                    "direction": "txRx",
+                    "dscgAid": "XR-L1-C1-DSCG1",
+                    "moduleId": "555a0f6e-285d-4a97-70f2-9fa4201d422d"
+                },
+                "href": "/lcs/5872e191-774f-4ae9-841a-ea743be01973",
+                "id": "5872e191-774f-4ae9-841a-ea743be01973",
+                "parentIds": [
+                    "4505d5d3-b2f3-40b8-8ec2-4a5b28523c03"
+                ],
+                "rt": [
+                    "cm.network-connection.local-connection"
+                ],
+                "state": {
+                    "clientAid": "XR-T1",
+                    "colId": 1,
+                    "direction": "txRx",
+                    "dscgAid": "XR-L1-C1-DSCG1",
+                    "lcAid": "XR-T1,XR-L1-C1-DSCG1-1-ODUji-1",
+                    "lineAid": "XR-L1-C1-DSCG1-1-ODUji-1",
+                    "macAddress": "00:0B:F8:00:01:01",
+                    "moduleId": "555a0f6e-285d-4a97-70f2-9fa4201d422d",
+                    "remoteClientAid": "XR-T1",
+                    "remoteModuleId": "00:0B:F8:00:00:01"
+                }
+            },
+            {
+                "config": {
+                    "clientAid": "XR-T1",
+                    "direction": "txRx",
+                    "dscgAid": "XR-L1-C1-DSCG1",
+                    "moduleId": "e1d3a030-4f19-4efc-50c0-5a48609ad356"
+                },
+                "href": "/lcs/c96a7954-2d12-48aa-8cfb-6a3cf5566cb0",
+                "id": "c96a7954-2d12-48aa-8cfb-6a3cf5566cb0",
+                "parentIds": [
+                    "4505d5d3-b2f3-40b8-8ec2-4a5b28523c03"
+                ],
+                "rt": [
+                    "cm.network-connection.local-connection"
+                ],
+                "state": {
+                    "clientAid": "XR-T1",
+                    "colId": 1,
+                    "direction": "txRx",
+                    "dscgAid": "XR-L1-C1-DSCG1",
+                    "lcAid": "XR-T1,XR-L1-C1-DSCG1-1-ODUji-1",
+                    "lineAid": "XR-L1-C1-DSCG1-1-ODUji-1",
+                    "macAddress": "00:0B:F8:00:00:01",
+                    "moduleId": "e1d3a030-4f19-4efc-50c0-5a48609ad356",
+                    "remoteClientAid": "XR-T1",
+                    "remoteModuleId": "00:0B:F8:00:01:01"
+                }
+            }
+        ],
+        "rt": [
+            "cm.network-connection"
+        ],
+        "state": {
+            "createdBy": "host",
+            "lifecycleState": "configured",
+            "name": "FooBar123",
+            "serviceMode": "XR-L1",
+            "implicitTransportCapacity": "portMode"
+        }
+    },
+    {
+        "config": {
+            "serviceMode": "XR-L1",
+            "implicitTransportCapacity": "portMode"
+        },
+        "endpoints": [
+            {
+                "acs": [],
+                "config": {
+                    "selector": {}
+                },
+                "href": "/network-connections/138f0cc0-3dc6-4195-97c0-2cbed5fd59ba/endpoints/59027aa4-858b-4d62-86b9-0f2d3738619c",
+                "id": "59027aa4-858b-4d62-86b9-0f2d3738619c",
+                "parentId": "138f0cc0-3dc6-4195-97c0-2cbed5fd59ba",
+                "rt": [
+                    "cm.network-connection.endpoint"
+                ],
+                "state": {
+                    "hostPort": {
+                        "chassisId": "192.168.100.1",
+                        "chassisIdSubtype": "networkAddress",
+                        "name": "",
+                        "portDescr": "et-2/0/0:0",
+                        "portId": "et-2/0/0:0",
+                        "portIdSubtype": "interfaceName",
+                        "portSourceMAC": "58:00:BB:00:00:21",
+                        "sysName": "SanJose"
+                    },
+                    "moduleIf": {
+                        "clientIfAid": "XR-T1",
+                        "clientIfColId": 1,
+                        "clientIfPortSpeed": 100,
+                        "currentRole": "hub",
+                        "macAddress": "00:0B:F8:00:00:02",
+                        "moduleId": "b6577725-9939-4b60-6be9-603bd210cde1",
+                        "moduleName": "XR HUB 2",
+                        "serialNumber": "00000000A"
+                    }
+                }
+            },
+            {
+                "acs": [],
+                "config": {
+                    "selector": {}
+                },
+                "href": "/network-connections/138f0cc0-3dc6-4195-97c0-2cbed5fd59ba/endpoints/b2fc53e2-41a1-4fe5-8f03-f91a11e52661",
+                "id": "b2fc53e2-41a1-4fe5-8f03-f91a11e52661",
+                "parentId": "138f0cc0-3dc6-4195-97c0-2cbed5fd59ba",
+                "rt": [
+                    "cm.network-connection.endpoint"
+                ],
+                "state": {
+                    "hostPort": {
+                        "chassisId": "192.168.101.3",
+                        "chassisIdSubtype": "networkAddress",
+                        "name": "",
+                        "portDescr": "et-3/0/0:0",
+                        "portId": "et-3/0/0:0",
+                        "portIdSubtype": "interfaceName",
+                        "portSourceMAC": "58:00:BB:00:13:01",
+                        "sysName": "Sunnnyvale"
+                    },
+                    "moduleIf": {
+                        "clientIfAid": "XR-T1",
+                        "clientIfColId": 1,
+                        "clientIfPortSpeed": 100,
+                        "currentRole": "leaf",
+                        "macAddress": "00:0B:F8:00:01:03",
+                        "moduleId": "00c6875e-21bf-4934-51c7-125ebd8d0559",
+                        "moduleName": "XR LEAF 3",
+                        "serialNumber": "00000000D"
+                    }
+                }
+            }
+        ],
+        "href": "/network-connections/138f0cc0-3dc6-4195-97c0-2cbed5fd59ba",
+        "id": "138f0cc0-3dc6-4195-97c0-2cbed5fd59ba",
+        "lcs": [
+            {
+                "config": {
+                    "clientAid": "XR-T1",
+                    "direction": "txRx",
+                    "dscgAid": "XR-L1-C1-DSCG1",
+                    "moduleId": "00c6875e-21bf-4934-51c7-125ebd8d0559"
+                },
+                "href": "/lcs/0f8fe422-4f4e-4e78-8489-ee85031e083c",
+                "id": "0f8fe422-4f4e-4e78-8489-ee85031e083c",
+                "parentIds": [
+                    "138f0cc0-3dc6-4195-97c0-2cbed5fd59ba"
+                ],
+                "rt": [
+                    "cm.network-connection.local-connection"
+                ],
+                "state": {
+                    "clientAid": "XR-T1",
+                    "colId": 1,
+                    "direction": "txRx",
+                    "dscgAid": "XR-L1-C1-DSCG1",
+                    "lcAid": "XR-T1,XR-L1-C1-DSCG1-1-ODUji-1",
+                    "lineAid": "XR-L1-C1-DSCG1-1-ODUji-1",
+                    "macAddress": "00:0B:F8:00:01:03",
+                    "moduleId": "00c6875e-21bf-4934-51c7-125ebd8d0559",
+                    "remoteClientAid": "XR-T1",
+                    "remoteModuleId": "00:0B:F8:00:00:02"
+                }
+            },
+            {
+                "config": {
+                    "clientAid": "XR-T1",
+                    "direction": "txRx",
+                    "dscgAid": "XR-L1-C1-DSCG1",
+                    "moduleId": "b6577725-9939-4b60-6be9-603bd210cde1"
+                },
+                "href": "/lcs/7c769310-22b5-4d4c-8e9d-386a8083c611",
+                "id": "7c769310-22b5-4d4c-8e9d-386a8083c611",
+                "parentIds": [
+                    "138f0cc0-3dc6-4195-97c0-2cbed5fd59ba"
+                ],
+                "rt": [
+                    "cm.network-connection.local-connection"
+                ],
+                "state": {
+                    "clientAid": "XR-T1",
+                    "colId": 1,
+                    "direction": "txRx",
+                    "dscgAid": "XR-L1-C1-DSCG1",
+                    "lcAid": "XR-T1,XR-L1-C1-DSCG1-1-ODUji-1",
+                    "lineAid": "XR-L1-C1-DSCG1-1-ODUji-1",
+                    "macAddress": "00:0B:F8:00:00:02",
+                    "moduleId": "b6577725-9939-4b60-6be9-603bd210cde1",
+                    "remoteClientAid": "XR-T1",
+                    "remoteModuleId": "00:0B:F8:00:01:03"
+                }
+            }
+        ],
+        "rt": [
+            "cm.network-connection"
+        ],
+        "state": {
+            "createdBy": "host",
+            "lifecycleState": "configured",
+            "serviceMode": "XR-L1",
+            "implicitTransportCapacity": "portMode"
+        }
+    }
+]

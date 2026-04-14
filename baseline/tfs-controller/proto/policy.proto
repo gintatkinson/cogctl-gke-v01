@@ -1,0 +1,113 @@
+// Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+package policy;
+
+import "context.proto";
+import "policy_condition.proto";
+import "policy_action.proto";
+import "monitoring.proto"; // to be migrated to: "kpi_manager.proto"
+
+service PolicyService {
+  rpc PolicyAddService (PolicyRuleService) returns (PolicyRuleState) {}
+  rpc PolicyAddDevice (PolicyRuleDevice) returns (PolicyRuleState) {}
+  rpc PolicyUpdateService (PolicyRuleService) returns (PolicyRuleState) {}
+  rpc PolicyUpdateDevice (PolicyRuleDevice) returns (PolicyRuleState) {}
+  rpc PolicyDelete (PolicyRuleId) returns (PolicyRuleState) {}
+  rpc GetPolicyService (PolicyRuleId) returns (PolicyRuleService) {}
+  rpc GetPolicyDevice (PolicyRuleId) returns (PolicyRuleDevice) {}
+  rpc GetPolicyByServiceId (context.ServiceId) returns (PolicyRuleServiceList) {}
+}
+
+enum PolicyRuleStateEnum {
+  POLICY_UNDEFINED = 0;     // Undefined rule state
+  POLICY_FAILED = 1;        // Rule failed
+  POLICY_INSERTED = 2;      // Rule is just inserted
+  POLICY_VALIDATED = 3;     // Rule content is correct
+  POLICY_PROVISIONED = 4;   // Rule subscribed to Monitoring
+  POLICY_ACTIVE = 5;        // Rule is currently active (alarm is just thrown by Monitoring)
+  POLICY_ENFORCED = 6;      // Rule action is successfully enforced
+  POLICY_INEFFECTIVE = 7;   // The applied rule action did not work as expected
+  POLICY_EFFECTIVE = 8;     // The applied rule action did work as expected
+  POLICY_UPDATED = 9;       // Operator requires a policy to change
+  POLICY_REMOVED = 10;      // Operator requires to remove a policy
+}
+
+message PolicyRuleId {
+  context.Uuid uuid = 1;
+}
+
+message PolicyRuleState {
+  PolicyRuleStateEnum policyRuleState = 1;
+  string policyRuleStateMessage = 2;
+}
+
+// Basic policy rule attributes
+message PolicyRuleBasic {
+  PolicyRuleId policyRuleId = 1;
+  PolicyRuleState policyRuleState = 2; //policy.proto:58:12: Explicit 'optional' labels are disallowed in the Proto3 syntax. To define 'optional' fields in Proto3, simply remove the 'optional' label, as fields are 'optional' by default.
+  uint32 priority = 3;
+  monitoring.KpiId    kpiId       = 4;  // to be migrated to: "kpi_manager.KpiId"
+
+  // Event-Condition-Action (ECA) model
+  repeated PolicyRuleAction actionList = 5;        // One or more actions should be applied
+}
+
+// Service-oriented policy rule
+message PolicyRuleService {
+  // Basic policy rule attributes
+  PolicyRuleBasic policyRuleBasic = 1;
+
+  // Affected service and (some of) its device(s)
+  context.ServiceId serviceId = 2;
+  repeated context.DeviceId deviceList = 3;  // List of devices this service is traversing (not exhaustive)
+}
+
+// Device-oriented policy rule
+message PolicyRuleDevice {
+  // Basic policy rule attributes
+  PolicyRuleBasic policyRuleBasic = 1;
+
+  // Affected device(s)
+  repeated context.DeviceId deviceList = 2;
+}
+
+// Wrapper policy rule object
+message PolicyRule {
+  oneof policy_rule {
+    PolicyRuleService service = 1;
+    PolicyRuleDevice device = 2;
+  }
+}
+
+// A list of policy rule IDs
+message PolicyRuleIdList {
+  repeated PolicyRuleId policyRuleIdList = 1;
+}
+
+// A list of service-oriented policy rules
+message PolicyRuleServiceList {
+  repeated PolicyRuleService policyRuleServiceList = 1;
+}
+
+// A list of device-oriented policy rules
+message PolicyRuleDeviceList {
+  repeated PolicyRuleDevice policyRuleDeviceList = 1;
+}
+
+// A list of policy rules
+message PolicyRuleList {
+  repeated PolicyRule policyRules = 1;
+}

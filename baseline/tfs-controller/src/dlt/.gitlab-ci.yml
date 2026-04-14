@@ -1,0 +1,197 @@
+# Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Build, tag, and push the Docker image to the GitLab Docker registry
+build dlt:
+  variables:
+    IMAGE_NAME: 'dlt' # name of the microservice
+    IMAGE_TAG: 'latest' # tag of the container image (production, development, etc)
+  stage: build
+  before_script:
+    - docker image prune --force
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+  script:
+    # This first build tags the builder resulting image to prevent being removed by dangling image removal command
+    - docker buildx build -t "${IMAGE_NAME}-gateway:$IMAGE_TAG" -f ./src/$IMAGE_NAME/gateway/Dockerfile .
+    - docker buildx build -t "${IMAGE_NAME}-connector:$IMAGE_TAG" -f ./src/$IMAGE_NAME/connector/Dockerfile .
+    - docker tag "${IMAGE_NAME}-gateway:$IMAGE_TAG" "$CI_REGISTRY_IMAGE/${IMAGE_NAME}-gateway:$IMAGE_TAG"
+    - docker tag "${IMAGE_NAME}-connector:$IMAGE_TAG" "$CI_REGISTRY_IMAGE/${IMAGE_NAME}-connector:$IMAGE_TAG"
+    - docker push "$CI_REGISTRY_IMAGE/${IMAGE_NAME}-gateway:$IMAGE_TAG"
+    - docker push "$CI_REGISTRY_IMAGE/${IMAGE_NAME}-connector:$IMAGE_TAG"
+  after_script:
+    - docker image prune --force
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop" || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH)'
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == "develop"'
+    - changes:
+      - src/common/**/*.py
+      - proto/*.proto
+      - src/$IMAGE_NAME/.gitlab-ci.yml
+      - src/$IMAGE_NAME/gateway/**/*.{kt,kts,proto,pem,json}
+      - src/$IMAGE_NAME/gateway/build.gradle.kts
+      - src/$IMAGE_NAME/gateway/Dockerfile
+      - src/$IMAGE_NAME/gateway/gradle.properties
+      - src/$IMAGE_NAME/gateway/gradlew
+      - src/$IMAGE_NAME/gateway/gradlew.bat
+      - src/$IMAGE_NAME/gateway/settings.gradle.kts
+      - src/$IMAGE_NAME/connector/**/*.{py,in,yml}
+      - src/$IMAGE_NAME/connector/Dockerfile
+      - src/$IMAGE_NAME/connector/tests/*.py
+      - manifests/${IMAGE_NAME}service.yaml
+      - .gitlab-ci.yml
+
+# Apply unit test to the component
+unit test dlt-gateway:
+  variables:
+    IMAGE_NAME: 'dlt' # name of the microservice
+    IMAGE_TAG: 'latest' # tag of the container image (production, development, etc)
+  stage: unit_test
+  needs:
+    - build dlt
+  before_script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+    - if docker network list | grep teraflowbridge; then echo "teraflowbridge is already created"; else docker network create -d bridge teraflowbridge; fi
+    - if docker container ls | grep ${IMAGE_NAME}-connector; then docker rm -f ${IMAGE_NAME}-connector; else echo "${IMAGE_NAME}-connector image is not in the system"; fi
+    - if docker container ls | grep ${IMAGE_NAME}-gateway; then docker rm -f ${IMAGE_NAME}-gateway; else echo "${IMAGE_NAME}-gateway image is not in the system"; fi
+  script:
+    - docker pull "$CI_REGISTRY_IMAGE/${IMAGE_NAME}-gateway:$IMAGE_TAG"
+    #- docker run --name ${IMAGE_NAME}-gateway -d -p 50051:50051 -v "$PWD/src/${IMAGE_NAME}/gateway/tests:/opt/results" --network=teraflowbridge ${IMAGE_NAME}-gateway:${IMAGE_TAG}
+    - docker run --name ${IMAGE_NAME}-gateway -d -p 50051:50051 --network=teraflowbridge ${IMAGE_NAME}-gateway:${IMAGE_TAG}
+    - sleep 5
+    - docker ps -a
+    - docker logs ${IMAGE_NAME}-gateway
+    #- docker exec -i ${IMAGE_NAME}-gateway bash -c "curl -0 -v -X POST -H 'Expect:' -H 'Content-Type:\ application/json' http://127.0.0.1:8081/dlt/api/v1/compRoute -d @/var/teraflow/tests/pc-req.json"
+    #- docker kill --signal=SIGUSR1 dlt-gateway
+    #- docker exec -i ${IMAGE_NAME}-gateway bash -c "gcovr"
+  #coverage: '/TOTAL\s+\d+\s+\d+\s+(\d+%)/'
+  after_script:
+    - docker logs ${IMAGE_NAME}-gateway
+    - docker rm -f ${IMAGE_NAME}-gateway
+    - docker network rm teraflowbridge
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop" || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH)'
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == "develop"'
+    - changes:
+      - src/common/**/*.py
+      - proto/*.proto
+      - src/$IMAGE_NAME/.gitlab-ci.yml
+      - src/$IMAGE_NAME/gateway/**/*.{kt,kts,proto,pem,json}
+      - src/$IMAGE_NAME/gateway/build.gradle.kts
+      - src/$IMAGE_NAME/gateway/Dockerfile
+      - src/$IMAGE_NAME/gateway/gradle.properties
+      - src/$IMAGE_NAME/gateway/gradlew
+      - src/$IMAGE_NAME/gateway/gradlew.bat
+      - src/$IMAGE_NAME/gateway/settings.gradle.kts
+      - manifests/${IMAGE_NAME}service.yaml
+      - .gitlab-ci.yml
+  #artifacts:
+  #    when: always
+  #    reports:
+  #      junit: src/$IMAGE_NAME/gateway/tests/${IMAGE_NAME}-gateway_report.xml
+
+# Apply unit test to the component
+unit test dlt-connector:
+  variables:
+    IMAGE_NAME: 'dlt' # name of the microservice
+    IMAGE_TAG: 'latest' # tag of the container image (production, development, etc)
+  stage: unit_test
+  needs:
+    - build dlt
+  before_script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+    - if docker network list | grep teraflowbridge; then echo "teraflowbridge is already created"; else docker network create --driver=bridge teraflowbridge; fi
+    - if docker container ls | grep ${IMAGE_NAME}-connector; then docker rm -f ${IMAGE_NAME}-connector; else echo "${IMAGE_NAME}-connector image is not in the system"; fi
+    - if docker container ls | grep ${IMAGE_NAME}-gateway; then docker rm -f ${IMAGE_NAME}-gateway; else echo "${IMAGE_NAME}-gateway image is not in the system"; fi
+  script:
+    - docker pull "$CI_REGISTRY_IMAGE/${IMAGE_NAME}-connector:$IMAGE_TAG"
+    - docker pull "$CI_REGISTRY_IMAGE/${IMAGE_NAME}-gateway:$IMAGE_TAG"
+    - >
+      docker run --name ${IMAGE_NAME}-gateway -d -p 50051:50051 --network=teraflowbridge
+      --volume "$PWD/src/${IMAGE_NAME}/gateway/tests:/opt/results"
+      $CI_REGISTRY_IMAGE/${IMAGE_NAME}-gateway:$IMAGE_TAG
+    - DLT_GATEWAY_HOST=$(docker inspect ${IMAGE_NAME}-gateway --format "{{.NetworkSettings.Networks.teraflowbridge.IPAddress}}")
+    - echo $DLT_GATEWAY_HOST
+    - sleep 1
+    - >
+      docker run --name ${IMAGE_NAME}-connector -d -p 8080:8080 --network=teraflowbridge
+      --volume "$PWD/src/${IMAGE_NAME}/connector/tests:/opt/results"
+      --env "DLT_GATEWAY_HOST=${DLT_GATEWAY_HOST}"
+      --env "DLT_GATEWAY_PORT=50051"
+      $CI_REGISTRY_IMAGE/${IMAGE_NAME}-connector:$IMAGE_TAG
+    - sleep 5
+    - docker ps -a
+    - docker logs ${IMAGE_NAME}-connector
+    - docker logs ${IMAGE_NAME}-gateway
+    - >
+      docker exec -i ${IMAGE_NAME}-connector bash -c
+      "coverage run -m pytest --log-level=INFO --verbose $IMAGE_NAME/connector/tests/test_unitary.py --junitxml=/opt/results/${IMAGE_NAME}-connector_report.xml"
+    - docker exec -i ${IMAGE_NAME}-connector bash -c "coverage report --include='${IMAGE_NAME}/*' --show-missing"
+  coverage: '/TOTAL\s+\d+\s+\d+\s+(\d+%)/'
+  after_script:
+    - docker ps -a
+    - docker logs ${IMAGE_NAME}-connector
+    - docker logs ${IMAGE_NAME}-gateway
+    - docker rm -f ${IMAGE_NAME}-connector
+    - docker rm -f ${IMAGE_NAME}-gateway
+    - docker network rm teraflowbridge
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop" || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH)'
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == "develop"'
+    - changes:
+      - src/common/**/*.py
+      - proto/*.proto
+      - src/$IMAGE_NAME/.gitlab-ci.yml
+      - src/$IMAGE_NAME/gateway/**/*.{kt,kts,proto,pem,json}
+      - src/$IMAGE_NAME/gateway/build.gradle.kts
+      - src/$IMAGE_NAME/gateway/Dockerfile
+      - src/$IMAGE_NAME/gateway/gradle.properties
+      - src/$IMAGE_NAME/gateway/gradlew
+      - src/$IMAGE_NAME/gateway/gradlew.bat
+      - src/$IMAGE_NAME/gateway/settings.gradle.kts
+      - src/$IMAGE_NAME/connector/**/*.{py,in,yml}
+      - src/$IMAGE_NAME/connector/Dockerfile
+      - src/$IMAGE_NAME/connector/tests/*.py
+      - manifests/${IMAGE_NAME}service.yaml
+      - .gitlab-ci.yml
+  artifacts:
+      when: always
+      reports:
+        junit: src/$IMAGE_NAME/connector/tests/${IMAGE_NAME}-connector_report.xml
+
+# Deployment of the service in Kubernetes Cluster
+deploy dlt:
+  variables:
+    IMAGE_NAME: 'dlt' # name of the microservice
+    IMAGE_TAG: 'latest' # tag of the container image (production, development, etc)
+  stage: deploy
+  needs:
+    - unit test dlt-gateway
+    - unit test dlt-connector
+    # - integ_test execute
+  script:
+    - 'sed -i "s/$IMAGE_NAME:.*/$IMAGE_NAME:$IMAGE_TAG/" manifests/${IMAGE_NAME}service.yaml'
+    - kubectl version
+    - kubectl get all
+    - kubectl apply -f "manifests/${IMAGE_NAME}service.yaml"
+    - kubectl get all
+  # environment:
+  #   name: test
+  #   url: https://example.com
+  #   kubernetes:
+  #     namespace: test
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop" || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH)'
+      when: manual    
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == "develop"'
+      when: manual

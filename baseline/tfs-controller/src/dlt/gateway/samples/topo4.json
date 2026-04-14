@@ -1,0 +1,150 @@
+{
+    "contexts": [
+        {"context_id": {"context_uuid": {"uuid": "admin"}}}
+    ],
+    "topologies": [
+        {"topology_id": {"context_id": {"context_uuid": {"uuid": "admin"}}, "topology_uuid": {"uuid": "admin"}}}
+    ],
+    "devices": [
+        {
+            "device_id": {"device_uuid": {"uuid": "T1"}}, "device_type": "optical-transponder", "device_drivers": [11],
+            "device_operational_status": 1,
+            "device_endpoints": [
+                {"endpoint_id": {
+                    "device_id": {"device_uuid": {"uuid": "T1"}}, "endpoint_uuid": {"uuid": "1"},
+                    "topology_id": {"context_id": {"context_uuid": {"uuid": "admin"}}, "topology_uuid": {"uuid": "admin"}}
+                }}
+            ],
+            "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "172.254.253.101"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "2022"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {
+                    "username": "admin", "password": "admin", "force_running": false, "hostkey_verify": false,
+                    "look_for_keys": false, "allow_agent": false, "commit_per_rule": false,
+                    "device_params": {"name": "default"}, "manager_params": {"timeout": 120},
+                    "endpoints": [{"uuid": "1", "type": "optical", "sample_types": [101, 102, 201, 202]}]
+                }}}
+            ]}
+        },
+        {
+            "device_id": {"device_uuid": {"uuid": "T2"}}, "device_type": "optical-transponder", "device_drivers": [11],
+            "device_operational_status": 1,
+            "device_endpoints": [
+                {"endpoint_id": {
+                    "device_id": {"device_uuid": {"uuid": "T2"}}, "endpoint_uuid": {"uuid": "6"},
+                    "topology_id": {"context_id": {"context_uuid": {"uuid": "admin"}}, "topology_uuid": {"uuid": "admin"}}
+                }}
+            ],
+            "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "172.254.253.102"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "2022"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {
+                    "username": "admin", "password": "admin", "force_running": false, "hostkey_verify": false,
+                    "look_for_keys": false, "allow_agent": false, "commit_per_rule": false,
+                    "device_params": {"name": "default"}, "manager_params": {"timeout": 120},
+                    "endpoints": [{"uuid": "6", "type": "optical", "sample_types": [101, 102, 201, 202]}]
+                }}}
+            ]}
+        },
+        {
+            "device_id": {"device_uuid": {"uuid": "R1"}}, "device_type": "optical-roadm", "device_drivers": [11],
+            "device_operational_status": 1,
+            "device_endpoints": [
+                {"endpoint_id": {
+                    "device_id": {"device_uuid": {"uuid": "R1"}}, "endpoint_uuid": {"uuid": "2"},
+                    "topology_id": {"context_id": {"context_uuid": {"uuid": "admin"}}, "topology_uuid": {"uuid": "admin"}}
+                }},
+                {"endpoint_id": {
+                    "device_id": {"device_uuid": {"uuid": "R1"}}, "endpoint_uuid": {"uuid": "3"},
+                    "topology_id": {"context_id": {"context_uuid": {"uuid": "admin"}}, "topology_uuid": {"uuid": "admin"}}
+                }},
+                {"endpoint_id": {
+                    "device_id": {"device_uuid": {"uuid": "R1"}}, "endpoint_uuid": {"uuid": "12"},
+                    "topology_id": {"context_id": {"context_uuid": {"uuid": "admin"}}, "topology_uuid": {"uuid": "admin"}}
+                }},
+                {"endpoint_id": {
+                    "device_id": {"device_uuid": {"uuid": "R1"}}, "endpoint_uuid": {"uuid": "13"},
+                    "topology_id": {"context_id": {"context_uuid": {"uuid": "admin"}}, "topology_uuid": {"uuid": "admin"}}
+                }}
+            ],
+            "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "172.254.253.201"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "2022"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {
+                    "username": "admin", "password": "admin", "force_running": false, "hostkey_verify": false,
+                    "look_for_keys": false, "allow_agent": false, "commit_per_rule": false,
+                    "device_params": {"name": "default"}, "manager_params": {"timeout": 120},
+                    "endpoints": [
+                        {"sample_types": [101, 102, 201, 202], "type": "optical", "uuid": "2"},
+                        {"sample_types": [101, 102, 201, 202], "type": "optical", "uuid": "3"},
+                        {"sample_types": [101, 102, 201, 202], "type": "optical", "uuid": "12"},
+                        {"sample_types": [101, 102, 201, 202], "type": "optical", "uuid": "13"}
+                    ]}
+                }}]
+            }
+        },
+        {
+            "device_id": {"device_uuid": {"uuid": "R2"}}, "device_type": "optical-roadm", "device_drivers": [11],
+            "device_operational_status": 1,
+            "device_endpoints": [
+                {"endpoint_id": {
+                    "device_id": {"device_uuid": {"uuid": "R2"}}, "endpoint_uuid": {"uuid": "4"},
+                    "topology_id": {"context_id": {"context_uuid": {"uuid": "admin"}}, "topology_uuid": {"uuid": "admin"}}
+                }},
+                {"endpoint_id": {
+                    "device_id": {"device_uuid": {"uuid": "R2"}}, "endpoint_uuid": {"uuid": "5"},
+                    "topology_id": {"context_id": {"context_uuid": {"uuid": "admin"}}, "topology_uuid": {"uuid": "admin"}}
+                }},
+                {"endpoint_id": {
+                    "device_id": {"device_uuid": {"uuid": "R2"}}, "endpoint_uuid": {"uuid": "14"},
+                    "topology_id": {"context_id": {"context_uuid": {"uuid": "admin"}}, "topology_uuid": {"uuid": "admin"}}
+                }},
+                {"endpoint_id": {
+                    "device_id": {"device_uuid": {"uuid": "R2"}}, "endpoint_uuid": {"uuid": "15"},
+                    "topology_id": {"context_id": {"context_uuid": {"uuid": "admin"}}, "topology_uuid": {"uuid": "admin"}}
+                }}
+            ],
+            "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "172.254.253.202"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "2022"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {
+                    "username": "admin", "password": "admin", "force_running": false, "hostkey_verify": false,
+                    "look_for_keys": false, "allow_agent": false, "commit_per_rule": false,
+                    "device_params": {"name": "default"}, "manager_params": {"timeout": 120},
+                    "endpoints": [
+                        {"sample_types": [101, 102, 201, 202], "type": "optical", "uuid": "4"},
+                        {"sample_types": [101, 102, 201, 202], "type": "optical", "uuid": "5"},
+                        {"sample_types": [101, 102, 201, 202], "type": "optical", "uuid": "14"},
+                        {"sample_types": [101, 102, 201, 202], "type": "optical", "uuid": "15"}
+                    ]
+                }}}
+            ]}
+        }
+    ],
+    "links": [
+        {"link_id": {"link_uuid": {"uuid": "T1->R1"}}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "T1"}}, "endpoint_uuid": {"uuid": "1"}},
+            {"device_id": {"device_uuid": {"uuid": "R1"}}, "endpoint_uuid": {"uuid": "12"}}
+        ]},
+        {"link_id": {"link_uuid": {"uuid": "R1->T1"}}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "R1"}}, "endpoint_uuid": {"uuid": "2"}},
+            {"device_id": {"device_uuid": {"uuid": "T1"}}, "endpoint_uuid": {"uuid": "1"}}
+        ]},
+        {"link_id": {"link_uuid": {"uuid": "R1->R2"}}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "R1"}}, "endpoint_uuid": {"uuid": "3"}},
+            {"device_id": {"device_uuid": {"uuid": "R2"}}, "endpoint_uuid": {"uuid": "14"}}
+        ]},
+        {"link_id": {"link_uuid": {"uuid": "R2->R1"}}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "R2"}}, "endpoint_uuid": {"uuid": "4"}},
+            {"device_id": {"device_uuid": {"uuid": "R1"}}, "endpoint_uuid": {"uuid": "13"}}
+        ]},
+        {"link_id": {"link_uuid": {"uuid": "T2->R2"}}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "T2"}}, "endpoint_uuid": {"uuid": "6"}},
+            {"device_id": {"device_uuid": {"uuid": "R2"}}, "endpoint_uuid": {"uuid": "15"}}
+        ]},
+        {"link_id": {"link_uuid": {"uuid": "R2->T2"}}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "R2"}}, "endpoint_uuid": {"uuid": "5"}},
+            {"device_id": {"device_uuid": {"uuid": "T2"}}, "endpoint_uuid": {"uuid": "6"}}
+        ]}
+    ]
+}

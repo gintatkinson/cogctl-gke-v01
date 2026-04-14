@@ -1,0 +1,161 @@
+# Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dlt-config
+data:
+  CHANNEL_NAME: "tfs_channel"                 # Change according to your blockchain configuration
+  CHAINCODE_NAME: "tfs_dlt"                   # Change according to your blockchain configuration
+  MSP_ID: "ETSI"                              # Change according to your blockchain configuration
+  PEER_ENDPOINT: "127.0.0.1:7051"             # Change according to your blockchain configuration
+  PEER_HOST_ALIAS: "peer0.org1.tfs.etsi.org"  # Change according to your blockchain configuration
+  KEY_DIRECTORY_PATH: "/etc/hyperledger/fabric-keystore/keystore"
+  CERT_DIRECTORY_PATH: "/etc/hyperledger/fabric-signcerts/signcerts.pem"
+  TLS_CERT_PATH: "/etc/hyperledger/fabric-ca-crt/ca.crt"
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dltservice
+spec:
+  selector:
+    matchLabels:
+      app: dltservice
+  template:
+    metadata:
+      labels:
+        app: dltservice
+    spec:
+      terminationGracePeriodSeconds: 5
+      containers:
+        - name: connector
+          image: labs.etsi.org:5050/tfs/controller/dlt-connector:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+            - containerPort: 9192
+          env:
+            - name: LOG_LEVEL
+              value: "INFO"
+          ## for debug purposes
+          #- name: DLT_GATEWAY_HOST
+          #  value: "mock-blockchain.tfs-bchain.svc.cluster.local"
+          #- name: DLT_GATEWAY_PORT
+          #  value: "50051"
+          readinessProbe:
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:8080"]
+          livenessProbe:
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:8080"]
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+        - name: gateway
+          image: labs.etsi.org:5050/tfs/controller/dlt-gateway:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 50051
+          #readinessProbe:
+          #  httpGet:
+          #    path: /health
+          #    port: 8081
+          #  initialDelaySeconds: 5
+          #  timeoutSeconds: 5
+          #livenessProbe:
+          #  httpGet:
+          #    path: /health
+          #    port: 8081
+          #  initialDelaySeconds: 5
+          #  timeoutSeconds: 5
+          resources:
+            requests:
+              cpu: 200m
+              memory: 512Mi
+            limits:
+              cpu: 700m
+              memory: 1024Mi
+          volumeMounts:
+            - name: keystore
+              mountPath: /etc/hyperledger/fabric-keystore
+              readOnly: true
+            - name: signcerts
+              mountPath: /etc/hyperledger/fabric-signcerts
+              readOnly: true
+            - name: ca-crt
+              mountPath: /etc/hyperledger/fabric-ca-crt
+              readOnly: true
+          envFrom:
+            - configMapRef:
+                name: dlt-config
+          env:
+            - name: KEY_DIRECTORY_PATH
+              value: "/etc/hyperledger/fabric-keystore/keystore"
+            - name: CERT_DIRECTORY_PATH
+              value: "/etc/hyperledger/fabric-signcerts/signcerts.pem"
+            - name: TLS_CERT_PATH
+              value: "/etc/hyperledger/fabric-ca-crt/ca.crt"
+      volumes:
+        - name: keystore
+          secret:
+            secretName: dlt-keystone
+        - name: signcerts
+          secret:
+            secretName: dlt-signcerts
+        - name: ca-crt
+          secret:
+            secretName: dlt-ca-crt
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gatewayservice
+spec:
+  selector:
+    app: dltservice
+  ports:
+    - protocol: TCP
+      port: 50051
+      targetPort: 50051
+      nodePort: 32001
+  type: NodePort
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dltservice
+  labels:
+    app: dltservice
+spec:
+  type: ClusterIP
+  selector:
+    app: dltservice
+  ports:
+    - name: grpc
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
+    - name: metrics
+      protocol: TCP
+      port: 9192
+      targetPort: 9192

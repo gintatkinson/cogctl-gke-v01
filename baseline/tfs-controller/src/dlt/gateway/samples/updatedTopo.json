@@ -1,0 +1,17 @@
+{
+    "name": "Updated Network",
+    "nodes": [
+        {
+            "id": "node1",
+            "type": "switch",
+            "status": "active",
+            "connections": ["node2"]
+        },
+        {
+            "id": "node2",
+            "type": "router",
+            "status": "inactive",
+            "connections": ["node1"]
+        }
+    ]
+}

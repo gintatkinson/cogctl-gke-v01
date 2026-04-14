@@ -1,0 +1,250 @@
+# Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Build, tag, and push the Docker image to the GitLab Docker registry
+build ofc25:
+  variables:
+    TEST_NAME: 'ofc25'
+  stage: build
+  before_script:
+    - docker image prune --force
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+  script:
+    - docker buildx build -t "${TEST_NAME}:latest" -f ./src/tests/${TEST_NAME}/Dockerfile .
+    - docker tag "${TEST_NAME}:latest" "$CI_REGISTRY_IMAGE/${TEST_NAME}:latest"
+    - docker push "$CI_REGISTRY_IMAGE/${TEST_NAME}:latest"
+  after_script:
+    - docker image prune --force
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop" || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH)'
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == "develop"'
+    - changes:
+      - src/common/**/*.py
+      - proto/*.proto
+      - src/tests/${TEST_NAME}/**/*.{py,in,sh,yml}
+      - src/tests/${TEST_NAME}/Dockerfile
+      - .gitlab-ci.yml
+
+# Deploy TeraFlowSDN and Execute end-2-end test
+end2end_test ofc25:
+  timeout: 90m
+  variables:
+    TEST_NAME: 'ofc25'
+  stage: end2end_test
+  # Disable to force running it after all other tasks
+  #needs:
+  #  - build ofc25
+  before_script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+    - docker network rm -f na-br
+
+
+    - helm3 uninstall --namespace nats-e2e nats-e2e 2>/dev/null  || echo "Namespace not found"
+    - helm3 uninstall --namespace nats-ip nats-ip 2>/dev/null  || echo "Namespace not found"
+    - helm3 uninstall --namespace nats-opt nats-opt 2>/dev/null  || echo "Namespace not found"
+    - helm3 uninstall --namespace nats nats 2>/dev/null  || echo "Namespace not found"
+    - kubectl delete namespaces tfs tfs-ip tfs-opt tfs-e2e qdb qdb-e2e qdb-opt qdb-ip --ignore-not-found
+    - kubectl delete namespaces nats nats-ip nats-opt nats-e2e --ignore-not-found
+    - echo "HOLA"
+  script:
+    # Download Docker image to run the test
+    - echo "Que tal"
+    - docker pull "${CI_REGISTRY_IMAGE}/${TEST_NAME}:latest"
+
+
+    # Check MicroK8s is ready
+    - microk8s status --wait-ready
+    - kubectl get pods --all-namespaces
+
+    
+    
+    # Configure TeraFlowSDN deployment
+    # Uncomment if DEBUG log level is needed for the components
+    #- yq -i '((select(.kind=="Deployment").spec.template.spec.containers.[] | select(.name=="server").env.[]) | select(.name=="LOG_LEVEL").value) |= "DEBUG"' manifests/contextservice.yaml
+    #- yq -i '((select(.kind=="Deployment").spec.template.spec.containers.[] | select(.name=="server").env.[]) | select(.name=="LOG_LEVEL").value) |= "DEBUG"' manifests/deviceservice.yaml
+    #- yq -i '((select(.kind=="Deployment").spec.template.spec.containers.[] | select(.name=="frontend").env.[]) | select(.name=="LOG_LEVEL").value) |= "DEBUG"' manifests/pathcompservice.yaml
+    #- yq -i '((select(.kind=="Deployment").spec.template.spec.containers.[] | select(.name=="server").env.[]) | select(.name=="LOG_LEVEL").value) |= "DEBUG"' manifests/serviceservice.yaml
+    #- yq -i '((select(.kind=="Deployment").spec.template.spec.containers.[] | select(.name=="server").env.[]) | select(.name=="LOG_LEVEL").value) |= "DEBUG"' manifests/sliceservice.yaml
+    #- yq -i '((select(.kind=="Deployment").spec.template.spec.containers.[] | select(.name=="server").env.[]) | select(.name=="LOG_LEVEL").value) |= "DEBUG"' manifests/nbiservice.yaml
+    #- yq -i '((select(.kind=="Deployment").spec.template.spec.containers.[] | select(.name=="server").env.[]) | select(.name=="LOG_LEVEL").value) |= "DEBUG"' manifests/e2eorchestratorservice.yaml
+    #- yq -i '((select(.kind=="Deployment").spec.template.spec.containers.[] | select(.name=="server").env.[]) | select(.name=="LOG_LEVEL").value) |= "DEBUG"' manifests/vntmservice.yaml
+
+
+
+    # Deploy Optical TeraFlowSDN
+    - source src/tests/${TEST_NAME}/deploy_specs_opt.sh
+
+
+    # Delete secondary ingress controllers
+    - kubectl delete -f src/tests/ofc25/nginx-ingress-controller-opt.yaml --ignore-not-found
+    # Create secondary ingress controllers
+    - kubectl apply -f src/tests/ofc25/nginx-ingress-controller-opt.yaml
+    # Deploy TFS for OPT
+    - source src/tests/ofc25/deploy_specs_opt.sh
+
+    # Change the name for the database
+    - cp manifests/contextservice.yaml manifests/contextservice.yaml.bak
+    - |
+      sed -i '/name: CRDB_DATABASE/{n;s/value: .*/value: "tfs_opt_context"/}' manifests/contextservice.yaml
+    
+    - ./deploy/crdb.sh
+    - ./deploy/nats.sh
+    # - ./deploy/qdb.sh
+
+
+    - ./deploy/expose_dashboard.sh
+    - ./deploy/tfs.sh
+    - ./deploy/show.sh
+
+    - mv manifests/contextservice.yaml.bak manifests/contextservice.yaml
+
+    - mv tfs_runtime_env_vars.sh tfs_runtime_env_vars_opt.sh
+
+    # - cp /var/teraflow/tfs_runtime_env_vars.sh /var/teraflow/tfs_runtime_env_vars_opt.sh
+
+
+
+    # Deploy IP TeraFlowSDN
+    # Delete secondary ingress controllers
+    - kubectl delete -f src/tests/ofc25/nginx-ingress-controller-ip.yaml --ignore-not-found
+
+    # Create secondary ingress controllers
+    - kubectl apply -f src/tests/ofc25/nginx-ingress-controller-ip.yaml
+
+    # Deploy TFS for IP
+    - source src/tests/ofc25/deploy_specs_ip.sh
+
+    # Change the name for the database
+    - cp manifests/contextservice.yaml manifests/contextservice.yaml.bak
+    - |
+      sed -i '/name: CRDB_DATABASE/{n;s/value: .*/value: "tfs_ip_context"/}' manifests/contextservice.yaml
+    
+    - echo "Sleeping 60"
+    - sleep 60
+    
+    # - source src/tests/${TEST_NAME}/deploy_specs_ip.sh
+    - ./deploy/crdb.sh
+    - ./deploy/nats.sh
+    # - ./deploy/qdb.sh
+    - ./deploy/expose_dashboard.sh
+    - ./deploy/tfs.sh
+    - ./deploy/show.sh
+    # - cp /var/teraflow/tfs_runtime_env_vars.sh /var/teraflow/tfs_runtime_env_vars_ip.sh
+    - mv manifests/contextservice.yaml.bak manifests/contextservice.yaml
+    - mv tfs_runtime_env_vars.sh tfs_runtime_env_vars_ip.sh
+    - ./src/tests/${TEST_NAME}/subscription_ws_ip.sh
+
+
+
+    # Deploy E2E TeraFlowSDN
+    - source src/tests/${TEST_NAME}/deploy_specs_e2e.sh
+
+
+
+    # Delete secondary ingress controllers
+    - kubectl delete -f src/tests/ofc25/nginx-ingress-controller-e2e.yaml --ignore-not-found
+
+    # Create secondary ingress controllers
+    - kubectl apply -f src/tests/ofc25/nginx-ingress-controller-e2e.yaml
+
+    # Change the name for the database
+    - cp manifests/contextservice.yaml manifests/contextservice.yaml.bak
+    - |
+      sed -i '/name: CRDB_DATABASE/{n;s/value: .*/value: "tfs_e2e_context"/}' manifests/contextservice.yaml
+    
+    # - sed -i '/name: CRDB_DATABASE/{n;s/value: .*/value: "tfs_e2e_context"/}' manifests/contextservice.yaml
+    
+    - ./deploy/crdb.sh
+    - ./deploy/nats.sh
+    # - ./deploy/qdb.sh
+    - ./deploy/expose_dashboard.sh
+    - ./deploy/tfs.sh
+    - ./deploy/show.sh
+    # - ./src/tests/${TEST_NAME}/subscription_ws_e2e.sh
+    # - cp /var/teraflow/tfs_runtime_env_vars.sh /var/teraflow/tfs_runtime_env_vars_e2e.sh
+
+    - mv manifests/contextservice.yaml.bak manifests/contextservice.yaml
+
+    #Configure Subscription WS
+    - ./src/tests/ofc25/subscription_ws_e2e.sh
+
+    - mv tfs_runtime_env_vars.sh tfs_runtime_env_vars_e2e.sh
+
+
+    - echo "Por aqui"
+    - sleep 600
+
+    # Run end-to-end tests
+    #- if docker ps -a | grep ${TEST_NAME}; then docker rm -f ${TEST_NAME}; fi
+    #- >
+    #  docker run -t --name ${TEST_NAME} --network=host 
+    #  --volume "$PWD/tfs_runtime_env_vars.sh:/var/teraflow/tfs_runtime_env_vars.sh"
+    #  --volume "$PWD/src/tests/${TEST_NAME}:/opt/results"
+    #  $CI_REGISTRY_IMAGE/${TEST_NAME}:latest
+
+  after_script:
+    # Dump TeraFlowSDN component logs
+    - echo "After"
+    
+    - source ./src/tests/${TEST_NAME}/deploy_specs_ip.sh
+    - kubectl --namespace tfs-ip logs deployment/contextservice -c server
+    - kubectl --namespace tfs-ip logs deployment/deviceservice -c server
+    - kubectl --namespace tfs-ip logs deployment/pathcompservice -c frontend
+    - kubectl --namespace tfs-ip logs deployment/serviceservice -c server
+    - kubectl --namespace tfs-ip logs deployment/nbiservice -c server
+    - kubectl --namespace tfs-ip logs deployment/vnt-managerservice -c server
+
+    - source ./src/tests/${TEST_NAME}/deploy_specs_opt.sh
+    - kubectl --namespace tfs-opt logs deployment/contextservice -c server
+    - kubectl --namespace tfs-opt logs deployment/deviceservice -c server
+    - kubectl --namespace tfs-opt logs deployment/pathcompservice -c frontend
+    - kubectl --namespace tfs-opt logs deployment/serviceservice -c server
+    - kubectl --namespace tfs-opt logs deployment/nbiservice -c server
+
+    - source ./src/tests/${TEST_NAME}/deploy_specs_e2e.sh
+    - kubectl --namespace tfs-e2e logs deployment/contextservice -c server
+    - kubectl --namespace tfs-e2e logs deployment/deviceservice -c server
+    - kubectl --namespace tfs-e2e logs deployment/pathcompservice -c frontend
+    - kubectl --namespace tfs-e2e logs deployment/serviceservice -c server
+    - kubectl --namespace tfs-e2e logs deployment/nbiservice -c server
+    - kubectl --namespace tfs-e2e logs deployment/e2e-orchestratorservice -c server
+
+
+    - if docker ps -a | grep ${TEST_NAME}; then docker rm -f ${TEST_NAME}; fi
+
+    # Dump container status and logs
+    - docker ps -a
+    
+    # Clean old docker images
+    - docker image prune --force
+
+
+    - helm3 uninstall --namespace nats-e2e nats-e2e 2>/dev/null  || echo "Namespace not found"
+    - helm3 uninstall --namespace nats-ip nats-ip 2>/dev/null  || echo "Namespace not found"
+    - helm3 uninstall --namespace nats-opt nats-opt 2>/dev/null  || echo "Namespace not found"
+    - helm3 uninstall --namespace nats nats 2>/dev/null  || echo "Namespace not found"
+    - kubectl delete namespaces tfs tfs-ip tfs-opt tfs-e2e qdb qdb-e2e qdb-opt qdb-ip --ignore-not-found
+    - kubectl delete namespaces nats nats-ip nats-opt nats-e2e --ignore-not-found
+    - echo "Adios"
+    - sleep 600
+
+
+  #coverage: '/TOTAL\s+\d+\s+\d+\s+(\d+%)/'
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop" || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH)'
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == "develop"'
+  artifacts:
+      when: always
+      reports:
+        junit: ./src/tests/${TEST_NAME}/report_*.xml

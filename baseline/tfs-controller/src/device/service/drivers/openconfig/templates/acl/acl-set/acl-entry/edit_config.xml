@@ -1,0 +1,66 @@
+<acl xmlns="http://openconfig.net/yang/acl">
+  <acl-sets>
+    <acl-set{% if operation is defined %} xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" nc:operation="{{operation}}"{% endif %}>
+      <name>{{name}}</name>
+      <type>{{type}}</type>
+      <config>
+        <name>{{name}}</name>
+        <type>{{type}}</type>
+      </config>
+      <acl-entries>
+        <acl-entry>
+          <sequence-id>{{sequence_id}}</sequence-id>
+          <config>
+            <sequence-id>{{sequence_id}}</sequence-id>
+          </config>
+          {% if operation is not defined or operation != 'delete' %}
+          {% if type=='ACL_L2' %}
+          <l2>
+            <config>
+              {% if source_address is defined %}<source-mac>{{source_address}}</source-mac>{% endif%}
+              {% if destination_address is defined %}<destination-mac>{{destination_address}}</destination-mac>{% endif%}
+            </config>
+          </l2>
+          {% endif%}
+          {% if type=='ACL_IPV4' %}
+          <ipv4>
+            <config>
+              {% if source_address is defined %}<source-address>{{source_address}}</source-address>{% endif%}
+              {% if destination_address is defined %}<destination-address>{{destination_address}}</destination-address>{% endif%}
+              {% if protocol is defined %}<protocol>{{protocol}}</protocol>{% endif%}
+              {% if dscp is defined %}<dscp>{{dscp}}</dscp>{% endif%}
+              {% if hop_limit is defined %}<hop-limit>{{hop_limit}}</hop-limit>{% endif%}
+            </config>
+          </ipv4>
+          <transport>
+            <config>
+              {% if source_port is defined %}<source-port>{{source_port}}</source-port>{% endif%}
+              {% if destination_port is defined %}<destination-port>{{destination_port}}</destination-port>{% endif%}
+              {% if tcp_flags is defined %}<tcp-flags>{{tcp_flags}}</tcp-flags>{% endif%}
+            </config>
+          </transport>
+         {% endif%}
+         {% if type=='ACL_IPV6' %}
+          <ipv6>
+            <config>
+              {% if source_address is defined %}<source-address>{{source_address}}</source-address>{% endif%}
+              {% if destination_address is defined %}<destination-address>{{destination_address}}</destination-address>{% endif%}
+              {% if protocol is defined %}<protocol>{{protocol}}</protocol>{% endif%}
+              {% if dscp is defined %}<dscp>{{dscp}}</dscp>{% endif%}
+              {% if hop_limit is defined %}<hop-limit>{{hop_limit}}</hop-limit>{% endif%}
+            </config>
+          </ipv6>
+         {% endif%}
+          
+          <actions>
+            <config>
+              {% if forwarding_action is defined %}<forwarding-action>{{forwarding_action}}</forwarding-action>{% endif%}
+              {% if log_action is defined %}<log-action>{{log_action}}</log-action>{% endif%}
+            </config>
+          </actions>
+          {% endif%}
+        </acl-entry>
+      </acl-entries>
+    </acl-set>
+  </acl-sets>
+</acl>

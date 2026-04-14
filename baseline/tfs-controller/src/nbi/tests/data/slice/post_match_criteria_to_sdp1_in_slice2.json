@@ -1,0 +1,40 @@
+{
+    "match-criterion": [
+        {
+            "index": 2,
+            "match-type": [
+                {
+                    "type": "ietf-network-slice-service:vlan",
+                    "value": [
+                        "201"
+                    ]
+                },
+                {
+                    "type": "ietf-network-slice-service:source-ip-prefix",
+                    "value": [
+                        "172.1.201.22/24"
+                    ]
+                },
+                {
+                    "type": "ietf-network-slice-service:source-tcp-port",
+                    "value": [
+                        "10200"
+                    ]
+                },
+                {
+                    "type": "ietf-network-slice-service:destination-ip-prefix",
+                    "value": [
+                        "172.16.104.222/24"
+                    ]
+                },
+                {
+                    "type": "ietf-network-slice-service:destination-tcp-port",
+                    "value": [
+                        "10500"
+                    ]
+                }
+            ],
+            "target-connection-group-id": "line2"
+        }
+    ]
+}

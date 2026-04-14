@@ -1,0 +1,125 @@
+# Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    app.quarkus.io/build-timestamp: 2022-09-19 - 10:48:18 +0000
+  labels:
+    app.kubernetes.io/name: ztpservice
+    app: ztpservice
+  name: ztpservice
+spec:
+  ports:
+    - name: grpc
+      port: 5050
+      targetPort: 5050
+    - name: metrics
+      protocol: TCP
+      port: 9192
+      targetPort: 8080
+  selector:
+    app.kubernetes.io/name: ztpservice
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    app.quarkus.io/build-timestamp: 2022-09-19 - 10:48:18 +0000
+  labels:
+    app: ztpservice
+    app.kubernetes.io/name: ztpservice
+  name: ztpservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: ztpservice
+  template:
+    metadata:
+      annotations:
+        app.quarkus.io/build-timestamp: 2022-09-19 - 10:48:18 +0000
+      labels:
+        app: ztpservice
+        app.kubernetes.io/name: ztpservice
+    spec:
+      containers:
+        - env:
+            - name: KUBERNETES_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: CONTEXT_SERVICE_HOST
+              value: contextservice
+            - name: DEVICE_SERVICE_HOST
+              value: deviceservice
+          image: labs.etsi.org:5050/tfs/controller/ztp:0.2.0
+          imagePullPolicy: Always
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /q/health/live
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 10
+          name: ztpservice
+          ports:
+            - containerPort: 5050
+              name: grpc
+              protocol: TCP
+            - containerPort: 8080
+              name: metrics
+              protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /q/health/ready
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 10
+          resources:
+            requests:
+              cpu: 50m
+              memory: 512Mi
+            limits:
+              cpu: 2000m
+              memory: 2048Mi
+#---
+#apiVersion: autoscaling/v2
+#kind: HorizontalPodAutoscaler
+#metadata:
+#  name: ztpservice-hpa
+#spec:
+#  scaleTargetRef:
+#    apiVersion: apps/v1
+#    kind: Deployment
+#    name: ztpservice
+#  minReplicas: 1
+#  maxReplicas: 10
+#  metrics:
+#    - type: Resource
+#      resource:
+#        name: cpu
+#        target:
+#          type: Utilization
+#          averageUtilization: 80

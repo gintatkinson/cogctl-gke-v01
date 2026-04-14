@@ -1,0 +1,311 @@
+<!--
+ Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Slice {{ slice.name }} ({{ slice.slice_id.slice_uuid.uuid }}) </h1>
+
+<div class="row mb-3">
+    <div class="col-sm-3">
+        <button type="button" class="btn btn-success" onclick="window.location.href='{{ url_for('slice.home') }}'">
+            <i class="bi bi-box-arrow-in-left"></i>
+            Back to slice list
+        </button>
+    </div>
+    <!--
+    <div class="col-sm-3">
+        <a id="update" class="btn btn-secondary" href="#">
+            <i class="bi bi-pencil-square"></i>
+            Update
+        </a>
+    </div>-->
+    <div class="col-sm-3">
+        <!-- <button type="button" class="btn btn-danger"><i class="bi bi-x-square"></i>Delete slice</button> -->
+        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+            <i class="bi bi-x-square"></i>
+            Delete slice
+        </button>
+    </div>
+</div>
+
+<div class="row mb-3">
+    <div class="col-sm-4">
+        <b>Context: </b> {{ slice.slice_id.context_id.context_uuid.uuid }}<br>
+        <b>UUID: </b> {{ slice.slice_id.slice_uuid.uuid }}<br>
+        <b>Name: </b> {{ slice.name }}<br>
+        <b>Owner: </b> {{ slice.slice_owner.owner_uuid.uuid }}<br>
+        <b>Status: </b> {{ sse.Name(slice.slice_status.slice_status).replace('SLICESTATUS_', '') }}<br>
+    </div>
+    <div class="col-sm-8">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Endpoint UUID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Device</th>
+                    <th scope="col">Endpoint Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for endpoint in slice.slice_endpoint_ids %}
+                <tr>
+                    <td>
+                        {{ endpoint.endpoint_uuid.uuid }}
+                   </td>
+                    <td>
+                        {{ endpoints_data.get(endpoint.endpoint_uuid.uuid, (endpoint.endpoint_uuid.uuid, ''))[0] }}
+                    </td>
+                    <td>
+                        <a href="{{ url_for('device.detail', device_uuid=endpoint.device_id.device_uuid.uuid) }}">
+                            {{ device_names.get(endpoint.device_id.device_uuid.uuid, endpoint.device_id.device_uuid.uuid) }}
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                                <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
+                                <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+                            </svg>
+                        </a>
+                    </td>
+                    <td>
+                        {{ endpoints_data.get(endpoint.endpoint_uuid.uuid, ('', '-'))[1] }}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<b>Constraints:</b>
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th scope="col">Kind</th>
+            <th scope="col">Key/Type</th>
+            <th scope="col">Value</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for constraint in slice.slice_constraints %}
+        {% if constraint.WhichOneof('constraint')=='custom' %}
+        <tr>
+            <td>Custom</td>
+            <td>{{ constraint.custom.constraint_type }}</td>
+            <td>{{ constraint.custom.constraint_value }}</td>
+        </tr>
+        {% elif constraint.WhichOneof('constraint')=='endpoint_location' %}
+        <tr>
+            <td>Endpoint Location</td>
+            <td>
+                <a href="{{ url_for('device.detail', device_uuid=constraint.endpoint_location.endpoint_id.device_id.device_uuid.uuid) }}">
+                    {{ device_names.get(constraint.endpoint_location.endpoint_id.device_id.device_uuid.uuid, constraint.endpoint_location.endpoint_id.device_id.device_uuid.uuid) }}
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                        <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
+                        <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+                    </svg>
+                </a> / {{ endpoints_data.get(constraint.endpoint_location.endpoint_id.endpoint_uuid.uuid, (constraint.endpoint_location.endpoint_id.endpoint_uuid.uuid, ''))[0] }}
+            </td>
+            <td>
+                {% if constraint.endpoint_location.location.WhichOneof('location')=='region' %}
+                    Region: {{ constraint.endpoint_location.location.region }}
+                {% elif constraint.endpoint_location.location.WhichOneof('location')=='gps_position' %}
+                    Position (lat/long):
+                    {{ constraint.endpoint_location.location.gps_position.latitude }} /
+                    {{ constraint.endpoint_location.location.gps_position.longitude }}
+                {% endif %}
+            </td>
+        </tr>
+        {% elif constraint.WhichOneof('constraint')=='endpoint_priority' %}
+        <tr>
+            <td>Endpoint Priority</td>
+            <td>
+                <a href="{{ url_for('device.detail', device_uuid=constraint.endpoint_priority.endpoint_id.device_id.device_uuid.uuid) }}">
+                    {{ device_names.get(constraint.endpoint_priority.endpoint_id.device_id.device_uuid.uuid, constraint.endpoint_priority.endpoint_id.device_id.device_uuid.uuid) }}
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                        <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
+                        <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+                    </svg>
+                </a> / {{ endpoints_data.get(constraint.endpoint_priority.endpoint_id.endpoint_uuid.uuid, (constraint.endpoint_priority.endpoint_id.endpoint_uuid.uuid, ''))[0] }}
+            </td>
+            <td>{{ constraint.endpoint_priority.priority }}</td>
+        </tr>
+        {% elif constraint.WhichOneof('constraint')=='sla_capacity' %}
+        <tr>
+            <td>SLA Capacity</td>
+            <td>-</td>
+            <td>
+                {{ round(constraint.sla_capacity.capacity_gbps, ndigits=2) }} Gbps
+            </td>
+        </tr>
+        {% elif constraint.WhichOneof('constraint')=='sla_latency' %}
+        <tr>
+            <td>SLA E2E Latency</td>
+            <td>-</td>
+            <td>
+                {{ round(constraint.sla_latency.e2e_latency_ms, ndigits=2) }} ms
+            </td>
+        </tr>
+        {% elif constraint.WhichOneof('constraint')=='sla_availability' %}
+        <tr>
+            <td>SLA Availability</td>
+            <td>-</td>
+            <td>
+                {{ round(constraint.sla_availability.availability, ndigits=5) }} %;
+                {{ constraint.sla_availability.num_disjoint_paths }} disjoint paths;
+                {% if constraint.sla_availability.all_active %}all{% else %}single{% endif %}-active
+            </td>
+        </tr>
+        {% elif constraint.WhichOneof('constraint')=='schedule' %}
+        <tr>
+            <td>Schedule</td>
+            <td>-</td>
+            <td>
+                Start time: {{ constraint.schedule.start_timestamp }},
+                Duration: {{ constraint.schedule.duration_days }} days.
+            </td>
+        </tr>
+        {% elif constraint.WhichOneof('constraint')=='sla_isolation' %}
+        <tr>
+            <td>SLA Isolation</td>
+            <td>-</td>
+            <td>
+                {% for i,isolation_level in enumerate(constraint.sla_isolation.isolation_level) %}
+                    {% if i > 0 %}, {% endif %}
+                    {{ ile.Name(isolation_level) }}
+                {% endfor %}
+            </td>
+        </tr>
+        {% else %}
+        <tr>
+            <td>-</td>
+            <td>-</td>
+            <td>{{ constraint }}</td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+    </tbody>
+</table>
+<b>Configurations:</b>
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th scope="col">Key</th>
+            <th scope="col">Value</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for config in slice.slice_config.config_rules %}
+        {% if config.WhichOneof('config_rule') == 'custom' %}
+        <tr>
+            <td>
+                {{ config.custom.resource_key }}
+            </td>
+            <td>
+                <ul>
+                    {% for item_type, item in json_to_list(config.custom.resource_value) %}
+                        {% if item_type == 'kv' %}
+                            <li><b>{{ item[0] }}:</b> {{ item[1] }}</li>
+                        {% else %}
+                            <li>{{ item }}</li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+    </tbody>
+</table>
+<div class="row mb-2">
+    <div class="col-sm-6">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Sub-Services</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for service_id in slice.slice_service_ids %}
+                <tr>
+                    <td>
+                        {% if service_id.context_id.context_uuid.uuid == session['context_uuid'] %}
+                        <a href="{{ url_for('service.detail', service_uuid=service_id.service_uuid.uuid) }}">
+                            {{ service_id.context_id.context_uuid.uuid }} / {{ service_id.service_uuid.uuid }}
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                                <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
+                                <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+                            </svg>
+                        </a>
+                        {% else %}
+                            {{ service_id.context_id.context_uuid.uuid }} / {{ service_id.service_uuid.uuid }}
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="col-sm-6">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Sub-Slices</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for subslice_id in slice.slice_subslice_ids %}
+                <tr>
+                    <td>
+                        {% if subslice_id.context_id.context_uuid.uuid == session['context_uuid'] %}
+                        <a href="{{ url_for('slice.detail', slice_uuid=subslice_id.slice_uuid.uuid) }}">
+                            {{ subslice_id.context_id.context_uuid.uuid }} / {{ subslice_id.slice_uuid.uuid }}
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                                <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
+                                <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+                            </svg>
+                        </a>
+                        {% else %}
+                            {{ subslice_id.context_id.context_uuid.uuid }} / {{ subslice_id.slice_uuid.uuid }}
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Delete slice?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete the slice "{{ slice.slice_id.slice_uuid.uuid }}"?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                <a type="button" class="btn btn-danger"
+                    href="{{ url_for('slice.delete', slice_uuid=slice.slice_id.slice_uuid.uuid) }}"><i
+                        class="bi bi-exclamation-diamond"></i>Yes</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

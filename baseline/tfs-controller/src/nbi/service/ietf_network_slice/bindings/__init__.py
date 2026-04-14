@@ -1,0 +1,535 @@
+# Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+from itertools import chain
+from typing import (
+    Any, AnyStr, Dict, Iterator, List, Optional, Tuple, Type, Union)
+
+import json
+
+
+class YANGMember:
+
+    _yang_name: str = None
+    _yang_namespace: str = None
+    _yang_module_name: str = None
+
+    def __init__(
+            self, yang_name: str, yang_namespace: str,
+            yang_module_name: str):
+
+        self._yang_name = yang_name
+        self._yang_namespace = yang_namespace
+        self._yang_module_name = yang_module_name
+
+    @property
+    def yang_name(self) -> str:
+        return self._yang_name
+
+    @property
+    def yang_namespace(self) -> str:
+        return self._yang_namespace
+
+    @property
+    def yang_module_name(self) -> str:
+        return self._yang_module_name
+
+
+class YANGLeafMember(YANGMember):
+
+    def __get__(self, instance, owner=None):
+        if instance is None:
+            return self
+
+        yang_name = self._yang_name
+        yang_member = self
+
+        class ChildLeaf:
+
+            def __call__(self):
+                data = instance._data
+                if (key := yang_name) in data:
+                    return data[key]
+
+                return data.get(':'.join((
+                    yang_member._yang_module_name, yang_name)))
+
+            @property
+            def yang_name(self) -> str:
+                return yang_member._yang_name
+
+            @property
+            def yang_namespace(self) -> str:
+                return yang_member._yang_namespace
+
+            @property
+            def yang_module_name(self) -> str:
+                return yang_member._yang_module_name
+
+            def __enter__(self):
+                return self()
+
+            def __exit__(self, exc_type, exc, traceback):
+                if exc is not None:
+                    raise exc
+
+            def __repr__(self):
+                return (
+                    f"<{owner.__qualname__}.{type(self).__name__}: " +
+                    f"{yang_member._yang_module_name}" +
+                    f":{yang_member.yang_name}>")
+
+        return ChildLeaf()
+
+    def __set__(self, instance, value):
+        if instance is None:
+            return
+
+        data = instance._data
+        if ((key := ':'.join((self._yang_module_name, self._yang_name)))
+                in data):
+
+            data[key] = value
+        else:
+            data[self._yang_name] = value
+
+
+class YANGContainerMember(YANGMember):
+
+    _yang_container_type: Type['YANGContainer'] = None
+
+    def __init__(self, yang_container_type: Type['YANGContainer']):
+        super().__init__(
+            yang_container_type._yang_name,
+            yang_container_type._yang_namespace,
+            yang_container_type._yang_module_name)
+
+        self._yang_container_type = yang_container_type
+
+    def __get__(self, instance, owner=None):
+        if instance is None:
+            return self
+
+        yang_container_type = self._yang_container_type
+        yang_name = self._yang_name
+        yang_member = self
+
+        class ChildContainer:
+
+            def __call__(self) -> yang_container_type:
+                data = instance._data
+
+                if (key := ':'.join((
+                        yang_member._yang_module_name, yang_name))) in data:
+
+                    child_data = data[key]
+                else:
+                    child_data = data.setdefault(yang_name, {})
+
+                return yang_container_type({yang_name: child_data})
+
+            @property
+            def yang_name(self) -> str:
+                return yang_member._yang_name
+
+            @property
+            def yang_namespace(self) -> str:
+                return yang_member._yang_namespace
+
+            @property
+            def yang_module_name(self) -> str:
+                return yang_member._yang_module_name
+
+            def __enter__(self):
+                return self()
+
+            def __exit__(self, exc_type, exc, traceback):
+                if exc is not None:
+                    raise exc
+
+            def to_json(self, yang_parent_module_name: str=None):
+                return self().to_json(
+                    yang_parent_module_name=yang_parent_module_name)
+
+        return ChildContainer()
+
+
+class YANGListMember(YANGMember):
+
+    _yang_list_item_type: Type['YANGListItem'] = None
+
+    def __init__(self, yang_list_item_type: Type['YANGListItem']):
+        super().__init__(
+            yang_list_item_type._yang_name,
+            yang_list_item_type._yang_namespace,
+            yang_list_item_type._yang_module_name)
+
+        self._yang_list_item_type = yang_list_item_type
+
+    def __get__(self, instance, owner=None):
+        if instance is None:
+            return self
+
+        yang_list_item_type = self._yang_list_item_type
+        yang_name = self._yang_name
+        yang_member = self
+
+        class ChildList:
+
+            @staticmethod
+            def _child_data_list():
+                data = instance._data
+                if (key := ':'.join((
+                        yang_member._yang_module_name, yang_name))) in data:
+
+                    return data[key]
+
+                return data.setdefault(yang_name, [])
+
+            def __call__(self) -> List[yang_list_item_type]:
+                return list(iter(self))
+
+            def __iter__(self) -> Iterator[yang_list_item_type]:
+                for child_data in self._child_data_list():
+                    yield yang_list_item_type({yang_name: [child_data]})
+
+            def __getitem__(self, key) -> yang_list_item_type:
+                child_data_list = self._child_data_list()
+                child = yang_list_item_type(
+                    {yang_member._yang_name: child_data_list},
+                    json_data_list_key=key)
+
+                if not id(child_data := child._data) in map(
+                        id, child_data_list):
+                    child_data_list.append(child_data)
+                return child
+
+            @property
+            def yang_name(self) -> str:
+                return yang_member._yang_name
+
+            @property
+            def yang_namespace(self) -> str:
+                return yang_member._yang_namespace
+
+            @property
+            def yang_module_name(self) -> str:
+                return yang_member._yang_module_name
+
+            def __enter__(self):
+                return self
+
+            def __exit__(self, exc_type, exc, traceback):
+                if exc is not None:
+                    raise exc
+
+            def to_json(self, yang_parent_module_name=None):
+                json_data = {}
+                for child in self():
+                    for child_name, child_data_list in (child.to_json(
+                            yang_parent_module_name=(
+                            yang_parent_module_name))).items():
+
+                        json_data.setdefault(child_name, []).extend(
+                            child_data_list)
+
+                return json_data
+
+        return ChildList()
+
+
+class YANGContainer:
+    """Base class for YANG container handlers."""
+
+    _yang_name: str = None
+    _yang_namespace: str = None
+    _yang_module_name: str = None
+
+    _data: Dict[str, Any] = None
+
+    _yang_leaf_members: Dict[str, YANGLeafMember] = None
+    _yang_container_members: Dict[str, YANGContainerMember] = None
+    _yang_list_members: Dict[str, YANGListMember] = None
+
+    _yang_choices: Dict[str, 'YANGChoice'] = None
+
+    def __init__(
+            self, json_data: Optional[Union[AnyStr, Dict[str, Any]]]=None):
+
+        if json_data is None:
+            self._data = {}
+            return
+
+        if isinstance(json_data, bytes):
+            json_data = json_data.decode('utf8')
+
+        if isinstance(json_data, str):
+            json_data = json.loads(json_data)
+
+        if (key := ':'.join((
+                self._yang_module_name, self._yang_name))) not in json_data:
+            key = self._yang_name
+
+        data = json_data.get(key, {})
+        if not isinstance(data, dict):
+            raise TypeError(f"{key!r} should be a dict, not: {type(data)}")
+
+        for yang_choice in self._yang_choices.values():
+            yang_choice(data)
+
+        self._data = data
+
+    @property
+    def yang_name(self) -> str:
+        return self._yang_name
+
+    @property
+    def yang_namespace(self) -> str:
+        return self._yang_namespace
+
+    @property
+    def yang_module_name(self) -> str:
+        return self._yang_module_name
+
+    def to_json(self, yang_parent_module_name=None) -> Dict[str, Any]:
+
+        def child_items():
+            for yang_name, yang_member in self._yang_leaf_members.items():
+                if (value := yang_member.__get__(self)()) is not None:
+
+                    if (yang_child_module_name :=
+                            yang_member.yang_module_name) != (
+                                    self._yang_module_name):
+
+                        child_key = ':'.join((
+                            yang_child_module_name, yang_name))
+                    else:
+                        child_key = yang_name
+
+                    yield child_key, value
+
+            for yang_name, yang_member in (
+                    self._yang_container_members.items()):
+
+                if yang_name in self._data or ':'.join((
+                        yang_member._yang_namespace,
+                        yang_name)) in self._data:
+
+                    yield from yang_member.__get__(self).to_json(
+                        yang_parent_module_name=(
+                            self._yang_module_name)).items()
+
+            for yang_name, yang_member in self._yang_list_members.items():
+                if yang_name in self._data or ':'.join((
+                        yang_member._yang_namespace,
+                        yang_name)) in self._data:
+
+                    yield from yang_member.__get__(self).to_json(
+                        yang_parent_module_name=(
+                            self._yang_module_name)).items()
+
+            for yang_choice in self._yang_choices.values():
+                if (yang_case_container :=
+                        yang_choice._yang_case_container) is not None:
+
+                    yield from next(iter(yang_case_container.to_json(
+                        yang_parent_module_name=(
+                            self._yang_module_name)).values())).items()
+
+        if (yang_module_name := self._yang_module_name) != (
+                yang_parent_module_name):
+            key = ':'.join((yang_module_name, self._yang_name))
+        else:
+            key = self._yang_name
+
+        return {key: dict(child_items())}
+
+
+class YANGListItem(YANGContainer):
+    """Base class for YANG list item handlers."""
+
+    _yang_list_key_names: Tuple[str] = None
+
+    def __init__(
+            self, json_data: Optional[Union[AnyStr, Dict[str, Any]]]=None,
+            json_data_list_key=None):
+
+        if json_data is None:
+            raise ValueError(f"{self._yang_name!r} list needs input data")
+
+        if isinstance(json_data, bytes):
+            json_data = json_data.decode('utf8')
+
+        if isinstance(json_data, str):
+            json_data = json.loads(json_data)
+
+        if (key := ':'.join((
+                self._yang_module_name, self._yang_name))) not in json_data:
+            key = self._yang_name
+
+        data_list = json_data.get(key, [])
+        if not isinstance(data_list, list):
+            raise TypeError(
+                f"{key!r} should be a list, not: {type(data_list)}")
+
+        if json_data_list_key is None:
+            if len(data_list) == 1:
+                data = data_list[0]
+            else:
+                raise ValueError(f"{key!r} list key is missing")
+
+        else:
+            if not isinstance(json_data_list_key, tuple):
+                json_data_list_key = (json_data_list_key, )
+
+            for data in json_data.get(key, []):
+                if tuple(
+                        data.get(yang_name) for yang_name
+                        in self._yang_list_key_names) == json_data_list_key:
+
+                    break
+            else:
+                data = {key: value for key, value in zip(
+                    self._yang_list_key_names, json_data_list_key)}
+
+        if not isinstance(data, dict):
+            raise TypeError(
+                f"{key!r} list item should be a dict, not: {type(data)}")
+
+        for yang_choice in self._yang_choices.values():
+            yang_choice(data)
+
+        self._data = data
+
+    def yang_key(self):
+        if len(self._yang_list_key_names) == 1:
+            return self._yang_leaf_members[
+                self._yang_list_key_names[0]].__get__(self)()
+
+        return tuple(
+            self._yang_leaf_members[yang_name].__get__(self)()
+            for yang_name in self._yang_list_key_names)
+
+    def to_json(self, yang_parent_module_name=None) -> Dict[str, list]:
+        return {key: [data] for key, data in super().to_json(
+            yang_parent_module_name=yang_parent_module_name).items()}
+
+
+class YANGChoiceCase:
+    """Base class for YANG choice case handlers."""
+
+    _yang_name: str = None
+
+    _yang_container_type: Type[YANGContainer] = None
+
+    _yang_container: YANGContainer = None
+
+    def __init__(self, yang_container_type: Type[YANGContainer]):
+        self._yang_container_type = yang_container_type
+        self._yang_name = yang_container_type._yang_name
+
+    @property
+    def yang_name(self) -> str:
+        return self._yang_name
+
+    def __get__(self, instance, owner=None):
+        if instance is None:
+            return self
+
+        yang_case_container_type = self._yang_container_type
+        yang_name = self._yang_name
+        yang_choice_case = self
+
+        class Case:
+
+            def __bool__(self) -> bool:
+                return (yang_case_container :=
+                    yang_choice_case._yang_container) is not None and (
+                        bool(yang_case_container._data))
+
+            def __call__(self, data: Optional[Dict[str, Any]]=None):
+                if data:
+                    for yang_member in chain(
+                            yang_case_container_type.
+                            _yang_leaf_members.values(),
+
+                            yang_case_container_type.
+                            _yang_container_members.values(),
+
+                            yang_case_container_type.
+                            _yang_list_members.values()):
+
+                        if yang_member._yang_name in data or ':'.join((
+                                yang_member._yang_module_name,
+                                yang_member._yang_name)) in data:
+                            break
+                    else:
+                        data = None
+
+                if data:
+                    yang_choice_case._yang_container = (
+                        yang_case_container_type({yang_name: data}))
+
+                elif yang_choice_case._yang_container is None:
+                    yang_choice_case._yang_container = (
+                        yang_case_container_type())
+
+                return yang_choice_case._yang_container
+
+            def __enter__(self):
+                return self()
+
+            def __exit__(self, exc_type, exc, traceback):
+                if exc is not None:
+                    raise exc
+
+        return Case()
+
+
+class YANGChoice(YANGMember):
+    """Base class for YANG choice handlers."""
+
+    _yang_parent: YANGContainer = None
+
+    _yang_cases: Dict[str, YANGChoiceCase] = None
+
+    def __init__(self, yang_parent: YANGContainer):
+        self._yang_parent = yang_parent
+
+    def __call__(self, data: Dict[str, Any]):
+        for yang_case in self._yang_cases.values():
+            yang_case.__get__(self)(data)
+
+    @property
+    def _yang_case_container(self) -> YANGContainer:
+        for yang_case in self._yang_cases.values():
+            if (yang_container :=
+                    yang_case._yang_container) is not None and (
+                            yang_container._data):
+                return yang_container
+
+
+def load_json_data(
+        json_data: Union[AnyStr, Dict[str, Any]],
+        *yang_types: Type[YANGContainer]) -> List[YANGContainer]:
+
+    if isinstance(json_data, bytes):
+        json_data = json_data.decode('utf8')
+
+    if isinstance(json_data, str):
+        json_data = json.loads(json_data)
+
+    json_data = json_data.get('data', json_data)
+
+    return [yang_type(json_data) for yang_type in yang_types]

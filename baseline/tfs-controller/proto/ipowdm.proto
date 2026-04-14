@@ -1,0 +1,54 @@
+// Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+package ipowdm;
+
+message RuleEndpoint {
+    string uuid = 1;
+    string ip_address = 2;
+    string ip_mask = 3;
+    int32 vlan_id = 4;
+}
+
+message DigitalSubCarrierId {
+    int32 sub_carrier_id = 1;
+    string active = 2;
+}
+
+message DigitalSubCarriersGroup {
+    int32 digital_sub_carriers_group_id = 1;
+    repeated DigitalSubCarrierId digital_sub_carrier_id = 4;
+}
+
+message Component {
+    string name = 1;
+    float frequency = 2;
+    float target_output_power = 3;
+    int32 operational_mode = 4;
+    repeated DigitalSubCarriersGroup digital_sub_carriers_group = 5;
+    string operation = 6;
+}
+
+message Transceiver {
+    repeated Component components = 1;
+}
+
+message IpowdmRuleSet {
+    repeated RuleEndpoint src = 1;
+    repeated RuleEndpoint dst = 2;
+    int32 bw = 3;
+    string uuid = 4;
+    Transceiver transceiver = 5;
+}

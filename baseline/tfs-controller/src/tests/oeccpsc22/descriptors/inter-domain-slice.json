@@ -1,0 +1,19 @@
+{
+    "slices": [
+        {
+            "slice_id": {"context_id": {"context_uuid": {"uuid": "admin"}}, "slice_uuid": {"uuid": "idc-l2-slice"}},
+            "slice_status": {"slice_status": 1},
+            "slice_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "DC1"}}, "endpoint_uuid": {"uuid": "int"}},
+                {"device_id": {"device_uuid": {"uuid": "DC2"}}, "endpoint_uuid": {"uuid": "int"}}
+            ],
+            "slice_constraints": [
+                {"sla_capacity": {"capacity_gbps": 10.0}},
+                {"sla_latency": {"e2e_latency_ms": 15.2}}
+            ],
+            "slice_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "/settings", "resource_value": {"mtu": 1512, "vlan_id": 300}}}
+            ]}
+        }
+    ]
+}

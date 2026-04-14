@@ -1,0 +1,45 @@
+== APPENDIX: CONFD
+$ cd ~/tfs-ctrl/hackfest/netconf
+$ unzip confd-basic-6.4.linux.x86_64.zip  
+$ cd confd-basic-6.4.linux.x86_64/
+$ ./confd-basic-6.4.linux.x86_64.installer.bin /root/confd/
+
+Data model compilation
+$ cd /root/confd/bin/
+$ ./confdc -c ~/tfs-ctrl/hackfest/yang/topology.yang
+
+Start ConfD
+$ ./confd --foreground -v --addloadpath .
+
+In another terminal, use ConfD-client to populate model
+$ cd /root/confd/bin/
+$ ./confd_cli
+> conf
+> topology node node1
+> exit
+> commit
+> exit
+> exit
+
+Use ConfD-client to show db
+$ ./confd_cli
+> conf
+> show full-configuration
+> exit
+> exit
+
+== RUN ONOS
+$ cd /root/onos-2.1.0/apache-karaf-4.2.3/bin/
+$ ./karaf clean
+> app activate org.onosproject.openflow
+> app activate org.onosproject.gui
+
+In another terminal, run mininet:
+$ mn --topo linear,3 --mac --controller=remote,ip=127.0.0.1,port=6653 --switch ovs,protocols=OpenFlow13
+
+In another terminal, we use ONOS REST API:
+$ curl -X GET -u onos:rocks --header 'Accept: application/json' http://localhost:8181/onos/v1/links | python -m json.tool
+$ cd ~/tfs-ctrl/hackfest/onos_api/
+$ python3 onos_topology.py 
+
+

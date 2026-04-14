@@ -1,0 +1,32 @@
+[
+    {"action": 1, "custom": {"resource_key": "/osu_tunnels/osu_tunnel[osu_tunnel_1]", "resource_value": {
+        "name": "osu_tunnel_1", "odu_type": "osuflex", "osuflex_number": 40, "bidirectional": true, "delay": 20,
+        "src_node_id": "10.0.10.1", "src_tp_id": "200", "src_ttp_channel_name": "och:1-odu2:1-oduflex:1-osuflex:2",
+        "dst_node_id": "10.0.30.1", "dst_tp_id": "200", "dst_ttp_channel_name": "och:1-odu2:1-oduflex:3-osuflex:1"
+    }}},
+    {"action": 1, "custom": {"resource_key": "/osu_tunnels/osu_tunnel[osu_tunnel_2]", "resource_value": {
+        "name": "osu_tunnel_2", "odu_type": "osuflex", "osuflex_number": 40, "bidirectional": true, "delay": 20,
+        "src_node_id": "10.0.10.1", "src_tp_id": "200", "src_ttp_channel_name": "och:1-odu2:1-oduflex:1-osuflex:2",
+        "dst_node_id": "10.0.30.1", "dst_tp_id": "200", "dst_ttp_channel_name": "och:1-odu2:1-oduflex:3-osuflex:1"
+    }}},
+    {"action": 1, "custom": {"resource_key": "/etht_services/etht_service[etht_service_1]", "resource_value": {
+        "name": "etht_service_1", "osu_tunnel_name": "osu_tunnel_1", "service_type": "op-mp2mp-svc",
+        "src_node_id": "10.0.10.1", "src_tp_id": "200", "src_vlan_tag": 21, "src_static_routes": [
+            ["128.32.10.5", 24, "128.32.33.5"],
+            ["128.32.20.5", 24, "128.32.33.5"]
+        ],
+        "dst_node_id": "10.0.30.1", "dst_tp_id": "200", "dst_vlan_tag": 101, "dst_static_routes": [
+            ["172.1.101.22", 24, "172.10.33.5"]
+        ]
+    }}},
+    {"action": 1, "custom": {"resource_key": "/etht_services/etht_service[etht_service_2]", "resource_value": {
+        "name": "etht_service_2", "osu_tunnel_name": "osu_tunnel_2", "service_type": "op-mp2mp-svc",
+        "src_node_id": "10.0.10.1", "src_tp_id": "200", "src_vlan_tag": 31, "src_static_routes": [
+            ["128.32.10.5", 24, "128.32.33.5"],
+            ["128.32.20.5", 24, "128.32.33.5"]
+        ],
+        "dst_node_id": "10.0.30.1", "dst_tp_id": "200", "dst_vlan_tag": 201, "dst_static_routes": [
+            ["172.1.201.22", 24, "172.10.33.5"]
+        ]
+    }}}
+]

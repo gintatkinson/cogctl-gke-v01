@@ -1,0 +1,42 @@
+<network-instances xmlns="http://openconfig.net/yang/network-instance">
+    <network-instance{% if operation is defined %} xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" nc:operation="{{operation}}"{% endif %}>
+        <name>{{name}}</name>
+        {% if operation is not defined or operation != 'delete' %}
+        <config>
+            <name>{{name}}</name>
+            <type xmlns:oc-ni-types="http://openconfig.net/yang/network-instance-types">oc-ni-types:{{type}}</type>
+            {% if description is defined %}<description>{{description}}</description>{% endif %}
+            <enabled>true</enabled>
+            {% if type=='L3VRF' %}
+            {% if router_id is defined %}<router-id>{{router_id}}</router-id>{% endif %}
+            <route-distinguisher>{{route_distinguisher}}</route-distinguisher>
+            {% endif %}
+            {% if type=='L2VSI' %}
+            <mtu>1500</mtu>
+            {% endif %}
+        </config>
+        {% if type=='L3VRF' or type=='L2VSI' %}
+        <encapsulation>
+            <config>
+                {% if type=='L3VRF' %}
+                <encapsulation-type xmlns:oc-ni-types="http://openconfig.net/yang/network-instance-types">oc-ni-types:MPLS</encapsulation-type>
+                <label-allocation-mode xmlns:oc-ni-types="http://openconfig.net/yang/network-instance-types">oc-ni-types:INSTANCE_LABEL</label-allocation-mode>
+                {% endif %}
+                {% if type=='L2VSI' %}
+                <encapsulation-type xmlns:oc-ni-types="http://openconfig.net/yang/network-instance-types">oc-ni-types:MPLS</encapsulation-type>
+                {% endif %}
+            </config>
+        </encapsulation>
+        {% endif %}
+        {% if type=='L2VSI' %}
+        <fdb>
+            <config>
+                <mac-learning>true</mac-learning>
+                <maximum-entries>1000</maximum-entries>
+                <mac-aging-time>300</mac-aging-time>
+            </config>
+        </fdb>
+        {% endif %}
+        {% endif %}
+    </network-instance>
+</network-instances>

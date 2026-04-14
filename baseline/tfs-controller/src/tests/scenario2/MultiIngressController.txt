@@ -1,0 +1,35 @@
+# Ref: https://kubernetes.github.io/ingress-nginx/user-guide/multiple-ingress/
+# Ref: https://fabianlee.org/2021/07/29/kubernetes-microk8s-with-multiple-metallb-endpoints-and-nginx-ingress-controllers/
+
+# Check node limits
+kubectl describe nodes
+
+# Create secondary ingress controllers
+kubectl apply -f nfvsdn22/nginx-ingress-controller-dom1.yaml
+kubectl apply -f nfvsdn22/nginx-ingress-controller-dom2.yaml
+kubectl apply -f nfvsdn22/nginx-ingress-controller-dom3.yaml
+kubectl apply -f nfvsdn22/nginx-ingress-controller-dom4.yaml
+
+# Delete secondary ingress controllers
+kubectl delete -f nfvsdn22/nginx-ingress-controller-dom1.yaml
+kubectl delete -f nfvsdn22/nginx-ingress-controller-dom2.yaml
+kubectl delete -f nfvsdn22/nginx-ingress-controller-dom3.yaml
+kubectl delete -f nfvsdn22/nginx-ingress-controller-dom4.yaml
+
+source nfvsdn22/deploy_specs_dom1.sh
+./deploy.sh
+
+source nfvsdn22/deploy_specs_dom2.sh
+./deploy.sh
+
+source nfvsdn22/deploy_specs_dom3.sh
+./deploy.sh
+
+source nfvsdn22/deploy_specs_dom4.sh
+./deploy.sh
+
+# Manually deploy ingresses for domains
+kubectl --namespace tfs-dom1 apply -f nfvsdn22/tfs-ingress-dom1.yaml
+kubectl --namespace tfs-dom2 apply -f nfvsdn22/tfs-ingress-dom2.yaml
+kubectl --namespace tfs-dom3 apply -f nfvsdn22/tfs-ingress-dom3.yaml
+kubectl --namespace tfs-dom4 apply -f nfvsdn22/tfs-ingress-dom4.yaml

@@ -1,0 +1,70 @@
+// Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+package bgpls;
+
+import "context.proto";
+
+service BgplsService {
+  rpc ListDiscoveredDevices (context.Empty  ) returns (DiscoveredDeviceList) {}
+  rpc ListDiscoveredLinks   (context.Empty  ) returns (DiscoveredLinkList  ) {}
+  rpc AddBgplsSpeaker       (BgplsSpeaker   ) returns (BgplsSpeakerId      ) {}
+  rpc ListBgplsSpeakers     (context.Empty  ) returns (BgplsSpeakerList    ) {}
+  rpc DisconnectFromSpeaker (BgplsSpeaker   ) returns (context.Empty       ) {}
+  rpc GetSpeakerInfoFromId  (BgplsSpeakerId ) returns (BgplsSpeaker        ) {}
+  rpc NotifyAddNodeToContext(NodeDescriptors) returns (context.Empty       ) {}
+}
+
+message DiscoveredDevice {
+  string nodeName = 1;
+  string ip = 2;
+  string igpID = 3;
+  string learntFrom = 4;
+}
+
+message DiscoveredDeviceList {
+  repeated DiscoveredDevice discovereddevices = 1;
+}
+
+message DiscoveredLinkList{
+  repeated DiscoveredLink discoveredlinks = 1;
+}
+
+message DiscoveredLink{
+  NodeDescriptors local  = 1;
+	NodeDescriptors remote = 2;
+  string learntFrom      = 3;
+  string local_ipv4      = 4;
+  string remote_ipv4     = 5;
+}
+
+message NodeDescriptors{
+	string asNumber = 1;
+	string igp_id   = 2;
+  string nodeName = 3;
+}
+
+message BgplsSpeaker{
+  string address  = 1;
+  string port     = 2;
+  string asNumber = 3;
+}
+message BgplsSpeakerId{
+  uint32 id = 1;
+}
+
+message BgplsSpeakerList{
+  repeated BgplsSpeakerId speakers = 1;
+}

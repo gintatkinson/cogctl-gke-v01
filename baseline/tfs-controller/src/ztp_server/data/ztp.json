@@ -1,0 +1,10 @@
+{
+    "ztp": {
+      "01-provisioning-script": {
+        "plugin": {
+          "url": "http://localhost:9001/provisioning/provisioning_script_sonic.sh"
+        },
+        "reboot-on-success": true
+      }
+    }
+  }

@@ -1,0 +1,278 @@
+# Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Build, tag, and push the Docker image to the GitLab Docker registry
+build ryu-openflow:
+  variables:
+    TEST_NAME: 'ryu-openflow'
+    IMAGE_TAG: 'mr$CI_MERGE_REQUEST_IID'
+  stage: build
+  before_script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+    - docker ps -aq | xargs -r docker rm -f
+    - containerlab destroy --all --cleanup || true
+  script:
+    - echo "CI_PIPELINE_SOURCE = $CI_PIPELINE_SOURCE"
+    - echo "CI_MERGE_REQUEST_ID = $CI_MERGE_REQUEST_ID"
+    - echo "CI_MERGE_REQUEST_IID = $CI_MERGE_REQUEST_IID"
+    - docker buildx build -t "$CI_REGISTRY_IMAGE/${TEST_NAME}-ryu:${IMAGE_TAG}" -f ./src/tests/${TEST_NAME}/Ryu.Dockerfile .
+    - docker push "$CI_REGISTRY_IMAGE/${TEST_NAME}-ryu:${IMAGE_TAG}"
+    - docker buildx build -t "$CI_REGISTRY_IMAGE/${TEST_NAME}-test:${IMAGE_TAG}" -f ./src/tests/${TEST_NAME}/Test.Dockerfile .
+    - docker push "$CI_REGISTRY_IMAGE/${TEST_NAME}-test:${IMAGE_TAG}"
+  after_script:
+    - docker images --filter="dangling=true" --quiet | xargs -r docker rmi
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop" || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH)'
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == "develop"'
+    - changes:
+      - src/common/**/*.py
+      - proto/*.proto
+      - src/tests/${TEST_NAME}/**/*.{py,in,sh,yml}
+      - src/tests/${TEST_NAME}/Dockerfile
+      - .gitlab-ci.yml
+
+
+#    - docker rm -f na-t1 na-t2 na-r1 na-r2
+#    - docker network rm -f na-br
+#
+#    - >
+#      docker network create -d bridge --subnet=172.254.253.0/24 --gateway=172.254.253.254
+#      --ip-range=172.254.253.0/24 na-br
+#    - >
+#      docker run -dit --init --name na-t1 --network=na-br --ip 172.254.253.101
+#      --volume "$PWD/src/tests/${TEST_NAME}/node-agents-config/startNetconfAgent-tp.sh:/confd/examples.confd/OC23/startNetconfAgent.sh"
+#      --volume "$PWD/src/tests/${TEST_NAME}/node-agents-config/platform_t1.xml:/confd/examples.confd/OC23/platform.xml"
+#      asgamb1/oc23bgp.img:latest /confd/examples.confd/OC23/startNetconfAgent.sh
+
+
+## Deploy TeraFlowSDN and Execute end-2-end test
+#end2end_test ryu-openflow:
+#  timeout: 90m
+#  variables:
+#    TEST_NAME: 'ryu-openflow'
+#  stage: end2end_test
+#  # Disable to force running it after all other tasks
+#  #needs:
+#  #  - build ryu-openflow
+#  before_script:
+#    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+#    - docker ps -aq | xargs -r docker rm -f
+#    - containerlab destroy --all --cleanup || true
+#  script:
+#    # Download Docker image to run the test
+#    - docker pull "${CI_REGISTRY_IMAGE}/${TEST_NAME}:latest"
+#
+#    # Check MicroK8s is ready
+#    - microk8s status --wait-ready
+#    - kubectl get pods --all-namespaces
+#
+#    # Deploy ContainerLab Scenario
+#    - RUNNER_PATH=`pwd`
+#    #- cd $PWD/src/tests/${TEST_NAME}
+#    - mkdir -p /tmp/clab/${TEST_NAME}
+#    - cp -R src/tests/${TEST_NAME}/clab/* /tmp/clab/${TEST_NAME}
+#    - tree -la /tmp/clab/${TEST_NAME}
+#    - cd /tmp/clab/${TEST_NAME}
+#    - containerlab deploy --reconfigure --topo ryu-openflow.clab.yml
+#    - cd $RUNNER_PATH
+#
+#    # Wait for initialization of Device NOSes
+#    - sleep 3
+#    - docker ps -a
+#
+#    # Dump configuration of the routers (before any configuration)
+#    - containerlab exec --name ryu-openflow --label clab-node-name=r1 --cmd "Cli --command \"enable"$'\n'$"show running-config\""
+#    - containerlab exec --name ryu-openflow --label clab-node-name=r2 --cmd "Cli --command \"enable"$'\n'$"show running-config\""
+#    - containerlab exec --name ryu-openflow --label clab-node-name=r3 --cmd "Cli --command \"enable"$'\n'$"show running-config\""
+#
+#    # Configure TeraFlowSDN deployment
+#    # Uncomment if DEBUG log level is needed for the components
+#    #- yq -i '((select(.kind=="Deployment").spec.template.spec.containers.[] | select(.name=="server").env.[]) | select(.name=="LOG_LEVEL").value) |= "DEBUG"' manifests/contextservice.yaml
+#    #- yq -i '((select(.kind=="Deployment").spec.template.spec.containers.[] | select(.name=="server").env.[]) | select(.name=="LOG_LEVEL").value) |= "DEBUG"' manifests/deviceservice.yaml
+#    #- yq -i '((select(.kind=="Deployment").spec.template.spec.containers.[] | select(.name=="frontend").env.[]) | select(.name=="LOG_LEVEL").value) |= "DEBUG"' manifests/pathcompservice.yaml
+#    #- yq -i '((select(.kind=="Deployment").spec.template.spec.containers.[] | select(.name=="server").env.[]) | select(.name=="LOG_LEVEL").value) |= "DEBUG"' manifests/serviceservice.yaml
+#    #- yq -i '((select(.kind=="Deployment").spec.template.spec.containers.[] | select(.name=="server").env.[]) | select(.name=="LOG_LEVEL").value) |= "DEBUG"' manifests/nbiservice.yaml
+#    #- yq -i '((select(.kind=="Deployment").spec.template.spec.containers.[] | select(.name=="server").env.[]) | select(.name=="LOG_LEVEL").value) |= "DEBUG"' manifests/monitoringservice.yaml
+#
+#    - source src/tests/${TEST_NAME}/deploy_specs.sh
+#    #- export TFS_REGISTRY_IMAGES="${CI_REGISTRY_IMAGE}"
+#    #- export TFS_SKIP_BUILD="YES"
+#    #- export TFS_IMAGE_TAG="latest"
+#    #- echo "TFS_REGISTRY_IMAGES=${CI_REGISTRY_IMAGE}"
+#
+#    # Deploy TeraFlowSDN
+#    - ./deploy/crdb.sh
+#    - ./deploy/nats.sh
+#    - ./deploy/kafka.sh
+#    - ./deploy/qdb.sh
+#    - ./deploy/tfs.sh
+#    - ./deploy/show.sh
+#
+#    ## Wait for Context to be subscribed to NATS
+#    ## WARNING: this loop is infinite if there is no subscriber (such as monitoring).
+#    ##          Investigate if we can use a counter to limit the number of iterations.
+#    ##          For now, keep it commented out.
+#    #- LOOP_MAX_ATTEMPTS=180
+#    #- LOOP_COUNTER=0
+#    #- >
+#    #  while ! kubectl --namespace $TFS_K8S_NAMESPACE logs deployment/contextservice -c server 2>&1 | grep -q 'Subscriber is Ready? True'; do
+#    #    echo "Attempt: $LOOP_COUNTER"
+#    #    kubectl --namespace $TFS_K8S_NAMESPACE logs deployment/contextservice -c server 2>&1;
+#    #    sleep 1;
+#    #    LOOP_COUNTER=$((LOOP_COUNTER + 1))
+#    #    if [ "$LOOP_COUNTER" -ge "$LOOP_MAX_ATTEMPTS" ]; then
+#    #      echo "Max attempts reached, exiting the loop."
+#    #      break
+#    #    fi
+#    #  done
+#    - kubectl --namespace $TFS_K8S_NAMESPACE logs deployment/contextservice -c server
+#
+#    # Run end-to-end test: onboard scenario
+#    - >
+#      docker run -t --rm --name ${TEST_NAME} --network=host 
+#      --volume "$PWD/tfs_runtime_env_vars.sh:/var/teraflow/tfs_runtime_env_vars.sh"
+#      --volume "$PWD/src/tests/${TEST_NAME}:/opt/results"
+#      $CI_REGISTRY_IMAGE/${TEST_NAME}:latest /var/teraflow/run-onboarding.sh
+#
+#    # Run end-to-end test: configure service TFS
+#    - >
+#      docker run -t --rm --name ${TEST_NAME} --network=host 
+#      --volume "$PWD/tfs_runtime_env_vars.sh:/var/teraflow/tfs_runtime_env_vars.sh"
+#      --volume "$PWD/src/tests/${TEST_NAME}:/opt/results"
+#      $CI_REGISTRY_IMAGE/${TEST_NAME}:latest /var/teraflow/run-service-tfs-create.sh
+#
+#    # Dump configuration of the routers (after configure TFS service)
+#    - containerlab exec --name ryu-openflow --label clab-node-name=r1 --cmd "Cli --command \"enable"$'\n'$"show running-config\""
+#    - containerlab exec --name ryu-openflow --label clab-node-name=r2 --cmd "Cli --command \"enable"$'\n'$"show running-config\""
+#    - containerlab exec --name ryu-openflow --label clab-node-name=r3 --cmd "Cli --command \"enable"$'\n'$"show running-config\""
+#
+#    # Run end-to-end test: test connectivity with ping
+#    - export TEST1_10=$(containerlab exec --name ryu-openflow --label clab-node-name=dc1 --cmd 'ping -n -c3 172.16.1.10' --format json)
+#    - echo $TEST1_10
+#    - echo $TEST1_10 | grep -E '3 packets transmitted, 3 received, 0\% packet loss'
+#    - export TEST1_1=$(containerlab exec --name ryu-openflow --label clab-node-name=dc1 --cmd 'ping -n -c3 172.16.1.1' --format json)
+#    - echo $TEST1_1
+#    - echo $TEST1_1 | grep -E '3 packets transmitted, 3 received, 0\% packet loss'
+#    - export TEST2_1=$(containerlab exec --name ryu-openflow --label clab-node-name=dc1 --cmd 'ping -n -c3 172.16.2.1' --format json)
+#    - echo $TEST2_1
+#    - echo $TEST2_1 | grep -E '3 packets transmitted, 3 received, 0\% packet loss'
+#    - export TEST2_10=$(containerlab exec --name ryu-openflow --label clab-node-name=dc1 --cmd 'ping -n -c3 172.16.2.10' --format json)
+#    - echo $TEST2_10
+#    - echo $TEST2_10 | grep -E '3 packets transmitted, 3 received, 0\% packet loss'
+#    - export TEST3_1=$(containerlab exec --name ryu-openflow --label clab-node-name=dc1 --cmd 'ping -n -c3 172.16.3.1' --format json)
+#    - echo $TEST3_1
+#    - echo $TEST3_1 | grep -E '3 packets transmitted, 0 received, 100\% packet loss'
+#    - export TEST3_10=$(containerlab exec --name ryu-openflow --label clab-node-name=dc1 --cmd 'ping -n -c3 172.16.3.10' --format json)
+#    - echo $TEST3_10
+#    - echo $TEST3_10 | grep -E '3 packets transmitted, 0 received, 100\% packet loss'
+#
+#    # Run end-to-end test: deconfigure service TFS
+#    - >
+#      docker run -t --rm --name ${TEST_NAME} --network=host 
+#      --volume "$PWD/tfs_runtime_env_vars.sh:/var/teraflow/tfs_runtime_env_vars.sh"
+#      --volume "$PWD/src/tests/${TEST_NAME}:/opt/results"
+#      $CI_REGISTRY_IMAGE/${TEST_NAME}:latest /var/teraflow/run-service-tfs-remove.sh
+#
+#    # Dump configuration of the routers (after deconfigure TFS service)
+#    - containerlab exec --name ryu-openflow --label clab-node-name=r1 --cmd "Cli --command \"enable"$'\n'$"show running-config\""
+#    - containerlab exec --name ryu-openflow --label clab-node-name=r2 --cmd "Cli --command \"enable"$'\n'$"show running-config\""
+#    - containerlab exec --name ryu-openflow --label clab-node-name=r3 --cmd "Cli --command \"enable"$'\n'$"show running-config\""
+#
+#    # Run end-to-end test: configure service IETF
+#    - >
+#      docker run -t --rm --name ${TEST_NAME} --network=host 
+#      --volume "$PWD/tfs_runtime_env_vars.sh:/var/teraflow/tfs_runtime_env_vars.sh"
+#      --volume "$PWD/src/tests/${TEST_NAME}:/opt/results"
+#      $CI_REGISTRY_IMAGE/${TEST_NAME}:latest /var/teraflow/run-service-ietf-create.sh
+#
+#    # Dump configuration of the routers (after configure IETF service)
+#    - containerlab exec --name ryu-openflow --label clab-node-name=r1 --cmd "Cli --command \"enable"$'\n'$"show running-config\""
+#    - containerlab exec --name ryu-openflow --label clab-node-name=r2 --cmd "Cli --command \"enable"$'\n'$"show running-config\""
+#    - containerlab exec --name ryu-openflow --label clab-node-name=r3 --cmd "Cli --command \"enable"$'\n'$"show running-config\""
+#
+#    # Run end-to-end test: test connectivity with ping
+#    - export TEST1_10=$(containerlab exec --name ryu-openflow --label clab-node-name=dc1 --cmd 'ping -n -c3 172.16.1.10' --format json)
+#    - echo $TEST1_10
+#    - echo $TEST1_10 | grep -E '3 packets transmitted, 3 received, 0\% packet loss'
+#    - export TEST1_1=$(containerlab exec --name ryu-openflow --label clab-node-name=dc1 --cmd 'ping -n -c3 172.16.1.1' --format json)
+#    - echo $TEST1_1
+#    - echo $TEST1_1 | grep -E '3 packets transmitted, 3 received, 0\% packet loss'
+#    - export TEST2_1=$(containerlab exec --name ryu-openflow --label clab-node-name=dc1 --cmd 'ping -n -c3 172.16.2.1' --format json)
+#    - echo $TEST2_1
+#    - echo $TEST2_1 | grep -E '3 packets transmitted, 3 received, 0\% packet loss'
+#    - export TEST2_10=$(containerlab exec --name ryu-openflow --label clab-node-name=dc1 --cmd 'ping -n -c3 172.16.2.10' --format json)
+#    - echo $TEST2_10
+#    - echo $TEST2_10 | grep -E '3 packets transmitted, 3 received, 0\% packet loss'
+#    - export TEST3_1=$(containerlab exec --name ryu-openflow --label clab-node-name=dc1 --cmd 'ping -n -c3 172.16.3.1' --format json)
+#    - echo $TEST3_1
+#    - echo $TEST3_1 | grep -E '3 packets transmitted, 0 received, 100\% packet loss'
+#    - export TEST3_10=$(containerlab exec --name ryu-openflow --label clab-node-name=dc1 --cmd 'ping -n -c3 172.16.3.10' --format json)
+#    - echo $TEST3_10
+#    - echo $TEST3_10 | grep -E '3 packets transmitted, 0 received, 100\% packet loss'
+#
+#    # Run end-to-end test: deconfigure service IETF
+#    - >
+#      docker run -t --rm --name ${TEST_NAME} --network=host 
+#      --volume "$PWD/tfs_runtime_env_vars.sh:/var/teraflow/tfs_runtime_env_vars.sh"
+#      --volume "$PWD/src/tests/${TEST_NAME}:/opt/results"
+#      $CI_REGISTRY_IMAGE/${TEST_NAME}:latest /var/teraflow/run-service-ietf-remove.sh
+#
+#    # Dump configuration of the routers (after deconfigure IETF service)
+#    - containerlab exec --name ryu-openflow --label clab-node-name=r1 --cmd "Cli --command \"enable"$'\n'$"show running-config\""
+#    - containerlab exec --name ryu-openflow --label clab-node-name=r2 --cmd "Cli --command \"enable"$'\n'$"show running-config\""
+#    - containerlab exec --name ryu-openflow --label clab-node-name=r3 --cmd "Cli --command \"enable"$'\n'$"show running-config\""
+#
+#    # Run end-to-end test: cleanup scenario
+#    - >
+#      docker run -t --rm --name ${TEST_NAME} --network=host 
+#      --volume "$PWD/tfs_runtime_env_vars.sh:/var/teraflow/tfs_runtime_env_vars.sh"
+#      --volume "$PWD/src/tests/${TEST_NAME}:/opt/results"
+#      $CI_REGISTRY_IMAGE/${TEST_NAME}:latest /var/teraflow/run-cleanup.sh
+#
+#  after_script:
+#    # Dump configuration of the routers (on after_script)
+#    - containerlab exec --name ryu-openflow --label clab-node-name=r1 --cmd "Cli --command \"enable"$'\n'$"show running-config\""
+#    - containerlab exec --name ryu-openflow --label clab-node-name=r2 --cmd "Cli --command \"enable"$'\n'$"show running-config\""
+#    - containerlab exec --name ryu-openflow --label clab-node-name=r3 --cmd "Cli --command \"enable"$'\n'$"show running-config\""
+#
+#    # Dump TeraFlowSDN component logs
+#    - source src/tests/${TEST_NAME}/deploy_specs.sh
+#    - kubectl --namespace $TFS_K8S_NAMESPACE logs deployment/contextservice -c server
+#    - kubectl --namespace $TFS_K8S_NAMESPACE logs deployment/deviceservice -c server
+#    - kubectl --namespace $TFS_K8S_NAMESPACE logs deployment/pathcompservice -c frontend
+#    - kubectl --namespace $TFS_K8S_NAMESPACE logs deployment/serviceservice -c server
+#    - kubectl --namespace $TFS_K8S_NAMESPACE logs deployment/nbiservice -c server
+#    #- kubectl --namespace $TFS_K8S_NAMESPACE logs deployment/monitoringservice -c server
+#
+#    # Destroy Scenario
+#    - docker rm -f ${TEST_NAME} || true
+#    - RUNNER_PATH=`pwd`
+#    #- cd $PWD/src/tests/${TEST_NAME}
+#    - cd /tmp/clab/${TEST_NAME}
+#    - containerlab destroy --topo ryu-openflow.clab.yml --cleanup || true
+#    - sudo rm -rf clab-ryu-openflow/ .ryu-openflow.clab.yml.bak || true
+#    - cd $RUNNER_PATH
+#    - kubectl delete namespaces tfs || true
+#
+#    # Clean old docker images
+#    - docker images --filter="dangling=true" --quiet | xargs -r docker rmi
+#
+#  #coverage: '/TOTAL\s+\d+\s+\d+\s+(\d+%)/'
+#  rules:
+#    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop" || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH)'
+#    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == "develop"'
+#  artifacts:
+#      when: always
+#      reports:
+#        junit: ./src/tests/${TEST_NAME}/report_*.xml

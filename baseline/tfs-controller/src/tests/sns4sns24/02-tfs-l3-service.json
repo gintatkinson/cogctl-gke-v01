@@ -1,0 +1,34 @@
+{
+    "services": [
+        {
+            "service_id": {
+                "context_id": {"context_uuid": {"uuid": "admin"}}, "service_uuid": {"uuid": "core-to-edge-l2svc"}
+            },
+            "service_type": "SERVICETYPE_L3NM",
+            "service_status": {"service_status": "SERVICESTATUS_PLANNED"},
+            "service_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "core-net"}}, "endpoint_uuid": {"uuid": "int"}},
+                {"device_id": {"device_uuid": {"uuid": "edge-net"}}, "endpoint_uuid": {"uuid": "int"}}
+            ],
+            "service_constraints": [],
+            "service_config": {"config_rules": [
+                {"action": "CONFIGACTION_SET", "custom": {
+                    "resource_key": "/device[core-net]/endpoint[eth1]/settings",
+                    "resource_value": {"address_ip": "10.10.10.0", "address_prefix": 24, "index": 0}
+                }},
+                {"action": "CONFIGACTION_SET", "custom": {
+                    "resource_key": "/device[r1]/endpoint[Ethernet10]/settings",
+                    "resource_value": {"address_ip": "10.10.10.229", "address_prefix": 24, "index": 0}
+                }},
+                {"action": "CONFIGACTION_SET", "custom": {
+                    "resource_key": "/device[r2]/endpoint[Ethernet10]/settings",
+                    "resource_value": {"address_ip": "10.158.72.229", "address_prefix": 24, "index": 0}
+                }},
+                {"action": "CONFIGACTION_SET", "custom": {
+                    "resource_key": "/device[edge-net]/endpoint[eth1]/settings",
+                    "resource_value": {"address_ip": "10.158.72.0", "address_prefix": 24, "index": 0}
+                }}
+            ]}
+        }
+    ]
+}

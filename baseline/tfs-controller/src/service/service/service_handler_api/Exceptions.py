@@ -1,0 +1,66 @@
+# Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+class UnsatisfiedFilterException(Exception):
+    def __init__(self, filter_fields):
+        msg = 'No ServiceHandler satisfies FilterFields({:s})'
+        super().__init__(msg.format(str(filter_fields)))
+
+class UnsupportedServiceHandlerClassException(Exception):
+    def __init__(self, service_handler_class_name):
+        msg = 'Class({:s}) is not a subclass of _ServiceHandler'
+        super().__init__(msg.format(str(service_handler_class_name)))
+
+class UnsupportedFilterFieldException(Exception):
+    def __init__(self, unsupported_filter_fields, service_handler_class_name=None):
+        if service_handler_class_name:
+            msg = 'FilterFields({:s}) specified by ServiceHandler({:s}) are not supported'
+            msg = msg.format(str(unsupported_filter_fields), str(service_handler_class_name))
+        else:
+            msg = 'FilterFields({:s}) specified in Filter are not supported'
+            msg = msg.format(str(unsupported_filter_fields))
+        super().__init__(msg)
+
+class UnsupportedFilterFieldValueException(Exception):
+    def __init__(
+        self, filter_field_name, filter_field_value, allowed_filter_field_values, service_handler_class_name=None):
+
+        if service_handler_class_name:
+            msg = 'FilterField({:s}={:s}) specified by ServiceHandler({:s}) is not supported. Allowed values are {:s}'
+            msg = msg.format(
+                str(filter_field_name), str(filter_field_value), str(service_handler_class_name),
+                str(allowed_filter_field_values))
+        else:
+            msg = 'FilterField({:s}={:s}) specified in Filter is not supported. Allowed values are {:s}'
+            msg = msg.format(str(filter_field_name), str(filter_field_value), str(allowed_filter_field_values))
+        super().__init__(msg)
+
+#class UnsupportedResourceKeyException(Exception):
+#    def __init__(self, resource_key):
+#        msg = 'ResourceKey({:s}) not supported'
+#        msg = msg.format(str(resource_key))
+#        super().__init__(msg)
+#
+#class ConfigFieldNotFoundException(Exception):
+#    def __init__(self, config_field_name):
+#        msg = 'ConfigField({:s}) not specified in resource'
+#        msg = msg.format(str(config_field_name))
+#        super().__init__(msg)
+#
+#class ConfigFieldsNotSupportedException(Exception):
+#    def __init__(self, config_fields):
+#        msg = 'ConfigFields({:s}) not supported in resource'
+#        msg = msg.format(str(config_fields))
+#        super().__init__(msg)
+#

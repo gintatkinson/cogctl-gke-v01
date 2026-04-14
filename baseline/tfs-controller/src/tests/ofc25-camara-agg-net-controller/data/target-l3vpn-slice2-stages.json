@@ -1,0 +1,557 @@
+[
+  {
+    "ietf-l3vpn-svc:l3vpn-svc": {
+      "sites": {
+        "site": [
+          {
+            "devices": {
+              "device": [
+                {
+                  "device-id": "172.16.185.32",
+                  "location": "cloud"
+                }
+              ]
+            },
+            "locations": {
+              "location": [
+                {
+                  "location-id": "cloud"
+                }
+              ]
+            },
+            "management": {
+              "type": "ietf-l3vpn-svc:provider-managed"
+            },
+            "routing-protocols": {
+              "routing-protocol": [
+                {
+                  "static": {
+                    "cascaded-lan-prefixes": {
+                      "ipv4-lan-prefixes": [
+                        {
+                          "lan": "172.16.104.221/24",
+                          "lan-tag": "201",
+                          "next-hop": "172.10.33.254"
+                        }
+                      ]
+                    }
+                  },
+                  "type": "ietf-l3vpn-svc:static"
+                }
+              ]
+            },
+            "site-id": "site_cloud",
+            "site-network-accesses": {
+              "site-network-access": [
+                {
+                  "device-reference": "172.16.185.32",
+                  "ip-connection": {
+                    "ipv4": {
+                      "address-allocation-type": "ietf-l3vpn-svc:static-address",
+                      "addresses": {
+                        "customer-address": "172.10.33.254",
+                        "prefix-length": "24",
+                        "provider-address": "172.10.33.254"
+                      }
+                    }
+                  },
+                  "service": {
+                    "qos": {
+                      "qos-profile": {
+                        "classes": {
+                          "class": [
+                            {
+                              "bandwidth": {
+                                "guaranteed-bw-percent": 100
+                              },
+                              "class-id": "qos-realtime",
+                              "direction": "ietf-l3vpn-svc:both",
+                              "latency": {
+                                "latency-boundary": 10
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "svc-input-bandwidth": 5000000000,
+                    "svc-mtu": 1500,
+                    "svc-output-bandwidth": 1000000000
+                  },
+                  "site-network-access-id": "200",
+                  "site-network-access-type": "ietf-l3vpn-svc:multipoint",
+                  "vpn-attachment": {
+                    "site-role": "ietf-l3vpn-svc:hub-role",
+                    "vpn-id": "slice2"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "devices": {
+              "device": [
+                {
+                  "device-id": "172.16.182.25",
+                  "location": "access"
+                }
+              ]
+            },
+            "locations": {
+              "location": [
+                {
+                  "location-id": "access"
+                }
+              ]
+            },
+            "management": {
+              "type": "ietf-l3vpn-svc:provider-managed"
+            },
+            "routing-protocols": {
+              "routing-protocol": [
+                {
+                  "static": {
+                    "cascaded-lan-prefixes": {
+                      "ipv4-lan-prefixes": [
+                        {
+                          "lan": "172.1.201.22/24",
+                          "lan-tag": "31",
+                          "next-hop": "128.32.33.254"
+                        }
+                      ]
+                    }
+                  },
+                  "type": "ietf-l3vpn-svc:static"
+                }
+              ]
+            },
+            "site-id": "site_access",
+            "site-network-accesses": {
+              "site-network-access": [
+                {
+                  "device-reference": "172.16.182.25",
+                  "ip-connection": {
+                    "ipv4": {
+                      "address-allocation-type": "ietf-l3vpn-svc:static-address",
+                      "addresses": {
+                        "customer-address": "128.32.33.254",
+                        "prefix-length": "24",
+                        "provider-address": "128.32.33.254"
+                      }
+                    }
+                  },
+                  "service": {
+                    "qos": {
+                      "qos-profile": {
+                        "classes": {
+                          "class": [
+                            {
+                              "bandwidth": {
+                                "guaranteed-bw-percent": 100
+                              },
+                              "class-id": "qos-realtime",
+                              "direction": "ietf-l3vpn-svc:both",
+                              "latency": {
+                                "latency-boundary": 20
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "svc-input-bandwidth": 1000000000,
+                    "svc-mtu": 1500,
+                    "svc-output-bandwidth": 5000000000
+                  },
+                  "site-network-access-id": "200",
+                  "site-network-access-type": "ietf-l3vpn-svc:multipoint",
+                  "vpn-attachment": {
+                    "site-role": "ietf-l3vpn-svc:spoke-role",
+                    "vpn-id": "slice2"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "vpn-services": {
+        "vpn-service": [
+          {
+            "vpn-id": "slice2"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "ietf-l3vpn-svc:l3vpn-svc": {
+      "sites": {
+        "site": [
+          {
+            "devices": {
+              "device": [
+                {
+                  "device-id": "172.16.185.32",
+                  "location": "cloud"
+                }
+              ]
+            },
+            "locations": {
+              "location": [
+                {
+                  "location-id": "cloud"
+                }
+              ]
+            },
+            "management": {
+              "type": "ietf-l3vpn-svc:provider-managed"
+            },
+            "routing-protocols": {
+              "routing-protocol": [
+                {
+                  "static": {
+                    "cascaded-lan-prefixes": {
+                      "ipv4-lan-prefixes": [
+                        {
+                          "lan": "172.16.104.221/24",
+                          "lan-tag": "201",
+                          "next-hop": "172.10.33.254"
+                        }
+                      ]
+                    }
+                  },
+                  "type": "ietf-l3vpn-svc:static"
+                }
+              ]
+            },
+            "site-id": "site_cloud",
+            "site-network-accesses": {
+              "site-network-access": [
+                {
+                  "device-reference": "172.16.185.32",
+                  "ip-connection": {
+                    "ipv4": {
+                      "address-allocation-type": "ietf-l3vpn-svc:static-address",
+                      "addresses": {
+                        "customer-address": "172.10.33.254",
+                        "prefix-length": "24",
+                        "provider-address": "172.10.33.254"
+                      }
+                    }
+                  },
+                  "service": {
+                    "qos": {
+                      "qos-profile": {
+                        "classes": {
+                          "class": [
+                            {
+                              "bandwidth": {
+                                "guaranteed-bw-percent": 100
+                              },
+                              "class-id": "qos-realtime",
+                              "direction": "ietf-l3vpn-svc:both",
+                              "latency": {
+                                "latency-boundary": 10
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "svc-input-bandwidth": 10000000000,
+                    "svc-mtu": 1500,
+                    "svc-output-bandwidth": 2000000000
+                  },
+                  "site-network-access-id": "200",
+                  "site-network-access-type": "ietf-l3vpn-svc:multipoint",
+                  "vpn-attachment": {
+                    "site-role": "ietf-l3vpn-svc:hub-role",
+                    "vpn-id": "slice2"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "devices": {
+              "device": [
+                {
+                  "device-id": "172.16.182.25",
+                  "location": "access"
+                }
+              ]
+            },
+            "locations": {
+              "location": [
+                {
+                  "location-id": "access"
+                }
+              ]
+            },
+            "management": {
+              "type": "ietf-l3vpn-svc:provider-managed"
+            },
+            "routing-protocols": {
+              "routing-protocol": [
+                {
+                  "static": {
+                    "cascaded-lan-prefixes": {
+                      "ipv4-lan-prefixes": [
+                        {
+                          "lan": "172.1.201.22/24",
+                          "lan-tag": "31",
+                          "next-hop": "128.32.33.254"
+                        }
+                      ]
+                    }
+                  },
+                  "type": "ietf-l3vpn-svc:static"
+                }
+              ]
+            },
+            "site-id": "site_access",
+            "site-network-accesses": {
+              "site-network-access": [
+                {
+                  "device-reference": "172.16.182.25",
+                  "ip-connection": {
+                    "ipv4": {
+                      "address-allocation-type": "ietf-l3vpn-svc:static-address",
+                      "addresses": {
+                        "customer-address": "128.32.33.254",
+                        "prefix-length": "24",
+                        "provider-address": "128.32.33.254"
+                      }
+                    }
+                  },
+                  "service": {
+                    "qos": {
+                      "qos-profile": {
+                        "classes": {
+                          "class": [
+                            {
+                              "bandwidth": {
+                                "guaranteed-bw-percent": 100
+                              },
+                              "class-id": "qos-realtime",
+                              "direction": "ietf-l3vpn-svc:both",
+                              "latency": {
+                                "latency-boundary": 20
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "svc-input-bandwidth": 2000000000,
+                    "svc-mtu": 1500,
+                    "svc-output-bandwidth": 10000000000
+                  },
+                  "site-network-access-id": "200",
+                  "site-network-access-type": "ietf-l3vpn-svc:multipoint",
+                  "vpn-attachment": {
+                    "site-role": "ietf-l3vpn-svc:spoke-role",
+                    "vpn-id": "slice2"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "vpn-services": {
+        "vpn-service": [
+          {
+            "vpn-id": "slice2"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "ietf-l3vpn-svc:l3vpn-svc": {
+      "sites": {
+        "site": [
+          {
+            "devices": {
+              "device": [
+                {
+                  "device-id": "172.16.185.32",
+                  "location": "cloud"
+                }
+              ]
+            },
+            "locations": {
+              "location": [
+                {
+                  "location-id": "cloud"
+                }
+              ]
+            },
+            "management": {
+              "type": "ietf-l3vpn-svc:provider-managed"
+            },
+            "routing-protocols": {
+              "routing-protocol": [
+                {
+                  "static": {
+                    "cascaded-lan-prefixes": {
+                      "ipv4-lan-prefixes": [
+                        {
+                          "lan": "172.16.104.221/24",
+                          "lan-tag": "201",
+                          "next-hop": "172.10.33.254"
+                        }
+                      ]
+                    }
+                  },
+                  "type": "ietf-l3vpn-svc:static"
+                }
+              ]
+            },
+            "site-id": "site_cloud",
+            "site-network-accesses": {
+              "site-network-access": [
+                {
+                  "device-reference": "172.16.185.32",
+                  "ip-connection": {
+                    "ipv4": {
+                      "address-allocation-type": "ietf-l3vpn-svc:static-address",
+                      "addresses": {
+                        "customer-address": "172.10.33.254",
+                        "prefix-length": "24",
+                        "provider-address": "172.10.33.254"
+                      }
+                    }
+                  },
+                  "service": {
+                    "qos": {
+                      "qos-profile": {
+                        "classes": {
+                          "class": [
+                            {
+                              "bandwidth": {
+                                "guaranteed-bw-percent": 100
+                              },
+                              "class-id": "qos-realtime",
+                              "direction": "ietf-l3vpn-svc:both",
+                              "latency": {
+                                "latency-boundary": 10
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "svc-input-bandwidth": 5000000000,
+                    "svc-mtu": 1500,
+                    "svc-output-bandwidth": 1000000000
+                  },
+                  "site-network-access-id": "200",
+                  "site-network-access-type": "ietf-l3vpn-svc:multipoint",
+                  "vpn-attachment": {
+                    "site-role": "ietf-l3vpn-svc:hub-role",
+                    "vpn-id": "slice2"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "devices": {
+              "device": [
+                {
+                  "device-id": "172.16.182.25",
+                  "location": "access"
+                }
+              ]
+            },
+            "locations": {
+              "location": [
+                {
+                  "location-id": "access"
+                }
+              ]
+            },
+            "management": {
+              "type": "ietf-l3vpn-svc:provider-managed"
+            },
+            "routing-protocols": {
+              "routing-protocol": [
+                {
+                  "static": {
+                    "cascaded-lan-prefixes": {
+                      "ipv4-lan-prefixes": [
+                        {
+                          "lan": "172.1.201.22/24",
+                          "lan-tag": "31",
+                          "next-hop": "128.32.33.254"
+                        }
+                      ]
+                    }
+                  },
+                  "type": "ietf-l3vpn-svc:static"
+                }
+              ]
+            },
+            "site-id": "site_access",
+            "site-network-accesses": {
+              "site-network-access": [
+                {
+                  "device-reference": "172.16.182.25",
+                  "ip-connection": {
+                    "ipv4": {
+                      "address-allocation-type": "ietf-l3vpn-svc:static-address",
+                      "addresses": {
+                        "customer-address": "128.32.33.254",
+                        "prefix-length": "24",
+                        "provider-address": "128.32.33.254"
+                      }
+                    }
+                  },
+                  "service": {
+                    "qos": {
+                      "qos-profile": {
+                        "classes": {
+                          "class": [
+                            {
+                              "bandwidth": {
+                                "guaranteed-bw-percent": 100
+                              },
+                              "class-id": "qos-realtime",
+                              "direction": "ietf-l3vpn-svc:both",
+                              "latency": {
+                                "latency-boundary": 20
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "svc-input-bandwidth": 1000000000,
+                    "svc-mtu": 1500,
+                    "svc-output-bandwidth": 5000000000
+                  },
+                  "site-network-access-id": "200",
+                  "site-network-access-type": "ietf-l3vpn-svc:multipoint",
+                  "vpn-attachment": {
+                    "site-role": "ietf-l3vpn-svc:spoke-role",
+                    "vpn-id": "slice2"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "vpn-services": {
+        "vpn-service": [
+          {
+            "vpn-id": "slice2"
+          }
+        ]
+      }
+    }
+  }
+]

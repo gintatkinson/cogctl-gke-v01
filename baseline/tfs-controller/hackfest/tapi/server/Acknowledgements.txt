@@ -1,0 +1,3 @@
+# [Ref-1]: https://github.com/OpenNetworkingFoundation/TAPI
+# [Ref-2]: https://github.com/OpenNetworkingFoundation/TAPI/tree/v2.1.3/YANG
+# [Ref-3]: https://github.com/OpenNetworkingFoundation/TAPI/tree/develop/RI

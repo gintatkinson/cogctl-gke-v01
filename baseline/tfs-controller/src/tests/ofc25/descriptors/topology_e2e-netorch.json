@@ -1,0 +1,85 @@
+{
+    "contexts": [
+        {"context_id": {"context_uuid": {"uuid": "admin"}}}
+    ],
+    "topologies": [
+        {"topology_id": {"context_id": {"context_uuid": {"uuid": "admin"}}, "topology_uuid": {"uuid": "admin"}}}
+    ],
+    "devices": [
+        {
+            "device_id": {"device_uuid": {"uuid": "TFS-PACKET"}}, "device_type": "teraflowsdn",
+            "device_drivers": ["DEVICEDRIVER_IETF_L3VPN"], "device_operational_status": "DEVICEOPERATIONALSTATUS_UNDEFINED",
+            "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "10.1.1.96"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "8002"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {
+                    "scheme": "http", "username": "admin", "password": "admin", "import_topology": "topology"
+                }}}
+            ]}
+        },
+        {
+            "device_id": {"device_uuid": {"uuid": "TFS-OPTICAL"}}, "device_type": "teraflowsdn",
+            "device_drivers": ["DEVICEDRIVER_OPTICAL_TFS"], "device_operational_status": "DEVICEOPERATIONALSTATUS_UNDEFINED",
+            "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "10.1.1.96"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "8003"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {
+                    "scheme": "http", "username": "admin", "password": "admin", "import_topology": "topology"
+                }}}
+            ]}
+        }
+    ],
+    "links": [
+        {"link_id": {"link_uuid": {"uuid": "IP1-T1.1"}}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "IP1" }}, "endpoint_uuid": {"uuid": "PORT-xe1"}},
+            {"device_id": {"device_uuid": {"uuid": "T1.1"}}, "endpoint_uuid": {"uuid": "CLIENT"  }}
+        ]},
+        {"link_id": {"link_uuid": {"uuid": "IP1-T1.2"}}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "IP1" }}, "endpoint_uuid": {"uuid": "PORT-xe2"}},
+            {"device_id": {"device_uuid": {"uuid": "T1.2"}}, "endpoint_uuid": {"uuid": "CLIENT"  }}
+        ]},
+        {"link_id": {"link_uuid": {"uuid": "IP1-T1.3"}}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "IP1" }}, "endpoint_uuid": {"uuid": "PORT-xe3"}},
+            {"device_id": {"device_uuid": {"uuid": "T1.3"}}, "endpoint_uuid": {"uuid": "CLIENT"  }}
+        ]},
+
+        {"link_id": {"link_uuid": {"uuid": "IP2-T2.1"}}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "IP2" }}, "endpoint_uuid": {"uuid": "PORT-xe1"}},
+            {"device_id": {"device_uuid": {"uuid": "T2.1"}}, "endpoint_uuid": {"uuid": "CLIENT"  }}
+        ]},
+        {"link_id": {"link_uuid": {"uuid": "IP2-T2.2"}}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "IP2" }}, "endpoint_uuid": {"uuid": "PORT-xe2"}},
+            {"device_id": {"device_uuid": {"uuid": "T2.2"}}, "endpoint_uuid": {"uuid": "CLIENT"  }}
+        ]},
+        {"link_id": {"link_uuid": {"uuid": "IP2-T2.3"}}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "IP2" }}, "endpoint_uuid": {"uuid": "PORT-xe3"}},
+            {"device_id": {"device_uuid": {"uuid": "T2.3"}}, "endpoint_uuid": {"uuid": "CLIENT"  }}
+        ]},
+
+        {"link_id": {"link_uuid": {"uuid": "T1.1-IP1"}}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "T1.1"}}, "endpoint_uuid": {"uuid": "CLIENT"  }},
+            {"device_id": {"device_uuid": {"uuid": "IP1" }}, "endpoint_uuid": {"uuid": "PORT-xe1"}}
+        ]},
+        {"link_id": {"link_uuid": {"uuid": "T1.2-IP1"}}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "T1.2"}}, "endpoint_uuid": {"uuid": "CLIENT"  }},
+            {"device_id": {"device_uuid": {"uuid": "IP1" }}, "endpoint_uuid": {"uuid": "PORT-xe2"}}
+        ]},
+        {"link_id": {"link_uuid": {"uuid": "T1.3-IP1"}}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "T1.3"}}, "endpoint_uuid": {"uuid": "CLIENT"  }},
+            {"device_id": {"device_uuid": {"uuid": "IP1" }}, "endpoint_uuid": {"uuid": "PORT-xe3"}}
+        ]},
+
+        {"link_id": {"link_uuid": {"uuid": "T2.1-IP2"}}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "T2.1"}}, "endpoint_uuid": {"uuid": "CLIENT"  }},
+            {"device_id": {"device_uuid": {"uuid": "IP2" }}, "endpoint_uuid": {"uuid": "PORT-xe1"}}
+        ]},
+        {"link_id": {"link_uuid": {"uuid": "T2.2-IP2"}}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "T2.2"}}, "endpoint_uuid": {"uuid": "CLIENT"  }},
+            {"device_id": {"device_uuid": {"uuid": "IP2" }}, "endpoint_uuid": {"uuid": "PORT-xe2"}}
+        ]},
+        {"link_id": {"link_uuid": {"uuid": "T2.3-IP2"}}, "link_endpoint_ids": [
+            {"device_id": {"device_uuid": {"uuid": "T2.3"}}, "endpoint_uuid": {"uuid": "CLIENT"  }},
+            {"device_id": {"device_uuid": {"uuid": "IP2" }}, "endpoint_uuid": {"uuid": "PORT-xe3"}}
+        ]}
+    ]
+}

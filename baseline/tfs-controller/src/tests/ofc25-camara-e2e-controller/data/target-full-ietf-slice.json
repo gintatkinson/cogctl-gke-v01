@@ -1,0 +1,678 @@
+{
+  "network-slice-services": {
+    "slice-service": [
+      {
+        "connection-groups": {
+          "connection-group": [
+            {
+              "connectivity-construct": [
+                {
+                  "id": 1,
+                  "p2p-receiver-sdp": "2",
+                  "p2p-sender-sdp": "1",
+                  "service-slo-sle-policy": {
+                    "slo-policy": {
+                      "metric-bound": [
+                        {
+                          "bound": "10",
+                          "metric-type": "ietf-network-slice-service:one-way-delay-maximum",
+                          "metric-unit": "milliseconds"
+                        },
+                        {
+                          "bound": "5000",
+                          "metric-type": "ietf-network-slice-service:one-way-bandwidth",
+                          "metric-unit": "Mbps"
+                        },
+                        {
+                          "metric-type": "ietf-network-slice-service:two-way-packet-loss",
+                          "metric-unit": "percentage",
+                          "percentile-value": "0.001"
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "id": 2,
+                  "p2p-receiver-sdp": "1",
+                  "p2p-sender-sdp": "2",
+                  "service-slo-sle-policy": {
+                    "slo-policy": {
+                      "metric-bound": [
+                        {
+                          "bound": "20",
+                          "metric-type": "ietf-network-slice-service:one-way-delay-maximum",
+                          "metric-unit": "milliseconds"
+                        },
+                        {
+                          "bound": "1000",
+                          "metric-type": "ietf-network-slice-service:one-way-bandwidth",
+                          "metric-unit": "Mbps"
+                        },
+                        {
+                          "metric-type": "ietf-network-slice-service:two-way-packet-loss",
+                          "metric-unit": "percentage",
+                          "percentile-value": "0.001"
+                        }
+                      ]
+                    }
+                  }
+                }
+              ],
+              "connectivity-type": "point-to-point",
+              "id": "line1"
+            },
+            {
+              "connectivity-construct": [
+                {
+                  "id": 1,
+                  "p2p-receiver-sdp": "3",
+                  "p2p-sender-sdp": "1",
+                  "service-slo-sle-policy": {
+                    "slo-policy": {
+                      "metric-bound": [
+                        {
+                          "bound": "10",
+                          "metric-type": "ietf-network-slice-service:one-way-delay-maximum",
+                          "metric-unit": "milliseconds"
+                        },
+                        {
+                          "bound": "5000",
+                          "metric-type": "ietf-network-slice-service:one-way-bandwidth",
+                          "metric-unit": "Mbps"
+                        },
+                        {
+                          "metric-type": "ietf-network-slice-service:two-way-packet-loss",
+                          "metric-unit": "percentage",
+                          "percentile-value": "0.001"
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "id": 2,
+                  "p2p-receiver-sdp": "1",
+                  "p2p-sender-sdp": "3",
+                  "service-slo-sle-policy": {
+                    "slo-policy": {
+                      "metric-bound": [
+                        {
+                          "bound": "20",
+                          "metric-type": "ietf-network-slice-service:one-way-delay-maximum",
+                          "metric-unit": "milliseconds"
+                        },
+                        {
+                          "bound": "1000",
+                          "metric-type": "ietf-network-slice-service:one-way-bandwidth",
+                          "metric-unit": "Mbps"
+                        },
+                        {
+                          "metric-type": "ietf-network-slice-service:two-way-packet-loss",
+                          "metric-unit": "percentage",
+                          "percentile-value": "0.001"
+                        }
+                      ]
+                    }
+                  }
+                }
+              ],
+              "connectivity-type": "point-to-point",
+              "id": "line2"
+            }
+          ]
+        },
+        "description": "network slice 2, connect to VM2",
+        "id": "slice2",
+        "sdps": {
+          "sdp": [
+            {
+              "attachment-circuits": {
+                "attachment-circuit": [
+                  {
+                    "ac-node-id": "172.16.204.220",
+                    "ac-tp-id": "201",
+                    "description": "AC VM2 connected to POP",
+                    "id": "AC POP to VM2"
+                  }
+                ]
+              },
+              "id": "1",
+              "node-id": "172.16.204.220",
+              "sdp-ip-address": [
+                "172.16.204.220"
+              ],
+              "service-match-criteria": {
+                "match-criterion": [
+                  {
+                    "index": 1,
+                    "match-type": [
+                      {
+                        "type": "ietf-network-slice-service:vlan",
+                        "value": [
+                          "201"
+                        ]
+                      },
+                      {
+                        "type": "ietf-network-slice-service:destination-ip-prefix",
+                        "value": [
+                          "172.16.104.221/24"
+                        ]
+                      },
+                      {
+                        "type": "ietf-network-slice-service:destination-tcp-port",
+                        "value": [
+                          "10500"
+                        ]
+                      },
+                      {
+                        "type": "ietf-network-slice-service:source-ip-prefix",
+                        "value": [
+                          "172.1.201.22/24"
+                        ]
+                      },
+                      {
+                        "type": "ietf-network-slice-service:source-tcp-port",
+                        "value": [
+                          "10200"
+                        ]
+                      }
+                    ],
+                    "target-connection-group-id": "line1"
+                  },
+                  {
+                    "index": 2,
+                    "match-type": [
+                      {
+                        "type": "ietf-network-slice-service:vlan",
+                        "value": [
+                          "201"
+                        ]
+                      },
+                      {
+                        "type": "ietf-network-slice-service:source-ip-prefix",
+                        "value": [
+                          "172.1.201.22/24"
+                        ]
+                      },
+                      {
+                        "type": "ietf-network-slice-service:source-tcp-port",
+                        "value": [
+                          "10200"
+                        ]
+                      },
+                      {
+                        "type": "ietf-network-slice-service:destination-ip-prefix",
+                        "value": [
+                          "172.16.104.222/24"
+                        ]
+                      },
+                      {
+                        "type": "ietf-network-slice-service:destination-tcp-port",
+                        "value": [
+                          "10500"
+                        ]
+                      }
+                    ],
+                    "target-connection-group-id": "line2"
+                  }
+                ]
+              }
+            },
+            {
+              "attachment-circuits": {
+                "attachment-circuit": [
+                  {
+                    "ac-ipv4-address": "172.16.61.10",
+                    "ac-node-id": "172.16.61.10",
+                    "ac-tp-id": "200",
+                    "description": "AC connected to PC",
+                    "id": "AC ONT"
+                  }
+                ]
+              },
+              "id": "2",
+              "node-id": "172.16.61.10",
+              "sdp-ip-address": [
+                "172.16.61.10"
+              ],
+              "service-match-criteria": {
+                "match-criterion": [
+                  {
+                    "index": 1,
+                    "match-type": [
+                      {
+                        "type": "ietf-network-slice-service:vlan",
+                        "value": [
+                          "31"
+                        ]
+                      },
+                      {
+                        "type": "ietf-network-slice-service:source-ip-prefix",
+                        "value": [
+                          "172.16.104.221/24"
+                        ]
+                      },
+                      {
+                        "type": "ietf-network-slice-service:source-tcp-port",
+                        "value": [
+                          "10500"
+                        ]
+                      },
+                      {
+                        "type": "ietf-network-slice-service:destination-ip-prefix",
+                        "value": [
+                          "172.1.201.22/24"
+                        ]
+                      },
+                      {
+                        "type": "ietf-network-slice-service:destination-tcp-port",
+                        "value": [
+                          "10200"
+                        ]
+                      }
+                    ],
+                    "target-connection-group-id": "line1"
+                  }
+                ]
+              }
+            },
+            {
+              "attachment-circuits": {
+                "attachment-circuit": [
+                  {
+                    "ac-ipv4-address": "172.16.61.11",
+                    "ac-node-id": "172.16.61.11",
+                    "ac-tp-id": "200",
+                    "description": "AC connected to PC2",
+                    "id": "AC ONT"
+                  }
+                ]
+              },
+              "id": "3",
+              "node-id": "172.16.61.11",
+              "sdp-ip-address": [
+                "172.16.61.11"
+              ],
+              "service-match-criteria": {
+                "match-criterion": [
+                  {
+                    "index": 1,
+                    "match-type": [
+                      {
+                        "type": "ietf-network-slice-service:vlan",
+                        "value": [
+                          "31"
+                        ]
+                      },
+                      {
+                        "type": "ietf-network-slice-service:source-ip-prefix",
+                        "value": [
+                          "172.16.104.222/24"
+                        ]
+                      },
+                      {
+                        "type": "ietf-network-slice-service:source-tcp-port",
+                        "value": [
+                          "10500"
+                        ]
+                      },
+                      {
+                        "type": "ietf-network-slice-service:destination-ip-prefix",
+                        "value": [
+                          "172.1.201.22/24"
+                        ]
+                      },
+                      {
+                        "type": "ietf-network-slice-service:destination-tcp-port",
+                        "value": [
+                          "10200"
+                        ]
+                      }
+                    ],
+                    "target-connection-group-id": "line2"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "connection-groups": {
+          "connection-group": [
+            {
+              "connectivity-construct": [
+                {
+                  "id": 1,
+                  "p2p-receiver-sdp": "2",
+                  "p2p-sender-sdp": "1",
+                  "service-slo-sle-policy": {
+                    "slo-policy": {
+                      "metric-bound": [
+                        {
+                          "bound": "10",
+                          "metric-type": "ietf-network-slice-service:one-way-delay-maximum",
+                          "metric-unit": "milliseconds"
+                        },
+                        {
+                          "bound": "5000",
+                          "metric-type": "ietf-network-slice-service:one-way-bandwidth",
+                          "metric-unit": "Mbps"
+                        },
+                        {
+                          "metric-type": "ietf-network-slice-service:two-way-packet-loss",
+                          "metric-unit": "percentage",
+                          "percentile-value": "0.001"
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "id": 2,
+                  "p2p-receiver-sdp": "1",
+                  "p2p-sender-sdp": "2",
+                  "service-slo-sle-policy": {
+                    "slo-policy": {
+                      "metric-bound": [
+                        {
+                          "bound": "20",
+                          "metric-type": "ietf-network-slice-service:one-way-delay-maximum",
+                          "metric-unit": "milliseconds"
+                        },
+                        {
+                          "bound": "1000",
+                          "metric-type": "ietf-network-slice-service:one-way-bandwidth",
+                          "metric-unit": "Mbps"
+                        },
+                        {
+                          "metric-type": "ietf-network-slice-service:two-way-packet-loss",
+                          "metric-unit": "percentage",
+                          "percentile-value": "0.001"
+                        }
+                      ]
+                    }
+                  }
+                }
+              ],
+              "connectivity-type": "point-to-point",
+              "id": "line1"
+            },
+            {
+              "connectivity-construct": [
+                {
+                  "id": 1,
+                  "p2p-receiver-sdp": "3",
+                  "p2p-sender-sdp": "1",
+                  "service-slo-sle-policy": {
+                    "slo-policy": {
+                      "metric-bound": [
+                        {
+                          "bound": "10",
+                          "metric-type": "ietf-network-slice-service:one-way-delay-maximum",
+                          "metric-unit": "milliseconds"
+                        },
+                        {
+                          "bound": "5000",
+                          "metric-type": "ietf-network-slice-service:one-way-bandwidth",
+                          "metric-unit": "Mbps"
+                        },
+                        {
+                          "metric-type": "ietf-network-slice-service:two-way-packet-loss",
+                          "metric-unit": "percentage",
+                          "percentile-value": "0.001"
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "id": 2,
+                  "p2p-receiver-sdp": "1",
+                  "p2p-sender-sdp": "3",
+                  "service-slo-sle-policy": {
+                    "slo-policy": {
+                      "metric-bound": [
+                        {
+                          "bound": "20",
+                          "metric-type": "ietf-network-slice-service:one-way-delay-maximum",
+                          "metric-unit": "milliseconds"
+                        },
+                        {
+                          "bound": "1000",
+                          "metric-type": "ietf-network-slice-service:one-way-bandwidth",
+                          "metric-unit": "Mbps"
+                        },
+                        {
+                          "metric-type": "ietf-network-slice-service:two-way-packet-loss",
+                          "metric-unit": "percentage",
+                          "percentile-value": "0.001"
+                        }
+                      ]
+                    }
+                  }
+                }
+              ],
+              "connectivity-type": "point-to-point",
+              "id": "line2"
+            }
+          ]
+        },
+        "description": "network slice 1, connect to VM1",
+        "id": "slice1",
+        "sdps": {
+          "sdp": [
+            {
+              "attachment-circuits": {
+                "attachment-circuit": [
+                  {
+                    "ac-node-id": "172.16.204.220",
+                    "ac-tp-id": "200",
+                    "description": "AC VM1 connected to POP",
+                    "id": "AC POP to VM1"
+                  }
+                ]
+              },
+              "id": "1",
+              "node-id": "172.16.204.220",
+              "sdp-ip-address": [
+                "172.16.204.220"
+              ],
+              "service-match-criteria": {
+                "match-criterion": [
+                  {
+                    "index": 1,
+                    "match-type": [
+                      {
+                        "type": "ietf-network-slice-service:vlan",
+                        "value": [
+                          "101"
+                        ]
+                      },
+                      {
+                        "type": "ietf-network-slice-service:destination-ip-prefix",
+                        "value": [
+                          "172.16.104.221/24"
+                        ]
+                      },
+                      {
+                        "type": "ietf-network-slice-service:destination-tcp-port",
+                        "value": [
+                          "10500"
+                        ]
+                      },
+                      {
+                        "type": "ietf-network-slice-service:source-ip-prefix",
+                        "value": [
+                          "172.1.101.22/24"
+                        ]
+                      },
+                      {
+                        "type": "ietf-network-slice-service:source-tcp-port",
+                        "value": [
+                          "10200"
+                        ]
+                      }
+                    ],
+                    "target-connection-group-id": "line1"
+                  },
+                  {
+                    "index": 2,
+                    "match-type": [
+                      {
+                        "type": "ietf-network-slice-service:vlan",
+                        "value": [
+                          "101"
+                        ]
+                      },
+                      {
+                        "type": "ietf-network-slice-service:source-ip-prefix",
+                        "value": [
+                          "172.1.101.22/24"
+                        ]
+                      },
+                      {
+                        "type": "ietf-network-slice-service:source-tcp-port",
+                        "value": [
+                          "10200"
+                        ]
+                      },
+                      {
+                        "type": "ietf-network-slice-service:destination-ip-prefix",
+                        "value": [
+                          "172.16.104.222/24"
+                        ]
+                      },
+                      {
+                        "type": "ietf-network-slice-service:destination-tcp-port",
+                        "value": [
+                          "10500"
+                        ]
+                      }
+                    ],
+                    "target-connection-group-id": "line2"
+                  }
+                ]
+              }
+            },
+            {
+              "attachment-circuits": {
+                "attachment-circuit": [
+                  {
+                    "ac-node-id": "172.16.61.10",
+                    "ac-tp-id": "200",
+                    "description": "AC connected to PC1",
+                    "id": "AC ONT"
+                  }
+                ]
+              },
+              "id": "2",
+              "node-id": "172.16.61.10",
+              "sdp-ip-address": [
+                "172.16.61.10"
+              ],
+              "service-match-criteria": {
+                "match-criterion": [
+                  {
+                    "index": 1,
+                    "match-type": [
+                      {
+                        "type": "ietf-network-slice-service:vlan",
+                        "value": [
+                          "21"
+                        ]
+                      },
+                      {
+                        "type": "ietf-network-slice-service:source-ip-prefix",
+                        "value": [
+                          "172.16.104.221/24"
+                        ]
+                      },
+                      {
+                        "type": "ietf-network-slice-service:source-tcp-port",
+                        "value": [
+                          "10500"
+                        ]
+                      },
+                      {
+                        "type": "ietf-network-slice-service:destination-ip-prefix",
+                        "value": [
+                          "172.1.101.22/24"
+                        ]
+                      },
+                      {
+                        "type": "ietf-network-slice-service:destination-tcp-port",
+                        "value": [
+                          "10200"
+                        ]
+                      }
+                    ],
+                    "target-connection-group-id": "line1"
+                  }
+                ]
+              }
+            },
+            {
+              "attachment-circuits": {
+                "attachment-circuit": [
+                  {
+                    "ac-node-id": "172.16.61.11",
+                    "ac-tp-id": "200",
+                    "description": "AC connected to PC2",
+                    "id": "AC ONT"
+                  }
+                ]
+              },
+              "id": "3",
+              "node-id": "172.16.61.11",
+              "sdp-ip-address": [
+                "172.16.61.11"
+              ],
+              "service-match-criteria": {
+                "match-criterion": [
+                  {
+                    "index": 1,
+                    "match-type": [
+                      {
+                        "type": "ietf-network-slice-service:vlan",
+                        "value": [
+                          "21"
+                        ]
+                      },
+                      {
+                        "type": "ietf-network-slice-service:source-ip-prefix",
+                        "value": [
+                          "172.16.104.222/24"
+                        ]
+                      },
+                      {
+                        "type": "ietf-network-slice-service:source-tcp-port",
+                        "value": [
+                          "10500"
+                        ]
+                      },
+                      {
+                        "type": "ietf-network-slice-service:destination-ip-prefix",
+                        "value": [
+                          "172.1.101.22/24"
+                        ]
+                      },
+                      {
+                        "type": "ietf-network-slice-service:destination-tcp-port",
+                        "value": [
+                          "10200"
+                        ]
+                      }
+                    ],
+                    "target-connection-group-id": "line2"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

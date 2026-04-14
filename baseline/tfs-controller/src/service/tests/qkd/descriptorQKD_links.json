@@ -1,0 +1,73 @@
+{
+    "contexts": [
+        {"context_id": {"context_uuid": {"uuid": "admin"}}}
+    ],
+    "topologies": [
+        {"topology_id": {"topology_uuid": {"uuid": "admin"}, "context_id": {"context_uuid": {"uuid": "admin"}}}}
+    ],
+    "devices": [
+        {
+            "device_id": {"device_uuid": {"uuid": "QKD1"}}, "device_type": "qkd-node",
+            "device_operational_status": 0, "device_drivers": [12], "device_endpoints": [],
+            "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "<YOUR_MACHINE_IP>"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "11111"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {
+                    "scheme": "http"
+                }}}
+            ]}
+        },
+        {
+            "device_id": {"device_uuid": {"uuid": "QKD2"}}, "device_type": "qkd-node",
+            "device_operational_status": 0, "device_drivers": [12], "device_endpoints": [],
+            "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "<YOUR_MACHINE_IP>"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "22222"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {
+                    "scheme": "http"
+                }}}
+            ]}
+        },
+        {
+            "device_id": {"device_uuid": {"uuid": "QKD3"}}, "device_type": "qkd-node",
+            "device_operational_status": 0, "device_drivers": [12], "device_endpoints": [],
+            "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "<YOUR_MACHINE_IP>"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "33333"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {
+                    "scheme": "http"
+                }}}
+            ]}
+        }
+    ],
+    "links": [
+        {
+            "link_id": {"link_uuid": {"uuid": "QKD1/<YOUR_MACHINE_IP>:1001==QKD2/<YOUR_MACHINE_IP>:2001"}},
+            "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "QKD1"}}, "endpoint_uuid": {"uuid": "<YOUR_MACHINE_IP>:1001"}},
+                {"device_id": {"device_uuid": {"uuid": "QKD2"}}, "endpoint_uuid": {"uuid": "<YOUR_MACHINE_IP>:2001"}}
+            ]
+        },
+        {
+            "link_id": {"link_uuid": {"uuid": "QKD2/<YOUR_MACHINE_IP>:2001==QKD1/<YOUR_MACHINE_IP>:1001"}},
+            "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "QKD2"}}, "endpoint_uuid": {"uuid": "<YOUR_MACHINE_IP>:2001"}},
+                {"device_id": {"device_uuid": {"uuid": "QKD1"}}, "endpoint_uuid": {"uuid": "<YOUR_MACHINE_IP>:1001"}}
+            ]
+        },
+        {
+            "link_id": {"link_uuid": {"uuid": "QKD2/<YOUR_MACHINE_IP>:2002==QKD3/<YOUR_MACHINE_IP>:3001"}},
+            "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "QKD2"}}, "endpoint_uuid": {"uuid": "<YOUR_MACHINE_IP>:2002"}},
+                {"device_id": {"device_uuid": {"uuid": "QKD3"}}, "endpoint_uuid": {"uuid": "<YOUR_MACHINE_IP>:3001"}}
+            ]
+        },
+        {
+            "link_id": {"link_uuid": {"uuid": "QKD3/<YOUR_MACHINE_IP>:3001==QKD2/<YOUR_MACHINE_IP>:2002"}},
+            "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "QKD3"}}, "endpoint_uuid": {"uuid": "<YOUR_MACHINE_IP>:3001"}},
+                {"device_id": {"device_uuid": {"uuid": "QKD2"}}, "endpoint_uuid": {"uuid": "<YOUR_MACHINE_IP>:2002"}}
+            ]
+        }
+    ]
+}

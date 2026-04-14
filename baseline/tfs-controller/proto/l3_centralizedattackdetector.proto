@@ -1,0 +1,77 @@
+// Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+package l3_centralizedattackdetector;
+
+import "context.proto";
+
+service L3Centralizedattackdetector {
+  // Analyze single input to the ML model in the CAD component
+  rpc AnalyzeConnectionStatistics (L3CentralizedattackdetectorMetrics) returns (StatusMessage) {}
+
+  // Analyze a batch of inputs to the ML model in the CAD component
+  rpc AnalyzeBatchConnectionStatistics (L3CentralizedattackdetectorBatchInput) returns (StatusMessage) {}
+
+  // Get the list of features used by the ML model in the CAD component
+  rpc GetFeaturesIds (context.Empty) returns (AutoFeatures) {}
+
+  // Sets the list of attack IPs in order to be used to compute the prediction accuracy of the
+  // ML model in the CAD component in case of testing the ML model.
+  rpc SetAttackIPs (AttackIPs) returns (context.Empty) {}
+}
+
+message Feature {
+	float feature = 1;
+}
+
+message L3CentralizedattackdetectorMetrics {
+	// Input sent by the DAD compoenent to the ML model integrated in the CAD component.
+
+	// Machine learning model features
+	repeated Feature features = 1;	
+	ConnectionMetadata connection_metadata = 2;
+
+}
+
+message ConnectionMetadata {
+	string ip_o = 1;
+	string port_o = 2;
+	string ip_d = 3;
+	string port_d = 4;
+	string flow_id = 5;
+	context.ServiceId service_id = 6;
+	context.EndPointId endpoint_id = 7;
+	string protocol = 8;
+	float time_start = 9;
+	float time_end = 10;
+}
+
+// Collection of values representing ML features
+message AutoFeatures {
+	repeated float auto_features = 1;
+}
+
+// Collection (batch) of model inputs that will be sent to the model
+message L3CentralizedattackdetectorBatchInput {
+	repeated L3CentralizedattackdetectorMetrics metrics = 1;
+}
+
+message StatusMessage {
+	string message = 1;
+}
+
+message AttackIPs {
+	repeated string attack_ips = 1;
+}

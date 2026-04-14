@@ -1,0 +1,132 @@
+# Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# Minimal Mimir for lab/PoC using single-binary and in-cluster MinIO.
+# Chart: grafana/mimir-distributed
+
+global:
+  # -- Definitions to set up nginx resolver
+  dnsService: kube-dns
+  dnsNamespace: kube-system
+  clusterDomain: cluster.local.
+  dnsConfig: {}
+
+# Mimir structured configuration. Wires storage to the in-cluster MinIO.
+mimir:
+  structuredConfig:
+    common:
+      storage:
+        backend: s3
+        s3:
+          endpoint: minio:9000
+          access_key_id: grafana-mimir
+          secret_access_key: supersecret   # change in real clusters
+          insecure: true
+    blocks_storage:
+      s3:
+        bucket_name: mimir-tsdb
+    ruler_storage:
+      s3:
+        bucket_name: mimir-ruler
+    alertmanager_storage:
+      s3:
+        bucket_name: mimir-alertmanager
+
+minio:
+  enabled: true
+  mode: standalone
+  rootUser: grafana-mimir
+  rootPassword: supersecret             # change in real clusters
+  buckets:
+    - name: mimir-tsdb
+      policy: none
+      purge: false
+    - name: mimir-ruler
+      policy: none
+      purge: false
+    - name: mimir-alertmanager
+      policy: none
+      purge: false
+  persistence:
+    enabled: true
+    size: 10Gi
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+
+# Disable embedded Kafka. Not needed for this minimal setup.
+kafka:
+  enabled: false
+
+# Keep the NGINX gateway internal to the cluster for simplicity.
+gateway:
+  enabled: true
+  replicas: 1
+  service:
+    type: ClusterIP
+    port: 80
+  nginx:
+    verboseLogging: true
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+
+# Turn off sharded components. singleBinary runs the core services already.
+distributor:
+  replicas: 0
+ingester:
+  replicas: 0
+querier:
+  replicas: 0
+query_frontend:
+  replicas: 0
+query_scheduler:
+  replicas: 0
+store_gateway:
+  replicas: 0
+compactor:
+  replicas: 0
+
+# Optional features disabled for minimum footprint.
+ruler:
+  enabled: false
+alertmanager:
+  enabled: false
+overrides_exporter:
+  enabled: false
+
+# Caches off for minimal footprint. Enable later if you need performance.
+memcached:
+  enabled: false
+memcached-queries:
+  enabled: false
+memcached-metadata:
+  enabled: false
+memcached-results:
+  enabled: false
+
+# Meta-monitoring off to keep footprint small. Turn on when you add Prometheus.
+metaMonitoring:
+  dashboards:
+    enabled: false
+  serviceMonitor:
+    enabled: false
+  prometheusRule:
+    enabled: false
+  grafanaAgent:
+    enabled: false

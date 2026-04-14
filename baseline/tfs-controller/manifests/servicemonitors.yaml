@@ -1,0 +1,630 @@
+# Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  namespace: monitoring # namespace where prometheus is running
+  name: tfs-contextservice-metric
+  labels:
+    app: contextservice
+    #release: prometheus
+    #release: prom  # name of the release
+    # ( VERY IMPORTANT: You need to know the correct release name by viewing
+    #   the servicemonitor of Prometheus itself: Without the correct name,
+    #   Prometheus cannot identify the metrics of the Flask app as the target.)
+spec:
+  selector:
+    matchLabels:
+      # Target app service
+      #namespace: tfs
+      app: contextservice # same as above
+      #release: prometheus # same as above
+  endpoints:
+    - port: metrics # named port in target app
+      scheme: http
+      path: /metrics # path to scrape
+      interval: 5s # scrape interval
+  namespaceSelector:
+    any: false
+    matchNames:
+      - tfs # namespace where the app is running
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  namespace: monitoring # namespace where prometheus is running
+  name: tfs-deviceservice-metric
+  labels:
+    app: deviceservice
+    #release: prometheus
+    #release: prom  # name of the release
+    # ( VERY IMPORTANT: You need to know the correct release name by viewing
+    #   the servicemonitor of Prometheus itself: Without the correct name,
+    #   Prometheus cannot identify the metrics of the Flask app as the target.)
+spec:
+  selector:
+    matchLabels:
+      # Target app service
+      #namespace: tfs
+      app: deviceservice # same as above
+      #release: prometheus # same as above
+  endpoints:
+    - port: metrics # named port in target app
+      scheme: http
+      path: /metrics # path to scrape
+      interval: 5s # scrape interval
+  namespaceSelector:
+    any: false
+    matchNames:
+      - tfs # namespace where the app is running
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  namespace: monitoring # namespace where prometheus is running
+  name: tfs-serviceservice-metric
+  labels:
+    app: serviceservice
+    #release: prometheus
+    #release: prom  # name of the release
+    # ( VERY IMPORTANT: You need to know the correct release name by viewing
+    #   the servicemonitor of Prometheus itself: Without the correct name,
+    #   Prometheus cannot identify the metrics of the Flask app as the target.)
+spec:
+  selector:
+    matchLabels:
+      # Target app service
+      #namespace: tfs
+      app: serviceservice # same as above
+      #release: prometheus # same as above
+  endpoints:
+    - port: metrics # named port in target app
+      scheme: http
+      path: /metrics # path to scrape
+      interval: 5s # scrape interval
+  namespaceSelector:
+    any: false
+    matchNames:
+      - tfs # namespace where the app is running
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  namespace: monitoring # namespace where prometheus is running
+  name: tfs-sliceservice-metric
+  labels:
+    app: sliceservice
+    #release: prometheus
+    #release: prom  # name of the release
+    # ( VERY IMPORTANT: You need to know the correct release name by viewing
+    #   the servicemonitor of Prometheus itself: Without the correct name,
+    #   Prometheus cannot identify the metrics of the Flask app as the target.)
+spec:
+  selector:
+    matchLabels:
+      # Target app service
+      #namespace: tfs
+      app: sliceservice # same as above
+      #release: prometheus # same as above
+  endpoints:
+    - port: metrics # named port in target app
+      scheme: http
+      path: /metrics # path to scrape
+      interval: 5s # scrape interval
+  namespaceSelector:
+    any: false
+    matchNames:
+      - tfs # namespace where the app is running
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  namespace: monitoring # namespace where prometheus is running
+  name: tfs-pathcompservice-metric
+  labels:
+    app: pathcompservice
+    #release: prometheus
+    #release: prom  # name of the release
+    # ( VERY IMPORTANT: You need to know the correct release name by viewing
+    #   the servicemonitor of Prometheus itself: Without the correct name,
+    #   Prometheus cannot identify the metrics of the Flask app as the target.)
+spec:
+  selector:
+    matchLabels:
+      # Target app service
+      #namespace: tfs
+      app: pathcompservice # same as above
+      #release: prometheus # same as above
+  endpoints:
+    - port: metrics # named port in target app
+      scheme: http
+      path: /metrics # path to scrape
+      interval: 5s # scrape interval
+  namespaceSelector:
+    any: false
+    matchNames:
+      - tfs # namespace where the app is running
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  namespace: monitoring # namespace where prometheus is running
+  name: tfs-monitoringservice-metric
+  labels:
+    app: monitoringservice
+    #release: prometheus
+    #release: prom  # name of the release
+    # ( VERY IMPORTANT: You need to know the correct release name by viewing
+    #   the servicemonitor of Prometheus itself: Without the correct name,
+    #   Prometheus cannot identify the metrics of the Flask app as the target.)
+spec:
+  selector:
+    matchLabels:
+      # Target app service
+      #namespace: tfs
+      app: monitoringservice # same as above
+      #release: prometheus # same as above
+  endpoints:
+    - port: metrics # named port in target app
+      scheme: http
+      path: /metrics # path to scrape
+      interval: 5s # scrape interval
+  namespaceSelector:
+    any: false
+    matchNames:
+      - tfs # namespace where the app is running
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  namespace: monitoring # namespace where prometheus is running
+  name: tfs-dltservice-metric
+  labels:
+    app: dltservice
+    #release: prometheus
+    #release: prom  # name of the release
+    # ( VERY IMPORTANT: You need to know the correct release name by viewing
+    #   the servicemonitor of Prometheus itself: Without the correct name,
+    #   Prometheus cannot identify the metrics of the Flask app as the target.)
+spec:
+  selector:
+    matchLabels:
+      # Target app service
+      #namespace: tfs
+      app: dltservice # same as above
+      #release: prometheus # same as above
+  endpoints:
+    - port: metrics # named port in target app
+      scheme: http
+      path: /metrics # path to scrape
+      interval: 5s # scrape interval
+  namespaceSelector:
+    any: false
+    matchNames:
+      - tfs # namespace where the app is running
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  namespace: monitoring # namespace where prometheus is running
+  name: tfs-interdomainservice-metric
+  labels:
+    app: interdomainservice
+    #release: prometheus
+    #release: prom  # name of the release
+    # ( VERY IMPORTANT: You need to know the correct release name by viewing
+    #   the servicemonitor of Prometheus itself: Without the correct name,
+    #   Prometheus cannot identify the metrics of the Flask app as the target.)
+spec:
+  selector:
+    matchLabels:
+      # Target app service
+      #namespace: tfs
+      app: interdomainservice # same as above
+      #release: prometheus # same as above
+  endpoints:
+    - port: metrics # named port in target app
+      scheme: http
+      path: /metrics # path to scrape
+      interval: 5s # scrape interval
+  namespaceSelector:
+    any: false
+    matchNames:
+      - tfs # namespace where the app is running
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  namespace: monitoring # namespace where prometheus is running
+  name: tfs-policyservice-metric
+  labels:
+    app: policyservice
+    #release: prometheus
+    #release: prom  # name of the release
+    # ( VERY IMPORTANT: You need to know the correct release name by viewing
+    #   the servicemonitor of Prometheus itself: Without the correct name,
+    #   Prometheus cannot identify the metrics of the Flask app as the target.)
+spec:
+  selector:
+    matchLabels:
+      # Target app service
+      #namespace: tfs
+      app: policyservice # same as above
+      #release: prometheus # same as above
+  endpoints:
+    - port: metrics # named port in target app
+      scheme: http
+      path: /q/metrics # path to scrape
+      interval: 5s # scrape interval
+  namespaceSelector:
+    any: false
+    matchNames:
+      - tfs # namespace where the app is running
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  namespace: monitoring # namespace where prometheus is running
+  name: tfs-ztpservice-metric
+  labels:
+    app: ztpservice
+    #release: prometheus
+    #release: prom  # name of the release
+    # ( VERY IMPORTANT: You need to know the correct release name by viewing
+    #   the servicemonitor of Prometheus itself: Without the correct name,
+    #   Prometheus cannot identify the metrics of the Flask app as the target.)
+spec:
+  selector:
+    matchLabels:
+      # Target app service
+      #namespace: tfs
+      app: ztpservice # same as above
+      #release: prometheus # same as above
+  endpoints:
+    - port: metrics # named port in target app
+      scheme: http
+      path: /q/metrics # path to scrape
+      interval: 5s # scrape interval
+  namespaceSelector:
+    any: false
+    matchNames:
+      - tfs # namespace where the app is running
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  namespace: monitoring # namespace where prometheus is running
+  name: tfs-nbiservice-metric
+  labels:
+    app: nbiservice
+    #release: prometheus
+    #release: prom  # name of the release
+    # ( VERY IMPORTANT: You need to know the correct release name by viewing
+    #   the servicemonitor of Prometheus itself: Without the correct name,
+    #   Prometheus cannot identify the metrics of the Flask app as the target.)
+spec:
+  selector:
+    matchLabels:
+      # Target app service
+      #namespace: tfs
+      app: nbiservice # same as above
+      #release: prometheus # same as above
+  endpoints:
+    - port: metrics # named port in target app
+      scheme: http
+      path: /metrics # path to scrape
+      interval: 5s # scrape interval
+  namespaceSelector:
+    any: false
+    matchNames:
+      - tfs # namespace where the app is running
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  namespace: monitoring # namespace where prometheus is running
+  name: tfs-load-generatorservice-metric
+  labels:
+    app: load-generatorservice
+    #release: prometheus
+    #release: prom  # name of the release
+    # ( VERY IMPORTANT: You need to know the correct release name by viewing
+    #   the servicemonitor of Prometheus itself: Without the correct name,
+    #   Prometheus cannot identify the metrics of the Flask app as the target.)
+spec:
+  selector:
+    matchLabels:
+      # Target app service
+      #namespace: tfs
+      app: load-generatorservice # same as above
+      #release: prometheus # same as above
+  endpoints:
+    - port: metrics # named port in target app
+      scheme: http
+      path: /metrics # path to scrape
+      interval: 5s # scrape interval
+  namespaceSelector:
+    any: false
+    matchNames:
+      - tfs # namespace where the app is running
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  namespace: monitoring # namespace where prometheus is running
+  name: tfs-dbscanservingservice-metric
+  labels:
+    app: dbscanservingservice
+    #release: prometheus
+    #release: prom  # name of the release
+    # ( VERY IMPORTANT: You need to know the correct release name by viewing
+    #   the servicemonitor of Prometheus itself: Without the correct name,
+    #   Prometheus cannot identify the metrics of the Flask app as the target.)
+spec:
+  selector:
+    matchLabels:
+      # Target app service
+      #namespace: tfs
+      app: dbscanservingservice # same as above
+      #release: prometheus # same as above
+  endpoints:
+    - port: metrics # named port in target app
+      scheme: http
+      path: /metrics # path to scrape
+      interval: 5s # scrape interval
+  namespaceSelector:
+    any: false
+    matchNames:
+      - tfs # namespace where the app is running
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  namespace: monitoring # namespace where prometheus is running
+  name: tfs-opticalattackmitigatorservice-metric
+  labels:
+    app: opticalattackmitigatorservice
+    #release: prometheus
+    #release: prom  # name of the release
+    # ( VERY IMPORTANT: You need to know the correct release name by viewing
+    #   the servicemonitor of Prometheus itself: Without the correct name,
+    #   Prometheus cannot identify the metrics of the Flask app as the target.)
+spec:
+  selector:
+    matchLabels:
+      # Target app service
+      #namespace: tfs
+      app: opticalattackmitigatorservice # same as above
+      #release: prometheus # same as above
+  endpoints:
+    - port: metrics # named port in target app
+      scheme: http
+      path: /metrics # path to scrape
+      interval: 5s # scrape interval
+  namespaceSelector:
+    any: false
+    matchNames:
+      - tfs # namespace where the app is running
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  namespace: monitoring # namespace where prometheus is running
+  name: tfs-opticalattackdetectorservice-metric
+  labels:
+    app: opticalattackdetectorservice
+    #release: prometheus
+    #release: prom  # name of the release
+    # ( VERY IMPORTANT: You need to know the correct release name by viewing
+    #   the servicemonitor of Prometheus itself: Without the correct name,
+    #   Prometheus cannot identify the metrics of the Flask app as the target.)
+spec:
+  selector:
+    matchLabels:
+      # Target app service
+      #namespace: tfs
+      app: opticalattackdetectorservice # same as above
+      #release: prometheus # same as above
+  endpoints:
+    - port: metrics # named port in target app
+      scheme: http
+      path: /metrics # path to scrape
+      interval: 5s # scrape interval
+  namespaceSelector:
+    any: false
+    matchNames:
+      - tfs # namespace where the app is running
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  namespace: monitoring # namespace where prometheus is running
+  name: tfs-opticalattackmanagerservice-metric
+  labels:
+    app: opticalattackmanagerservice
+    #release: prometheus
+    #release: prom  # name of the release
+    # ( VERY IMPORTANT: You need to know the correct release name by viewing
+    #   the servicemonitor of Prometheus itself: Without the correct name,
+    #   Prometheus cannot identify the metrics of the Flask app as the target.)
+spec:
+  selector:
+    matchLabels:
+      # Target app service
+      #namespace: tfs
+      app: opticalattackmanagerservice # same as above
+      #release: prometheus # same as above
+  endpoints:
+    - port: metrics # named port in target app
+      scheme: http
+      path: /metrics # path to scrape
+      interval: 5s # scrape interval
+  namespaceSelector:
+    any: false
+    matchNames:
+      - tfs # namespace where the app is running
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  namespace: monitoring # namespace where prometheus is running
+  name: tfs-analyticsservice-metric
+  labels:
+    app: analyticsservice
+    #release: prometheus
+    #release: prom  # name of the release
+    # ( VERY IMPORTANT: You need to know the correct release name by viewing
+    #   the servicemonitor of Prometheus itself: Without the correct name,
+    #   Prometheus cannot identify the metrics of the Flask app as the target.)
+spec:
+  selector:
+    matchLabels:
+      # Target app service
+      #namespace: tfs
+      app: analyticsservice # same as above
+      #release: prometheus # same as above
+  endpoints:
+    - port: metrics-frontend # named port in target app
+      scheme: http
+      path: /metrics # path to scrape
+      interval: 5s # scrape interval
+    - port: metrics-backend # named port in target app
+      scheme: http
+      path: /metrics # path to scrape
+      interval: 5s # scrape interval
+  namespaceSelector:
+    any: false
+    matchNames:
+      - tfs # namespace where the app is running
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  namespace: monitoring # namespace where prometheus is running
+  name: tfs-telemetryservice-metric
+  labels:
+    app: telemetryservice
+    #release: prometheus
+    #release: prom  # name of the release
+    # ( VERY IMPORTANT: You need to know the correct release name by viewing
+    #   the servicemonitor of Prometheus itself: Without the correct name,
+    #   Prometheus cannot identify the metrics of the Flask app as the target.)
+spec:
+  selector:
+    matchLabels:
+      # Target app service
+      #namespace: tfs
+      app: telemetryservice # same as above
+      #release: prometheus # same as above
+  endpoints:
+    - port: metrics-frontend # named port in target app
+      scheme: http
+      path: /metrics # path to scrape
+      interval: 5s # scrape interval
+    - port: metrics-backend # named port in target app
+      scheme: http
+      path: /metrics # path to scrape
+      interval: 5s # scrape interval
+  namespaceSelector:
+    any: false
+    matchNames:
+      - tfs # namespace where the app is running
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  namespace: monitoring # namespace where prometheus is running
+  name: tfs-kpi-managerservice-metric
+  labels:
+    app: kpi-managerservice
+    #release: prometheus
+    #release: prom  # name of the release
+    # ( VERY IMPORTANT: You need to know the correct release name by viewing
+    #   the servicemonitor of Prometheus itself: Without the correct name,
+    #   Prometheus cannot identify the metrics of the Flask app as the target.)
+spec:
+  selector:
+    matchLabels:
+      # Target app service
+      #namespace: tfs
+      app: kpi-managerservice # same as above
+      #release: prometheus # same as above
+  endpoints:
+    - port: metrics # named port in target app
+      scheme: http
+      path: /metrics # path to scrape
+      interval: 5s # scrape interval
+  namespaceSelector:
+    any: false
+    matchNames:
+      - tfs # namespace where the app is running
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  namespace: monitoring # namespace where prometheus is running
+  name: tfs-kpi-value-apiservice-metric
+  labels:
+    app: kpi-value-apiservice
+    #release: prometheus
+    #release: prom  # name of the release
+    # ( VERY IMPORTANT: You need to know the correct release name by viewing
+    #   the servicemonitor of Prometheus itself: Without the correct name,
+    #   Prometheus cannot identify the metrics of the Flask app as the target.)
+spec:
+  selector:
+    matchLabels:
+      # Target app service
+      #namespace: tfs
+      app: kpi-value-apiservice # same as above
+      #release: prometheus # same as above
+  endpoints:
+    - port: metrics # named port in target app
+      scheme: http
+      path: /metrics # path to scrape
+      interval: 5s # scrape interval
+  namespaceSelector:
+    any: false
+    matchNames:
+      - tfs # namespace where the app is running
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  namespace: monitoring # namespace where prometheus is running
+  name: tfs-kpi-value-writerservice-metric
+  labels:
+    app: kpi-value-writerservice
+    #release: prometheus
+    #release: prom  # name of the release
+    # ( VERY IMPORTANT: You need to know the correct release name by viewing
+    #   the servicemonitor of Prometheus itself: Without the correct name,
+    #   Prometheus cannot identify the metrics of the Flask app as the target.)
+spec:
+  selector:
+    matchLabels:
+      # Target app service
+      #namespace: tfs
+      app: kpi-value-writerservice # same as above
+      #release: prometheus # same as above
+  endpoints:
+    - port: metrics # named port in target app
+      scheme: http
+      path: /metrics # path to scrape
+      interval: 5s # scrape interval
+  namespaceSelector:
+    any: false
+    matchNames:
+      - tfs # namespace where the app is running

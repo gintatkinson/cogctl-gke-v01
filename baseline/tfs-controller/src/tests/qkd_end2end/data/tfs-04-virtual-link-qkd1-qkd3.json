@@ -1,0 +1,16 @@
+{
+  "services": [
+    {
+      "service_id": {
+        "context_id": {"context_uuid": {"uuid": "admin"}},
+        "service_uuid": {"uuid": "virtual-link-QKD1-QKD3"}
+      },
+      "name": "virtual-link-QKD1-QKD3",
+      "service_type": "SERVICETYPE_QKD",
+      "service_endpoint_ids": [
+        {"device_id": {"device_uuid": {"uuid": "QKD1"}}, "endpoint_uuid": {"uuid": "QKD2:201"}},
+        {"device_id": {"device_uuid": {"uuid": "QKD3"}}, "endpoint_uuid": {"uuid": "QKD2:203"}}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,129 @@
+# Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    app.quarkus.io/commit-id: 8065cee75be759e14af792737179537096de5e11
+    app.quarkus.io/build-timestamp: 2023-03-30 - 13:49:59 +0000
+  labels:
+    app.kubernetes.io/name: policyservice
+    app: policyservice
+  name: policyservice
+spec:
+  ports:
+    - name: metrics
+      port: 9192
+      targetPort: 8080
+    - name: grpc
+      port: 6060
+      targetPort: 6060
+  selector:
+    app.kubernetes.io/name: policyservice
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    app.quarkus.io/commit-id: 8065cee75be759e14af792737179537096de5e11
+    app.quarkus.io/build-timestamp: 2023-03-30 - 13:49:59 +0000
+  labels:
+    app: policyservice
+    app.kubernetes.io/name: policyservice
+  name: policyservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: policyservice
+  template:
+    metadata:
+      annotations:
+        app.quarkus.io/commit-id: 8065cee75be759e14af792737179537096de5e11
+        app.quarkus.io/build-timestamp: 2023-03-30 - 13:49:59 +0000
+      labels:
+        app: policyservice
+        app.kubernetes.io/name: policyservice
+    spec:
+      containers:
+        - env:
+            - name: KUBERNETES_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: SERVICE_SERVICE_HOST
+              value: serviceservice
+            - name: CONTEXT_SERVICE_HOST
+              value: contextservice
+            - name: MONITORING_SERVICE_HOST
+              value: monitoringservice
+          image: labs.etsi.org:5050/tfs/controller/policy:0.1.0
+          imagePullPolicy: Always
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /q/health/live
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 10
+          name: policyservice
+          ports:
+            - containerPort: 8080
+              name: metrics
+              protocol: TCP
+            - containerPort: 6060
+              name: grpc-server
+              protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /q/health/ready
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 10
+          resources:
+            requests:
+              cpu: 50m
+              memory: 512Mi
+            limits:
+              cpu: 2000m
+              memory: 2048Mi
+#---
+#apiVersion: autoscaling/v2
+#kind: HorizontalPodAutoscaler
+#metadata:
+#  name: policyservice-hpa
+#spec:
+#  scaleTargetRef:
+#    apiVersion: apps/v1
+#    kind: Deployment
+#    name: policyservice
+#  minReplicas: 1
+#  maxReplicas: 10
+#  metrics:
+#    - type: Resource
+#      resource:
+#        name: cpu
+#        target:
+#          type: Utilization
+#          averageUtilization: 80

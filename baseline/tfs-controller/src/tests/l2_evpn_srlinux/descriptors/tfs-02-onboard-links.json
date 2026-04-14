@@ -1,0 +1,63 @@
+{
+    "links": [
+        {
+            "link_id": {"link_uuid": {"uuid": "leaf1/ethernet-1/49==spine1/ethernet-1/1"}},
+            "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "leaf1"}}, "endpoint_uuid": {"uuid": "ethernet-1/49"}},
+                {"device_id": {"device_uuid": {"uuid": "spine1"}}, "endpoint_uuid": {"uuid": "ethernet-1/1"}}
+            ]
+        },
+        {
+            "link_id": {"link_uuid": {"uuid": "spine1/ethernet-1/1==leaf1/ethernet-1/49"}},
+            "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "spine1"}}, "endpoint_uuid": {"uuid": "ethernet-1/1"}},
+                {"device_id": {"device_uuid": {"uuid": "leaf1"}}, "endpoint_uuid": {"uuid": "ethernet-1/49"}}
+            ]
+        },
+
+        {
+            "link_id": {"link_uuid": {"uuid": "spine1/ethernet-1/2==leaf2/ethernet-1/49"}},
+            "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "spine1"}}, "endpoint_uuid": {"uuid": "ethernet-1/2"}},
+                {"device_id": {"device_uuid": {"uuid": "leaf2"}}, "endpoint_uuid": {"uuid": "ethernet-1/49"}}
+            ]
+        },
+        {
+            "link_id": {"link_uuid": {"uuid": "leaf2/ethernet-1/2==spine1/ethernet-1/49"}},
+            "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "leaf2"}}, "endpoint_uuid": {"uuid": "ethernet-1/49"}},
+                {"device_id": {"device_uuid": {"uuid": "spine1"}}, "endpoint_uuid": {"uuid": "ethernet-1/2"}}
+            ]
+        },
+
+        {
+            "link_id": {"link_uuid": {"uuid": "srv1/eth1==leaf1/ethernet-1/1"}},
+            "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "srv1"}}, "endpoint_uuid": {"uuid": "eth1"}},
+                {"device_id": {"device_uuid": {"uuid": "leaf1"}}, "endpoint_uuid": {"uuid": "ethernet-1/1"}}
+            ]
+        },
+        {
+            "link_id": {"link_uuid": {"uuid": "leaf1/ethernet-1/1==srv1/eth1"}},
+            "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "leaf1"}}, "endpoint_uuid": {"uuid": "ethernet-1/1"}},
+                {"device_id": {"device_uuid": {"uuid": "srv1"}}, "endpoint_uuid": {"uuid": "eth1"}}
+            ]
+        },
+
+        {
+            "link_id": {"link_uuid": {"uuid": "srv2/eth1==leaf2/ethernet-1/1"}},
+            "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "srv2"}}, "endpoint_uuid": {"uuid": "eth1"}},
+                {"device_id": {"device_uuid": {"uuid": "leaf2"}}, "endpoint_uuid": {"uuid": "ethernet-1/1"}}
+            ]
+        },
+        {
+            "link_id": {"link_uuid": {"uuid": "leaf2/ethernet-1/1==srv2/eth1"}},
+            "link_endpoint_ids": [
+                {"device_id": {"device_uuid": {"uuid": "leaf2"}}, "endpoint_uuid": {"uuid": "ethernet-1/1"}},
+                {"device_id": {"device_uuid": {"uuid": "srv2"}}, "endpoint_uuid": {"uuid": "eth1"}}
+            ]
+        }
+    ]
+}

@@ -1,0 +1,63 @@
+TFS/Components:
+---------------
+
+variables:
+name=component
+    query=metrics(tfs_)
+    regex=/tfs_(.+)_rpc_.*/
+name=method
+    query=metrics(tfs_[[component]]_rpc_)
+    regex=/tfs_[[component]]_rpc_(.+)_histogram_duration_bucket/
+
+plots:
+tfs_[[component]]_rpc_[[method]]_counter_requests_started_total
+tfs_[[component]]_rpc_[[method]]_counter_requests_completed_total
+tfs_[[component]]_rpc_[[method]]_counter_requests_failed_total
+tfs_[[component]]_rpc_[[method]]_histogram_duration_sum
+#sum(increase(tfs_[[component]]_rpc_[[method]]_histogram_duration_bucket[$__rate_interval])) by (le)
+sum(
+    max_over_time(tfs_[[component]]_rpc_[[method]]_histogram_duration_bucket{pod=~"[[pod]]"}[1m]) -
+    min_over_time(tfs_[[component]]_rpc_[[method]]_histogram_duration_bucket{pod=~"[[pod]]"}[1m])
+) by (le)
+
+
+TFS/Device/Driver:
+------------------
+
+variables:
+name=method
+    query=metrics(tfs_device_driver_.+)
+    regex=/tfs_device_driver_(.+config)_histogram_duration_bucket/
+name=driver
+    query=label_values(tfs_device_driver_[[method]]_histogram_duration_bucket, driver)
+    regex=
+
+plots:
+tfs_device_driver_[[method]]_counter_requests_started_total{driver="[[driver]]"}
+tfs_device_driver_[[method]]_counter_requests_completed_total{driver="[[driver]]"}
+tfs_device_driver_[[method]]_counter_requests_failed_total{driver="[[driver]]"}
+tfs_device_driver_[[method]]_histogram_duration_sum{driver="[[driver]]"}
+#sum(increase(tfs_device_driver_[[method]]_histogram_duration_bucket{driver="[[driver]]"}[$__rate_interval])) by (le)
+sum(
+    max_over_time(tfs_device_driver_[[method]]_histogram_duration_bucket{driver="[[driver]]", pod=~"deviceservice-[[pod]]"}[1m]) -
+    min_over_time(tfs_device_driver_[[method]]_histogram_duration_bucket{driver="[[driver]]", pod=~"deviceservice-[[pod]]"}[1m])
+) by (le)
+
+variables:
+name=method
+    query=metrics(tfs_service_handler_.+)
+    regex=/tfs_service_handler_(.+config)_histogram_duration_bucket/
+name=driver
+    query=label_values(tfs_service_handler_[[method]]_histogram_duration_bucket, handler)
+    regex=
+
+plots:
+tfs_service_handler_[[method]]_counter_requests_started_total{handler="[[handler]]"}
+tfs_service_handler_[[method]]_counter_requests_completed_total{handler="[[handler]]"}
+tfs_service_handler_[[method]]_counter_requests_failed_total{handler="[[handler]]"}
+tfs_service_handler_[[method]]_histogram_duration_sum{handler="[[handler]]"}
+#sum(increase(tfs_service_handler_[[method]]_histogram_duration_bucket{handler="[[handler]]"}[$__rate_interval])) by (le)
+sum(
+    max_over_time(tfs_service_handler_[[method]]_histogram_duration_bucket{handler=~"[[handler]]", pod=~"serviceservice-[[pod]]"}[1m]) -
+    min_over_time(tfs_service_handler_[[method]]_histogram_duration_bucket{handler=~"[[handler]]", pod=~"serviceservice-[[pod]]"}[1m])
+) by (le)

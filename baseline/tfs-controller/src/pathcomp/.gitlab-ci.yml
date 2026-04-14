@@ -1,0 +1,195 @@
+# Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Build, tag, and push the Docker image to the GitLab Docker registry
+build pathcomp:
+  variables:
+    IMAGE_NAME: 'pathcomp' # name of the microservice
+    IMAGE_TAG: 'latest' # tag of the container image (production, development, etc)
+  stage: build
+  before_script:
+    - docker image prune --force
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+  script:
+    # This first build tags the builder resulting image to prevent being removed by dangling image removal command
+    - docker buildx build -t "${IMAGE_NAME}-backend:${IMAGE_TAG}-builder" --target builder -f ./src/$IMAGE_NAME/backend/Dockerfile .
+    - docker buildx build -t "${IMAGE_NAME}-backend:${IMAGE_TAG}" -f ./src/$IMAGE_NAME/backend/Dockerfile .
+    - docker buildx build -t "${IMAGE_NAME}-frontend:${IMAGE_TAG}" -f ./src/$IMAGE_NAME/frontend/Dockerfile .
+    - docker tag "${IMAGE_NAME}-backend:${IMAGE_TAG}-builder" "$CI_REGISTRY_IMAGE/${IMAGE_NAME}-backend:${IMAGE_TAG}-builder"
+    - docker tag "${IMAGE_NAME}-backend:${IMAGE_TAG}" "$CI_REGISTRY_IMAGE/${IMAGE_NAME}-backend:${IMAGE_TAG}"
+    - docker tag "${IMAGE_NAME}-frontend:${IMAGE_TAG}" "$CI_REGISTRY_IMAGE/${IMAGE_NAME}-frontend:${IMAGE_TAG}"
+    - docker push "$CI_REGISTRY_IMAGE/${IMAGE_NAME}-backend:${IMAGE_TAG}-builder"
+    - docker push "$CI_REGISTRY_IMAGE/${IMAGE_NAME}-backend:${IMAGE_TAG}"
+    - docker push "$CI_REGISTRY_IMAGE/${IMAGE_NAME}-frontend:${IMAGE_TAG}"
+  after_script:
+    - docker image prune --force
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop" || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH)'
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == "develop"'
+    - changes:
+      - src/common/**/*.py
+      - proto/*.proto
+      - src/$IMAGE_NAME/.gitlab-ci.yml
+      - src/$IMAGE_NAME/backend/**/*.{c,h,conf}
+      - src/$IMAGE_NAME/backend/Makefile
+      - src/$IMAGE_NAME/backend/Dockerfile
+      - src/$IMAGE_NAME/frontend/**/*.{py,in,yml}
+      - src/$IMAGE_NAME/frontend/Dockerfile
+      - src/$IMAGE_NAME/frontend/tests/*.py
+      - manifests/${IMAGE_NAME}service.yaml
+      - .gitlab-ci.yml
+
+# Apply unit test to the component
+unit_test pathcomp-backend:
+  variables:
+    IMAGE_NAME: 'pathcomp' # name of the microservice
+    IMAGE_TAG: 'latest' # tag of the container image (production, development, etc)
+  stage: unit_test
+  needs:
+    - build pathcomp
+  before_script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+    - if docker network list | grep teraflowbridge; then echo "teraflowbridge is already created"; else docker network create -d bridge teraflowbridge; fi
+    - if docker container ls | grep ${IMAGE_NAME}-frontend; then docker rm -f ${IMAGE_NAME}-frontend; else echo "${IMAGE_NAME}-frontend image is not in the system"; fi
+    - if docker container ls | grep ${IMAGE_NAME}-backend; then docker rm -f ${IMAGE_NAME}-backend; else echo "${IMAGE_NAME}-backend image is not in the system"; fi
+    - docker container prune -f
+  script:
+    - docker pull "$CI_REGISTRY_IMAGE/${IMAGE_NAME}-backend:${IMAGE_TAG}"
+    - docker pull "$CI_REGISTRY_IMAGE/${IMAGE_NAME}-backend:${IMAGE_TAG}-builder"
+    - docker ps -a
+    #- docker run --name ${IMAGE_NAME}-backend -d -p 8081:8081 -v "$PWD/src/${IMAGE_NAME}/backend/tests:/opt/results" --network=teraflowbridge "$CI_REGISTRY_IMAGE/${IMAGE_NAME}-backend:${IMAGE_TAG}-builder"
+    - docker run --name ${IMAGE_NAME}-backend -d -p 8081:8081 --network=teraflowbridge "$CI_REGISTRY_IMAGE/${IMAGE_NAME}-backend:${IMAGE_TAG}-builder"
+    - sleep 5
+    - docker ps -a
+    - docker logs ${IMAGE_NAME}-backend
+    - docker exec -i ${IMAGE_NAME}-backend bash -c "curl -0 -v -X POST -H 'Expect:' -H 'Content-Type:\ application/json' http://127.0.0.1:8081/pathComp/api/v1/compRoute -d @/var/teraflow/tests/pc-req.json"
+    - docker kill --signal=SIGUSR1 pathcomp-backend
+    - docker exec -i ${IMAGE_NAME}-backend bash -c "gcovr"
+  coverage: '/TOTAL\s+\d+\s+\d+\s+(\d+%)/'
+  after_script:
+    - docker logs ${IMAGE_NAME}-backend
+    - docker rm -f ${IMAGE_NAME}-backend
+    - docker network rm teraflowbridge
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop" || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH)'
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == "develop"'
+    - changes:
+      - src/common/**/*.py
+      - proto/*.proto
+      - src/$IMAGE_NAME/.gitlab-ci.yml
+      - src/$IMAGE_NAME/backend/**/*.{c,h,conf}
+      - src/$IMAGE_NAME/backend/Makefile
+      - src/$IMAGE_NAME/backend/Dockerfile
+      - manifests/${IMAGE_NAME}service.yaml
+      - .gitlab-ci.yml
+  #artifacts:
+  #    when: always
+  #    reports:
+  #      junit: src/$IMAGE_NAME/backend/tests/${IMAGE_NAME}-backend_report.xml
+
+# Apply unit test to the component
+unit_test pathcomp-frontend:
+  variables:
+    IMAGE_NAME: 'pathcomp' # name of the microservice
+    IMAGE_TAG: 'latest' # tag of the container image (production, development, etc)
+  stage: unit_test
+  needs:
+    - build pathcomp
+  before_script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+    - if docker network list | grep teraflowbridge; then echo "teraflowbridge is already created"; else docker network create --driver=bridge teraflowbridge; fi
+    - if docker container ls | grep ${IMAGE_NAME}-frontend; then docker rm -f ${IMAGE_NAME}-frontend; else echo "${IMAGE_NAME}-frontend image is not in the system"; fi
+    - if docker container ls | grep ${IMAGE_NAME}-backend; then docker rm -f ${IMAGE_NAME}-backend; else echo "${IMAGE_NAME}-backend image is not in the system"; fi
+    - docker container prune -f
+  script:
+    - docker pull "$CI_REGISTRY_IMAGE/${IMAGE_NAME}-frontend:${IMAGE_TAG}"
+    - docker pull "$CI_REGISTRY_IMAGE/${IMAGE_NAME}-backend:${IMAGE_TAG}"
+    - >
+      docker run --name ${IMAGE_NAME}-backend -d -p 8081:8081 --network=teraflowbridge
+      --volume "$PWD/src/${IMAGE_NAME}/backend/tests:/opt/results"
+      $CI_REGISTRY_IMAGE/${IMAGE_NAME}-backend:${IMAGE_TAG}
+    - PATHCOMP_BACKEND_HOST=$(docker inspect ${IMAGE_NAME}-backend --format "{{.NetworkSettings.Networks.teraflowbridge.IPAddress}}")
+    - echo $PATHCOMP_BACKEND_HOST
+    - sleep 1
+    - >
+      docker run --name ${IMAGE_NAME}-frontend -d -p 10020:10020 --network=teraflowbridge
+      --volume "$PWD/src/${IMAGE_NAME}/frontend/tests:/opt/results"
+      --env "PATHCOMP_BACKEND_HOST=${PATHCOMP_BACKEND_HOST}"
+      --env "PATHCOMP_BACKEND_PORT=8081"
+      $CI_REGISTRY_IMAGE/${IMAGE_NAME}-frontend:${IMAGE_TAG}
+    - sleep 1
+    - docker exec -i ${IMAGE_NAME}-frontend bash -c "env"
+    - docker exec -i ${IMAGE_NAME}-backend bash -c "env"
+    - sleep 5
+    - docker ps -a
+    - docker logs ${IMAGE_NAME}-frontend
+    - docker logs ${IMAGE_NAME}-backend
+    - >
+      docker exec -i ${IMAGE_NAME}-frontend bash -c 
+      "coverage run -m pytest --log-level=DEBUG --verbose --junitxml=/opt/results/${IMAGE_NAME}-frontend_report.xml $IMAGE_NAME/frontend/tests/test_unitary.py $IMAGE_NAME/frontend/tests/test_unitary_pathcomp_forecaster.py"
+    - docker exec -i ${IMAGE_NAME}-frontend bash -c "coverage report --include='${IMAGE_NAME}/*' --show-missing"
+  coverage: '/TOTAL\s+\d+\s+\d+\s+(\d+%)/'
+  after_script:
+    - docker ps -a
+    - docker logs ${IMAGE_NAME}-frontend
+    - docker logs ${IMAGE_NAME}-backend
+    - docker rm -f ${IMAGE_NAME}-frontend
+    - docker rm -f ${IMAGE_NAME}-backend
+    - docker network rm teraflowbridge
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop" || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH)'
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == "develop"'
+    - changes:
+      - src/common/**/*.py
+      - proto/*.proto
+      - src/$IMAGE_NAME/.gitlab-ci.yml
+      - src/$IMAGE_NAME/frontend/**/*.{py,in,yml}
+      - src/$IMAGE_NAME/frontend/Dockerfile
+      - src/$IMAGE_NAME/frontend/tests/*.py
+      - src/$IMAGE_NAME/backend/**/*.{c,h,conf}
+      - src/$IMAGE_NAME/backend/Makefile
+      - src/$IMAGE_NAME/backend/Dockerfile
+      - manifests/${IMAGE_NAME}service.yaml
+      - .gitlab-ci.yml
+  artifacts:
+      when: always
+      reports:
+        junit: src/$IMAGE_NAME/frontend/tests/${IMAGE_NAME}-frontend_report.xml
+
+## Deployment of the service in Kubernetes Cluster
+#deploy pathcomp:
+#  variables:
+#    IMAGE_NAME: 'pathcomp' # name of the microservice
+#    IMAGE_TAG: 'latest' # tag of the container image (production, development, etc)
+#  stage: deploy
+#  needs:
+#    - unit test pathcomp-backend
+#    - unit test pathcomp-frontend
+#    # - integ_test execute
+#  script:
+#    - 'sed -i "s/$IMAGE_NAME:.*/$IMAGE_NAME:${IMAGE_TAG}/" manifests/${IMAGE_NAME}service.yaml'
+#    - kubectl version
+#    - kubectl get all
+#    - kubectl apply -f "manifests/${IMAGE_NAME}service.yaml"
+#    - kubectl get all
+#  # environment:
+#  #   name: test
+#  #   url: https://example.com
+#  #   kubernetes:
+#  #     namespace: test
+#  rules:
+#    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop" || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH)'
+#      when: manual    
+#    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == "develop"'
+#      when: manual

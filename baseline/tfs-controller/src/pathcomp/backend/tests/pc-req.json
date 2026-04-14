@@ -1,0 +1,1230 @@
+{
+    "deviceList": [
+        {
+            "device_Id": "A1",
+            "device_endpoints": [
+                {
+                    "available-capacity": {
+                        "total-size": {
+                            "unit": 5,
+                            "value": 200
+                        }
+                    },
+                    "endpoint_id": {
+                        "device_id": "A1",
+                        "endpoint_uuid": "1",
+                        "topology_id": {
+                            "contextId": "admin",
+                            "topology_uuid": "A"
+                        }
+                    },
+                    "endpoint_type": "copper",
+                    "link_port_direction": 0,
+                    "termination-direction": 0,
+                    "termination-state": 4,
+                    "total-potential-capacity": {
+                        "total-size": {
+                            "unit": 5,
+                            "value": 200
+                        }
+                    }
+                },
+                {
+                    "available-capacity": {
+                        "total-size": {
+                            "unit": 5,
+                            "value": 200
+                        }
+                    },
+                    "endpoint_id": {
+                        "device_id": "A1",
+                        "endpoint_uuid": "2",
+                        "topology_id": {
+                            "contextId": "admin",
+                            "topology_uuid": "A"
+                        }
+                    },
+                    "endpoint_type": "copper",
+                    "link_port_direction": 0,
+                    "termination-direction": 0,
+                    "termination-state": 4,
+                    "total-potential-capacity": {
+                        "total-size": {
+                            "unit": 5,
+                            "value": 200
+                        }
+                    }
+                },
+                {
+                    "available-capacity": {
+                        "total-size": {
+                            "unit": 5,
+                            "value": 200
+                        }
+                    },
+                    "endpoint_id": {
+                        "device_id": "A1",
+                        "endpoint_uuid": "2000",
+                        "topology_id": {
+                            "contextId": "admin",
+                            "topology_uuid": "A"
+                        }
+                    },
+                    "endpoint_type": "copper",
+                    "link_port_direction": 0,
+                    "termination-direction": 0,
+                    "termination-state": 4,
+                    "total-potential-capacity": {
+                        "total-size": {
+                            "unit": 5,
+                            "value": 200
+                        }
+                    }
+                }
+            ],
+            "device_type": "emu-packet-router"
+        },
+        {
+            "device_Id": "A2",
+            "device_endpoints": [
+                {
+                    "available-capacity": {
+                        "total-size": {
+                            "unit": 5,
+                            "value": 200
+                        }
+                    },
+                    "endpoint_id": {
+                        "device_id": "A2",
+                        "endpoint_uuid": "1",
+                        "topology_id": {
+                            "contextId": "admin",
+                            "topology_uuid": "A"
+                        }
+                    },
+                    "endpoint_type": "copper",
+                    "link_port_direction": 0,
+                    "termination-direction": 0,
+                    "termination-state": 4,
+                    "total-potential-capacity": {
+                        "total-size": {
+                            "unit": 5,
+                            "value": 200
+                        }
+                    }
+                },
+                {
+                    "available-capacity": {
+                        "total-size": {
+                            "unit": 5,
+                            "value": 200
+                        }
+                    },
+                    "endpoint_id": {
+                        "device_id": "A2",
+                        "endpoint_uuid": "2",
+                        "topology_id": {
+                            "contextId": "admin",
+                            "topology_uuid": "A"
+                        }
+                    },
+                    "endpoint_type": "copper",
+                    "link_port_direction": 0,
+                    "termination-direction": 0,
+                    "termination-state": 4,
+                    "total-potential-capacity": {
+                        "total-size": {
+                            "unit": 5,
+                            "value": 200
+                        }
+                    }
+                },
+                {
+                    "available-capacity": {
+                        "total-size": {
+                            "unit": 5,
+                            "value": 200
+                        }
+                    },
+                    "endpoint_id": {
+                        "device_id": "A2",
+                        "endpoint_uuid": "1001",
+                        "topology_id": {
+                            "contextId": "admin",
+                            "topology_uuid": "A"
+                        }
+                    },
+                    "endpoint_type": "copper",
+                    "link_port_direction": 0,
+                    "termination-direction": 0,
+                    "termination-state": 4,
+                    "total-potential-capacity": {
+                        "total-size": {
+                            "unit": 5,
+                            "value": 200
+                        }
+                    }
+                }
+            ],
+            "device_type": "emu-packet-router"
+        },
+        {
+            "device_Id": "A3",
+            "device_endpoints": [
+                {
+                    "available-capacity": {
+                        "total-size": {
+                            "unit": 5,
+                            "value": 200
+                        }
+                    },
+                    "endpoint_id": {
+                        "device_id": "A3",
+                        "endpoint_uuid": "1",
+                        "topology_id": {
+                            "contextId": "admin",
+                            "topology_uuid": "A"
+                        }
+                    },
+                    "endpoint_type": "copper",
+                    "link_port_direction": 0,
+                    "termination-direction": 0,
+                    "termination-state": 4,
+                    "total-potential-capacity": {
+                        "total-size": {
+                            "unit": 5,
+                            "value": 200
+                        }
+                    }
+                },
+                {
+                    "available-capacity": {
+                        "total-size": {
+                            "unit": 5,
+                            "value": 200
+                        }
+                    },
+                    "endpoint_id": {
+                        "device_id": "A3",
+                        "endpoint_uuid": "2",
+                        "topology_id": {
+                            "contextId": "admin",
+                            "topology_uuid": "A"
+                        }
+                    },
+                    "endpoint_type": "copper",
+                    "link_port_direction": 0,
+                    "termination-direction": 0,
+                    "termination-state": 4,
+                    "total-potential-capacity": {
+                        "total-size": {
+                            "unit": 5,
+                            "value": 200
+                        }
+                    }
+                }
+            ],
+            "device_type": "emu-packet-router"
+        },
+        {
+            "device_Id": "B1",
+            "device_endpoints": [
+                {
+                    "available-capacity": {
+                        "total-size": {
+                            "unit": 5,
+                            "value": 200
+                        }
+                    },
+                    "endpoint_id": {
+                        "device_id": "B1",
+                        "endpoint_uuid": "1",
+                        "topology_id": {
+                            "contextId": "admin",
+                            "topology_uuid": "B"
+                        }
+                    },
+                    "endpoint_type": "copper",
+                    "link_port_direction": 0,
+                    "termination-direction": 0,
+                    "termination-state": 4,
+                    "total-potential-capacity": {
+                        "total-size": {
+                            "unit": 5,
+                            "value": 200
+                        }
+                    }
+                },
+                {
+                    "available-capacity": {
+                        "total-size": {
+                            "unit": 5,
+                            "value": 200
+                        }
+                    },
+                    "endpoint_id": {
+                        "device_id": "B1",
+                        "endpoint_uuid": "2",
+                        "topology_id": {
+                            "contextId": "admin",
+                            "topology_uuid": "B"
+                        }
+                    },
+                    "endpoint_type": "copper",
+                    "link_port_direction": 0,
+                    "termination-direction": 0,
+                    "termination-state": 4,
+                    "total-potential-capacity": {
+                        "total-size": {
+                            "unit": 5,
+                            "value": 200
+                        }
+                    }
+                },
+                {
+                    "available-capacity": {
+                        "total-size": {
+                            "unit": 5,
+                            "value": 200
+                        }
+                    },
+                    "endpoint_id": {
+                        "device_id": "B1",
+                        "endpoint_uuid": "2000",
+                        "topology_id": {
+                            "contextId": "admin",
+                            "topology_uuid": "B"
+                        }
+                    },
+                    "endpoint_type": "copper",
+                    "link_port_direction": 0,
+                    "termination-direction": 0,
+                    "termination-state": 4,
+                    "total-potential-capacity": {
+                        "total-size": {
+                            "unit": 5,
+                            "value": 200
+                        }
+                    }
+                }
+            ],
+            "device_type": "emu-packet-router"
+        },
+        {
+            "device_Id": "B2",
+            "device_endpoints": [
+                {
+                    "available-capacity": {
+                        "total-size": {
+                            "unit": 5,
+                            "value": 200
+                        }
+                    },
+                    "endpoint_id": {
+                        "device_id": "B2",
+                        "endpoint_uuid": "1",
+                        "topology_id": {
+                            "contextId": "admin",
+                            "topology_uuid": "B"
+                        }
+                    },
+                    "endpoint_type": "copper",
+                    "link_port_direction": 0,
+                    "termination-direction": 0,
+                    "termination-state": 4,
+                    "total-potential-capacity": {
+                        "total-size": {
+                            "unit": 5,
+                            "value": 200
+                        }
+                    }
+                },
+                {
+                    "available-capacity": {
+                        "total-size": {
+                            "unit": 5,
+                            "value": 200
+                        }
+                    },
+                    "endpoint_id": {
+                        "device_id": "B2",
+                        "endpoint_uuid": "2",
+                        "topology_id": {
+                            "contextId": "admin",
+                            "topology_uuid": "B"
+                        }
+                    },
+                    "endpoint_type": "copper",
+                    "link_port_direction": 0,
+                    "termination-direction": 0,
+                    "termination-state": 4,
+                    "total-potential-capacity": {
+                        "total-size": {
+                            "unit": 5,
+                            "value": 200
+                        }
+                    }
+                },
+                {
+                    "available-capacity": {
+                        "total-size": {
+                            "unit": 5,
+                            "value": 200
+                        }
+                    },
+                    "endpoint_id": {
+                        "device_id": "B2",
+                        "endpoint_uuid": "1002",
+                        "topology_id": {
+                            "contextId": "admin",
+                            "topology_uuid": "B"
+                        }
+                    },
+                    "endpoint_type": "copper",
+                    "link_port_direction": 0,
+                    "termination-direction": 0,
+                    "termination-state": 4,
+                    "total-potential-capacity": {
+                        "total-size": {
+                            "unit": 5,
+                            "value": 200
+                        }
+                    }
+                }
+            ],
+            "device_type": "emu-packet-router"
+        },
+        {
+            "device_Id": "B3",
+            "device_endpoints": [
+                {
+                    "available-capacity": {
+                        "total-size": {
+                            "unit": 5,
+                            "value": 200
+                        }
+                    },
+                    "endpoint_id": {
+                        "device_id": "B3",
+                        "endpoint_uuid": "1",
+                        "topology_id": {
+                            "contextId": "admin",
+                            "topology_uuid": "B"
+                        }
+                    },
+                    "endpoint_type": "copper",
+                    "link_port_direction": 0,
+                    "termination-direction": 0,
+                    "termination-state": 4,
+                    "total-potential-capacity": {
+                        "total-size": {
+                            "unit": 5,
+                            "value": 200
+                        }
+                    }
+                },
+                {
+                    "available-capacity": {
+                        "total-size": {
+                            "unit": 5,
+                            "value": 200
+                        }
+                    },
+                    "endpoint_id": {
+                        "device_id": "B3",
+                        "endpoint_uuid": "2",
+                        "topology_id": {
+                            "contextId": "admin",
+                            "topology_uuid": "B"
+                        }
+                    },
+                    "endpoint_type": "copper",
+                    "link_port_direction": 0,
+                    "termination-direction": 0,
+                    "termination-state": 4,
+                    "total-potential-capacity": {
+                        "total-size": {
+                            "unit": 5,
+                            "value": 200
+                        }
+                    }
+                }
+            ],
+            "device_type": "emu-packet-router"
+        },
+        {
+            "device_Id": "C1",
+            "device_endpoints": [
+                {
+                    "available-capacity": {
+                        "total-size": {
+                            "unit": 5,
+                            "value": 200
+                        }
+                    },
+                    "endpoint_id": {
+                        "device_id": "C1",
+                        "endpoint_uuid": "1",
+                        "topology_id": {
+                            "contextId": "admin",
+                            "topology_uuid": "C"
+                        }
+                    },
+                    "endpoint_type": "copper",
+                    "link_port_direction": 0,
+                    "termination-direction": 0,
+                    "termination-state": 4,
+                    "total-potential-capacity": {
+                        "total-size": {
+                            "unit": 5,
+                            "value": 200
+                        }
+                    }
+                },
+                {
+                    "available-capacity": {
+                        "total-size": {
+                            "unit": 5,
+                            "value": 200
+                        }
+                    },
+                    "endpoint_id": {
+                        "device_id": "C1",
+                        "endpoint_uuid": "2",
+                        "topology_id": {
+                            "contextId": "admin",
+                            "topology_uuid": "C"
+                        }
+                    },
+                    "endpoint_type": "copper",
+                    "link_port_direction": 0,
+                    "termination-direction": 0,
+                    "termination-state": 4,
+                    "total-potential-capacity": {
+                        "total-size": {
+                            "unit": 5,
+                            "value": 200
+                        }
+                    }
+                },
+                {
+                    "available-capacity": {
+                        "total-size": {
+                            "unit": 5,
+                            "value": 200
+                        }
+                    },
+                    "endpoint_id": {
+                        "device_id": "C1",
+                        "endpoint_uuid": "1001",
+                        "topology_id": {
+                            "contextId": "admin",
+                            "topology_uuid": "C"
+                        }
+                    },
+                    "endpoint_type": "copper",
+                    "link_port_direction": 0,
+                    "termination-direction": 0,
+                    "termination-state": 4,
+                    "total-potential-capacity": {
+                        "total-size": {
+                            "unit": 5,
+                            "value": 200
+                        }
+                    }
+                }
+            ],
+            "device_type": "emu-packet-router"
+        },
+        {
+            "device_Id": "C2",
+            "device_endpoints": [
+                {
+                    "available-capacity": {
+                        "total-size": {
+                            "unit": 5,
+                            "value": 200
+                        }
+                    },
+                    "endpoint_id": {
+                        "device_id": "C2",
+                        "endpoint_uuid": "1",
+                        "topology_id": {
+                            "contextId": "admin",
+                            "topology_uuid": "C"
+                        }
+                    },
+                    "endpoint_type": "copper",
+                    "link_port_direction": 0,
+                    "termination-direction": 0,
+                    "termination-state": 4,
+                    "total-potential-capacity": {
+                        "total-size": {
+                            "unit": 5,
+                            "value": 200
+                        }
+                    }
+                },
+                {
+                    "available-capacity": {
+                        "total-size": {
+                            "unit": 5,
+                            "value": 200
+                        }
+                    },
+                    "endpoint_id": {
+                        "device_id": "C2",
+                        "endpoint_uuid": "2",
+                        "topology_id": {
+                            "contextId": "admin",
+                            "topology_uuid": "C"
+                        }
+                    },
+                    "endpoint_type": "copper",
+                    "link_port_direction": 0,
+                    "termination-direction": 0,
+                    "termination-state": 4,
+                    "total-potential-capacity": {
+                        "total-size": {
+                            "unit": 5,
+                            "value": 200
+                        }
+                    }
+                }
+            ],
+            "device_type": "emu-packet-router"
+        },
+        {
+            "device_Id": "C3",
+            "device_endpoints": [
+                {
+                    "available-capacity": {
+                        "total-size": {
+                            "unit": 5,
+                            "value": 200
+                        }
+                    },
+                    "endpoint_id": {
+                        "device_id": "C3",
+                        "endpoint_uuid": "1",
+                        "topology_id": {
+                            "contextId": "admin",
+                            "topology_uuid": "C"
+                        }
+                    },
+                    "endpoint_type": "copper",
+                    "link_port_direction": 0,
+                    "termination-direction": 0,
+                    "termination-state": 4,
+                    "total-potential-capacity": {
+                        "total-size": {
+                            "unit": 5,
+                            "value": 200
+                        }
+                    }
+                },
+                {
+                    "available-capacity": {
+                        "total-size": {
+                            "unit": 5,
+                            "value": 200
+                        }
+                    },
+                    "endpoint_id": {
+                        "device_id": "C3",
+                        "endpoint_uuid": "2",
+                        "topology_id": {
+                            "contextId": "admin",
+                            "topology_uuid": "C"
+                        }
+                    },
+                    "endpoint_type": "copper",
+                    "link_port_direction": 0,
+                    "termination-direction": 0,
+                    "termination-state": 4,
+                    "total-potential-capacity": {
+                        "total-size": {
+                            "unit": 5,
+                            "value": 200
+                        }
+                    }
+                },
+                {
+                    "available-capacity": {
+                        "total-size": {
+                            "unit": 5,
+                            "value": 200
+                        }
+                    },
+                    "endpoint_id": {
+                        "device_id": "C3",
+                        "endpoint_uuid": "1002",
+                        "topology_id": {
+                            "contextId": "admin",
+                            "topology_uuid": "C"
+                        }
+                    },
+                    "endpoint_type": "copper",
+                    "link_port_direction": 0,
+                    "termination-direction": 0,
+                    "termination-state": 4,
+                    "total-potential-capacity": {
+                        "total-size": {
+                            "unit": 5,
+                            "value": 200
+                        }
+                    }
+                }
+            ],
+            "device_type": "emu-packet-router"
+        }
+    ],
+    "linkList": [
+        {
+            "available-capacity": {
+                "total-size": {
+                    "unit": 5,
+                    "value": 200
+                }
+            },
+            "cost-characteristics": {
+                "cost-algorithm": "0",
+                "cost-name": "linkcost",
+                "cost-value": "1"
+            },
+            "forwarding_direction": 0,
+            "latency-characteristics": {
+                "fixed-latency-characteristic": "2"
+            },
+            "link_Id": "A1/1==A2/1",
+            "link_endpoint_ids": [
+                {
+                    "endpoint_id": {
+                        "device_id": "A1",
+                        "endpoint_uuid": "1",
+                        "topology_id": {
+                            "contextId": "admin",
+                            "topology_uuid": "A"
+                        }
+                    }
+                },
+                {
+                    "endpoint_id": {
+                        "device_id": "A2",
+                        "endpoint_uuid": "1",
+                        "topology_id": {
+                            "contextId": "admin",
+                            "topology_uuid": "A"
+                        }
+                    }
+                }
+            ],
+            "total-potential-capacity": {
+                "total-size": {
+                    "unit": 5,
+                    "value": 200
+                }
+            }
+        },
+        {
+            "available-capacity": {
+                "total-size": {
+                    "unit": 5,
+                    "value": 200
+                }
+            },
+            "cost-characteristics": {
+                "cost-algorithm": "0",
+                "cost-name": "linkcost",
+                "cost-value": "1"
+            },
+            "forwarding_direction": 0,
+            "latency-characteristics": {
+                "fixed-latency-characteristic": "2"
+            },
+            "link_Id": "A1/2==A3/1",
+            "link_endpoint_ids": [
+                {
+                    "endpoint_id": {
+                        "device_id": "A1",
+                        "endpoint_uuid": "2",
+                        "topology_id": {
+                            "contextId": "admin",
+                            "topology_uuid": "A"
+                        }
+                    }
+                },
+                {
+                    "endpoint_id": {
+                        "device_id": "A3",
+                        "endpoint_uuid": "1",
+                        "topology_id": {
+                            "contextId": "admin",
+                            "topology_uuid": "A"
+                        }
+                    }
+                }
+            ],
+            "total-potential-capacity": {
+                "total-size": {
+                    "unit": 5,
+                    "value": 200
+                }
+            }
+        },
+        {
+            "available-capacity": {
+                "total-size": {
+                    "unit": 5,
+                    "value": 200
+                }
+            },
+            "cost-characteristics": {
+                "cost-algorithm": "0",
+                "cost-name": "linkcost",
+                "cost-value": "1"
+            },
+            "forwarding_direction": 0,
+            "latency-characteristics": {
+                "fixed-latency-characteristic": "2"
+            },
+            "link_Id": "A2/1001==C3/1002",
+            "link_endpoint_ids": [
+                {
+                    "endpoint_id": {
+                        "device_id": "A2",
+                        "endpoint_uuid": "1001",
+                        "topology_id": {
+                            "contextId": "admin",
+                            "topology_uuid": "A"
+                        }
+                    }
+                },
+                {
+                    "endpoint_id": {
+                        "device_id": "C3",
+                        "endpoint_uuid": "1002",
+                        "topology_id": {
+                            "contextId": "admin",
+                            "topology_uuid": "C"
+                        }
+                    }
+                }
+            ],
+            "total-potential-capacity": {
+                "total-size": {
+                    "unit": 5,
+                    "value": 200
+                }
+            }
+        },
+        {
+            "available-capacity": {
+                "total-size": {
+                    "unit": 5,
+                    "value": 200
+                }
+            },
+            "cost-characteristics": {
+                "cost-algorithm": "0",
+                "cost-name": "linkcost",
+                "cost-value": "1"
+            },
+            "forwarding_direction": 0,
+            "latency-characteristics": {
+                "fixed-latency-characteristic": "2"
+            },
+            "link_Id": "A2/2==A3/2",
+            "link_endpoint_ids": [
+                {
+                    "endpoint_id": {
+                        "device_id": "A2",
+                        "endpoint_uuid": "2",
+                        "topology_id": {
+                            "contextId": "admin",
+                            "topology_uuid": "A"
+                        }
+                    }
+                },
+                {
+                    "endpoint_id": {
+                        "device_id": "A3",
+                        "endpoint_uuid": "2",
+                        "topology_id": {
+                            "contextId": "admin",
+                            "topology_uuid": "A"
+                        }
+                    }
+                }
+            ],
+            "total-potential-capacity": {
+                "total-size": {
+                    "unit": 5,
+                    "value": 200
+                }
+            }
+        },
+        {
+            "available-capacity": {
+                "total-size": {
+                    "unit": 5,
+                    "value": 200
+                }
+            },
+            "cost-characteristics": {
+                "cost-algorithm": "0",
+                "cost-name": "linkcost",
+                "cost-value": "1"
+            },
+            "forwarding_direction": 0,
+            "latency-characteristics": {
+                "fixed-latency-characteristic": "2"
+            },
+            "link_Id": "B1/1==B2/1",
+            "link_endpoint_ids": [
+                {
+                    "endpoint_id": {
+                        "device_id": "B1",
+                        "endpoint_uuid": "1",
+                        "topology_id": {
+                            "contextId": "admin",
+                            "topology_uuid": "B"
+                        }
+                    }
+                },
+                {
+                    "endpoint_id": {
+                        "device_id": "B2",
+                        "endpoint_uuid": "1",
+                        "topology_id": {
+                            "contextId": "admin",
+                            "topology_uuid": "B"
+                        }
+                    }
+                }
+            ],
+            "total-potential-capacity": {
+                "total-size": {
+                    "unit": 5,
+                    "value": 200
+                }
+            }
+        },
+        {
+            "available-capacity": {
+                "total-size": {
+                    "unit": 5,
+                    "value": 200
+                }
+            },
+            "cost-characteristics": {
+                "cost-algorithm": "0",
+                "cost-name": "linkcost",
+                "cost-value": "1"
+            },
+            "forwarding_direction": 0,
+            "latency-characteristics": {
+                "fixed-latency-characteristic": "2"
+            },
+            "link_Id": "B1/2==B3/1",
+            "link_endpoint_ids": [
+                {
+                    "endpoint_id": {
+                        "device_id": "B1",
+                        "endpoint_uuid": "2",
+                        "topology_id": {
+                            "contextId": "admin",
+                            "topology_uuid": "B"
+                        }
+                    }
+                },
+                {
+                    "endpoint_id": {
+                        "device_id": "B3",
+                        "endpoint_uuid": "1",
+                        "topology_id": {
+                            "contextId": "admin",
+                            "topology_uuid": "B"
+                        }
+                    }
+                }
+            ],
+            "total-potential-capacity": {
+                "total-size": {
+                    "unit": 5,
+                    "value": 200
+                }
+            }
+        },
+        {
+            "available-capacity": {
+                "total-size": {
+                    "unit": 5,
+                    "value": 200
+                }
+            },
+            "cost-characteristics": {
+                "cost-algorithm": "0",
+                "cost-name": "linkcost",
+                "cost-value": "1"
+            },
+            "forwarding_direction": 0,
+            "latency-characteristics": {
+                "fixed-latency-characteristic": "2"
+            },
+            "link_Id": "B2/2==B3/2",
+            "link_endpoint_ids": [
+                {
+                    "endpoint_id": {
+                        "device_id": "B2",
+                        "endpoint_uuid": "2",
+                        "topology_id": {
+                            "contextId": "admin",
+                            "topology_uuid": "B"
+                        }
+                    }
+                },
+                {
+                    "endpoint_id": {
+                        "device_id": "B3",
+                        "endpoint_uuid": "2",
+                        "topology_id": {
+                            "contextId": "admin",
+                            "topology_uuid": "B"
+                        }
+                    }
+                }
+            ],
+            "total-potential-capacity": {
+                "total-size": {
+                    "unit": 5,
+                    "value": 200
+                }
+            }
+        },
+        {
+            "available-capacity": {
+                "total-size": {
+                    "unit": 5,
+                    "value": 200
+                }
+            },
+            "cost-characteristics": {
+                "cost-algorithm": "0",
+                "cost-name": "linkcost",
+                "cost-value": "1"
+            },
+            "forwarding_direction": 0,
+            "latency-characteristics": {
+                "fixed-latency-characteristic": "2"
+            },
+            "link_Id": "C1/1001==B2/1002",
+            "link_endpoint_ids": [
+                {
+                    "endpoint_id": {
+                        "device_id": "C1",
+                        "endpoint_uuid": "1001",
+                        "topology_id": {
+                            "contextId": "admin",
+                            "topology_uuid": "C"
+                        }
+                    }
+                },
+                {
+                    "endpoint_id": {
+                        "device_id": "B2",
+                        "endpoint_uuid": "1002",
+                        "topology_id": {
+                            "contextId": "admin",
+                            "topology_uuid": "B"
+                        }
+                    }
+                }
+            ],
+            "total-potential-capacity": {
+                "total-size": {
+                    "unit": 5,
+                    "value": 200
+                }
+            }
+        },
+        {
+            "available-capacity": {
+                "total-size": {
+                    "unit": 5,
+                    "value": 200
+                }
+            },
+            "cost-characteristics": {
+                "cost-algorithm": "0",
+                "cost-name": "linkcost",
+                "cost-value": "1"
+            },
+            "forwarding_direction": 0,
+            "latency-characteristics": {
+                "fixed-latency-characteristic": "2"
+            },
+            "link_Id": "C1/1==C2/1",
+            "link_endpoint_ids": [
+                {
+                    "endpoint_id": {
+                        "device_id": "C1",
+                        "endpoint_uuid": "1",
+                        "topology_id": {
+                            "contextId": "admin",
+                            "topology_uuid": "C"
+                        }
+                    }
+                },
+                {
+                    "endpoint_id": {
+                        "device_id": "C2",
+                        "endpoint_uuid": "1",
+                        "topology_id": {
+                            "contextId": "admin",
+                            "topology_uuid": "C"
+                        }
+                    }
+                }
+            ],
+            "total-potential-capacity": {
+                "total-size": {
+                    "unit": 5,
+                    "value": 200
+                }
+            }
+        },
+        {
+            "available-capacity": {
+                "total-size": {
+                    "unit": 5,
+                    "value": 200
+                }
+            },
+            "cost-characteristics": {
+                "cost-algorithm": "0",
+                "cost-name": "linkcost",
+                "cost-value": "1"
+            },
+            "forwarding_direction": 0,
+            "latency-characteristics": {
+                "fixed-latency-characteristic": "2"
+            },
+            "link_Id": "C1/2==C3/1",
+            "link_endpoint_ids": [
+                {
+                    "endpoint_id": {
+                        "device_id": "C1",
+                        "endpoint_uuid": "2",
+                        "topology_id": {
+                            "contextId": "admin",
+                            "topology_uuid": "C"
+                        }
+                    }
+                },
+                {
+                    "endpoint_id": {
+                        "device_id": "C3",
+                        "endpoint_uuid": "1",
+                        "topology_id": {
+                            "contextId": "admin",
+                            "topology_uuid": "C"
+                        }
+                    }
+                }
+            ],
+            "total-potential-capacity": {
+                "total-size": {
+                    "unit": 5,
+                    "value": 200
+                }
+            }
+        },
+        {
+            "available-capacity": {
+                "total-size": {
+                    "unit": 5,
+                    "value": 200
+                }
+            },
+            "cost-characteristics": {
+                "cost-algorithm": "0",
+                "cost-name": "linkcost",
+                "cost-value": "1"
+            },
+            "forwarding_direction": 0,
+            "latency-characteristics": {
+                "fixed-latency-characteristic": "2"
+            },
+            "link_Id": "C2/2==C3/2",
+            "link_endpoint_ids": [
+                {
+                    "endpoint_id": {
+                        "device_id": "C2",
+                        "endpoint_uuid": "2",
+                        "topology_id": {
+                            "contextId": "admin",
+                            "topology_uuid": "C"
+                        }
+                    }
+                },
+                {
+                    "endpoint_id": {
+                        "device_id": "C3",
+                        "endpoint_uuid": "2",
+                        "topology_id": {
+                            "contextId": "admin",
+                            "topology_uuid": "C"
+                        }
+                    }
+                }
+            ],
+            "total-potential-capacity": {
+                "total-size": {
+                    "unit": 5,
+                    "value": 200
+                }
+            }
+        }
+    ],
+    "serviceList": [
+        {
+            "algId": "KSP",
+            "kPaths": 2,
+            "serviceId": {
+                "contextId": "admin",
+                "service_uuid": "svc:A1/2000==B1/2000"
+            },
+            "serviceType": 1,
+            "service_constraints": [
+                {
+                    "constraint_type": "bandwidth[gbps]",
+                    "constraint_value": "10.0"
+                },
+                {
+                    "constraint_type": "latency[ms]",
+                    "constraint_value": "12.0"
+                }
+            ],
+            "service_endpoints_ids": [
+                {
+                    "device_id": "A1",
+                    "endpoint_uuid": "2000",
+                    "topology_id": {
+                        "contextId": "admin",
+                        "topology_uuid": "A"
+                    }
+                },
+                {
+                    "device_id": "B1",
+                    "endpoint_uuid": "2000",
+                    "topology_id": {
+                        "contextId": "admin",
+                        "topology_uuid": "B"
+                    }
+                }
+            ],
+            "syncPaths": false
+        }
+    ]
+}

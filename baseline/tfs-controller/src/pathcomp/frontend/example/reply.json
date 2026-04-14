@@ -1,0 +1,92 @@
+{
+    "response-list": [
+        {
+            "serviceId": {
+                "contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+                "service_uuid": "651550d8-46a0-4f36-9fb9-21b8e4f1b8d2"
+            },
+            "service_endpoints_ids": [
+                {
+                    "topology_id": {
+                        "contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+                        "topology_uuid": "aaaaaaaa-aaaa-aaaa-aaaaaaaaaaa"
+                    },
+                    "device_id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaa11",
+                    "endpoint_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaa111"
+                },
+                {
+                    "topology_id": {
+                        "contextId": "b55a05a5-ae2d-4ff3-85ca-97fac0c56f91",
+                        "topology_uuid": "cccccccc-cccc-cccc-cccc-cccccccccccc"
+                    },
+                    "device_id": "cccccccc-cccc-cccc-cccc-cccccccccc33",
+                    "endpoint_uuid": "cccccccc-cccc-cccc-cccc-ccccccccc331"
+                }
+            ],
+            "path": [
+                {
+                    "path-capacity": {
+                        "total-size": {
+                            "value": 200,
+                            "unit": 0
+                        }
+                    },
+                    "path-latency": {
+                        "fixed-latency-characteristic": "8.000000"
+                    },
+                    "path-cost": {
+                        "cost-name": "",
+                        "cost-value": "4.000000",
+                        "cost-algorithm": "0.000000"
+                    },
+                    "link": [
+                        {
+                            "link_Id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaa1112",
+                            "topology": [
+                                {
+                                    "topology_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"
+                                },
+                                {
+                                    "topology_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"
+                                }
+                            ]
+                        },
+                        {
+                            "link_Id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaa1214",
+                            "topology": [
+                                {
+                                    "topology_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"
+                                },
+                                {
+                                    "topology_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"
+                                }
+                            ]
+                        },
+                        {
+                            "link_Id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaa1431",
+                            "topology": [
+                                {
+                                    "topology_uuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"
+                                },
+                                {
+                                    "topology_uuid": "cccccccc-cccc-cccc-cccc-cccccccccccc"
+                                }
+                            ]
+                        },
+                        {
+                            "link_Id": "cccccccc-cccc-cccc-cccc-cccccccc3133",
+                            "topology": [
+                                {
+                                    "topology_uuid": "cccccccc-cccc-cccc-cccc-cccccccccccc"
+                                },
+                                {
+                                    "topology_uuid": "cccccccc-cccc-cccc-cccc-cccccccccccc"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

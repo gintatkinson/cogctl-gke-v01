@@ -1,0 +1,17 @@
+{ 
+    "devices": [
+        {
+        "device_id": {"device_uuid":{"uuid":"smp-01"}},
+        "device_type": "smartnic",
+        "device_config": {"config_rules": [
+            {"action": 1, "custom": {
+                "resource_key": "config_rules",
+                "resource_value": {"pipeline_name":"pipeline_example","num_threads":2,"pipeline_batch_size":2048,"model_max_batch_size":4096,"input_file":"inputfile1.csv","output_file":"outputfile1.csv","nic_addr": "10.10.2.25", "gpu_addr":"11.6.15.2", "model_fea_length":8,"model_name":"modelname1","iterative":false,"server_url":"servertest.com","file_type":"csv","stages":{"FileSourceStage":{"stage_name":"FileSourceStage","FileSourceStage":{"fs_configuration":{"FsConf":{"mode":"FsConf"}},"filename":"file1.csv","file_type":"csv"}},"DeserializeStage":{"stage_name":"DeserializeStage","DeserializeStage":{"ds_configuration":{"DeserializeConf":{"mode":"DeserializeConf"}}}},"AbpPcapPreprocessingStage":{"stage_name":"AbpPcapPreprocessingStage","AbpPcapPreprocessingStage":{"apps_configuration":{"AppsConf":{"mode":"AppsConf"}}}},"MonitorStage":{"stage_name":"MonitorStage","MonitorStage":{"ms_configuration":{"MonitoringConf":{"mode":"MonitoringConf"}},"descriptions":"MetricMonitoring","unit":"kbps"}},"TritonInferenceStage":{"stage_name":"TritonInferenceStage","TritonInferenceStage":{"tis_configuration":{"TritonConf":{"mode":"TritonConf"}},"model_name":"Modeltest1","server_url":"servertest.com","force_convert_inputs":false}},"AddClassificationsStage":{"stage_name":"AddClassificationsStage","AddClassificationsStage":{"acs_configuration":{"ClassificationConf":{"mode":"ClassificationConf"}}}},"SerializeStage":{"stage_name":"SerializeStage","SerializeStage":{"ss_configuration":{"SerializeConf":{"mode":"SerializeConf"}}}},"WriteToFileStage":{"stage_name":"WriteToFileStage","WriteToFileStage":{"wfs_configuration":{"WFSConf":{"mode":"WFSConf"}},"wfs_filename":"file2.txt","overwrite":false}},"CustomStage":{"stage_name":"CustomStage","custom":{"name":{"field_name":"name","field_value":"test"}}}}}
+            }}
+        ]},
+        "device_operational_status": 1,
+        "device_drivers": ["smartnic"],
+        "device_endpoints": []
+        }
+    ]
+}

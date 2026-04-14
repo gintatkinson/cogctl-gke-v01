@@ -1,0 +1,203 @@
+# Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Build, tag, and push the Docker image to the GitLab Docker registry
+build analytics:
+  variables:
+    IMAGE_NAME: 'analytics'       # name of the microservice
+    IMAGE_TAG: 'latest'             # tag of the container image (production, development, etc)
+  stage: build
+  before_script:
+    - docker image prune --force
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+  script:
+    # This first build tags the builder resulting image to prevent being removed by dangling image removal command
+    # - docker buildx build -t "${IMAGE_NAME}-backend:${IMAGE_TAG}-builder" --target builder -f ./src/$IMAGE_NAME/backend/Dockerfile .
+    - docker buildx build -t "${IMAGE_NAME}-frontend:$IMAGE_TAG" -f ./src/$IMAGE_NAME/frontend/Dockerfile .
+    - docker buildx build -t "${IMAGE_NAME}-backend:$IMAGE_TAG" -f ./src/$IMAGE_NAME/backend/Dockerfile .
+    - docker tag "${IMAGE_NAME}-frontend:$IMAGE_TAG" "$CI_REGISTRY_IMAGE/${IMAGE_NAME}-frontend:$IMAGE_TAG"
+    - docker tag "${IMAGE_NAME}-backend:$IMAGE_TAG" "$CI_REGISTRY_IMAGE/${IMAGE_NAME}-backend:$IMAGE_TAG"
+    - docker push "$CI_REGISTRY_IMAGE/${IMAGE_NAME}-frontend:$IMAGE_TAG"
+    - docker push "$CI_REGISTRY_IMAGE/${IMAGE_NAME}-backend:$IMAGE_TAG"
+  after_script:
+    - docker image prune --force
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop" || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH)'
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == "develop"'
+    - changes:
+      - src/common/**/*.py
+      - proto/*.proto
+      - src/$IMAGE_NAME/.gitlab-ci.yml
+      - src/$IMAGE_NAME/frontend/**/*.{py,in,yml}
+      - src/$IMAGE_NAME/frontend/Dockerfile
+      - src/$IMAGE_NAME/frontend/tests/*.py
+      - src/$IMAGE_NAME/backend/Dockerfile
+      - src/$IMAGE_NAME/backend/**/*.{py,in,yml}
+      - src/$IMAGE_NAME/backend/tests/*.py
+      - manifests/${IMAGE_NAME}service.yaml
+      - .gitlab-ci.yml
+
+# Apply unit test to the component
+unit_test analytics-backend:
+  variables:
+    IMAGE_NAME: 'analytics' # name of the microservice
+    IMAGE_TAG: 'latest' # tag of the container image (production, development, etc)
+  stage: unit_test
+  needs:
+    - build analytics
+  before_script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+    - if docker network list | grep teraflowbridge; then echo "teraflowbridge is already created"; else docker network create -d bridge teraflowbridge; fi
+    - if docker container ls | grep kafka; then docker rm -f kafka; else echo "Kafka container is not in the system"; fi
+    - if docker container ls | grep ${IMAGE_NAME}-frontend; then docker rm -f ${IMAGE_NAME}-frontend; else echo "${IMAGE_NAME}-frontend container is not in the system"; fi
+    - if docker container ls | grep ${IMAGE_NAME}-backend; then docker rm -f ${IMAGE_NAME}-backend; else echo "${IMAGE_NAME}-backend container is not in the system"; fi
+    - docker container prune -f
+  script:
+    - docker pull "$CI_REGISTRY_IMAGE/${IMAGE_NAME}-backend:$IMAGE_TAG"
+    - docker pull "bitnamilegacy/kafka:latest"
+    - >
+      docker run --name kafka -d --network=teraflowbridge -p 9092:9092 -p 9093:9093
+      --env KAFKA_CFG_NODE_ID=1
+      --env KAFKA_CFG_PROCESS_ROLES=controller,broker
+      --env KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093
+      --env KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT
+      --env KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
+      --env KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=1@kafka:9093
+      bitnamilegacy/kafka:latest
+    - while ! docker logs kafka 2>&1 | grep -q 'Kafka Server started'; do sleep 1; done
+    - sleep 5 # Give extra time to Kafka to get stabilized
+    - docker inspect kafka --format "{{.NetworkSettings.Networks}}"
+    - KAFKA_IP=$(docker inspect kafka --format "{{.NetworkSettings.Networks.teraflowbridge.IPAddress}}")
+    - echo $KAFKA_IP    
+    - >
+      docker run --name $IMAGE_NAME-backend -d -p 30060:30060
+      --env "KFK_SERVER_ADDRESS=${KAFKA_IP}:9092"
+      --volume "$PWD/src/$IMAGE_NAME/backend/tests:/opt/results"
+      --network=teraflowbridge
+      $CI_REGISTRY_IMAGE/${IMAGE_NAME}-backend:$IMAGE_TAG
+    - docker ps -a
+    - sleep 5
+    - docker logs ${IMAGE_NAME}-backend
+    - >
+      docker exec -i ${IMAGE_NAME}-backend bash -c
+      "coverage run -m pytest --log-level=INFO --verbose --junitxml=/opt/results/${IMAGE_NAME}-backend_report.xml $IMAGE_NAME/backend/tests/test_*.py"
+    - docker exec -i ${IMAGE_NAME}-backend bash -c "coverage report --include='${IMAGE_NAME}/*' --show-missing"
+  coverage: '/TOTAL\s+\d+\s+\d+\s+(\d+%)/'
+  after_script:
+    - docker rm -f ${IMAGE_NAME}-backend
+    - docker rm -f kafka
+    - docker network rm teraflowbridge
+    - docker volume prune --force
+    - docker image prune --force
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop" || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH)'
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == "develop"'
+    - changes:
+      - src/common/**/*.py
+      - proto/*.proto
+      - src/$IMAGE_NAME/backend/**/*.{py,in,yml}
+      - src/$IMAGE_NAME/backend/Dockerfile
+      - src/$IMAGE_NAME/backend/tests/*.py
+      - manifests/${IMAGE_NAME}service.yaml
+      - .gitlab-ci.yml
+  artifacts:
+      when: always
+      reports:
+        junit: src/$IMAGE_NAME/backend/tests/${IMAGE_NAME}-backend_report.xml
+
+# Apply unit test to the component
+unit_test analytics-frontend:
+  variables:
+    IMAGE_NAME: 'analytics' # name of the microservice
+    IMAGE_TAG: 'latest' # tag of the container image (production, development, etc)
+  stage: unit_test
+  needs:
+    - build analytics
+  before_script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+    - if docker network list | grep teraflowbridge; then echo "teraflowbridge is already created"; else docker network create -d bridge teraflowbridge; fi
+    - if docker container ls | grep crdb; then docker rm -f crdb; else echo "CockroachDB container is not in the system"; fi
+    - if docker volume ls | grep crdb; then docker volume rm -f crdb; else echo "CockroachDB volume is not in the system"; fi
+    - if docker container ls | grep kafka; then docker rm -f kafka; else echo "Kafka container is not in the system"; fi
+    - if docker container ls | grep ${IMAGE_NAME}-frontend; then docker rm -f ${IMAGE_NAME}-frontend; else echo "${IMAGE_NAME}-frontend container is not in the system"; fi
+    - docker container prune -f
+  script:
+    - docker pull "$CI_REGISTRY_IMAGE/${IMAGE_NAME}-frontend:$IMAGE_TAG"
+    - docker pull "bitnamilegacy/kafka:latest"
+    - docker pull "cockroachdb/cockroach:latest-v22.2"
+    - docker volume create crdb
+    - >
+      docker run --name crdb -d --network=teraflowbridge -p 26257:26257 -p 8080:8080
+      --env COCKROACH_DATABASE=tfs_test --env COCKROACH_USER=tfs --env COCKROACH_PASSWORD=tfs123
+      --volume "crdb:/cockroach/cockroach-data"
+      cockroachdb/cockroach:latest-v22.2 start-single-node
+    - echo "Waiting for initialization..."
+    - while ! docker logs crdb 2>&1 | grep -q 'finished creating default user \"tfs\"'; do sleep 1; done
+    # - docker logs crdb
+    # - docker ps -a
+    - CRDB_ADDRESS=$(docker inspect crdb --format "{{.NetworkSettings.Networks.teraflowbridge.IPAddress}}")
+    - echo $CRDB_ADDRESS
+    - >
+      docker run --name kafka -d --network=teraflowbridge -p 9092:9092 -p 9093:9093
+      --env KAFKA_CFG_NODE_ID=1
+      --env KAFKA_CFG_PROCESS_ROLES=controller,broker
+      --env KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093
+      --env KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT
+      --env KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
+      --env KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=1@kafka:9093
+      bitnamilegacy/kafka:latest
+    - while ! docker logs kafka 2>&1 | grep -q 'Kafka Server started'; do sleep 1; done
+    - sleep 5 # Give extra time to Kafka to get stabilized
+    - docker inspect kafka --format "{{.NetworkSettings.Networks}}"
+    - KAFKA_IP=$(docker inspect kafka --format "{{.NetworkSettings.Networks.teraflowbridge.IPAddress}}")
+    - echo $KAFKA_IP
+    - docker logs kafka
+    - >
+      docker run --name $IMAGE_NAME-frontend -d -p 30050:30050
+      --env "CRDB_URI=cockroachdb://tfs:tfs123@${CRDB_ADDRESS}:26257/tfs_test?sslmode=require"
+      --env "KFK_SERVER_ADDRESS=${KAFKA_IP}:9092"
+      --volume "$PWD/src/$IMAGE_NAME/frontend/tests:/opt/results"
+      --network=teraflowbridge
+      $CI_REGISTRY_IMAGE/${IMAGE_NAME}-frontend:$IMAGE_TAG
+    - docker ps -a
+    - sleep 5
+    - docker logs ${IMAGE_NAME}-frontend
+    - >
+      docker exec -i ${IMAGE_NAME}-frontend bash -c
+      "coverage run -m pytest --log-level=DEBUG -o log_cli=true --verbose --junitxml=/opt/results/${IMAGE_NAME}-frontend_report.xml $IMAGE_NAME/frontend/tests/test_*.py"
+    - docker exec -i ${IMAGE_NAME}-frontend bash -c "coverage report --include='${IMAGE_NAME}/*' --show-missing"
+  coverage: '/TOTAL\s+\d+\s+\d+\s+(\d+%)/'
+  after_script:
+    - docker rm -f ${IMAGE_NAME}-frontend
+    - docker rm -f crdb
+    - docker rm -f kafka
+    - docker volume rm -f crdb
+    - docker volume prune --force
+    - docker image prune --force
+    - docker network rm teraflowbridge
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop" || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH)'
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == "develop"'
+    - changes:
+      - src/common/**/*.py
+      - proto/*.proto
+      - src/$IMAGE_NAME/frontend/**/*.{py,in,yml}
+      - src/$IMAGE_NAME/frontend/Dockerfile
+      - src/$IMAGE_NAME/frontend/tests/*.py
+      - manifests/${IMAGE_NAME}service.yaml
+      - .gitlab-ci.yml
+  artifacts:
+      when: always
+      reports:
+        junit: src/$IMAGE_NAME/frontend/tests/${IMAGE_NAME}-frontend_report.xml

@@ -1,0 +1,19 @@
+{
+    "endpoint_id": {
+        "device_id": {"device_uuid": {"uuid": "my-firewall"}},
+        "endpoint_uuid": {"uuid": "enp0s3"}
+    },
+    "direction": "ACLDIRECTION_INGRESS",
+    "rule_set": {
+        "name"        : "accept-30435-from-10-0-2-10",
+        "type"        : "ACLRULETYPE_IPV4",
+        "description" : "accept-30435-from-10-0-2-10",
+        "user_id"     : "teraflowsdn",
+        "entries"     : [{
+            "sequence_id" : 1,
+            "description" : "accept-30435-from-10-0-2-10",
+            "match"       : {"src_address": "10.0.2.10/32", "protocol": 6, "dst_port": 30435},
+            "action"      : {"forward_action": "ACLFORWARDINGACTION_ACCEPT"}
+        }]
+    }
+}

@@ -1,0 +1,65 @@
+// Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+package qos_profile;
+
+import "context.proto";
+
+message QoSProfileValueUnitPair {
+  int32 value = 1;
+  string unit = 2;
+}
+
+message QoDConstraintsRequest {
+  context.QoSProfileId qos_profile_id = 1;
+  double start_timestamp = 2;
+  float duration = 3;
+}
+
+message QoSProfile {
+  context.QoSProfileId qos_profile_id = 1;
+  string name = 2;
+  string description = 3;
+  string status = 4;
+  QoSProfileValueUnitPair targetMinUpstreamRate = 5;
+  QoSProfileValueUnitPair maxUpstreamRate = 6;
+  QoSProfileValueUnitPair maxUpstreamBurstRate = 7;
+  QoSProfileValueUnitPair targetMinDownstreamRate = 8;
+  QoSProfileValueUnitPair maxDownstreamRate = 9;
+  QoSProfileValueUnitPair maxDownstreamBurstRate = 10;
+  QoSProfileValueUnitPair minDuration = 11;
+  QoSProfileValueUnitPair maxDuration = 12;
+  int32 priority = 13;
+  QoSProfileValueUnitPair packetDelayBudget = 14;
+  QoSProfileValueUnitPair jitter = 15;
+  int32 packetErrorLossRate = 16;
+}
+
+message QoSProfileList {
+  repeated QoSProfile qos_profiles = 1;
+}
+
+message ConstraintList {
+  repeated context.Constraint constraints = 1;
+}
+
+service QoSProfileService {
+  rpc CreateQoSProfile            (QoSProfile           ) returns (QoSProfile    ) {}
+  rpc UpdateQoSProfile            (QoSProfile           ) returns (QoSProfile    ) {}
+  rpc DeleteQoSProfile            (context.QoSProfileId ) returns (context.Empty ) {}
+  rpc GetQoSProfile               (context.QoSProfileId ) returns (QoSProfile    ) {}
+  rpc GetQoSProfiles              (context.Empty        ) returns (QoSProfileList) {}
+  rpc GetConstraintsFromQoSProfile(QoDConstraintsRequest) returns (ConstraintList) {}
+}

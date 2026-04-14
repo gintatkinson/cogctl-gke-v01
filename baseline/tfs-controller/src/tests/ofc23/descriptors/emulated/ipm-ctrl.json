@@ -1,0 +1,25 @@
+{
+    "contexts": [
+        {"context_id": {"context_uuid": {"uuid": "admin"}}}
+    ],
+    "topologies": [
+        {"topology_id": {"topology_uuid": {"uuid": "admin"}, "context_id": {"context_uuid": {"uuid": "admin"}}}}
+    ],
+    "devices": [
+        {
+            "device_id": {"device_uuid": {"uuid": "XR-CONSTELLATION"}},
+            "device_type": "xr-constellation",
+            "device_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "10.0.2.10"}},
+                {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "8444"}},
+                {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {
+                    "username": "xr-user-1", "password": "xr-user-1", "hub_module_name": "OFC HUB 1",
+                    "consistency-mode": "lifecycle"
+                }}}
+            ]},
+            "device_operational_status": 1,
+            "device_drivers": [6],
+            "device_endpoints": []
+        }
+    ]
+}

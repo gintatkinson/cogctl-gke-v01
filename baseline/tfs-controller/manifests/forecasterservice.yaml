@@ -1,0 +1,101 @@
+# Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: forecasterservice
+spec:
+  selector:
+    matchLabels:
+      app: forecasterservice
+  #replicas: 1
+  template:
+    metadata:
+      labels:
+        app: forecasterservice
+    spec:
+      terminationGracePeriodSeconds: 5
+      containers:
+        - name: server
+          image: labs.etsi.org:5050/tfs/controller/forecaster:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 10040
+            - containerPort: 9192
+          env:
+            - name: LOG_LEVEL
+              value: "INFO"
+            - name: FORECAST_TO_HISTORY_RATIO
+              value: "10"
+          startupProbe:
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:10040"]
+            failureThreshold: 30
+            periodSeconds: 1
+          readinessProbe:
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:10040"]
+          livenessProbe:
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:10040"]
+          resources:
+            requests:
+              cpu: 250m
+              memory: 128Mi
+            limits:
+              cpu: 1000m
+              memory: 1024Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: forecasterservice
+  labels:
+    app: forecasterservice
+spec:
+  type: ClusterIP
+  selector:
+    app: forecasterservice
+  ports:
+    - name: grpc
+      protocol: TCP
+      port: 10040
+      targetPort: 10040
+    - name: metrics
+      protocol: TCP
+      port: 9192
+      targetPort: 9192
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: forecasterservice-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: forecasterservice
+  minReplicas: 1
+  maxReplicas: 20
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 80
+  #behavior:
+  #  scaleDown:
+  #    stabilizationWindowSeconds: 30

@@ -1,0 +1,3 @@
+MockOSM is based on source code taken from:
+https://osm.etsi.org/gitlab/osm/ro/-/blob/master/RO-plugin/osm_ro_plugin/sdnconn.py
+https://osm.etsi.org/gitlab/osm/ro/-/blob/master/RO-SDN-ietfl2vpn/osm_rosdn_ietfl2vpn/wimconn_ietfl2vpn.py

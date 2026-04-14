@@ -1,0 +1,37 @@
+{
+    "services": [
+        {
+            "service_id": {
+                "context_id": {"context_uuid": {"uuid": "admin"}}, "service_uuid": {"uuid": "dc-2-dc-svc"}
+            },
+            "service_type": 2,
+            "service_status": {"service_status": 1},
+            "service_endpoint_ids": [
+                {"device_id":{"device_uuid":{"uuid":"DC1"}},"endpoint_uuid":{"uuid":"int"}},
+                {"device_id":{"device_uuid":{"uuid":"DC2"}},"endpoint_uuid":{"uuid":"int"}}
+            ],
+            "service_constraints": [
+                {"sla_capacity": {"capacity_gbps": 10.0}},
+                {"sla_latency": {"e2e_latency_ms": 15.2}}
+            ],
+            "service_config": {"config_rules": [
+                {"action": 1, "custom": {"resource_key": "/settings", "resource_value": {
+                    "address_families": ["IPV4"], "bgp_as": 65000, "bgp_route_target": "65000:123",
+                    "mtu": 1512, "vlan_id": 111
+                }}},
+                {"action": 1, "custom": {"resource_key": "/device[R149]/endpoint[eth-1/0/22]/settings", "resource_value": {
+                    "route_distinguisher": "65000:123", "router_id": "5.5.5.5",
+                    "address_ip": "172.16.4.1", "address_prefix": 24, "sub_interface_index": 0, "vlan_id": 111
+                }}},
+                {"action": 1, "custom": {"resource_key": "/device[R155]/endpoint[eth-1/0/22]/settings", "resource_value": {
+                    "route_distinguisher": "65000:123", "router_id": "5.5.5.1",
+                    "address_ip": "172.16.2.1", "address_prefix": 24, "sub_interface_index": 0, "vlan_id": 111
+                }}},
+                {"action": 1, "custom": {"resource_key": "/device[R199]/endpoint[eth-1/0/21]/settings", "resource_value": {
+                    "route_distinguisher": "65000:123", "router_id": "5.5.5.6",
+                    "address_ip": "172.16.1.1", "address_prefix": 24, "sub_interface_index": 0, "vlan_id": 111
+                }}}
+            ]}
+        }
+    ]
+}

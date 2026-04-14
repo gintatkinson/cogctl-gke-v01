@@ -1,0 +1,9 @@
+{
+    "ietf-subscribed-notifications:input": {
+        "datastore": "operational",
+        "ietf-yang-push:datastore-xpath-filter": "/ietf-network:networks/network=e2e/ietf-network-topology:link=E2E-L2/simap-telemetry",
+        "ietf-yang-push:periodic": {
+            "ietf-yang-push:period": 10
+        }
+    }
+}

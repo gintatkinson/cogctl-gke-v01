@@ -1,0 +1,73 @@
+// Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+package analytics_frontend;
+
+import "context.proto";
+import "kpi_manager.proto";
+//import "kpi_sample_types.proto";
+
+service AnalyticsFrontendService {
+  rpc StartAnalyzer  (Analyzer      ) returns (AnalyzerId)    {}
+  rpc StopAnalyzer   (AnalyzerId    ) returns (context.Empty) {}
+  rpc SelectAnalyzers(AnalyzerFilter) returns (AnalyzerList ) {}
+}
+
+message AnalyzerId {
+  context.Uuid analyzer_id = 1;
+}
+
+enum AnalyzerOperationMode {
+  ANALYZEROPERATIONMODE_UNSPECIFIED = 0;
+  ANALYZEROPERATIONMODE_BATCH       = 1;
+  ANALYZEROPERATIONMODE_STREAMING   = 2;
+}
+
+// duration field may be added in analyzer... 
+message Analyzer {
+  AnalyzerId                 analyzer_id          = 1;
+  string                     algorithm_name       = 2;  // The algorithm to be executed
+  float                      duration_s           = 3;  // Termiate the data analytics thread after duration (seconds); 0 = infinity time
+  repeated kpi_manager.KpiId input_kpi_ids        = 4;  // The KPI Ids to be processed by the analyzer
+  repeated kpi_manager.KpiId output_kpi_ids       = 5;  // The KPI Ids produced by the analyzer
+  AnalyzerOperationMode      operation_mode       = 6;  // Operation mode of the analyzer
+  map<string, string>        parameters           = 7;  // Add dictionary of (key, value) pairs such as (window_size, 10) etc.
+  // In batch mode... 
+  float                      batch_min_duration_s = 8;  // ..., min duration to collect before executing batch
+  float                      batch_max_duration_s = 9;  // ..., max duration collected to execute the batch
+  uint64                     batch_min_size       = 10; // ..., min number of samples to collect before executing batch
+  uint64                     batch_max_size       = 11; // ..., max number of samples collected to execute the batch
+}
+
+message AnalyzerFilter {
+  // Analyzer that fulfill the filter are those that match ALL the following fields.
+  // An empty list means: any value is accepted.
+  // All fields empty means: list all Analyzers
+  repeated AnalyzerId                     analyzer_id     = 1;
+  repeated string                         algorithm_names = 2;
+  repeated kpi_manager.KpiId              input_kpi_ids   = 3;
+  repeated kpi_manager.KpiId              output_kpi_ids  = 4;
+  //repeated kpi_sample_types.KpiSampleType kpi_sample_type = 5; // Not implemented
+  //repeated context.DeviceId               device_id       = 6; // Not implemented
+  //repeated context.EndPointId             endpoint_id     = 7; // Not implemented
+  //repeated context.ServiceId              service_id      = 8; // Not implemented
+  //repeated context.SliceId                slice_id        = 9; // Not implemented
+  //repeated context.ConnectionId           connection_id   = 10; // Not implemented
+  //repeated context.LinkId                 link_id         = 11; // Not implemented
+}
+
+message AnalyzerList {
+  repeated Analyzer analyzer_list = 1;
+}

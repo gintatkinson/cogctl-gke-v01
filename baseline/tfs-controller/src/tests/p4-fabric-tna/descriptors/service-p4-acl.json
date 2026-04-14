@@ -1,0 +1,50 @@
+{
+    "services": [
+        {
+            "service_id": {
+                "context_id": {"context_uuid": {"uuid": "admin"}}, "service_uuid": {"uuid": "p4-service-acl"}
+            },
+            "name": "p4-service-acl",
+            "service_type": "SERVICETYPE_ACL",
+            "service_status": {"service_status": "SERVICESTATUS_PLANNED"},
+            "service_endpoint_ids": [
+                {
+                    "device_id": {"device_uuid": {"uuid": "sw1"}},
+                    "endpoint_uuid": {"uuid": "1"}
+                },
+                {
+                    "device_id": {"device_uuid": {"uuid": "sw1"}},
+                    "endpoint_uuid": {"uuid": "2"}
+                }
+            ],
+            "service_config": {
+                "config_rules": [
+                    {
+                        "action": "CONFIGACTION_SET",
+                        "custom": {
+                            "resource_key": "/settings",
+                            "resource_value": {
+                                "switch_info": [
+                                    {
+                                        "sw1": {
+                                            "arch": "v1model",
+                                            "dpid": 1,
+                                            "acl": [
+                                                {
+                                                    "port_id": 1,
+                                                    "trn_port_dst": 8080,
+                                                    "action": "drop"
+                                                }
+                                            ]
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                ]
+            },
+            "service_constraints": []
+        }
+    ]
+}

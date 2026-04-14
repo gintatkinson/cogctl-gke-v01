@@ -1,0 +1,70 @@
+// Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+package acl;
+
+enum AclRuleTypeEnum {
+  ACLRULETYPE_UNDEFINED = 0;
+  ACLRULETYPE_IPV4      = 1;
+  ACLRULETYPE_IPV6      = 2;
+  ACLRULETYPE_L2        = 3;
+  ACLRULETYPE_MPLS      = 4;
+  ACLRULETYPE_MIXED     = 5;
+}
+
+enum AclForwardActionEnum {
+  ACLFORWARDINGACTION_UNDEFINED = 0;
+  ACLFORWARDINGACTION_DROP      = 1;
+  ACLFORWARDINGACTION_ACCEPT    = 2;
+  ACLFORWARDINGACTION_REJECT    = 3;
+}
+
+enum AclLogActionEnum {
+  ACLLOGACTION_UNDEFINED = 0;
+  ACLLOGACTION_NOLOG     = 1;
+  ACLLOGACTION_SYSLOG    = 2;
+}
+
+message AclMatch {
+  uint32 dscp             = 1;
+  uint32 protocol         = 2;
+  string src_address      = 3;
+  string dst_address      = 4;
+  uint32 src_port         = 5;
+  uint32 dst_port         = 6;
+  uint32 start_mpls_label = 7;
+  uint32 end_mpls_label   = 8;
+  string tcp_flags        = 9;
+}
+
+message AclAction {
+  AclForwardActionEnum forward_action = 1;
+  AclLogActionEnum     log_action     = 2;
+}
+
+message AclEntry {
+  uint32    sequence_id = 1;
+  string    description = 2;
+  AclMatch  match       = 3;
+  AclAction action      = 4;
+}
+
+message AclRuleSet {
+  string             name        = 1;
+  AclRuleTypeEnum    type        = 2;
+  string             description = 3;
+  string             user_id     = 4;
+  repeated AclEntry  entries     = 5;
+}

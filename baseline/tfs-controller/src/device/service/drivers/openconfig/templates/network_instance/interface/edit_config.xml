@@ -1,0 +1,19 @@
+<network-instances xmlns="http://openconfig.net/yang/network-instance">
+    <network-instance>
+        <name>{{name}}</name>
+        <config>
+            <name>{{name}}</name>
+            <type xmlns:oc-ni-types="http://openconfig.net/yang/network-instance-types">oc-ni-types:{{type}}</type>
+        </config>
+        <interfaces>
+            <interface{% if operation is defined %} xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" nc:operation="{{operation}}"{% endif %}>
+                <id>{{id}}</id>
+                <config>
+                    <id>{{id}}</id>
+                    <interface>{{interface}}</interface>
+                    <subinterface>{{subinterface}}</subinterface>
+                </config>
+            </interface>
+        </interfaces>
+    </network-instance>
+</network-instances>

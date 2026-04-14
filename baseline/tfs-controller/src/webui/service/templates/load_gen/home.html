@@ -1,0 +1,260 @@
+<!--
+ Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Load Generator</h1>
+    <br />
+
+    <form id="load_gen_form" method="POST" action="{{ form_action }}">
+        {{ form.hidden_tag() }}
+        <fieldset>
+            <div class="row mb-3">
+                {{ form.num_requests.label(class="col-sm-2 col-form-label") }}
+                <div class="col-sm-10">
+                    {% if form.num_requests.errors %}
+                        {{ form.num_requests(class="form-control is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.num_requests.errors %}<span>{{ error }}</span>{% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.num_requests(class="form-control") }}
+                    {% endif %}
+                </div>
+            </div>
+            <br />
+
+            <div class="row mb-3">
+                {{ form.num_generated.label(class="col-sm-2 col-form-label") }}
+                <div class="col-sm-10">
+                    {% if form.num_generated.errors %}
+                        {{ form.num_generated(class="form-control is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.num_generated.errors %}<span>{{ error }}</span>{% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.num_generated(class="form-control") }}
+                    {% endif %}
+                </div>
+            </div>
+            <br />
+
+            <div class="row mb-3">
+                {{ form.num_released.label(class="col-sm-2 col-form-label") }}
+                <div class="col-sm-10">
+                    {% if form.num_released.errors %}
+                        {{ form.num_released(class="form-control is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.num_released.errors %}<span>{{ error }}</span>{% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.num_released(class="form-control") }}
+                    {% endif %}
+                </div>
+            </div>
+            <br />
+
+            <div class="row mb-3">
+                <div class="col-sm-2 col-form-label">Service Types:</div>
+                <div class="col-sm-10">
+                    {{ form.request_type_slice_l2nm   }} {{ form.request_type_slice_l2nm  .label(class="col-sm-3 col-form-label") }}
+                    {{ form.request_type_slice_l3nm   }} {{ form.request_type_slice_l3nm  .label(class="col-sm-3 col-form-label") }}
+                    <br/>
+                    {{ form.request_type_service_l2nm }} {{ form.request_type_service_l2nm.label(class="col-sm-3 col-form-label") }}
+                    {{ form.request_type_service_l3nm }} {{ form.request_type_service_l3nm.label(class="col-sm-3 col-form-label") }}
+                    <br/>
+                    {{ form.request_type_service_mw   }} {{ form.request_type_service_mw  .label(class="col-sm-3 col-form-label") }}
+                    {{ form.request_type_service_tapi }} {{ form.request_type_service_tapi.label(class="col-sm-3 col-form-label") }}
+                </div>
+            </div>
+            <br />
+
+            <div class="row mb-3">
+                {{ form.device_regex.label(class="col-sm-2 col-form-label") }}
+                <div class="col-sm-10">
+                    {% if form.device_regex.errors %}
+                        {{ form.device_regex(class="form-control is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.device_regex.errors %}<span>{{ error }}</span>{% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.device_regex(class="form-control") }}
+                    {% endif %}
+                </div>
+            </div>
+            <br />
+
+            <div class="row mb-3">
+                {{ form.endpoint_regex.label(class="col-sm-2 col-form-label") }}
+                <div class="col-sm-10">
+                    {% if form.endpoint_regex.errors %}
+                        {{ form.endpoint_regex(class="form-control is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.endpoint_regex.errors %}<span>{{ error }}</span>{% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.endpoint_regex(class="form-control") }}
+                    {% endif %}
+                </div>
+            </div>
+            <br />
+
+            <div class="row mb-3">
+                {{ form.offered_load.label(class="col-sm-2 col-form-label") }}
+                <div class="col-sm-10">
+                    {% if form.offered_load.errors %}
+                        {{ form.offered_load(class="form-control is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.offered_load.errors %}<span>{{ error }}</span>{% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.offered_load(class="form-control") }}
+                    {% endif %}
+                </div>
+            </div>
+            <br />
+
+            <div class="row mb-3">
+                {{ form.holding_time.label(class="col-sm-2 col-form-label") }}
+                <div class="col-sm-10">
+                    {% if form.holding_time.errors %}
+                        {{ form.holding_time(class="form-control is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.holding_time.errors %}<span>{{ error }}</span>{% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.holding_time(class="form-control") }}
+                    {% endif %}
+                </div>
+            </div>
+            <br />
+
+            <div class="row mb-3">
+                {{ form.inter_arrival_time.label(class="col-sm-2 col-form-label") }}
+                <div class="col-sm-10">
+                    {% if form.inter_arrival_time.errors %}
+                        {{ form.inter_arrival_time(class="form-control is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.inter_arrival_time.errors %}<span>{{ error }}</span>{% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.inter_arrival_time(class="form-control") }}
+                    {% endif %}
+                </div>
+            </div>
+            <br />
+
+            <div class="row mb-3">
+                {{ form.availability.label(class="col-sm-2 col-form-label") }}
+                <div class="col-sm-10">
+                    {% if form.availability.errors %}
+                        {{ form.availability(class="form-control is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.availability.errors %}<span>{{ error }}</span>{% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.availability(class="form-control") }}
+                    {% endif %}
+                </div>
+            </div>
+            <br />
+
+            <div class="row mb-3">
+                {{ form.capacity_gbps.label(class="col-sm-2 col-form-label") }}
+                <div class="col-sm-10">
+                    {% if form.capacity_gbps.errors %}
+                        {{ form.capacity_gbps(class="form-control is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.capacity_gbps.errors %}<span>{{ error }}</span>{% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.capacity_gbps(class="form-control") }}
+                    {% endif %}
+                </div>
+            </div>
+            <br />
+
+            <div class="row mb-3">
+                {{ form.e2e_latency_ms.label(class="col-sm-2 col-form-label") }}
+                <div class="col-sm-10">
+                    {% if form.e2e_latency_ms.errors %}
+                        {{ form.e2e_latency_ms(class="form-control is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.e2e_latency_ms.errors %}<span>{{ error }}</span>{% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.e2e_latency_ms(class="form-control") }}
+                    {% endif %}
+                </div>
+            </div>
+            <br />
+
+            <div class="row mb-3">
+                {{ form.max_workers.label(class="col-sm-2 col-form-label") }}
+                <div class="col-sm-10">
+                    {% if form.max_workers.errors %}
+                        {{ form.max_workers(class="form-control is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.max_workers.errors %}<span>{{ error }}</span>{% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.max_workers(class="form-control") }}
+                    {% endif %}
+                </div>
+            </div>
+            <br />
+
+            <div class="row mb-3">
+                <div class="col-sm-10">
+                    {{ form.do_teardown }} {{ form.do_teardown.label(class="col-sm-3 col-form-label") }}<br/>
+                </div>
+            </div>
+            <br />
+
+            <div class="row mb-3">
+                <div class="col-sm-2 col-form-label">DLT Settings:</div>
+                <div class="col-sm-10">
+                    {{ form.record_to_dlt }} {{ form.record_to_dlt.label(class="col-sm-3 col-form-label") }} <br/>
+                    {{ form.dlt_domain_id.label(class="col-sm-2 col-form-label") }}
+                    {% if form.dlt_domain_id.errors %}
+                        {{ form.dlt_domain_id(class="form-control is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.dlt_domain_id.errors %}<span>{{ error }}</span>{% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.dlt_domain_id(class="form-control") }}
+                    {% endif %}
+                </div>
+            </div>
+            <br />
+
+            <div class="row mb-3">
+                <div class="col-sm-2 col-form-label">Status:</div>
+                <div class="col-sm-10">
+                    {{ form.infinite_loop }} {{ form.infinite_loop.label(class="col-sm-3 col-form-label") }}
+                    {{ form.running }} {{ form.running.label(class="col-sm-3 col-form-label") }}
+                </div>
+            </div>
+            <br />
+
+            <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                {{ form.submit(class="btn btn-primary") }}
+            </div>
+        </fieldset>
+    </form>
+
+{% endblock %}

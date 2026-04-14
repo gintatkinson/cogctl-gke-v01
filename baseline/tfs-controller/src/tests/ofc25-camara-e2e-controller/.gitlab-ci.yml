@@ -1,0 +1,102 @@
+# Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Deploy TeraFlowSDN and Execute end-2-end test
+end2end_test ofc25_camara_e2e:
+  timeout: 40m
+  variables:
+    TEST_NAME: 'ofc25-camara-e2e-controller'
+    NCE_NAME: 'nce'
+    AGG_NET_NAME: 'agg_net'
+    NCE_PORT: '9090'
+    AGG_NET_PORT: '9091'
+  stage: end2end_test
+  # Disable to force running it after all other tasks
+  before_script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+    - HOST_IP=$(kubectl get nodes -o json | jq -r '.items[].status.addresses[] | select(.type=="InternalIP") | .address')
+    - sed -i "s/AGG_NET_IP/${HOST_IP}/g" src/tests/${TEST_NAME}/data/camara-e2e-topology.json
+    - sed -i "s/NCE_IP/${HOST_IP}/g" src/tests/${TEST_NAME}/data/camara-e2e-topology.json
+    - sed -i "s/AGG_NET_PORT/${AGG_NET_PORT}/g" src/tests/${TEST_NAME}/data/camara-e2e-topology.json
+    - sed -i "s/NCE_PORT/${NCE_PORT}/g" src/tests/${TEST_NAME}/data/camara-e2e-topology.json
+    - docker buildx build -t "${TEST_NAME}:latest" -f ./src/tests/${TEST_NAME}/Dockerfile .
+    - docker buildx build -t "${NCE_NAME}:latest" -f ./src/tests/tools/mock_nce_ctrl/Dockerfile ./src/tests/tools/mock_nce_ctrl
+    - docker buildx build -t "${AGG_NET_NAME}:latest" -f ./src/tests/tools/mock_ietf_network_slice_sdn_ctrl/Dockerfile ./src/tests/tools/mock_ietf_network_slice_sdn_ctrl
+    - docker rm -f ${TEST_NAME} || true
+    - docker rm -f ${AGG_NET_NAME} || true
+    - docker rm -f ${NCE_NAME} || true
+    - docker run -d --name ${NCE_NAME} -p ${NCE_PORT}:8443 ${NCE_NAME}:latest
+    - docker run -d --name ${AGG_NET_NAME} -p ${AGG_NET_PORT}:8443 ${AGG_NET_NAME}:latest
+
+  script:
+    # Check MicroK8s is ready
+    - microk8s status --wait-ready
+    - kubectl get pods --all-namespaces
+
+    - source src/tests/${TEST_NAME}/deploy_specs.sh
+
+    # Deploy TeraFlowSDN
+    - ./deploy/crdb.sh
+    - ./deploy/nats.sh
+    - ./deploy/kafka.sh
+    - ./deploy/qdb.sh
+    - ./deploy/tfs.sh
+    - ./deploy/show.sh
+
+    - kubectl --namespace $TFS_K8S_NAMESPACE logs deployment/contextservice -c server
+
+    # Run end-to-end test: onboard scenario
+    - >
+      docker run -t --rm --name ${TEST_NAME} --network=host
+      --volume "$PWD/tfs_runtime_env_vars.sh:/var/teraflow/tfs_runtime_env_vars.sh"
+      --volume "$PWD/src/tests/${TEST_NAME}:/opt/results"
+      ${TEST_NAME}:latest /var/teraflow/run-onboarding.sh
+
+    # Run end-to-end test: configure service TFS
+    - >
+      docker run -t --rm --name ${TEST_NAME} --network=host
+      --volume "$PWD/tfs_runtime_env_vars.sh:/var/teraflow/tfs_runtime_env_vars.sh"
+      --volume "$PWD/src/tests/${TEST_NAME}:/opt/results"
+      ${TEST_NAME}:latest /var/teraflow/run-e2e-ietf-slice-operations.sh
+
+  after_script:
+    - kubectl --namespace tfs logs deployment/contextservice -c server
+    - kubectl --namespace tfs logs deployment/deviceservice -c server
+    - kubectl --namespace tfs logs deployment/pathcompservice -c frontend
+    - kubectl --namespace tfs logs deployment/serviceservice -c server
+    - kubectl --namespace tfs logs deployment/sliceservice -c server
+    - kubectl --namespace tfs logs deployment/nbiservice -c server
+
+    - docker logs ${NCE_NAME}
+
+    - docker logs ${AGG_NET_NAME}
+
+    # Destroy Scenario
+    - kubectl delete namespaces tfs || true
+
+    - docker rm -f ${TEST_NAME} || true
+    - docker rm -f ${AGG_NET_NAME} || true
+    - docker rm -f ${NCE_NAME} || true
+
+    # Clean old docker images
+    - docker image prune --force
+
+  #coverage: '/TOTAL\s+\d+\s+\d+\s+(\d+%)/'
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop" || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH)'
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == "develop"'
+  artifacts:
+      when: always
+      reports:
+        junit: ./src/tests/${TEST_NAME}/report_*.xml

@@ -1,0 +1,60 @@
+# Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: mocks
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mock-mw-sdn-ctrl
+spec:
+  selector:
+    matchLabels:
+      app: mock-mw-sdn-ctrl
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mock-mw-sdn-ctrl
+    spec:
+      terminationGracePeriodSeconds: 5
+      containers:
+      - name: server
+        image: localhost:32000/tfs/mock-mw-sdn-ctrl:test
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8443
+        resources:
+          requests:
+            cpu: 250m
+            memory: 512Mi
+          limits:
+            cpu: 700m
+            memory: 1024Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mock-mw-sdn-ctrl
+spec:
+  type: ClusterIP
+  selector:
+    app: mock-mw-sdn-ctrl
+  ports:
+  - name: https
+    port: 8443
+    targetPort: 8443

@@ -1,0 +1,73 @@
+{
+    "name": "test-network-org1",
+    "version": "1.0.0",
+    "client": {
+        "organization": "Org1",
+        "connection": {
+            "timeout": {
+                "peer": {
+                    "endorser": "300"
+                }
+            }
+        }
+    },
+    "organizations": {
+        "Org1": {
+            "mspid": "Org1MSP",
+            "peers": [
+                "peer0.org1.example.com"
+            ],
+            "certificateAuthorities": [
+                "ca.org1.example.com"
+            ]
+        }
+    },
+    "peers": {
+        "peer0.org1.example.com": {
+            "url": "grpcs://teraflow.nlehd.de:7051",
+            "tlsCACerts": {
+                "pem": "-----BEGIN CERTIFICATE-----\nMIICJzCCAc2gAwIBAgIUb5gDMfVeVdQjFkK3uC8LtlogN+gwCgYIKoZIzj0EAwIw\ncDELMAkGA1UEBhMCVVMxFzAVBgNVBAgTDk5vcnRoIENhcm9saW5hMQ8wDQYDVQQH\nEwZEdXJoYW0xGTAXBgNVBAoTEG9yZzEuZXhhbXBsZS5jb20xHDAaBgNVBAMTE2Nh\nLm9yZzEuZXhhbXBsZS5jb20wHhcNMjIwOTI3MDgzMDAwWhcNMzcwOTIzMDgzMDAw\nWjBwMQswCQYDVQQGEwJVUzEXMBUGA1UECBMOTm9ydGggQ2Fyb2xpbmExDzANBgNV\nBAcTBkR1cmhhbTEZMBcGA1UEChMQb3JnMS5leGFtcGxlLmNvbTEcMBoGA1UEAxMT\nY2Eub3JnMS5leGFtcGxlLmNvbTBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABDC3\nspCTT3pjfFXxkX/SFuBgWRiceR8rSoCNQOnIPeNGZK8xl2Zr7VuY06gqy9c+ecSU\nPUWaXiCQxiLgZuS6TOWjRTBDMA4GA1UdDwEB/wQEAwIBBjASBgNVHRMBAf8ECDAG\nAQH/AgEBMB0GA1UdDgQWBBRFWSc7GZqcJJyJjXSEspzgAYInGzAKBggqhkjOPQQD\nAgNIADBFAiEAodqc+adkiMuU6iv1IF8uJ/nMQbvMGoP3pb2827QzDosCICOw6W+y\nuH03H3RO6KhOcS1ZzPjspyjrcC+dwzYX4DpW\n-----END CERTIFICATE-----\n"
+            },
+            "grpcOptions": {
+                "ssl-target-name-override": "peer0.org1.example.com",
+                "hostnameOverride": "peer0.org1.example.com"
+            }
+        },
+        "peer0.org2.example.com": {
+            "url": "grpcs://teraflow.nlehd.de:9051",
+            "tlsCACerts": {
+                "pem": "-----BEGIN CERTIFICATE-----\nMIICHjCCAcWgAwIBAgIUL48scgv9ItATkBjSNhzYDjLUDsAwCgYIKoZIzj0EAwIw\nbDELMAkGA1UEBhMCVUsxEjAQBgNVBAgTCUhhbXBzaGlyZTEQMA4GA1UEBxMHSHVy\nc2xleTEZMBcGA1UEChMQb3JnMi5leGFtcGxlLmNvbTEcMBoGA1UEAxMTY2Eub3Jn\nMi5leGFtcGxlLmNvbTAeFw0yMjA5MjcwODMwMDBaFw0zNzA5MjMwODMwMDBaMGwx\nCzAJBgNVBAYTAlVLMRIwEAYDVQQIEwlIYW1wc2hpcmUxEDAOBgNVBAcTB0h1cnNs\nZXkxGTAXBgNVBAoTEG9yZzIuZXhhbXBsZS5jb20xHDAaBgNVBAMTE2NhLm9yZzIu\nZXhhbXBsZS5jb20wWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAAQ5qz8FfrEQ5S08\nr/avPyTrF2grXj5L4DnbvF4YEZ5Usnbm8Svovu7PO8uiVcwT5vrt6ssOdpBFZYu3\nNndpojnYo0UwQzAOBgNVHQ8BAf8EBAMCAQYwEgYDVR0TAQH/BAgwBgEB/wIBATAd\nBgNVHQ4EFgQUYcp7axYV9AaIptYQqhiCL0VDmXQwCgYIKoZIzj0EAwIDRwAwRAIg\nWT1V8/6flUPNcBkmbtEEKf83k7+6sR9k1a2wtVeJFnQCIE0ZSIL3k0dKQydQBpiz\nPcZZUULvQivcMlIsw5+mjIGc\n-----END CERTIFICATE-----\n"
+            },
+            "grpcOptions": {
+                "ssl-target-name-override": "peer0.org2.example.com",
+                "hostnameOverride": "peer0.org2.example.com"
+            }
+        }
+    },
+    "certificateAuthorities": {
+        "ca.org1.example.com": {
+            "url": "https://teraflow.nlehd.de:7054",
+            "caName": "ca-org1",
+            "tlsCACerts": {
+                "pem": [
+                    "-----BEGIN CERTIFICATE-----\nMIICJzCCAc2gAwIBAgIUb5gDMfVeVdQjFkK3uC8LtlogN+gwCgYIKoZIzj0EAwIw\ncDELMAkGA1UEBhMCVVMxFzAVBgNVBAgTDk5vcnRoIENhcm9saW5hMQ8wDQYDVQQH\nEwZEdXJoYW0xGTAXBgNVBAoTEG9yZzEuZXhhbXBsZS5jb20xHDAaBgNVBAMTE2Nh\nLm9yZzEuZXhhbXBsZS5jb20wHhcNMjIwOTI3MDgzMDAwWhcNMzcwOTIzMDgzMDAw\nWjBwMQswCQYDVQQGEwJVUzEXMBUGA1UECBMOTm9ydGggQ2Fyb2xpbmExDzANBgNV\nBAcTBkR1cmhhbTEZMBcGA1UEChMQb3JnMS5leGFtcGxlLmNvbTEcMBoGA1UEAxMT\nY2Eub3JnMS5leGFtcGxlLmNvbTBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABDC3\nspCTT3pjfFXxkX/SFuBgWRiceR8rSoCNQOnIPeNGZK8xl2Zr7VuY06gqy9c+ecSU\nPUWaXiCQxiLgZuS6TOWjRTBDMA4GA1UdDwEB/wQEAwIBBjASBgNVHRMBAf8ECDAG\nAQH/AgEBMB0GA1UdDgQWBBRFWSc7GZqcJJyJjXSEspzgAYInGzAKBggqhkjOPQQD\nAgNIADBFAiEAodqc+adkiMuU6iv1IF8uJ/nMQbvMGoP3pb2827QzDosCICOw6W+y\nuH03H3RO6KhOcS1ZzPjspyjrcC+dwzYX4DpW\n-----END CERTIFICATE-----\n"
+                ]
+            },
+            "httpOptions": {
+                "verify": false
+            }
+        }
+    },
+    "orderers": {
+        "orderer0.example.com": {
+            "url": "grpcs://teraflow.nlehd.de:7050",
+            "tlsCACerts": {
+                "pem": "-----BEGIN CERTIFICATE-----\nMIICCzCCAbGgAwIBAgIUdZQo3q4OqyxIkidmAV4QkewCylIwCgYIKoZIzj0EAwIw\nYjELMAkGA1UEBhMCVVMxETAPBgNVBAgTCE5ldyBZb3JrMREwDwYDVQQHEwhOZXcg\nWW9yazEUMBIGA1UEChMLZXhhbXBsZS5jb20xFzAVBgNVBAMTDmNhLmV4YW1wbGUu\nY29tMB4XDTIyMDkyNzA4MzAwMFoXDTM3MDkyMzA4MzAwMFowYjELMAkGA1UEBhMC\nVVMxETAPBgNVBAgTCE5ldyBZb3JrMREwDwYDVQQHEwhOZXcgWW9yazEUMBIGA1UE\nChMLZXhhbXBsZS5jb20xFzAVBgNVBAMTDmNhLmV4YW1wbGUuY29tMFkwEwYHKoZI\nzj0CAQYIKoZIzj0DAQcDQgAERR0UzsHSFoyON+9Noxmk1IhnTvSdLWGgEpEwrqVr\n5DwitkeJwRWq134JBTmXuZzsUG87oN6Hr94XAEe4j9Zq8qNFMEMwDgYDVR0PAQH/\nBAQDAgEGMBIGA1UdEwEB/wQIMAYBAf8CAQEwHQYDVR0OBBYEFN8XsELp/X0akrlJ\nY3/BWo2jZS3cMAoGCCqGSM49BAMCA0gAMEUCIQCZYYXW/0h3Kq4BmROpOHfrondg\nopf5LndeujYlH3i8tQIgCtpTQiDXZd+IAUduRmn7a46CwJSbjYbXFVX5vumIbE4=\n-----END CERTIFICATE-----\n"
+            },
+            "grpcOptions": {
+                "ssl-target-name-override": "orderer0.example.com",
+                "hostnameOverride": "orderer0.example.com"
+            }
+        }
+    }
+}

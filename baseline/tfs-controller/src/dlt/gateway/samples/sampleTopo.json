@@ -1,0 +1,30 @@
+{
+    "name": "Network A",
+    "nodes": [
+        {
+            "id": "node1",
+            "type": "switch",
+            "status": "active",
+            "connections": [
+                "node2",
+                "node3"
+            ]
+        },
+        {
+            "id": "node2",
+            "type": "router",
+            "status": "inactive",
+            "connections": [
+                "node1"
+            ]
+        },
+        {
+            "id": "node3",
+            "type": "server",
+            "status": "active",
+            "connections": [
+                "node1"
+            ]
+        }
+    ]
+}
