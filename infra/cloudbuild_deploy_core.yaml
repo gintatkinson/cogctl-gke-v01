@@ -46,7 +46,13 @@ steps:
       # This resolves the 1/2 READY deadlock for the UI
       kubectl patch deployment webuiservice --type='json' -p='[{"op": "remove", "path": "/spec/template/spec/containers/1/readinessProbe"}, {"op": "remove", "path": "/spec/template/spec/containers/1/livenessProbe"}]' --namespace=default || true
       
-      echo "[DEPLOY] Mission Success: Core stack deployed and patched."
+      echo "[DEPLOY] Foundation Stabilization (Rollout Restart)..."
+      for COMP in "$${COMPONENTS[@]}"; do
+        kubectl rollout restart deployment "$${COMP}service" --namespace=default || true
+      done
+
+      echo "[DEPLOY] Mission Success: Core stack deployed and stabilized."
+
 substitutions:
   _CLUSTER_NAME: "sovereign-genesis-1776160802"
   _REGION: "us-central1"

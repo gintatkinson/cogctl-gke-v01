@@ -1,0 +1,37 @@
+# CLOUD BUILD: FOUNDATION MIRROR (ANCHORED DEPENDENCIES)
+# This manifest vaults critical third-party foundations in the Sovereign Registry.
+# This eliminates the dependency on Docker Hub/Bitnami during cluster re-ignition.
+
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'mirror-foundations'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        IMAGES=(
+          "cockroachdb/cockroach:v22.2.8"
+          "nats:2.9-alpine"
+          "bitnamilegacy/kafka:latest"
+        )
+        
+        REGISTRY="us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs"
+        
+        for IMAGE in "$${IMAGES[@]}"; do
+          echo "Mirroring $${IMAGE}..."
+          # Extract the base name (e.g., cockroach)
+          BASE=$$(basename $${IMAGE} | cut -d: -f1)
+          TAG=$$(echo $${IMAGE} | cut -d: -f2)
+          TARGET="$${REGISTRY}/$${BASE}:$${TAG}"
+          
+          docker pull $${IMAGE}
+          docker tag $${IMAGE} $${TARGET}
+          docker push $${TARGET}
+          
+          # Archive as stable foundation
+          docker tag $${TARGET} "$${REGISTRY}/$${BASE}:foundation-stable"
+          docker push "$${REGISTRY}/$${BASE}:foundation-stable"
+        done
+
+options:
+  logging: CLOUD_LOGGING_ONLY

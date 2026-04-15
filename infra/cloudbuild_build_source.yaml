@@ -1,0 +1,46 @@
+# CLOUD BUILD: SOVEREIGN BINARY BIRTH (BUILD-FROM-SOURCE)
+# This manifest builds the 11-service stack directly from GitHub source.
+# Resulting images are pushed to the Sovereign Artifact Registry vault.
+
+steps:
+  # 1. Build and Push 12 Core Services
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'build-core-services'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        SERVICES=(
+          "automation" "context" "device" "dlt" "kpi_manager" 
+          "monitoring" "nbi" "pathcomp" "policy" "service" 
+          "slice" "webui"
+        )
+        
+        REGISTRY="us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs"
+        TAG="v3.0.0-sovereign-$(date +%s)"
+        
+        echo "[SOVEREIGN] Starting Multi-Binary Build from Source..."
+        
+        # We build from the /baseline/tfs-controller directory
+        cd baseline/tfs-controller/
+        
+        for SERVICE in "$${SERVICES[@]}"; do
+          echo "Building $${SERVICE}..."
+          TARGET="$${REGISTRY}/$${SERVICE}:$${TAG}"
+          
+          # Use the specific Dockerfile for each service
+          docker build -t $${TARGET} -f src/$${SERVICE}/Dockerfile .
+          
+          echo "Pushing $${SERVICE} to Vault..."
+          docker push $${TARGET}
+          
+          # Archive a 'stable' tag for the re-ignition
+          docker tag $${TARGET} "$${REGISTRY}/$${SERVICE}:v3.0.0-stable"
+          docker push "$${REGISTRY}/$${SERVICE}:v3.0.0-stable"
+        done
+
+options:
+  machineType: 'E2_HIGHCPU_8'
+  logging: CLOUD_LOGGING_ONLY
+  env:
+    - 'DOCKER_BUILDKIT=1'

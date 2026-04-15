@@ -27,6 +27,7 @@ steps:
       
       # 5. Recovery of Metadata Secrets
       echo "[VAULT] Restoring metadata secrets..."
+      # CRDB / QDB Alias Alignment
       kubectl create secret generic qdb-data \
         --from-literal=username=admin \
         --from-literal=password=quest \
@@ -34,6 +35,23 @@ steps:
         --from-literal=METRICSDB_PASS=quest \
         --dry-run=client -o yaml | kubectl apply -f -
         
+      kubectl create secret generic crdb-data \
+        --from-literal=username=admin \
+        --from-literal=password=quest \
+        --from-literal=METRICSDB_USER=admin \
+        --from-literal=METRICSDB_PASS=quest \
+        --dry-run=client -o yaml | kubectl apply -f -
+
+      kubectl create secret generic kfk-kpi-data \
+        --from-literal=METRICSDB_USER=admin \
+        --from-literal=METRICSDB_PASS=quest \
+        --dry-run=client -o yaml | kubectl apply -f -
+
+      kubectl create secret generic nats-data \
+        --from-literal=username=admin \
+        --from-literal=password=quest \
+        --dry-run=client -o yaml | kubectl apply -f -
+         
       kubectl create secret docker-registry regcred \
         --docker-server=labs.etsi.org:5050 \
         --docker-username=antigravity \
@@ -41,3 +59,4 @@ steps:
         --dry-run=client -o yaml | kubectl apply -f -
 
       echo "[VAULT] Mission Success: Secrets established in-cluster."
+

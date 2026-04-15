@@ -24,7 +24,10 @@ I (the AI Agent) will never initiate modifications based on ambiguous intent. I 
 ### 3. REPOSITORY & CI/CD
 - **Source:** Mirror standard TFS distribution from `labs.etsi.org:5050` (GitLab) to `https://github.com/gintatkinson/cogctl-gke-v01`.
 - **Immutable Snapshot:** Once the ETSI baseline is cloned, it must be treated as an immutable snapshot. Do not pull upstream changes automatically; all updates must be manually archived and cross-referenced.
-- **Artifact Sync (Binary Locking):** Mirroring the repository is insufficient. All mandated container binaries MUST be pulled from the ETSI registry, re-tagged, and pushed to the local **GCP Artifact Registry** to ensure total independence from external flux.
+- **Binary Sovereignty (The Build-First Law):** 
+    - **Application Tier:** All TFS microservice binaries MUST be built directly from the source code in this GitHub repository to ensure deterministic fidelity. 
+    - **Foundation Tier:** Third-party dependencies (CockroachDB, NATS, Kafka) MUST be pulled from certified registries once, tagged with a "Sovereign" ID, and vaulted in the local GCP Artifact Registry. 
+    - **Zero-External Flux:** Once vaulted, the system MUST be 100% independent of external registries for deployment.
 - **Sync:** Use GitHub Actions to manage the local mirror and archive local modifications.
 - **Secrets:** DO NOT HARDCODE PATS. Use GCP Secret Manager for the GitLab PAT.
 

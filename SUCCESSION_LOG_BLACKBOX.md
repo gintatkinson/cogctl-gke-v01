@@ -64,3 +64,9 @@ Knowledge acquired during failure is the most critical asset for recovery. This 
 - **Discovery:** 1/2 READY pods prevent Ingress endpoints from populating. This is the 'Connection Refused' root cause.
 - **Lock:** Mandatory use of the **Relaxation Patch** (Rule 15) during the restoration phase.
 - **Trail:** See [SOP_READINESS_DEADLOCK.md](file:///home/parallels/Documents/cogctl-gke-v01/SOP_READINESS_DEADLOCK.md) for the tactical fix.
+
+### BB-018: Secret Reconciliation Discovery
+- **Discovery**: The `cloudbuild_vault.yaml` was out of sync with ETSI manifests, missing `crdb-data`, `kfk-kpi-data`, and `nats-data`.
+- **Status**: FIXED. Restoration phase complete.
+- **Handover State**: Pods are verified `Running` (internally). Perimeter `FW` rule `k8s-fw-...` for port 80/443 is confirmed open to `0.0.0.0/0`.
+

@@ -5,7 +5,7 @@
 set -e
 
 PROJECT_ID="cogctl-gke-v01"
-CLUSTER_NAME="${CLUSTER_NAME:-sovereign-genesis}"
+CLUSTER_NAME="${CLUSTER_NAME:-sovereign-genesis-1776160802}"
 REGION="${REGION:-us-central1}"
 
 log() { echo "[$(date +%Y-%m-%dT%H:%M:%S%z)] $1"; }

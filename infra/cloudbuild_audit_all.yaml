@@ -8,19 +8,37 @@ steps:
       echo "[AUDIT] Authenticating to Cluster: $_CLUSTER_NAME..."
       gcloud container clusters get-credentials "$_CLUSTER_NAME" --region "$_REGION"
       
-      echo "[AUDIT] Listing all Namespaces..."
+      echo "[AUDIT] Infrastructure Health (Nodes)..."
+      kubectl get nodes -o wide
+      
+      echo "[AUDIT] Namespace Inventory..."
       kubectl get namespaces
       
-      echo "[AUDIT] Listing all Pods (All Namespaces)..."
+      echo "[AUDIT] POD FORENSICS (All Namespaces)..."
       kubectl get pods -A
       
-      echo "[AUDIT] Listing Services (All Namespaces)..."
+      echo "[AUDIT] SERVICE INVENTORY..."
       kubectl get svc -A
       
-      echo "[AUDIT] Describing Ingress Status..."
-      kubectl get ingress -A
+      echo "[AUDIT] INGRESS BACKEND HEALTH..."
+      # Describe ingress to check for backend health from GKE perspective
+      kubectl describe ingress -A
+      
+      echo "[AUDIT] CORE LOG ANALYSIS (Checking for Silent Failures)..."
+      COMPONENTS=("context" "device" "service" "slice" "pathcomp" "nbi" "webui" "monitoring" "automation")
+      for COMP in "$${COMPONENTS[@]}"; do
+        echo "--- Logs for $${COMP}service ---"
+        kubectl logs --tail=50 -l app=$${COMP}service --all-containers=true || echo "No logs found for $${COMP}service"
+      done
+      
+      echo "[AUDIT] CONNECTIVITY VERIFICATION (Public Endpoint)..."
+      # Try to curl the ingress IP to verify perimeter access
+      INGRESS_IP=$$(kubectl get ingress tfs-ingress -o jsonpath='{.status.loadBalancer.ingress[0].ip}' || echo "$_INGRESS_IP_FALLBACK")
+      echo "Testing Connectivity to: $$INGRESS_IP"
+      curl -Ivvv -m 10 http://$$INGRESS_IP || echo "Connectivity Check FAILED (Timeout or Connection Refused)"
       
       echo "[AUDIT] Audit Complete."
 substitutions:
   _CLUSTER_NAME: "sovereign-genesis-1776160802"
   _REGION: "us-central1"
+  _INGRESS_IP_FALLBACK: "34.123.195.174"
