@@ -30,9 +30,9 @@ steps:
           continue
         fi
         
-        # Patch image path to use local Artifact Registry
-        # Note: We use 'latest' for now to match the mirror script
-        sed -i "s|labs.etsi.org:5050/tfs/controller/$${COMP}|$${REGISTRY}/$${COMP}:v3.0.0-stable|g" "$$MANIFEST"
+        # Patch image path to use Sovereign Artifact Registry with v3.0.0-stable tag
+        # Replace full pattern including the existing :tag to avoid double-tag InvalidImageName
+        sed -i "s|labs.etsi.org:5050/tfs/controller/$${COMP}:[a-zA-Z0-9._-]*|$${REGISTRY}/$${COMP}:v3.0.0-stable|g" "$$MANIFEST"
         
         echo "Applying $$MANIFEST..."
         kubectl apply -f "$$MANIFEST"
