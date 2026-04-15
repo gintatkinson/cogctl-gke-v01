@@ -41,4 +41,4 @@ steps:
 substitutions:
   _CLUSTER_NAME: "sovereign-genesis-1776197184"
   _REGION: "us-central1"
-  _INGRESS_IP_FALLBACK: "34.123.195.174"
+  _INGRESS_IP_FALLBACK: "136.112.218.241"
