@@ -204,3 +204,9 @@ Proceeding to Stage VI (Cluster Bootstrap).
 - **Next Step:** PHASE 5: SOVEREIGN RE-IGNITION.
 - **Checkpoint:** RE-BIRTH COMPLETE. Project is at the Absolute Beginning.
 
+#### LOG-041 | 2026-04-15 | PHASE 5: VAULT RE-ESTABLISHED
+- **Fix:** Corrected stale cluster anchor in `cloudbuild_deploy_core.yaml` (old: `1776160802` → new: `1776197184`).
+- **Build:** `f0cd3b02` - `cloudbuild_vault.yaml` — SUCCESS (2m10s).
+- **Secrets Created:** `tfs-gitlab-auth`, `tfs-database-creds`, `tfs-keycloak-creds`, `qdb-data`, `crdb-data`, `kfk-kpi-data`, `nats-data`, `regcred` (9 secrets total).
+- **Next Step:** CORE DEPLOYMENT via `cloudbuild_deploy_core.yaml`.
+

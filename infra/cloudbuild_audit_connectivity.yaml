@@ -13,4 +13,4 @@ steps:
       echo "[AUDIT] VERIFYING INGRESS CONTROLLER LOGS:"
       kubectl logs -l app.kubernetes.io/name=ingress-nginx -n ingress --tail=50
 substitutions:
-  _CLUSTER_NAME: "sovereign-genesis-1776160802"
+  _CLUSTER_NAME: "sovereign-genesis-1776197184"
