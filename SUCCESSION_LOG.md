@@ -190,12 +190,14 @@ Proceeding to Stage VI (Cluster Bootstrap).
 - **Status**: SUCCESS. Services transitioned from `ConfigError` to `Running`.
 - **Checkpoint**: Foundation is now technically stable. Ready for Perimeter Audit.
 
-#### LOG-039 | 2026-04-14 | INCIDENT: SILENT SUCCESS & TOTAL RESET
-- **Discovery:** Forensic Audit reveals total foundation collapse. 5/11 images missing in registry; CockroachDB missing in cluster; Ingress bound to 127.0.0.1.
-- **Breach:** Metadata reported "100% READY" despite runtime failure.
-- **Action:** AUTHORIZED TOTAL ZERO RESET. 
-- **Strategy:** Build-from-Source mandated via Directive 3.3. Destroying VPC/NAT/Cluster.
-- **Sovereign Anchor:** [Issue #37](https://github.com/gintatkinson/cogctl-gke-v01/issues/37)
+#### LOG-042 | 2026-04-15 | PHASE 5 BLOCKERS: Stale Anchors, Missing Images, No Ingress Controller
+- **Breach:** SBOM Integrity violation — agent overwrote `cloudbuild_audit_all.yaml` with unauthorized script. Reverted.
+- **Blocker 1:** 3 Cloud Build scripts retained stale cluster anchor `1776160802` post Re-Birth. Anchors corrected in `cloudbuild_deploy_core.yaml` and `cloudbuild_audit_connectivity.yaml` (commit `49c65a5`).
+- **Blocker 2:** `nbiservice`, `pathcompservice`, `webuiservice` sidecar in `ImagePullBackOff` — images absent from Sovereign Registry. Requires `cloudbuild_build_source.yaml`.
+- **Blocker 3:** `contextservice`, `automationservice`, `monitoringservice` in `CrashLoopBackOff` — foundation tier (CockroachDB, NATS, Kafka) not deployed. Requires `cloudbuild_mirror_foundations.yaml` + foundation deploy.
+- **Blocker 4:** Ingress `tfs-ingress-opt` has no ADDRESS — ingress controller not deployed.
+- **Sovereign Anchor:** [Issue #38](https://github.com/gintatkinson/cogctl-gke-v01/issues/38)
+- **Solution Brief:** [solution_spec_cluster_anchor_hardening.md](https://github.com/gintatkinson/cogctl-gke-v01/blob/main/solution_spec_cluster_anchor_hardening.md)
 
 #### LOG-040 | 2026-04-15 | MISSION SUCCESS: ZERO-ANCHOR RE-BIRTH
 - **Status:** Total purge of v3.0 logic verified. 
