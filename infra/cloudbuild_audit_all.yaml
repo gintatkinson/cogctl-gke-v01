@@ -39,6 +39,6 @@ steps:
       
       echo "[AUDIT] Audit Complete."
 substitutions:
-  _CLUSTER_NAME: "sovereign-genesis-1776160802"
+  _CLUSTER_NAME: "sovereign-genesis-1776197184"
   _REGION: "us-central1"
   _INGRESS_IP_FALLBACK: "34.123.195.174"
