@@ -6,10 +6,10 @@ steps:
     - |
       set -e
       # The following variable is populated by sed in master_ignition.sh
-      CLUSTER_NAME="sovereign-genesis-1776160802"
+      CLUSTER_NAME="sovereign-genesis-1776197184"
       
-      echo "[FINAL] Authenticating to cluster: sovereign-genesis-1776160802..."
-      gcloud container clusters get-credentials "sovereign-genesis-1776160802" --region us-central1
+      echo "[FINAL] Authenticating to cluster: sovereign-genesis-1776197184..."
+      gcloud container clusters get-credentials "sovereign-genesis-1776197184" --region us-central1
       
       echo "[FINAL] Ensuring Ingress Namespace exists..."
       kubectl create namespace ingress --dry-run=client -o yaml | kubectl apply -f -
