@@ -47,6 +47,8 @@ spec:
               value: "FALSE"
             - name: CRDB_DATABASE
               value: "tfs_context"
+            - name: CRDB_NAMESPACE
+              value: "default"
           envFrom:
             - secretRef:
                 name: crdb-data

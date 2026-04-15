@@ -1,0 +1,15 @@
+steps:
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - |
+      gcloud container clusters get-credentials "sovereign-genesis-1776197184" --region us-central1
+      echo "[DIAG] INGRESS DESCRIBE:"
+      kubectl describe ingress tfs-ingress-opt
+      echo "[DIAG] WEBUI SERVICE ENDPOINTS:"
+      kubectl get endpoints webuiservice
+      echo "[DIAG] WEBUI POD LOGS (Port 8004 Probe):"
+      kubectl logs -l app=webuiservice --all-containers=true --tail=100
+      echo "[DIAG] CONTEXT SERVICE STATUS (Backend Dependency):"
+      kubectl get pods -l app=contextservice

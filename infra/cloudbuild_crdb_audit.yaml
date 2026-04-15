@@ -1,0 +1,11 @@
+steps:
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - |
+      gcloud container clusters get-credentials "sovereign-genesis-1776197184" --region us-central1
+      echo "[DIAG] COCKROACHDB SERVICE:"
+      kubectl get svc -A | grep cockroachdb
+      echo "[DIAG] SECRET: crdb-data (Raw JSON)"
+      kubectl get secret crdb-data -o json
