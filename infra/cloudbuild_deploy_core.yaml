@@ -32,7 +32,7 @@ steps:
         
         # Patch image path to use local Artifact Registry
         # Note: We use 'latest' for now to match the mirror script
-        sed -i "s|labs.etsi.org:5050/tfs/controller/$${COMP}|$${REGISTRY}/$${COMP}|g" "$$MANIFEST"
+        sed -i "s|labs.etsi.org:5050/tfs/controller/$${COMP}|$${REGISTRY}/$${COMP}:v3.0.0-stable|g" "$$MANIFEST"
         
         echo "Applying $$MANIFEST..."
         kubectl apply -f "$$MANIFEST"
