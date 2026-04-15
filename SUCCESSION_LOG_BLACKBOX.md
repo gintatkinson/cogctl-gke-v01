@@ -70,3 +70,28 @@ Knowledge acquired during failure is the most critical asset for recovery. This 
 - **Status**: FIXED. Restoration phase complete.
 - **Handover State**: Pods are verified `Running` (internally). Perimeter `FW` rule `k8s-fw-...` for port 80/443 is confirmed open to `0.0.0.0/0`.
 
+### BB-019: PHASE 5 CRASH RECOVERY ANCHOR | 2026-04-15
+- **Context**: Antigravity outages causing random agent restarts. All Cloud Build jobs run REMOTELY and survive agent restarts.
+- **Active Cluster**: `sovereign-genesis-1776197184` | Region: `us-central1` | Project: `cogctl-gke-v01`
+- **Committed State**: All infra scripts anchored to `sovereign-genesis-1776197184` (commit `a0e2a10`). Zero stale refs.
+- **COMPLETED BUILDS THIS SESSION**:
+  - `f0cd3b02` — `cloudbuild_vault.yaml` — ✅ SUCCESS (9 secrets in cluster)
+  - `754d603f` — `cloudbuild_deploy_core.yaml` — ✅ SUCCESS (9 services + ingress resource deployed)
+  - `fe91f670` — `cloudbuild_mirror_foundations.yaml` — ✅ SUCCESS (CockroachDB, NATS, Kafka vaulted)
+- **IN-FLIGHT BUILDS** (check with `gcloud builds list --project=cogctl-gke-v01 --limit=5`):
+  - `dfc8147e` — `cloudbuild_build_source.yaml` — 🔄 WORKING (12 services built from source)
+  - `3db82940` — `cloudbuild_build_source.yaml` — 🔄 WORKING (duplicate async submission, harmless)
+- **NEXT STEPS AFTER BUILDS COMPLETE** (in order, using ONLY pre-committed scripts):
+  1. Run `cloudbuild_final.yaml` — deploys NGINX ingress controller, RBAC, service bridge, ingress routing
+  2. Run `cloudbuild_patch_probes.yaml` — relaxation patch across all 9 deployments
+  3. Run `cloudbuild_audit_all.yaml` — full cluster audit + HTTP perimeter probe
+  4. If all green → `cloudbuild_deploy_core.yaml` rollout restart to pick up new images
+- **KNOWN POD STATE** (as of last audit, Build `4cf23fe6`):
+  - ✅ Running: `deviceservice`, `serviceservice`, `sliceservice`
+  - ❌ ImagePullBackOff: `nbiservice`, `pathcompservice`, `webuiservice` sidecar (fixed by build-source)
+  - ❌ CrashLoopBackOff: `contextservice`, `automationservice`, `monitoringservice` (likely fixed by foundation mirror + new images)
+  - ❌ Ingress: No ADDRESS (fixed by cloudbuild_final.yaml)
+- **ISSUE TRACKER**: [Issue #38](https://github.com/gintatkinson/cogctl-gke-v01/issues/38)
+- **GOVERNANCE**: Do NOT create new scripts. Use ONLY committed infra/ scripts. Halt-on-Gap per Directive 13.
+
+
