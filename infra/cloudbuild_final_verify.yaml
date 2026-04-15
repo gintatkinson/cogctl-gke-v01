@@ -1,0 +1,20 @@
+steps:
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - |
+      set -e
+      echo "[AUDIT] Authenticating to Cluster..."
+      gcloud container clusters get-credentials "sovereign-genesis-1776197184" --region us-central1
+      
+      echo "[AUDIT] POD STATUS SUMMARY:"
+      kubectl get pods -A
+      
+      echo "[AUDIT] SERVICE ENDPOINT SUMMARY:"
+      kubectl get endpoints -A
+      
+      echo "[AUDIT] FINAL CONNECTIVITY PROBE (STATIC IP)..."
+      # Hardcoded verified IP: 136.112.218.241
+      echo "Testing Connectivity to Public IP: 136.112.218.241..."
+      curl -Ivvv -m 10 http://136.112.218.241/webui/ || echo "Connectivity Check FAILED"

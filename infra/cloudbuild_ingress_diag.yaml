@@ -1,0 +1,19 @@
+steps:
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - |
+      set -e
+      echo "[AUDIT] Authenticating to Cluster..."
+      gcloud container clusters get-credentials "sovereign-genesis-1776197184" --region us-central1
+      
+      echo "[DIAG] INGRESS PODS WITH LABELS:"
+      kubectl get pods -n ingress --show-labels
+      
+      echo "[DIAG] SERVICE SELECTORS:"
+      kubectl get svc -n ingress nginx-ingress-sovereign -o jsonpath='{.spec.selector}'
+      echo ""
+
+      echo "[DIAG] ENDPOINTS LIST:"
+      kubectl get endpoints -n ingress
