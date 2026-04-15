@@ -18,4 +18,4 @@ spec:
     targetPort: 443
     protocol: TCP
   selector:
-    name: nginx-ingress-microk8s-controller-opt
+    name: nginx-ingress-microk8s-opt

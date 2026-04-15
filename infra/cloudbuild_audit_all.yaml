@@ -33,7 +33,7 @@ steps:
       
       echo "[AUDIT] CONNECTIVITY VERIFICATION (Public Endpoint)..."
       # Try to curl the ingress IP to verify perimeter access
-      INGRESS_IP=$$(kubectl get ingress tfs-ingress -o jsonpath='{.status.loadBalancer.ingress[0].ip}' || echo "$_INGRESS_IP_FALLBACK")
+      INGRESS_IP=$$(kubectl get ingress tfs-ingress-opt -o jsonpath='{.status.loadBalancer.ingress[0].ip}' || echo "$_INGRESS_IP_FALLBACK")
       echo "Testing Connectivity to: $$INGRESS_IP"
       curl -Ivvv -m 10 http://$$INGRESS_IP || echo "Connectivity Check FAILED (Timeout or Connection Refused)"
       
