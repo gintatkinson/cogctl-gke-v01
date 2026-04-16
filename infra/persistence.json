@@ -1,9 +1,9 @@
 {
   "project_id": "cogctl-gke-v01",
-  "cluster_name": "sovereign-genesis-1776197184",
+  "cluster_name": "sovereign-genesis-1776316177",
   "region": "us-central1",
-  "ingress_ip": "34.123.195.174",
-  "identity_birth": "1776197184",
+  "ingress_ip": "PENDING",
+  "identity_birth": "1776316177",
   "architecture": "Hardened Native (v3.0)",
   "status": "RE-BIRTH COMPLETE",
   "agent_handover_timestamp": "2026-04-15T11:20:00Z"
