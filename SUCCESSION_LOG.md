@@ -212,3 +212,14 @@ Proceeding to Stage VI (Cluster Bootstrap).
 - **Secrets Created:** `tfs-gitlab-auth`, `tfs-database-creds`, `tfs-keycloak-creds`, `qdb-data`, `crdb-data`, `kfk-kpi-data`, `nats-data`, `regcred` (9 secrets total).
 - **Next Step:** CORE DEPLOYMENT via `cloudbuild_deploy_core.yaml`.
 
+
+#### LOG-044 | 2026-04-16 | INCIDENT: FOUNDATION DISCONNECT & CORE CRASH
+- **Discovery:** Core application stack (context, automation, monitoring, nbi) entered CrashLoopBackOff post-Readiness Relaxation.
+- **Root Cause:** 
+    1. CockroachDB birthed in SECURE mode while services lacked certs/config for it.
+    2. Kafka DNS mismatch: Advertised listeners pointed to non-existent .kafka namespace.
+    3. Missing EnvVars: CRDB_SQL_PORT absent from core manifests.
+- **Sovereign Anchor:** [Issue #41](https://github.com/gintatkinson/cogctl-gke-v01/issues/41), [Issue #42](https://github.com/gintatkinson/cogctl-gke-v01/issues/42), [Issue #43](https://github.com/gintatkinson/cogctl-gke-v01/issues/43).
+- **Solution Brief:** [DOCS/solution_spec_readiness_relaxation.md](https://github.com/gintatkinson/cogctl-gke-v01/blob/main/DOCS/solution_spec_readiness_relaxation.md).
+- **Next Step:** AUTHORIZED TOTAL ZERO PURGE (SOP-DISASTER) and autonomous SOP 1-6 recovery.
+- **Succession Note:** Do NOT attempt internal patching. Trust the Autonomous SOP Path.

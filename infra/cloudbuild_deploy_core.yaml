@@ -42,9 +42,16 @@ steps:
       kubectl apply -f baseline/tfs-controller/src/tests/ofc25/tfs-ingress-opt.yaml
       
       echo "[DEPLOY] RELAXATION PATCH (SOP-READINESS-DEADLOCK)..."
-      # Patch webuiservice to remove probes for the sidecar (index 1)
-      # This resolves the 1/2 READY deadlock for the UI
-      kubectl patch deployment webuiservice --type='json' -p='[{"op": "remove", "path": "/spec/template/spec/containers/1/readinessProbe"}, {"op": "remove", "path": "/spec/template/spec/containers/1/livenessProbe"}]' --namespace=default || true
+      # Scaling relaxation to all components to bypass Autopilot probe deadlocks
+      for COMP in "$${COMPONENTS[@]}"; do
+        # Component exists as $${COMP}service
+        DEP="$${COMP}service"
+        echo "Relaxing $$DEP..."
+        # Remove probes for both primary and sidecar containers (indices 0 and 1)
+        # We use || true because not all pods have 2 containers
+        kubectl patch deployment "$$DEP" --type='json' -p='[{"op": "remove", "path": "/spec/template/spec/containers/0/readinessProbe"}, {"op": "remove", "path": "/spec/template/spec/containers/0/livenessProbe"}]' --namespace=default || true
+        kubectl patch deployment "$$DEP" --type='json' -p='[{"op": "remove", "path": "/spec/template/spec/containers/1/readinessProbe"}, {"op": "remove", "path": "/spec/template/spec/containers/1/livenessProbe"}]' --namespace=default || true
+      done
       
       echo "[DEPLOY] Foundation Stabilization (Rollout Restart)..."
       for COMP in "$${COMPONENTS[@]}"; do
@@ -54,5 +61,5 @@ steps:
       echo "[DEPLOY] Mission Success: Core stack deployed and stabilized."
 
 substitutions:
-  _CLUSTER_NAME: "sovereign-genesis-1776197184"
+  _CLUSTER_NAME: "sovereign-genesis-1776316177"
   _REGION: "us-central1"

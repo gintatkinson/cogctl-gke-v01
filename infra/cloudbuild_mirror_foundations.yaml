@@ -13,6 +13,7 @@ steps:
           "cockroachdb/cockroach:v22.2.8"
           "nats:2.9-alpine"
           "bitnamilegacy/kafka:latest"
+          "questdb/questdb:7.3.3"
         )
         
         REGISTRY="us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs"
