@@ -64,6 +64,7 @@ spec:
         imagePullPolicy: IfNotPresent
         args:
         - start-single-node
+        - --insecure
         ports:
         - containerPort: 8080
           name: http

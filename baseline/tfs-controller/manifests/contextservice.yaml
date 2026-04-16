@@ -49,6 +49,8 @@ spec:
               value: "tfs_context"
             - name: CRDB_NAMESPACE
               value: "default"
+            - name: CRDB_SQL_PORT
+              value: "26257"
           envFrom:
             - secretRef:
                 name: crdb-data

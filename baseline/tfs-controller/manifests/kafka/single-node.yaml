@@ -83,7 +83,7 @@ spec:
           - name: KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP
             value: "PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT,EXTERNAL:PLAINTEXT"
           - name: KAFKA_CFG_ADVERTISED_LISTENERS
-            value: "PLAINTEXT://kafka-public.kafka.svc.cluster.local:9092,EXTERNAL://localhost:9094"
+            value: "PLAINTEXT://kafka-public.default.svc.cluster.local:9092,EXTERNAL://localhost:9094"
           - name: KAFKA_CFG_CONTROLLER_LISTENER_NAMES
             value: "CONTROLLER"
           - name: KAFKA_CFG_CONTROLLER_QUORUM_VOTERS
