@@ -30,28 +30,27 @@ steps:
           continue
         fi
         
-        # Patch image path to use Sovereign Artifact Registry with v3.0.0-stable tag
-        # Replace full pattern including the existing :tag to avoid double-tag InvalidImageName
+        # Patch image path to use Sovereign Artifact Registry
         sed -i "s|labs.etsi.org:5050/tfs/controller/$${COMP}:[a-zA-Z0-9._-]*|$${REGISTRY}/$${COMP}:v3.0.0-stable|g" "$$MANIFEST"
         
         echo "Applying $$MANIFEST..."
         kubectl apply -f "$$MANIFEST"
       done
       
+      echo "[DEPLOY] INJECTING CRDB CONFIGURATION (Declarative Fix)..."
+      CRDB_TARGETS=("automation" "analytics" "kpi_manager" "qkd_app" "qos_profile" "simap_connector" "telemetry")
+      for TARGET in "$${CRDB_TARGETS[@]}"; do
+        if kubectl get deployment "$${TARGET}service" -n default > /dev/null 2>&1; then
+          echo "Injecting CRDB variables into $${TARGET}service..."
+          kubectl set env deployment/"$${TARGET}service" CRDB_NAMESPACE="default" CRDB_SQL_PORT="26257" --namespace=default
+        fi
+      done
+      
       echo "[DEPLOY] Applying Ingress Resource..."
       kubectl apply -f baseline/tfs-controller/src/tests/ofc25/tfs-ingress-opt.yaml
       
       echo "[DEPLOY] RELAXATION PATCH (SOP-READINESS-DEADLOCK)..."
-      # Scaling relaxation to all components to bypass Autopilot probe deadlocks
-      for COMP in "$${COMPONENTS[@]}"; do
-        # Component exists as $${COMP}service
-        DEP="$${COMP}service"
-        echo "Relaxing $$DEP..."
-        # Remove probes for both primary and sidecar containers (indices 0 and 1)
-        # We use || true because not all pods have 2 containers
-        kubectl patch deployment "$$DEP" --type='json' -p='[{"op": "remove", "path": "/spec/template/spec/containers/0/readinessProbe"}, {"op": "remove", "path": "/spec/template/spec/containers/0/livenessProbe"}]' --namespace=default || true
-        kubectl patch deployment "$$DEP" --type='json' -p='[{"op": "remove", "path": "/spec/template/spec/containers/1/readinessProbe"}, {"op": "remove", "path": "/spec/template/spec/containers/1/livenessProbe"}]' --namespace=default || true
-      done
+      kubectl patch deployment webuiservice --type='json' -p='[{"op": "remove", "path": "/spec/template/spec/containers/1/readinessProbe"}, {"op": "remove", "path": "/spec/template/spec/containers/1/livenessProbe"}]' --namespace=default || true
       
       echo "[DEPLOY] Foundation Stabilization (Rollout Restart)..."
       for COMP in "$${COMPONENTS[@]}"; do
@@ -61,5 +60,5 @@ steps:
       echo "[DEPLOY] Mission Success: Core stack deployed and stabilized."
 
 substitutions:
-  _CLUSTER_NAME: "sovereign-genesis-1776316177"
+  _CLUSTER_NAME: "sovereign-genesis-1776197184"
   _REGION: "us-central1"
