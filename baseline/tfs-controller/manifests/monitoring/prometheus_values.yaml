@@ -29,7 +29,7 @@ server:
   logLevel: "debug"
   resources:
     requests:
-      cpu: "250m"
+      cpu: "125m"
       memory: "256Mi"
     limits:
       cpu: "1"

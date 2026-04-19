@@ -43,7 +43,7 @@ spec:
               memory: 64Mi
             limits:
               cpu: 512m
-              memory: 128Mi
+              memory: 64Mi
 ---
 apiVersion: v1
 kind: Service

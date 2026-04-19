@@ -78,7 +78,7 @@ spec:
           value: "%CRDB_PASSWORD%"
         resources:
           requests:
-            cpu: "250m"
+            cpu: "125m"
             memory: 1Gi
           limits:
             cpu: "1"
