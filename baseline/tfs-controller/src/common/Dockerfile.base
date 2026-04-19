@@ -28,13 +28,13 @@ ENV PATH="${VIRTUAL_ENV}/bin:${PATH}"
 RUN python3 -m pip install --upgrade pip setuptools wheel pip-tools
 
 # Pre-compile Common Requirements
-COPY baseline/tfs-controller/src/common/common_requirements.in .
+COPY baseline/tfs-controller/common_requirements.in .
 RUN pip-compile --quiet --output-file=common_requirements.txt common_requirements.in && \
     python3 -m pip install -r common_requirements.txt
 
 # Global Proto Generation (Architecture Physics Optimization)
 # Instead of re-building protos 10+ times, we bake them into the base layer.
-COPY baseline/tfs-controller/src/common/proto/ /var/teraflow/proto/
+COPY baseline/tfs-controller/proto/ /var/teraflow/proto/
 RUN mkdir -p common/proto && \
     python3 -m grpc_tools.protoc -I=/var/teraflow/proto/ --python_out=common/proto --grpc_python_out=common/proto /var/teraflow/proto/*.proto && \
     find common/proto -type f -exec sed -i -E 's/^(import\ .*)_pb2/from . \1_pb2/g' {} \;
