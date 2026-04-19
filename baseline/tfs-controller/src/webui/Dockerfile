@@ -17,7 +17,7 @@ FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:2026-04
 
 # Add component code
 WORKDIR /var/teraflow
-COPY . webui/
+COPY baseline/tfs-controller/src/webui/ webui/
 
 # Standardize logs and entrypoint
 ENV PYTHONUNBUFFERED=1

@@ -17,7 +17,7 @@ FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:2026-04
 
 # Add component code
 WORKDIR /var/teraflow
-COPY . service/
+COPY baseline/tfs-controller/src/service/ service/
 
 # Standardize logs and entrypoint
 ENV PYTHONUNBUFFERED=1
