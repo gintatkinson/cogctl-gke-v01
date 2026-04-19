@@ -1,0 +1,51 @@
+# Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# STAGE 1: Sovereign Python Base (Builder)
+FROM python:3.11-slim AS builder
+
+# Install build-time binaries
+RUN apt-get update && apt-get install -y g++ git wget && rm -rf /var/lib/apt/lists/*
+
+# Set up working environment
+WORKDIR /var/teraflow
+ENV VIRTUAL_ENV=/var/teraflow/venv
+RUN python3 -m venv ${VIRTUAL_ENV}
+ENV PATH="${VIRTUAL_ENV}/bin:${PATH}"
+
+# Prepare compilation tools
+RUN python3 -m pip install --upgrade pip setuptools wheel pip-tools
+
+# Pre-compile Common Requirements
+COPY baseline/tfs-controller/common_requirements.in .
+RUN pip-compile --quiet --output-file=common_requirements.txt common_requirements.in && \
+    python3 -m pip install -r common_requirements.txt
+
+# Global Proto Generation (Architecture Physics Optimization)
+# Instead of re-building protos 10+ times, we bake them into the base layer.
+COPY baseline/tfs-controller/proto/ /var/teraflow/proto/
+RUN mkdir -p common/proto && \
+    python3 -m grpc_tools.protoc -I=/var/teraflow/proto/ --python_out=common/proto --grpc_python_out=common/proto /var/teraflow/proto/*.proto && \
+    find common/proto -type f -exec sed -i -E 's/^(import\ .*)_pb2/from . \1_pb2/g' {} \;
+
+# STAGE 2: Runner Base
+# This stage forms the foundations for all individual TFS services.
+FROM python:3.11-slim AS runner
+WORKDIR /var/teraflow
+
+COPY --from=builder /var/teraflow/venv /var/teraflow/venv
+COPY --from=builder /var/teraflow/common /var/teraflow/common
+
+ENV PATH="/var/teraflow/venv/bin:${PATH}"
+ENV PYTHONUNBUFFERED=1
