@@ -44,7 +44,7 @@ spec:
           - 0
       containers:
         - name: server
-          image: labs.etsi.org:5050/tfs/controller/webui:latest
+          image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/webui:v3.0.0-stable
           imagePullPolicy: Always
           ports:
             - containerPort: 8004
@@ -53,18 +53,6 @@ spec:
               value: "INFO"
             - name: WEBUISERVICE_SERVICE_BASEURL_HTTP
               value: "/webui/"
-          readinessProbe:
-            httpGet:
-              path: /healthz/ready
-              port: 8004
-            initialDelaySeconds: 5
-            timeoutSeconds: 1
-          livenessProbe:
-            httpGet:
-              path: /healthz/live
-              port: 8004
-            initialDelaySeconds: 5
-            timeoutSeconds: 1
           resources:
             requests:
               cpu: 50m
@@ -84,25 +72,6 @@ spec:
               value: "http://0.0.0.0:3000/grafana/"
             - name: GF_SERVER_SERVE_FROM_SUB_PATH
               value: "true"
-          readinessProbe:
-            failureThreshold: 60
-            httpGet:
-              #path: /robots.txt
-              path: /login
-              port: 3000
-              scheme: HTTP
-            initialDelaySeconds: 1
-            periodSeconds: 1
-            successThreshold: 1
-            timeoutSeconds: 2
-          livenessProbe:
-            failureThreshold: 60
-            initialDelaySeconds: 1
-            periodSeconds: 1
-            successThreshold: 1
-            tcpSocket:
-              port: 3000
-            timeoutSeconds: 1
           resources:
             requests:
               cpu: 250m
@@ -157,3 +126,5 @@ spec:
   #behavior:
   #  scaleDown:
   #    stabilizationWindowSeconds: 30
+
+

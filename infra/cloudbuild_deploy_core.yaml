@@ -20,9 +20,9 @@ steps:
         "automation"
       )
       
-      REGISTRY="us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs"
+      REGISTRY="$_REGION-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs"
       
-      echo "[DEPLOY] Patching and Applying Core Manifests..."
+      echo "[DEPLOY] Applying Core Manifests (Baseline Fidelity)..."
       for COMP in "$${COMPONENTS[@]}"; do
         MANIFEST="baseline/tfs-controller/manifests/$${COMP}service.yaml"
         if [ ! -f "$$MANIFEST" ]; then
@@ -32,9 +32,23 @@ steps:
         
         # Patch image path to use Sovereign Artifact Registry
         sed -i "s|labs.etsi.org:5050/tfs/controller/$${COMP}:[a-zA-Z0-9._-]*|$${REGISTRY}/$${COMP}:v3.0.0-stable|g" "$$MANIFEST"
-        
-        echo "Applying $$MANIFEST..."
+                echo "Applying $$MANIFEST..."
         kubectl apply -f "$$MANIFEST"
+      done
+
+      echo "[DEPLOY] Injecting CRDB Configuration (Fidelity Correction)..."
+      CRDB_SERVICES=(
+        "analytics"
+        "automation"
+        "kpi_manager"
+        "qkd_app"
+        "qos_profile"
+        "simap_connector"
+        "telemetry"
+      )
+      for SVC in "$${CRDB_SERVICES[@]}"; do
+        echo "Injecting env vars into $${SVC}service..."
+        kubectl set env deployment/"$${SVC}service" CRDB_NAMESPACE="default" CRDB_SQL_PORT="26257" --namespace=default
       done
       
       echo "[DEPLOY] INJECTING CRDB CONFIGURATION (Declarative Fix)..."
@@ -51,8 +65,7 @@ steps:
       
       echo "[DEPLOY] RELAXATION PATCH (SOP-READINESS-DEADLOCK)..."
       kubectl patch deployment webuiservice --type='json' -p='[{"op": "remove", "path": "/spec/template/spec/containers/1/readinessProbe"}, {"op": "remove", "path": "/spec/template/spec/containers/1/livenessProbe"}]' --namespace=default || true
-      
-      echo "[DEPLOY] Foundation Stabilization (Rollout Restart)..."
+            echo "[DEPLOY] Foundation Stabilization (Rollout Restart)..."
       for COMP in "$${COMPONENTS[@]}"; do
         kubectl rollout restart deployment "$${COMP}service" --namespace=default || true
       done
@@ -60,5 +73,5 @@ steps:
       echo "[DEPLOY] Mission Success: Core stack deployed and stabilized."
 
 substitutions:
-  _CLUSTER_NAME: "sovereign-genesis-1776197184"
+  _CLUSTER_NAME: "sovereign-genesis-1776528985"
   _REGION: "us-central1"

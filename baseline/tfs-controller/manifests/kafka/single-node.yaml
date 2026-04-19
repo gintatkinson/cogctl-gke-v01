@@ -64,7 +64,7 @@ spec:
       restartPolicy: Always
       containers:
       - name: kafka
-        image: bitnamilegacy/kafka:latest
+        image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/kafka:latest
         imagePullPolicy: IfNotPresent
         ports:
         - name: clients

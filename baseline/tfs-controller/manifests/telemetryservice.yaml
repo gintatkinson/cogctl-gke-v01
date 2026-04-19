@@ -29,7 +29,7 @@ spec:
       terminationGracePeriodSeconds: 5
       containers:
         - name: frontend
-          image: labs.etsi.org:5050/tfs/controller/telemetry-frontend:latest
+          image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/telemetry-frontend:v3.0.0-stable
           imagePullPolicy: Always
           ports:
             - containerPort: 30050
@@ -39,6 +39,10 @@ spec:
               value: "INFO"
             - name: CRDB_DATABASE
               value: "tfs_telemetry"
+            - name: CRDB_NAMESPACE
+              value: "default"
+            - name: CRDB_SQL_PORT
+              value: "26257"
             - name: METRICS_PORT
               value: "9192"
           envFrom:
@@ -46,12 +50,6 @@ spec:
                 name: crdb-data
             - secretRef:
                 name: kfk-kpi-data
-          readinessProbe:
-            exec:
-              command: ["/bin/grpc_health_probe", "-addr=:30050"]
-          livenessProbe:
-            exec:
-              command: ["/bin/grpc_health_probe", "-addr=:30050"]
           resources:
             requests:
               cpu: 250m
@@ -60,7 +58,7 @@ spec:
               cpu: 1000m
               memory: 1024Mi
         - name: backend
-          image: labs.etsi.org:5050/tfs/controller/telemetry-backend:latest
+          image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/telemetry-backend:v3.0.0-stable
           imagePullPolicy: Always
           ports:
             - containerPort: 30060
@@ -73,12 +71,6 @@ spec:
           envFrom:
             - secretRef:
                 name: kfk-kpi-data
-          readinessProbe:
-            exec:
-              command: ["/bin/grpc_health_probe", "-addr=:30060"]
-          livenessProbe:
-            exec:
-              command: ["/bin/grpc_health_probe", "-addr=:30060"]
           resources:
             requests:
               cpu: 250m
@@ -142,3 +134,4 @@ spec:
   #behavior:
   #  scaleDown:
   #    stabilizationWindowSeconds: 30
+

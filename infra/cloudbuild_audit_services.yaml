@@ -5,7 +5,7 @@ steps:
     - '-c'
     - |
       set -e
-      gcloud container clusters get-credentials "sovereign-genesis-1776197184" --region us-central1
+      gcloud container clusters get-credentials "$_CLUSTER_NAME" --region $_REGION
       
       echo "[AUDIT] FULL POD STATUS:"
       kubectl get pods -A
@@ -18,3 +18,7 @@ steps:
       
       echo "[AUDIT] CHECKING NGINX CONTROLLER LOGS (SPECIFIC ERRORS):"
       kubectl logs -l name=nginx-ingress-microk8s-opt -n ingress --tail=200 | grep -E "error|fail" || echo "No errors found in logs"
+
+substitutions:
+  _CLUSTER_NAME: "REPLACE_ME"
+  _REGION: "us-central1"

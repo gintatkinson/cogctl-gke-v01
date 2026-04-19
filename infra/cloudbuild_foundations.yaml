@@ -6,10 +6,10 @@ steps:
     - |
       set -e
       PROJECT_ID="cogctl-gke-v01"
-      REGISTRY="us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs"
+      REGISTRY="$_REGION-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs"
       
       echo "[FOUNDATION] Authenticating to cluster..."
-      gcloud container clusters get-credentials "sovereign-genesis-1776197184" --region us-central1
+      gcloud container clusters get-credentials "$_CLUSTER_NAME" --region $_REGION
       
       # 1. COCKROACHDB (Single Node)
       echo "[FOUNDATION] Deploying CockroachDB..."
@@ -77,3 +77,7 @@ steps:
       kubectl apply -f nats_recovery.yaml
 
       echo "[FOUNDATION] Mission Success: All foundations applied."
+
+substitutions:
+  _CLUSTER_NAME: "REPLACE_ME"
+  _REGION: "us-central1"

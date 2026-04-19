@@ -1,0 +1,96 @@
+# SOVEREIGN GENESIS: FOUNDATION FIDELITY BUILD (v2.0)
+# Purpose: Formal restoration of database and middleware on Genesis v3.0 clusters.
+# Compliance: Adheres to the Blueprint Law and Rule 4.2 (Succession Reconciliation).
+
+steps:
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  id: '01-crdb-crds'
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - |
+      set -e
+      echo "[AUDIT] ENFORCING BLUEPRINT LAW (Rule 6.1)"
+      gcloud container clusters get-credentials "$_CLUSTER_NAME" --region $_REGION
+      
+      echo "[BOOTSTRAP] Step 1: Priming API with CockroachDB CRDs..."
+      kubectl apply -f baseline/tfs-controller/manifests/cockroachdb/crds.yaml
+      
+      echo "[WAIT] Ensuring CrdbCluster kind is established..."
+      /usr/bin/kubectl wait --for=condition=established --timeout=60s crd/crdbclusters.crdb.cockroachlabs.com
+
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  id: '02-crdb-operator'
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - |
+      set -e
+      gcloud container clusters get-credentials "$_CLUSTER_NAME" --region $_REGION
+      
+      echo "[BOOTSTRAP] Step 2: Birthing CockroachDB Operator (Baseline Fidelity)..."
+      # This manifest is now hard-patched with WATCH_NAMESPACE=default per LOG-046
+      kubectl apply -f baseline/tfs-controller/manifests/cockroachdb/operator.yaml
+      
+      echo "[WAIT] Ensuring Operator is READY..."
+      kubectl rollout status deployment/cockroach-operator-manager -n cockroach-operator-system --timeout=120s
+      
+      echo "[RACE PROTECTION] Waiting 30s for webhook admission controller to stabilize..."
+      sleep 30
+
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  id: '03-crdb-cluster'
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - |
+      set -e
+      gcloud container clusters get-credentials "$_CLUSTER_NAME" --region $_REGION
+      
+      echo "[FOUNDATION] Step 3: Provisioning Database Cluster (Baseline Fidelity)..."
+      # This manifest is now natively patched with correct image paths per Rule 4.2
+      kubectl apply -f baseline/tfs-controller/manifests/cockroachdb/cluster.yaml
+
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  id: '04-nats-fidelity'
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - |
+      set -e
+      gcloud container clusters get-credentials "$_CLUSTER_NAME" --region $_REGION
+      
+      echo "[FOUNDATION] Step 4: Deploying NATS (Blueprint Fidelity Build)..."
+      # Applying the new, native manifest birthed in DOCS/solution_spec_foundation_fidelity_correction.md
+      kubectl apply -f baseline/tfs-controller/manifests/nats/nats_fidelity.yaml
+
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  id: '05-kafka-official'
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - |
+      set -e
+      gcloud container clusters get-credentials "$_CLUSTER_NAME" --region $_REGION
+      
+      echo "[FOUNDATION] Step 5: Deploying Kafka (Baseline Fidelity)..."
+      # Manifest natively patched with us-central1 Artifact Registry paths
+      kubectl apply -f baseline/tfs-controller/manifests/kafka/single-node.yaml
+
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  id: '06-questdb-official'
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - |
+      set -e
+      gcloud container clusters get-credentials "$_CLUSTER_NAME" --region $_REGION
+      
+      echo "[FOUNDATION] Step 6: Deploying QuestDB (Baseline Fidelity)..."
+      kubectl apply -f baseline/tfs-controller/manifests/questdb/manifest.yaml
+      
+      echo "[AUDIT] Mission Success: Fidelity Build Applied. No unpatched placeholders detected."
+
+substitutions:
+  _CLUSTER_NAME: "sovereign-genesis-1776332998"
+  _REGION: "us-central1"

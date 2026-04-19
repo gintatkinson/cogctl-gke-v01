@@ -20,6 +20,10 @@
 - **Rule 5.1**: Every service crash or configuration gap (e.g., `CRDB_NAMESPACE`) must be documented in a Technical Solution Spec and a GitHub Issue.
 - **Rule 5.2**: The `SUCCESSION_LOG_BLACKBOX.md` must be updated at the end of every operational session.
 
+## 6. The Blueprint Law (Design Rigor)
+- **Rule 6.1**: Every proposed design for infrastructure or automation MUST adhere to the **Sovereign Blueprint Law** (see `SOVEREIGN_BLUEPRINT_LAW.md`).
+- **Rule 6.2**: Design-time oversights that ignore documented baseline solutions are considered a Governance Breach and must be logged as such.
+
 ---
-**Status**: ACTIVE (Governance Structural Refactor v1.0)
-**Execution Standard**: Compliance with SOP-01 through SOP-06 is mandatory.
+**Status**: ACTIVE (Governance Structural Refactor v1.1)
+**Execution Standard**: Compliance with SOP-01 through SOP-06 and the Blueprint Law is mandatory.

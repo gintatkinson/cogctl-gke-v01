@@ -45,7 +45,7 @@ steps:
           "labs.etsi.org:5050/tfs/controller/kpi_manager:latest"
         )
         
-        REGISTRY="us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs"
+        REGISTRY="$_REGION-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs"
         
         for IMAGE in "$${IMAGES[@]}"; do
           echo "Mirroring $${IMAGE}..."

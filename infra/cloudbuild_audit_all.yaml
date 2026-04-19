@@ -1,3 +1,8 @@
+# SOVEREIGN GENESIS: GROUND TRUTH AUDIT
+# Purpose: Deep forensic inspection of the cluster state, pods, and ingress health.
+# Path: infra/cloudbuild_audit_all.yaml
+# Verification: Run after Phase 5 to confirm environment stability.
+
 steps:
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   entrypoint: 'bash'
@@ -39,6 +44,6 @@ steps:
       
       echo "[AUDIT] Audit Complete."
 substitutions:
-  _CLUSTER_NAME: "sovereign-genesis-1776197184"
+  _CLUSTER_NAME: "REPLACE_ME"
   _REGION: "us-central1"
-  _INGRESS_IP_FALLBACK: "136.112.218.241"
+  _INGRESS_IP_FALLBACK: "REPLACE_ME"

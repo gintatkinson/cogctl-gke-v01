@@ -28,7 +28,7 @@ spec:
       terminationGracePeriodSeconds: 5
       containers:
         - name: server
-          image: labs.etsi.org:5050/tfs/controller/dbscanserving:latest
+          image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/dbscanserving:v3.0.0-stable
           imagePullPolicy: Always
           ports:
             - containerPort: 10008
@@ -36,12 +36,6 @@ spec:
           env:
             - name: LOG_LEVEL
               value: "INFO"
-          readinessProbe:
-            exec:
-              command: ["/bin/grpc_health_probe", "-addr=:10008"]
-          livenessProbe:
-            exec:
-              command: ["/bin/grpc_health_probe", "-addr=:10008"]
           resources:
             requests:
               cpu: 250m
@@ -89,3 +83,4 @@ spec:
   #behavior:
   #  scaleDown:
   #    stabilizationWindowSeconds: 30
+

@@ -6,7 +6,7 @@ steps:
     - |
       set -e
       echo "[AUDIT] Authenticating to Cluster..."
-      gcloud container clusters get-credentials "sovereign-genesis-1776197184" --region us-central1
+      gcloud container clusters get-credentials "$_CLUSTER_NAME" --region $_REGION
       
       echo "[DIAG] INGRESS PODS WITH LABELS:"
       kubectl get pods -n ingress --show-labels
@@ -17,3 +17,7 @@ steps:
 
       echo "[DIAG] ENDPOINTS LIST:"
       kubectl get endpoints -n ingress
+
+substitutions:
+  _CLUSTER_NAME: "REPLACE_ME"
+  _REGION: "us-central1"

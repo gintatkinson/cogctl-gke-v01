@@ -29,7 +29,7 @@ spec:
       terminationGracePeriodSeconds: 5
       containers:
         - name: frontend
-          image: labs.etsi.org:5050/tfs/controller/pathcomp-frontend:latest
+          image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/pathcomp-frontend:v3.0.0-stable
           imagePullPolicy: Always
           ports:
             - containerPort: 10020
@@ -39,12 +39,6 @@ spec:
               value: "INFO"
             - name: ENABLE_FORECASTER
               value: "NO"
-          readinessProbe:
-            exec:
-              command: ["/bin/grpc_health_probe", "-addr=:10020"]
-          livenessProbe:
-            exec:
-              command: ["/bin/grpc_health_probe", "-addr=:10020"]
           resources:
             requests:
               cpu: 250m
@@ -53,7 +47,7 @@ spec:
               cpu: 1000m
               memory: 1024Mi
         - name: backend
-          image: labs.etsi.org:5050/tfs/controller/pathcomp-backend:latest
+          image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/pathcomp-backend:v3.0.0-stable
           imagePullPolicy: Always
           ports:
             - containerPort: 8081
@@ -122,3 +116,5 @@ spec:
   #behavior:
   #  scaleDown:
   #    stabilizationWindowSeconds: 30
+
+

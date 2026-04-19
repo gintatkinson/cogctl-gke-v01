@@ -1,3 +1,8 @@
+# SOVEREIGN GENESIS: READINESS PROBE RELAXATION
+# Purpose: Bridges the GKE Autopilot startup deadlock by loosening probe thresholds.
+# Strategy: Replaces sidecar probes with high-latency variants instead of deletion.
+# Reference: DOCS/solution_spec_readiness_relaxation.md
+
 steps:
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   entrypoint: 'bash'
@@ -19,17 +24,20 @@ steps:
         "automationservice"
       )
       
-      echo "[PATCH] APPLYING RELAXATION PATCH (Removing Sidecar Probes)..."
-      for COMP in "$${COMPONENTS[@]}"; do
+      echo "[PATCH] APPLYING RELAXATION PATCH (High-Timeout Probes)..."
+      for COMP in "${COMPONENTS[@]}"; do
         echo "Patching $$COMP..."
-        # Patch to remove readiness and liveness probes for the sidecar (container index 1)
-        # Note: Index 1 is standard for TFS microservices with sidecars (e.g. Grafana, Redis)
-        kubectl patch deployment "$$COMP" --type='json' -p='[{"op": "remove", "path": "/spec/template/spec/containers/1/readinessProbe"}, {"op": "remove", "path": "/spec/template/spec/containers/1/livenessProbe"}]' --namespace=default || echo "Warning: Could not patch $$COMP (maybe no sidecar?)"
+        # Replace sidecar probes with long-timeout variants to bridge Autopilot latency
+        RELAX_PROBE='{"initialDelaySeconds": 300, "periodSeconds": 10, "timeoutSeconds": 5, "failureThreshold": 30, "tcpSocket": {"port": 80}}'
+        kubectl patch deployment "$$COMP" --type='json' -p="[
+          {\"op\": \"replace\", \"path\": \"/spec/template/spec/containers/1/readinessProbe\", \"value\": $$RELAX_PROBE},
+          {\"op\": \"replace\", \"path\": \"/spec/template/spec/containers/1/livenessProbe\", \"value\": $$RELAX_PROBE}
+        ]" --namespace=default || echo "Warning: Could not patch $$COMP (maybe no sidecar?)"
       done
       
       echo "[PATCH] Verification of Pod Readiness..."
       kubectl get pods -A
       
 substitutions:
-  _CLUSTER_NAME: "sovereign-genesis-1776197184"
+  _CLUSTER_NAME: "REPLACE_ME"
   _REGION: "us-central1"

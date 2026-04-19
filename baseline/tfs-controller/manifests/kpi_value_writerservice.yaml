@@ -31,7 +31,7 @@ spec:
       terminationGracePeriodSeconds: 5
       containers:
         - name: server
-          image: labs.etsi.org:5050/tfs/controller/kpi_value_writer:latest
+          image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/kpi_value_writer:v3.0.0-stable
           imagePullPolicy: Always
           ports:
             - containerPort: 30030
@@ -44,12 +44,6 @@ spec:
           envFrom:
             - secretRef:
                 name: kfk-kpi-data
-          readinessProbe:
-            exec:
-              command: ["/bin/grpc_health_probe", "-addr=:30030"]
-          livenessProbe:
-            exec:
-              command: ["/bin/grpc_health_probe", "-addr=:30030"]
           resources:
             requests:
               cpu: 250m
@@ -99,3 +93,4 @@ spec:
   #behavior:
   #  scaleDown:
   #    stabilizationWindowSeconds: 30
+

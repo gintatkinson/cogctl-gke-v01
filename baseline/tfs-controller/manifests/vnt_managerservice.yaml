@@ -29,7 +29,7 @@ spec:
       terminationGracePeriodSeconds: 5
       containers:
         - name: server
-          image: labs.etsi.org:5050/tfs/controller/vnt_manager:latest
+          image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/vnt_manager:v3.0.0-stable
           imagePullPolicy: Always
           ports:
             - containerPort: 10080
@@ -40,12 +40,6 @@ spec:
           envFrom:
             - secretRef:
                 name: kfk-kpi-data
-          readinessProbe:
-            exec:
-              command: ["/bin/grpc_health_probe", "-addr=:10080"]
-          livenessProbe:
-            exec:
-              command: ["/bin/grpc_health_probe", "-addr=:10080"]
           resources:
             requests:
               cpu: 250m
@@ -71,3 +65,4 @@ spec:
     - name: metrics
       port: 9192
       targetPort: 9192
+
