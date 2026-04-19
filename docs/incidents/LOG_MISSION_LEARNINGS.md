@@ -21,3 +21,5 @@ This document archives the critical technical hurdles and solutions identified d
 - **Problem**: TFS Core services (Monitoring, KPI-Manager) threw 'CreateContainerConfigError' despite the database being alive.
 - **Learning**: The official ETSI TFS manifests rely on legacy secret names (e.g., 'qdb-data' for QuestDB) that are not automatically birthed by the standard secret sync.
 - **Fix**: Codified the legacy secret injection into infra/vault_bootstrap.sh and manually initialized the 'qdb-data' baseline.
+SUCCESS: 7 Devices, 9 Links, 1 Context loaded via tests.tools.load_scenario
+CRITICAL: Services live in 'default' namespace, not 'tfs'.
