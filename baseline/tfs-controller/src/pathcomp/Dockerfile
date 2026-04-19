@@ -17,8 +17,8 @@ FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:2026-04
 
 # Add component code
 WORKDIR /var/teraflow
-COPY . nbi/
+COPY . pathcomp/
 
 # Standardize logs and entrypoint
 ENV PYTHONUNBUFFERED=1
-ENTRYPOINT ["python", "-m", "nbi.service"]
+ENTRYPOINT ["python", "-m", "pathcomp.service"]

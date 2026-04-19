@@ -1,0 +1,71 @@
+steps:
+# PHASE 1: Birth the Gold Master Foundation
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:2026-04-20', '-f', 'baseline/tfs-controller/src/common/Dockerfile.base', '.']
+  id: 'build-foundation'
+
+# PHASE 2: Universal Refactor (The Core 10)
+# All services wait for 'build-foundation' to ensure the Gold Master is ready.
+
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/context:2026-04-20', '-f', 'baseline/tfs-controller/src/context/Dockerfile', '.']
+  id: 'build-context'
+  waitFor: ['build-foundation']
+
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/device:2026-04-20', '-f', 'baseline/tfs-controller/src/device/Dockerfile', '.']
+  id: 'build-device'
+  waitFor: ['build-foundation']
+
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/service:2026-04-20', '-f', 'baseline/tfs-controller/src/service/Dockerfile', '.']
+  id: 'build-service'
+  waitFor: ['build-foundation']
+
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/slice:2026-04-20', '-f', 'baseline/tfs-controller/src/slice/Dockerfile', '.']
+  id: 'build-slice'
+  waitFor: ['build-foundation']
+
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/automation:2026-04-20', '-f', 'baseline/tfs-controller/src/automation/Dockerfile', '.']
+  id: 'build-automation'
+  waitFor: ['build-foundation']
+
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/monitoring:2026-04-20', '-f', 'baseline/tfs-controller/src/monitoring/Dockerfile', '.']
+  id: 'build-monitoring'
+  waitFor: ['build-foundation']
+
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/nbi:2026-04-20', '-f', 'baseline/tfs-controller/src/nbi/Dockerfile', '.']
+  id: 'build-nbi'
+  waitFor: ['build-foundation']
+
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/webui:2026-04-20', '-f', 'baseline/tfs-controller/src/webui/Dockerfile', '.']
+  id: 'build-webui'
+  waitFor: ['build-foundation']
+
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/pathcomp:2026-04-20', '-f', 'baseline/tfs-controller/src/pathcomp/Dockerfile', '.']
+  id: 'build-pathcomp'
+  waitFor: ['build-foundation']
+
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/policy:2026-04-20', '-f', 'baseline/tfs-controller/src/policy/Dockerfile', '.']
+  id: 'build-policy'
+  waitFor: ['build-foundation']
+
+images:
+- 'us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:2026-04-20'
+- 'us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/context:2026-04-20'
+- 'us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/device:2026-04-20'
+- 'us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/service:2026-04-20'
+- 'us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/slice:2026-04-20'
+- 'us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/automation:2026-04-20'
+- 'us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/monitoring:2026-04-20'
+- 'us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/nbi:2026-04-20'
+- 'us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/webui:2026-04-20'
+- 'us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/pathcomp:2026-04-20'
+- 'us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/policy:2026-04-20'

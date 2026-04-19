@@ -12,49 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# STAGE 1: Builder
-FROM python:3.11-slim AS builder
+# PHASE 2: Gold Master Refactor
+FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:2026-04-20
 
-# Install build-time binaries
-RUN apt-get update && apt-get install -y g++ git wget && rm -rf /var/lib/apt/lists/*
-
-# Set up working environment
+# Add component code
 WORKDIR /var/teraflow
-ENV VIRTUAL_ENV=/var/teraflow/venv
-RUN python3 -m venv ${VIRTUAL_ENV}
-ENV PATH="${VIRTUAL_ENV}/bin:${PATH}"
+COPY . webui/
 
-# Prepare compilation tools
-RUN python3 -m pip install --upgrade pip setuptools wheel pip-tools
-
-# [Optimization] Compile Common Layers
-COPY common_requirements.in .
-RUN pip-compile --quiet --output-file=common_requirements.txt common_requirements.in && \
-    python3 -m pip install -r common_requirements.txt
-
-# [Optimization] Global Proto Generation
-COPY proto/ /var/teraflow/proto/
-RUN mkdir -p common/proto && \
-    python3 -m grpc_tools.protoc -I=/var/teraflow/proto/ --python_out=common/proto --grpc_python_out=common/proto /var/teraflow/proto/*.proto && \
-    find common/proto -type f -exec sed -i -E 's/^(import\ .*)_pb2/from . \1_pb2/g' {} \;
-
-# Component Specific Requirements
-COPY src/webui/requirements.in requirements.in
-RUN pip-compile --quiet --output-file=requirements.txt requirements.in && \
-    python3 -m pip install -r requirements.txt
-
-# STAGE 2: Runner
-FROM python:3.11-slim AS runner
-WORKDIR /var/teraflow
-
-# Copy only the pre-compiled VENV and source from Builder
-COPY --from=builder /var/teraflow/venv /var/teraflow/venv
-COPY --from=builder /var/teraflow/common /var/teraflow/common
-COPY src/ /var/teraflow/src/
-
-# Standardize path and logs
-ENV PATH="/var/teraflow/venv/bin:${PATH}"
+# Standardize logs and entrypoint
 ENV PYTHONUNBUFFERED=1
-
-USER webui
 ENTRYPOINT ["python", "-m", "webui.service"]
