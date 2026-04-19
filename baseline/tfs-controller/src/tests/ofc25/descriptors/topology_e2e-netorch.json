@@ -10,7 +10,7 @@
             "device_id": {"device_uuid": {"uuid": "TFS-PACKET"}}, "device_type": "teraflowsdn",
             "device_drivers": ["DEVICEDRIVER_IETF_L3VPN"], "device_operational_status": "DEVICEOPERATIONALSTATUS_UNDEFINED",
             "device_config": {"config_rules": [
-                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "10.1.1.96"}},
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "127.0.0.1"}},
                 {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "8002"}},
                 {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {
                     "scheme": "http", "username": "admin", "password": "admin", "import_topology": "topology"
@@ -21,7 +21,7 @@
             "device_id": {"device_uuid": {"uuid": "TFS-OPTICAL"}}, "device_type": "teraflowsdn",
             "device_drivers": ["DEVICEDRIVER_OPTICAL_TFS"], "device_operational_status": "DEVICEOPERATIONALSTATUS_UNDEFINED",
             "device_config": {"config_rules": [
-                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "10.1.1.96"}},
+                {"action": 1, "custom": {"resource_key": "_connect/address", "resource_value": "127.0.0.1"}},
                 {"action": 1, "custom": {"resource_key": "_connect/port", "resource_value": "8003"}},
                 {"action": 1, "custom": {"resource_key": "_connect/settings", "resource_value": {
                     "scheme": "http", "username": "admin", "password": "admin", "import_topology": "topology"

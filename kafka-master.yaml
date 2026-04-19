@@ -1,0 +1,106 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  annotations:
+    autopilot.gke.io/resource-adjustment: '{"input":{"containers":[{"limits":{"cpu":"1","memory":"2Gi"},"requests":{"cpu":"250m","memory":"1Gi"},"name":"kafka"}]},"output":{"containers":[{"limits":{"cpu":"1","ephemeral-storage":"1Gi","memory":"2Gi"},"requests":{"cpu":"250m","ephemeral-storage":"1Gi","memory":"1Gi"},"name":"kafka"}]},"computeClassAtAdmission":"Default","modified":true}'
+    autopilot.gke.io/warden-version: 35.15.0-gke.1
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"apps/v1","kind":"StatefulSet","metadata":{"annotations":{},"name":"kafka","namespace":"default"},"spec":{"minReadySeconds":5,"replicas":1,"selector":{"matchLabels":{"app.kubernetes.io/component":"message-broker","app.kubernetes.io/instance":"kafka","app.kubernetes.io/name":"kafka"}},"serviceName":"kafka-public","template":{"metadata":{"labels":{"app.kubernetes.io/component":"message-broker","app.kubernetes.io/instance":"kafka","app.kubernetes.io/name":"kafka"}},"spec":{"containers":[{"env":[{"name":"KAFKA_CFG_NODE_ID","value":"1"},{"name":"KAFKA_CFG_PROCESS_ROLES","value":"controller,broker"},{"name":"KAFKA_CFG_LISTENERS","value":"PLAINTEXT://:9092,CONTROLLER://:9093,EXTERNAL://:9094"},{"name":"KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP","value":"PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT,EXTERNAL:PLAINTEXT"},{"name":"KAFKA_CFG_ADVERTISED_LISTENERS","value":"PLAINTEXT://kafka-public.default.svc.cluster.local:9092,EXTERNAL://localhost:9094"},{"name":"KAFKA_CFG_CONTROLLER_LISTENER_NAMES","value":"CONTROLLER"},{"name":"KAFKA_CFG_CONTROLLER_QUORUM_VOTERS","value":"1@kafka-0:9093"}],"image":"bitnamilegacy/kafka:latest","imagePullPolicy":"IfNotPresent","name":"kafka","ports":[{"containerPort":9092,"name":"clients"},{"containerPort":9093,"name":"control-plane"},{"containerPort":9094,"name":"external"}],"resources":{"limits":{"cpu":"1","memory":"2Gi"},"requests":{"cpu":"250m","memory":"1Gi"}}}],"restartPolicy":"Always","terminationGracePeriodSeconds":10}}}}
+  creationTimestamp: "2026-04-18T17:26:26Z"
+  generation: 1
+  name: kafka
+  namespace: default
+  resourceVersion: "1776533242038143018"
+  uid: 5001ce45-8706-4222-983a-0a3c6b848a89
+spec:
+  minReadySeconds: 5
+  persistentVolumeClaimRetentionPolicy:
+    whenDeleted: Retain
+    whenScaled: Retain
+  podManagementPolicy: OrderedReady
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: message-broker
+      app.kubernetes.io/instance: kafka
+      app.kubernetes.io/name: kafka
+  serviceName: kafka-public
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/component: message-broker
+        app.kubernetes.io/instance: kafka
+        app.kubernetes.io/name: kafka
+    spec:
+      containers:
+      - env:
+        - name: KAFKA_CFG_NODE_ID
+          value: "1"
+        - name: KAFKA_CFG_PROCESS_ROLES
+          value: controller,broker
+        - name: KAFKA_CFG_LISTENERS
+          value: PLAINTEXT://:9092,CONTROLLER://:9093,EXTERNAL://:9094
+        - name: KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP
+          value: PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT,EXTERNAL:PLAINTEXT
+        - name: KAFKA_CFG_ADVERTISED_LISTENERS
+          value: PLAINTEXT://kafka-public.default.svc.cluster.local:9092,EXTERNAL://localhost:9094
+        - name: KAFKA_CFG_CONTROLLER_LISTENER_NAMES
+          value: CONTROLLER
+        - name: KAFKA_CFG_CONTROLLER_QUORUM_VOTERS
+          value: 1@kafka-0:9093
+        image: bitnamilegacy/kafka:latest
+        imagePullPolicy: IfNotPresent
+        name: kafka
+        ports:
+        - containerPort: 9092
+          name: clients
+          protocol: TCP
+        - containerPort: 9093
+          name: control-plane
+          protocol: TCP
+        - containerPort: 9094
+          name: external
+          protocol: TCP
+        resources:
+          limits:
+            cpu: "1"
+            ephemeral-storage: 1Gi
+            memory: 2Gi
+          requests:
+            cpu: 250m
+            ephemeral-storage: 1Gi
+            memory: 1Gi
+        securityContext:
+          capabilities:
+            drop:
+            - NET_RAW
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
+      terminationGracePeriodSeconds: 10
+      tolerations:
+      - effect: NoSchedule
+        key: kubernetes.io/arch
+        operator: Equal
+        value: amd64
+  updateStrategy:
+    rollingUpdate:
+      maxUnavailable: 1
+      partition: 0
+    type: RollingUpdate
+status:
+  availableReplicas: 1
+  collisionCount: 0
+  currentReplicas: 1
+  currentRevision: kafka-59c5b64545
+  observedGeneration: 1
+  readyReplicas: 1
+  replicas: 1
+  updateRevision: kafka-59c5b64545
+  updatedReplicas: 1
