@@ -18,6 +18,10 @@
 - **Discovery**: Ingress resource birthed with the wrong selector for the NGINX controller.
 - **Remediation**: Corrected deployment labels and updated ingress mapping.
 
+### REC-005: NBI Broker Synchronization OOM Deadlock
+- **Discovery**: GKE Autopilot executed an OOM-kill on `nbiservice` during its initial Kafka topic synchronization due to a massive memory spike upon successful broker connection.
+- **Remediation**: Surgically elevated the deployment resource limits to `memory=2Gi` to bridge the initialization spike. Logged in Solution Spec.
+
 ---
 
 ## 2. Immutable Operational Constraints
