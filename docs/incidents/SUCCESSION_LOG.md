@@ -223,6 +223,7 @@ Proceeding to Stage VI (Cluster Bootstrap).
 - **Solution Brief:** [DOCS/solution_spec_readiness_relaxation.md](https://github.com/gintatkinson/cogctl-gke-v01/blob/main/DOCS/solution_spec_readiness_relaxation.md).
 - **Next Step:** AUTHORIZED TOTAL ZERO PURGE (SOP-DISASTER) and autonomous SOP 1-6 recovery.
 - **Succession Note:** Do NOT attempt internal patching. Trust the Autonomous SOP Path.
+<<<<<<< HEAD
 
 #### LOG-045 | 2026-04-16 | INCIDENT: DATABASE OPERATOR MISSION BLOCKER
 - **Discovery**: Cloud Build `b02e8dd4` failed during Phase 5 (Foundations) due to missing `CrdbCluster` resource mapping.
@@ -230,3 +231,5 @@ Proceeding to Stage VI (Cluster Bootstrap).
 - **Sovereign Anchor**: [Issue #44](https://github.com/gintatkinson/cogctl-gke-v01/issues/44).
 - **Solution Brief**: [DOCS/solution_spec_crdb_operator_genesis.md](file:///home/parallels/Documents/cogctl-gke-v01/DOCS/solution_spec_crdb_operator_genesis.md).
 - **Status**: STALLED. Environment Hardening (gke-gcloud-auth-plugin) and Operator Bootstrap required.
+=======
+>>>>>>> 23adec0 (docs: physical migration to resolve 404 deadlocks)

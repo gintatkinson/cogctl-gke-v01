@@ -18,7 +18,11 @@
 
 ## 5. Subprocess: GKE Cluster Provisioning
 - **Action**: Provision the target GKE cluster (Standard or Autopilot).
+<<<<<<< HEAD
 - **Current Anchor**: `$(LATEST_CLUSTER_NAME)`.
+=======
+- **Current Anchor**: `sovereign-genesis-1776197184`.
+>>>>>>> 23adec0 (docs: physical migration to resolve 404 deadlocks)
 
 ## 6. Subprocess: Node Fabric Verification
 - **Action**: Verify that nodes are `Ready` and have registered with the control plane via `kubectl get nodes`.
