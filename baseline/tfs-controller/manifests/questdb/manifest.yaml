@@ -31,7 +31,7 @@ spec:
       restartPolicy: Always
       containers:
       - name: metricsdb
-        image: questdb/questdb:latest
+        image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/questdb:7.3.3
         ports:
         - containerPort: 9000
         - containerPort: 9009

@@ -1,0 +1,51 @@
+# SOVEREIGN GENESIS: NATS MESSAGING FOUNDATION
+# Purpose: High-performance messaging layer for ETSI TFS service bus.
+# Configuration: Fixed to single-node for stability in GKE Genesis.
+# Reference: SOP-03, Blueprint Law Rule 8.2
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nats
+  labels:
+    app: nats
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nats
+  template:
+    metadata:
+      labels:
+        app: nats
+    spec:
+      containers:
+      - name: nats
+        image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/nats:2.9-alpine
+        ports:
+        - containerPort: 4222
+          name: client
+        - containerPort: 8222
+          name: monitor
+        resources:
+          requests:
+            cpu: 100m
+            memory: 64Mi
+          limits:
+            cpu: 500m
+            memory: 512Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nats
+  labels:
+    app: nats
+spec:
+  selector:
+    app: nats
+  ports:
+  - name: client
+    port: 4222
+  - name: monitor
+    port: 8222

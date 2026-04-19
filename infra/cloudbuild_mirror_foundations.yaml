@@ -11,12 +11,14 @@ steps:
       - |
         IMAGES=(
           "cockroachdb/cockroach:v22.2.8"
+          "cockroachdb/cockroach-operator:v2.10.0"
           "nats:2.9-alpine"
           "bitnamilegacy/kafka:latest"
+          "bitnamilegacy/zookeeper:latest"
           "questdb/questdb:7.3.3"
         )
         
-        REGISTRY="us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs"
+        REGISTRY="$_REGION-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs"
         
         for IMAGE in "$${IMAGES[@]}"; do
           echo "Mirroring $${IMAGE}..."

@@ -28,10 +28,11 @@ spec:
       labels:
         app: contextservice
     spec:
+      nodeName: gk3-sovereign-genesis-17765289-pool-3-cb584269-9g48
       terminationGracePeriodSeconds: 5
       containers:
         - name: server
-          image: labs.etsi.org:5050/tfs/controller/context:latest
+          image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/context:v3.0.0-stable
           imagePullPolicy: Always
           ports:
             - containerPort: 1010
@@ -39,6 +40,16 @@ spec:
           env:
             - name: MB_BACKEND
               value: "nats"
+            - name: NATS_URI
+              value: "nats://nats:4222"
+            - name: NATS_NAMESPACE
+              value: "default"
+            - name: NATS_CLIENT_PORT
+              value: "4222"
+            - name: NATS_HOST
+              value: "nats"
+            - name: NATS_PORT
+              value: "4222"
             - name: LOG_LEVEL
               value: "INFO"
             - name: ALLOW_EXPLICIT_ADD_DEVICE_TO_TOPOLOGY
@@ -57,19 +68,13 @@ spec:
               port: 1010
             failureThreshold: 30
             periodSeconds: 1
-          readinessProbe:
-            grpc:
-              port: 1010
-          livenessProbe:
-            grpc:
-              port: 1010
           resources:
             requests:
-              cpu: 250m
-              memory: 128Mi
+              cpu: 125m
+              memory: 64Mi
             limits:
-              cpu: 1000m
-              memory: 1024Mi
+              cpu: 500m
+              memory: 512Mi
 ---
 apiVersion: v1
 kind: Service
@@ -112,3 +117,5 @@ spec:
   #behavior:
   #  scaleDown:
   #    stabilizationWindowSeconds: 30
+
+

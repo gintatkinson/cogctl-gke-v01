@@ -67,18 +67,8 @@ spec:
               value: contextservice
             - name: DEVICE_SERVICE_HOST
               value: deviceservice
-          image: labs.etsi.org:5050/tfs/controller/ztp:0.2.0
+          image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/ztp:v3.0.0-stable
           imagePullPolicy: Always
-          livenessProbe:
-            failureThreshold: 3
-            httpGet:
-              path: /q/health/live
-              port: 8080
-              scheme: HTTP
-            initialDelaySeconds: 2
-            periodSeconds: 10
-            successThreshold: 1
-            timeoutSeconds: 10
           name: ztpservice
           ports:
             - containerPort: 5050
@@ -87,16 +77,6 @@ spec:
             - containerPort: 8080
               name: metrics
               protocol: TCP
-          readinessProbe:
-            failureThreshold: 3
-            httpGet:
-              path: /q/health/ready
-              port: 8080
-              scheme: HTTP
-            initialDelaySeconds: 2
-            periodSeconds: 10
-            successThreshold: 1
-            timeoutSeconds: 10
           resources:
             requests:
               cpu: 50m
@@ -123,3 +103,4 @@ spec:
 #        target:
 #          type: Utilization
 #          averageUtilization: 80
+

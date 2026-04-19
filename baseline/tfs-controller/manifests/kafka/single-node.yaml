@@ -64,7 +64,7 @@ spec:
       restartPolicy: Always
       containers:
       - name: kafka
-        image: bitnamilegacy/kafka:latest
+        image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/kafka:latest
         imagePullPolicy: IfNotPresent
         ports:
         - name: clients
@@ -90,7 +90,7 @@ spec:
             value: "1@kafka-0:9093"
         resources:
           requests:
-            cpu: "250m"
+            cpu: "125m"
             memory: 1Gi
           limits:
             cpu: "1"

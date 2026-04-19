@@ -60,3 +60,7 @@ steps:
 
       echo "[VAULT] Mission Success: Secrets established in-cluster."
 
+
+substitutions:
+  _CLUSTER_NAME: "REPLACE_ME"
+  _REGION: "us-central1"

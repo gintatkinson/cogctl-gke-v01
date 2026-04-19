@@ -29,7 +29,7 @@ spec:
       terminationGracePeriodSeconds: 5
       containers:
         - name: server
-          image: labs.etsi.org:5050/tfs/controller/forecaster:latest
+          image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/forecaster:v3.0.0-stable
           imagePullPolicy: Always
           ports:
             - containerPort: 10040
@@ -44,16 +44,10 @@ spec:
               command: ["/bin/grpc_health_probe", "-addr=:10040"]
             failureThreshold: 30
             periodSeconds: 1
-          readinessProbe:
-            exec:
-              command: ["/bin/grpc_health_probe", "-addr=:10040"]
-          livenessProbe:
-            exec:
-              command: ["/bin/grpc_health_probe", "-addr=:10040"]
           resources:
             requests:
-              cpu: 250m
-              memory: 128Mi
+              cpu: 125m
+              memory: 64Mi
             limits:
               cpu: 1000m
               memory: 1024Mi
@@ -99,3 +93,4 @@ spec:
   #behavior:
   #  scaleDown:
   #    stabilizationWindowSeconds: 30
+

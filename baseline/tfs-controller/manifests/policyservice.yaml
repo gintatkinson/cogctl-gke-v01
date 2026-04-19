@@ -71,18 +71,8 @@ spec:
               value: contextservice
             - name: MONITORING_SERVICE_HOST
               value: monitoringservice
-          image: labs.etsi.org:5050/tfs/controller/policy:0.1.0
+          image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/policy:v3.0.0-stable
           imagePullPolicy: Always
-          livenessProbe:
-            failureThreshold: 3
-            httpGet:
-              path: /q/health/live
-              port: 8080
-              scheme: HTTP
-            initialDelaySeconds: 2
-            periodSeconds: 10
-            successThreshold: 1
-            timeoutSeconds: 10
           name: policyservice
           ports:
             - containerPort: 8080
@@ -91,16 +81,6 @@ spec:
             - containerPort: 6060
               name: grpc-server
               protocol: TCP
-          readinessProbe:
-            failureThreshold: 3
-            httpGet:
-              path: /q/health/ready
-              port: 8080
-              scheme: HTTP
-            initialDelaySeconds: 2
-            periodSeconds: 10
-            successThreshold: 1
-            timeoutSeconds: 10
           resources:
             requests:
               cpu: 50m
@@ -127,3 +107,4 @@ spec:
 #        target:
 #          type: Utilization
 #          averageUtilization: 80
+

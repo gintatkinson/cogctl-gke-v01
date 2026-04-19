@@ -63,7 +63,7 @@ minio:
   resources:
     requests:
       cpu: 100m
-      memory: 128Mi
+      memory: 64Mi
 
 # Disable embedded Kafka. Not needed for this minimal setup.
 kafka:
@@ -81,7 +81,7 @@ gateway:
   resources:
     requests:
       cpu: 100m
-      memory: 128Mi
+      memory: 64Mi
     limits:
       cpu: 500m
       memory: 512Mi

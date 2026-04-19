@@ -22,8 +22,8 @@ export CLUSTER_NAME=$CLUSTER_NAME
 bash infra/vault_bootstrap.sh
 
 log "PHASE 5: FINAL DEPLOYMENT..."
-# Parameterize the build file
-sed -i "s/\$CLUSTER_NAME/$CLUSTER_NAME/g" infra/cloudbuild_final.yaml
-gcloud builds submit --config infra/cloudbuild_final.yaml --project "$PROJECT_ID"
+gcloud builds submit --config infra/cloudbuild_final.yaml \
+    --substitutions=_CLUSTER_NAME="$CLUSTER_NAME",_REGION="$REGION" \
+    --project "$PROJECT_ID"
 
 log "=== GLOBAL IGNITION COMPLETE ==="

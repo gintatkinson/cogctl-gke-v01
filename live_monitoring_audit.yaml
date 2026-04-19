@@ -1,0 +1,93 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    autopilot.gke.io/resource-adjustment: '{"input":{"containers":[{"limits":{"cpu":"1","memory":"1Gi"},"requests":{"cpu":"250m","memory":"256Mi"},"name":"server"}]},"output":{"containers":[{"limits":{"cpu":"1","ephemeral-storage":"1Gi","memory":"1Gi"},"requests":{"cpu":"250m","ephemeral-storage":"1Gi","memory":"256Mi"},"name":"server"}]},"computeClassAtAdmission":"Default","modified":true}'
+    autopilot.gke.io/warden-version: 35.15.0-gke.1
+    deployment.kubernetes.io/revision: "1"
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"name":"monitoringservice","namespace":"default"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"monitoringservice"}},"template":{"metadata":{"labels":{"app":"monitoringservice"}},"spec":{"containers":[{"env":[{"name":"LOG_LEVEL","value":"INFO"}],"envFrom":[{"secretRef":{"name":"qdb-data"}}],"image":"us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/monitoring:v3.0.0-stable","imagePullPolicy":"Always","name":"server","ports":[{"containerPort":7070},{"containerPort":9192}],"resources":{"limits":{"cpu":"1000m","memory":"1024Mi"},"requests":{"cpu":"250m","memory":"256Mi"}}}],"terminationGracePeriodSeconds":5}}}}
+  creationTimestamp: "2026-04-19T10:28:03Z"
+  generation: 1
+  name: monitoringservice
+  namespace: default
+  resourceVersion: "1776595156304303007"
+  uid: 64bbf228-13f4-4f3e-bf4f-65375c68e0a8
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: monitoringservice
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: monitoringservice
+    spec:
+      containers:
+      - env:
+        - name: LOG_LEVEL
+          value: INFO
+        envFrom:
+        - secretRef:
+            name: qdb-data
+        image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/monitoring:v3.0.0-stable
+        imagePullPolicy: Always
+        name: server
+        ports:
+        - containerPort: 7070
+          protocol: TCP
+        - containerPort: 9192
+          protocol: TCP
+        resources:
+          limits:
+            cpu: "1"
+            ephemeral-storage: 1Gi
+            memory: 1Gi
+          requests:
+            cpu: 250m
+            ephemeral-storage: 1Gi
+            memory: 256Mi
+        securityContext:
+          capabilities:
+            drop:
+            - NET_RAW
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
+      terminationGracePeriodSeconds: 5
+      tolerations:
+      - effect: NoSchedule
+        key: kubernetes.io/arch
+        operator: Equal
+        value: amd64
+status:
+  conditions:
+  - lastTransitionTime: "2026-04-19T10:28:03Z"
+    lastUpdateTime: "2026-04-19T10:28:07Z"
+    message: ReplicaSet "monitoringservice-5c879569b9" has successfully progressed.
+    reason: NewReplicaSetAvailable
+    status: "True"
+    type: Progressing
+  - lastTransitionTime: "2026-04-19T10:39:16Z"
+    lastUpdateTime: "2026-04-19T10:39:16Z"
+    message: Deployment does not have minimum availability.
+    reason: MinimumReplicasUnavailable
+    status: "False"
+    type: Available
+  observedGeneration: 1
+  replicas: 1
+  terminatingReplicas: 0
+  unavailableReplicas: 1
+  updatedReplicas: 1

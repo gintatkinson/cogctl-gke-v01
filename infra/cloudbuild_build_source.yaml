@@ -16,7 +16,7 @@ steps:
           "slice" "webui"
         )
         
-        REGISTRY="us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs"
+        REGISTRY="$_REGION-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs"
         TAG="v3.0.0-sovereign-$(date +%s)"
         
         echo "[SOVEREIGN] Starting Multi-Binary Build from Source..."

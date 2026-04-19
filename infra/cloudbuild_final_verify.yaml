@@ -6,7 +6,7 @@ steps:
     - |
       set -e
       echo "[AUDIT] Authenticating to Cluster..."
-      gcloud container clusters get-credentials "sovereign-genesis-1776197184" --region us-central1
+      gcloud container clusters get-credentials "$_CLUSTER_NAME" --region $_REGION
       
       echo "[AUDIT] POD STATUS SUMMARY:"
       kubectl get pods -A
@@ -18,3 +18,7 @@ steps:
       # Hardcoded verified IP: 136.112.218.241
       echo "Testing Connectivity to Public IP: 136.112.218.241..."
       curl -Ivvv -m 10 http://136.112.218.241/webui/ || echo "Connectivity Check FAILED"
+
+substitutions:
+  _CLUSTER_NAME: "REPLACE_ME"
+  _REGION: "us-central1"

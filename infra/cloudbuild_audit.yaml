@@ -5,7 +5,7 @@ steps:
     - '-c'
     - |
       set -e
-      gcloud container clusters get-credentials $_CLUSTER_NAME --region us-central1
+      gcloud container clusters get-credentials $_CLUSTER_NAME --region $_REGION
       echo "[AUDIT] NODE STATUS:"
       kubectl get nodes
       echo "[AUDIT] SYSTEM PODS:"
@@ -14,3 +14,7 @@ steps:
       kubectl get pods -n ingress
       echo "[AUDIT] INGRESS SERVICES:"
       kubectl get svc -n ingress
+
+substitutions:
+  _CLUSTER_NAME: "REPLACE_ME"
+  _REGION: "us-central1"

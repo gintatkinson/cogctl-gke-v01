@@ -28,3 +28,4 @@ kind: L2Advertisement
 metadata:
   name: l2-adv
   namespace: metallb-system
+

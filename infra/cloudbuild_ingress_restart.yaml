@@ -6,7 +6,7 @@ steps:
     - |
       set -e
       echo "[INGRESS] Authenticating to cluster: $_CLUSTER_NAME..."
-      gcloud container clusters get-credentials "$_CLUSTER_NAME" --region us-central1
+      gcloud container clusters get-credentials "$_CLUSTER_NAME" --region $_REGION
       
       echo "[INGRESS] Restarting NGINX Controller..."
       kubectl rollout restart deployment nginx-ingress-microk8s-controller-opt -n ingress
@@ -14,4 +14,4 @@ steps:
       echo "[INGRESS] Waiting for rollout..."
       kubectl rollout status deployment nginx-ingress-microk8s-controller-opt -n ingress --timeout=120s
 substitutions:
-  _CLUSTER_NAME: "sovereign-genesis-1776197184"
+  _CLUSTER_NAME: "$_CLUSTER_NAME"

@@ -31,7 +31,7 @@ spec:
       terminationGracePeriodSeconds: 5
       containers:
         - name: server
-          image: labs.etsi.org:5050/tfs/controller/qos_profile:latest
+          image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/qos_profile:v3.0.0-stable
           imagePullPolicy: Always
           ports:
             - containerPort: 20040
@@ -41,19 +41,17 @@ spec:
               value: "INFO"
             - name: CRDB_DATABASE
               value: "tfs_qos_profile"
+            - name: CRDB_NAMESPACE
+              value: "default"
+            - name: CRDB_SQL_PORT
+              value: "26257"
           envFrom:
             - secretRef:
                 name: crdb-data
-          readinessProbe:
-            exec:
-              command: ["/bin/grpc_health_probe", "-addr=:20040"]
-          livenessProbe:
-            exec:
-              command: ["/bin/grpc_health_probe", "-addr=:20040"]
           resources:
             requests:
-              cpu: 250m
-              memory: 128Mi
+              cpu: 125m
+              memory: 64Mi
             limits:
               cpu: 1000m
               memory: 1024Mi
@@ -99,3 +97,4 @@ spec:
   #behavior:
   #  scaleDown:
   #    stabilizationWindowSeconds: 30
+

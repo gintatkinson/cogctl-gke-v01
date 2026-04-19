@@ -43,7 +43,7 @@ spec:
       terminationGracePeriodSeconds: 5
       containers:
         - name: connector
-          image: labs.etsi.org:5050/tfs/controller/dlt-connector:latest
+          image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/dlt-connector:v3.0.0-stable
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
@@ -56,12 +56,6 @@ spec:
           #  value: "mock-blockchain.tfs-bchain.svc.cluster.local"
           #- name: DLT_GATEWAY_PORT
           #  value: "50051"
-          readinessProbe:
-            exec:
-              command: ["/bin/grpc_health_probe", "-addr=:8080"]
-          livenessProbe:
-            exec:
-              command: ["/bin/grpc_health_probe", "-addr=:8080"]
           resources:
             requests:
               cpu: 50m
@@ -70,7 +64,7 @@ spec:
               cpu: 500m
               memory: 512Mi
         - name: gateway
-          image: labs.etsi.org:5050/tfs/controller/dlt-gateway:latest
+          image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/dlt-gateway:v3.0.0-stable
           imagePullPolicy: Always
           ports:
             - containerPort: 50051
@@ -159,3 +153,4 @@ spec:
       protocol: TCP
       port: 9192
       targetPort: 9192
+

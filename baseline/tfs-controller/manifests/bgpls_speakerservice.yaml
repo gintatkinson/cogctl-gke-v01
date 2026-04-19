@@ -37,16 +37,10 @@ spec:
           env:
             - name: LOG_LEVEL
               value: "INFO"
-          readinessProbe:
-            exec:
-              command: ["/bin/grpc_health_probe", "-addr=:20030"]
-          livenessProbe:
-            exec:
-              command: ["/bin/grpc_health_probe", "-addr=:20030"]
           resources:
             requests:
-              cpu: 250m
-              memory: 128Mi
+              cpu: 125m
+              memory: 64Mi
             limits:
               cpu: 1000m
               memory: 1024Mi
@@ -70,3 +64,4 @@ spec:
       protocol: TCP
       port: 9192
       targetPort: 9192
+

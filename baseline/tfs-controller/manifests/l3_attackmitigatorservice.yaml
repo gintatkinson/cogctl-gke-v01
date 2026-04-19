@@ -28,7 +28,7 @@ spec:
       terminationGracePeriodSeconds: 5
       containers:
         - name: server
-          image: labs.etsi.org:5050/tfs/controller/l3_attackmitigator:latest
+          image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/l3_attackmitigator:v3.0.0-stable
           imagePullPolicy: Always
           ports:
             - containerPort: 10002
@@ -36,15 +36,9 @@ spec:
           env:
             - name: LOG_LEVEL
               value: "INFO"
-          readinessProbe:
-            exec:
-              command: ["/bin/grpc_health_probe", "-addr=:10002"]
-          livenessProbe:
-            exec:
-              command: ["/bin/grpc_health_probe", "-addr=:10002"]
           resources:
             requests:
-              cpu: 250m
+              cpu: 125m
               memory: 512Mi
             limits:
               cpu: 700m
@@ -120,3 +114,4 @@ spec:
     any: false
     matchNames:
       - tfs # namespace where the app is running
+

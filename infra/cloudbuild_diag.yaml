@@ -5,8 +5,12 @@ steps:
     - '-c'
     - |
       set -e
-      gcloud container clusters get-credentials $_CLUSTER_NAME --region us-central1
+      gcloud container clusters get-credentials $_CLUSTER_NAME --region $_REGION
       echo "[DIAG] DESCRIBING POD:"
       kubectl describe pod -l $_LABEL -n $_NAMESPACE
       echo "[DIAG] POD LOGS:"
       kubectl logs -l $_LABEL -n $_NAMESPACE --tail=100
+
+substitutions:
+  _CLUSTER_NAME: "REPLACE_ME"
+  _REGION: "us-central1"
