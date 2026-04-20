@@ -1,0 +1,28 @@
+# CLOUD BUILD: STAGED SEQUENTIAL RECONCILIATION (Cost-Optimized)
+# This manifest ensures architectural parity while maintaining a low memory footprint.
+
+steps:
+  # Phase 1: Birth the Universal Foundation
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:2026-04-20', '-f', 'baseline/tfs-controller/src/common/Dockerfile.base', '.']
+    id: 'build-foundation'
+
+  # Phase 2: Sequential Throttling (Low Memory Footprint)
+  - name: 'gcr.io/cloud-builders/docker'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        SERVICES=("context" "device" "service" "slice" "automation" "monitoring" "nbi" "webui" "pathcomp" "policy")
+        REGISTRY="us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs"
+        for S in "${SERVICES[@]}"; do
+          echo "=========================================================================="
+          echo "THRUST INITIATED: Sequential Build for Service -> $S"
+          echo "=========================================================================="
+          docker build -t "$REGISTRY/$S:2026-04-20" -f "baseline/tfs-controller/src/$S/Dockerfile" .
+          docker push "$REGISTRY/$S:2026-04-20"
+        done
+    waitFor: ['build-foundation']
+
+images:
+  - 'us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:2026-04-20'
