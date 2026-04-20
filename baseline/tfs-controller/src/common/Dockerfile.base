@@ -28,9 +28,9 @@ ENV PIP_NO_BUILD_ISOLATION=1
 # Prepare compilation tools
 RUN python3 -m pip install --upgrade pip "setuptools<70" wheel pip-tools
 
-# Pre-compile Common Requirements
-COPY baseline/tfs-controller/common_requirements.in .
-RUN pip-compile --quiet --pip-args "--no-build-isolation" --output-file=common_requirements.txt common_requirements.in && \
+# Pre-compile Unified Requirements (Foundation Resilience)
+COPY baseline/tfs-controller/src/common/requirements_unified.in .
+RUN pip-compile --quiet --pip-args "--no-build-isolation" --output-file=common_requirements.txt requirements_unified.in && \
     python3 -m pip install --no-build-isolation -r common_requirements.txt
 
 # Ingest Common Module (Connectivity Baseline)
@@ -42,8 +42,9 @@ COPY baseline/tfs-controller/src/device/client/ device/client/
 COPY baseline/tfs-controller/src/service/client/ service/client/
 COPY baseline/tfs-controller/src/slice/client/ slice/client/
 
-# Package Anchors: Establish Python namespaces for ingested modules
-RUN touch context/__init__.py device/__init__.py service/__init__.py slice/__init__.py
+# Package Anchors: Hard-lock Python namespaces recursively
+RUN touch common/__init__.py context/__init__.py device/__init__.py service/__init__.py slice/__init__.py && \
+    find . -type d -exec touch {}/__init__.py \;
 
 # Global Proto Generation (Architecture Physics Optimization)
 # Instead of re-building protos 10+ times, we bake them into the base layer.
