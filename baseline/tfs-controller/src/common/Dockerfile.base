@@ -33,6 +33,9 @@ COPY baseline/tfs-controller/common_requirements.in .
 RUN pip-compile --quiet --pip-args "--no-build-isolation" --output-file=common_requirements.txt common_requirements.in && \
     python3 -m pip install --no-build-isolation -r common_requirements.txt
 
+# Ingest Common Module (Connectivity Baseline)
+COPY baseline/tfs-controller/src/common/ common/
+
 # Global Proto Generation (Architecture Physics Optimization)
 # Instead of re-building protos 10+ times, we bake them into the base layer.
 COPY baseline/tfs-controller/proto/ /var/teraflow/proto/
