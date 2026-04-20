@@ -15,16 +15,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ztp_serverservice
+  name: ztpservice
 spec:
   selector:
     matchLabels:
-      app: ztp_serverservice
+      app: ztpservice
   #replicas: 1
   template:
     metadata:
       labels:
-        app: ztp_serverservice
+        app: ztpservice
     spec:
       terminationGracePeriodSeconds: 5
       containers:
@@ -49,13 +49,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: ztp_serverservice
+  name: ztpservice
   labels:
-    app: ztp_serverservice
+    app: ztpservice
 spec:
   type: ClusterIP
   selector:
-    app: ztp_serverservice
+    app: ztpservice
   ports:
     - name: http
       protocol: TCP

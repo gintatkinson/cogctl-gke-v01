@@ -2,7 +2,7 @@
 # Reference: solution_spec_hardened_ignition.md
 # Purpose: Deterministic node birthing via Standard Native fabric + VPC Firewall.
 
-export PATH="/home/parallels/google-cloud-sdk/bin:$PATH"
+export PATH="/opt/homebrew/bin:/opt/homebrew/share/google-cloud-sdk/bin:$PATH"
 export PROJECT_ID="cogctl-gke-v01"
 export REGION="us-central1"
 
@@ -60,6 +60,12 @@ gcloud compute firewall-rules create sovereign-allow-internal-$ID \
     --network=$VPC_NAME \
     --allow=tcp,udp,icmp \
     --source-ranges=10.10.0.0/16 \
+    --project=$PROJECT_ID
+
+gcloud compute firewall-rules create sovereign-allow-public-web-$ID \
+    --network=$VPC_NAME \
+    --allow=tcp:80,tcp:443 \
+    --source-ranges=0.0.0.0/0 \
     --project=$PROJECT_ID
 
 log "STAGE 8: IGNITION - CREATING HARDENED NATIVE CLUSTER..."

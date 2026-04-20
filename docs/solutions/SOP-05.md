@@ -13,11 +13,7 @@
 
 ## 4. Subprocess: LoadBalancer Address Birth
 - **Action**: Confirm the external IP assignment via `kubectl get svc -n tectonic-system`.
-<<<<<<< HEAD
-- **Target IP**: `$(INGRESS_IP)`.
-=======
-- **Target IP**: `136.112.218.241`.
->>>>>>> 23adec0 (docs: physical migration to resolve 404 deadlocks)
+- **Target IP**: `34.31.116.202`. [DEPRECATED: 136.112.218.241]
 
 ## 5. Subprocess: Perimeter Connectivity Probe
 - **Action**: Perform external `curl` probes against the `/webui/` endpoint.

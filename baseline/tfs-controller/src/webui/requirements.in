@@ -13,9 +13,9 @@
 # limitations under the License.
 
 Flask<3
+Werkzeug==2.3.7
 Flask-WTF<2
 flask-healthz<2
 flask-unittest==0.1.3
 lorem-text==2.1
 requests==2.27.1
-werkzeug==2.3.7
