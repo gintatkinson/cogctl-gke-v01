@@ -71,7 +71,7 @@ spec:
               value: contextservice
             - name: MONITORING_SERVICE_HOST
               value: monitoringservice
-          image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/policy:v3.0.0-stable
+          image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/policy:2026-04-20
           imagePullPolicy: Always
           name: policyservice
           ports:

@@ -28,11 +28,10 @@ spec:
       labels:
         app: contextservice
     spec:
-      nodeName: gk3-sovereign-genesis-17765289-pool-3-cb584269-9g48
       terminationGracePeriodSeconds: 5
       containers:
         - name: server
-          image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/context:v3.0.0-stable
+          image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/context:2026-04-20
           imagePullPolicy: Always
           ports:
             - containerPort: 1010
@@ -58,6 +57,10 @@ spec:
               value: "FALSE"
             - name: CRDB_DATABASE
               value: "tfs_context"
+            - name: CRDB_NAMESPACE
+              value: "default"
+            - name: CRDB_SQL_PORT
+              value: "26257"
           envFrom:
             - secretRef:
                 name: crdb-data

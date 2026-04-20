@@ -48,6 +48,13 @@ spec:
           envFrom:
             - secretRef:
                 name: qdb-data
+          readinessProbe:
+            tcpSocket:
+              port: 7070
+            initialDelaySeconds: 300
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 30
           resources:
             requests:
               cpu: 125m

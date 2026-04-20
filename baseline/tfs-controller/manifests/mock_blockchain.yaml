@@ -28,7 +28,7 @@ spec:
       terminationGracePeriodSeconds: 5
       containers:
         - name: server
-          image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/mock_blockchain:v3.0.0-stable
+          image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/mock_blockchain:2026-04-20
           imagePullPolicy: Always
           ports:
             - containerPort: 50051

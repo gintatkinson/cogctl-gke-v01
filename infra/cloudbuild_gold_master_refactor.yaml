@@ -69,3 +69,6 @@ images:
 - 'us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/webui:2026-04-20'
 - 'us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/pathcomp:2026-04-20'
 - 'us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/policy:2026-04-20'
+
+options:
+  machineType: 'E2_HIGHCPU_8'

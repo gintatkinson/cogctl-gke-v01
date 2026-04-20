@@ -29,7 +29,7 @@ spec:
       terminationGracePeriodSeconds: 5
       containers:
         - name: server
-          image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/simap_connector:v3.0.0-stable
+          image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/simap_connector:2026-04-20
           imagePullPolicy: Always
           ports:
             - containerPort: 9090
