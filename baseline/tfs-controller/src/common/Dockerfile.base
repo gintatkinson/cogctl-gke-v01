@@ -36,6 +36,12 @@ RUN pip-compile --quiet --pip-args "--no-build-isolation" --output-file=common_r
 # Ingest Common Module (Connectivity Baseline)
 COPY baseline/tfs-controller/src/common/ common/
 
+# Ingest Core Clients (Inter-Service Connective Tissue)
+COPY baseline/tfs-controller/src/context/client/ context/client/
+COPY baseline/tfs-controller/src/device/client/ device/client/
+COPY baseline/tfs-controller/src/service/client/ service/client/
+COPY baseline/tfs-controller/src/slice/client/ slice/client/
+
 # Global Proto Generation (Architecture Physics Optimization)
 # Instead of re-building protos 10+ times, we bake them into the base layer.
 COPY baseline/tfs-controller/proto/ /var/teraflow/proto/
