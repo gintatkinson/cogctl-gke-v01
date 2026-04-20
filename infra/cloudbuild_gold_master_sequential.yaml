@@ -15,12 +15,12 @@ steps:
       - |
         SERVICES=("context" "device" "service" "slice" "automation" "monitoring" "nbi" "webui" "pathcomp" "policy")
         REGISTRY="us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs"
-        for S in "${SERVICES[@]}"; do
+        for S in "$${SERVICES[@]}"; do
           echo "=========================================================================="
-          echo "THRUST INITIATED: Sequential Build for Service -> $S"
+          echo "THRUST INITIATED: Sequential Build for Service -> $$S"
           echo "=========================================================================="
-          docker build -t "$REGISTRY/$S:2026-04-20" -f "baseline/tfs-controller/src/$S/Dockerfile" .
-          docker push "$REGISTRY/$S:2026-04-20"
+          docker build -t "$$REGISTRY/$$S:2026-04-20" -f "baseline/tfs-controller/src/$$S/Dockerfile" .
+          docker push "$$REGISTRY/$$S:2026-04-20"
         done
     waitFor: ['build-foundation']
 
