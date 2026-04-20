@@ -16,13 +16,14 @@
 FROM python:3.11-slim AS builder
 
 # Install build-time binaries
-RUN apt-get update && apt-get install -y g++ git wget python3-dev libffi-dev libssl-dev && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y build-essential git wget make python3-dev libffi-dev libssl-dev && rm -rf /var/lib/apt/lists/*
 
 # Set up working environment
 WORKDIR /var/teraflow
 ENV VIRTUAL_ENV=/var/teraflow/venv
 RUN python3 -m venv ${VIRTUAL_ENV}
 ENV PATH="${VIRTUAL_ENV}/bin:${PATH}"
+ENV PIP_NO_BUILD_ISOLATION=1
 
 # Prepare compilation tools
 RUN python3 -m pip install --upgrade pip "setuptools<70" wheel pip-tools
@@ -48,4 +49,5 @@ COPY --from=builder /var/teraflow/venv /var/teraflow/venv
 COPY --from=builder /var/teraflow/common /var/teraflow/common
 
 ENV PATH="/var/teraflow/venv/bin:${PATH}"
+ENV PIP_NO_BUILD_ISOLATION=1
 ENV PYTHONUNBUFFERED=1
