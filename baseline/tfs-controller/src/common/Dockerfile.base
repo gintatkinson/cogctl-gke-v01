@@ -13,7 +13,7 @@
 # limitations under the License.
 
 # STAGE 1: Sovereign Python Base (Builder)
-FROM python:3.11-slim AS builder
+FROM python:3.10-slim
 
 # Install build-time binaries
 RUN apt-get update && apt-get install -y build-essential git wget make python3-dev libffi-dev libssl-dev && rm -rf /var/lib/apt/lists/*
@@ -42,7 +42,7 @@ RUN mkdir -p common/proto && \
 
 # STAGE 2: Runner Base
 # This stage forms the foundations for all individual TFS services.
-FROM python:3.11-slim AS runner
+FROM python:3.10-slim
 WORKDIR /var/teraflow
 
 COPY --from=builder /var/teraflow/venv /var/teraflow/venv
