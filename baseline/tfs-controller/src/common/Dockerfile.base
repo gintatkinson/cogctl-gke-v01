@@ -42,12 +42,16 @@ COPY baseline/tfs-controller/src/device/client/ device/client/
 COPY baseline/tfs-controller/src/service/client/ service/client/
 COPY baseline/tfs-controller/src/slice/client/ slice/client/
 
+# Package Anchors: Establish Python namespaces for ingested modules
+RUN touch context/__init__.py device/__init__.py service/__init__.py slice/__init__.py
+
 # Global Proto Generation (Architecture Physics Optimization)
 # Instead of re-building protos 10+ times, we bake them into the base layer.
 COPY baseline/tfs-controller/proto/ /var/teraflow/proto/
 RUN rm -rf common/proto && mkdir -p common/proto && \
     python3 -m grpc_tools.protoc -I=/var/teraflow/proto/ --python_out=common/proto --grpc_python_out=common/proto /var/teraflow/proto/*.proto && \
-    find common/proto -type f -exec sed -i -E 's/^(import\ .*)_pb2/from . \1_pb2/g' {} \;
+    find common/proto -type f -exec sed -i -E 's/^(import\ .*)_pb2/from . \1_pb2/g' {} \; && \
+    find common/proto/ -type d -exec touch {}/__init__.py \;
 
 # STAGE 2: Runner Base
 # This stage forms the foundations for all individual TFS services.
@@ -56,7 +60,12 @@ WORKDIR /var/teraflow
 
 COPY --from=builder /var/teraflow/venv /var/teraflow/venv
 COPY --from=builder /var/teraflow/common /var/teraflow/common
+COPY --from=builder /var/teraflow/context /var/teraflow/context
+COPY --from=builder /var/teraflow/device /var/teraflow/device
+COPY --from=builder /var/teraflow/service /var/teraflow/service
+COPY --from=builder /var/teraflow/slice /var/teraflow/slice
 
 ENV PATH="/var/teraflow/venv/bin:${PATH}"
+ENV PYTHONPATH="/var/teraflow"
 ENV PIP_NO_BUILD_ISOLATION=1
 ENV PYTHONUNBUFFERED=1

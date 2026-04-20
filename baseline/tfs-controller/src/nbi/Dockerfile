@@ -21,4 +21,4 @@ COPY baseline/tfs-controller/src/nbi/ nbi/
 
 # Standardize logs and entrypoint
 ENV PYTHONUNBUFFERED=1
-ENTRYPOINT ["python", "-m", "nbi.service"]
+ENTRYPOINT ["python", "-m", "nbi.service.__main__"]

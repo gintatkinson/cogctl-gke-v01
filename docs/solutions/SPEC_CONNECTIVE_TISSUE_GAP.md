@@ -17,7 +17,15 @@ The Gold Master Foundation (`Dockerfile.base`) has been refactored to ingest all
 - **Common Module**: Full source tree ingestion.
 - **Service Clients**: Explicit `COPY` of `context/client`, `device/client`, and `service/client`.
 
-## 4. Verification
+## 4. Lesson 4: The Packaging Gap
+**IncidentID**: IG-056 (Packaging Gap)
+**Symptom**: `ModuleNotFoundError` despite file presence.
+**Physics**: Python requires the parent directory of a package to contain an `__init__.py` for the loader to recognize the sub-namespace. Additionally, `PYTHONPATH` must explicitly anchor the enclave root.
+**Resolution**: 
+1. Ingest mandatory `__init__.py` files into core service roots.
+2. Hard-lock `ENV PYTHONPATH="/var/teraflow"` in the Gold Master foundation.
+
+## 5. Verification
 Confirmed via Cloud-Native Audit (Build #f1df3ad3):
 `-rw-r--r-- 1 root root 6016 Apr 19 15:34 /var/teraflow/common/Constants.py`
 
