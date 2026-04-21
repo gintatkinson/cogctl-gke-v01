@@ -11,19 +11,28 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     id: 'sequential-synth'
     entrypoint: 'bash'
+    env:
+      - 'SERVICES=$_SERVICES'
+      - 'TAG=$_TAG'
+      - 'REGISTRY=$_REGISTRY'
     args:
       - '-c'
       - |
-        SERVICES=("context" "device" "service" "slice" "automation" "monitoring" "nbi" "webui" "pathcomp" "policy")
-        REGISTRY="us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs"
-        for S in "$${SERVICES[@]}"; do
+        # Use isolated environment variables with double-dollar escaping
+        IFS=',' read -ra ADDR <<< "$$SERVICES"
+        for S in "$${ADDR[@]}"; do
           echo "=========================================================================="
-          echo "THRUST INITIATED: Sequential Build for Service -> $$S"
+          echo "THRUST INITIATED: Surgical Re-Synthesis for Service -> $$S"
           echo "=========================================================================="
-          docker build -t "$$REGISTRY/$$S:2026-04-20" -f "baseline/tfs-controller/src/$$S/Dockerfile" .
-          docker push "$$REGISTRY/$$S:2026-04-20"
+          docker build -t "$$REGISTRY/$$S:$$TAG" -f "baseline/tfs-controller/src/$$S/Dockerfile" .
+          docker push "$$REGISTRY/$$S:$$TAG"
         done
     waitFor: ['build-foundation']
+
+substitutions:
+  _SERVICES: "webui"
+  _TAG: "2026-04-21-rc3"
+  _REGISTRY: "us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs"
 
   # Phase 3: Declarative Deployment (Sync)
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'

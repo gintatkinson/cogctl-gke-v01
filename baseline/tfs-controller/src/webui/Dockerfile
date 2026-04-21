@@ -15,10 +15,17 @@
 # PHASE 2: Gold Master Refactor
 FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:2026-04-20
 
-# Add component code
-WORKDIR /var/teraflow
-COPY baseline/tfs-controller/src/webui/ webui/
+# Copy context and webui
+COPY baseline/tfs-controller/src/common/ /var/teraflow/common/
+COPY baseline/tfs-controller/src/webui/ /var/teraflow/webui/
+COPY baseline/tfs-controller/proto/ /var/teraflow/proto/
 
+# Phase 7.16: Autonomous Build-Time Gencode Synthesis
+WORKDIR /var/teraflow
+RUN python3 -m grpc_tools.protoc -I=./proto --python_out=. --grpc_python_out=. ./proto/*.proto
+RUN sed -i -E 's/^import ([^ ]*)_pb2/from . import \1_pb2/g' ./proto/*_pb2*.py
+
+WORKDIR /var/teraflow/webui
 # Standardize logs and entrypoint
 ENV PYTHONUNBUFFERED=1
 ENTRYPOINT ["python", "-m", "webui.service"]
