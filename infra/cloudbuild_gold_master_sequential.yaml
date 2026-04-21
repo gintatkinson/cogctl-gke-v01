@@ -24,8 +24,8 @@ steps:
           echo "=========================================================================="
           echo "THRUST INITIATED: Surgical Re-Synthesis for Service -> $$S"
           echo "=========================================================================="
-          docker build -t "$$REGISTRY/$$S:$$TAG" -f "baseline/tfs-controller/src/$$S/Dockerfile" .
-          docker push "$$REGISTRY/$$S:$$TAG"
+          docker build -t "$_REGISTRY/$$S:$_TAG" -f "baseline/tfs-controller/src/$$S/Dockerfile" .
+          docker push "$_REGISTRY/$$S:$_TAG"
         done
     waitFor: ['build-foundation']
 
