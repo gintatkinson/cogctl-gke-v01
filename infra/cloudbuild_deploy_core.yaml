@@ -31,8 +31,10 @@ steps:
         fi
         
         # Patch image path to use Sovereign Artifact Registry (Topographical Alignment)
-        sed -i "s|labs.etsi.org:5050/tfs/controller/$${COMP}:[a-zA-Z0-9._-]*|$${REGISTRY}/$${COMP}:$_TAG|g" "$$MANIFEST"
-        echo "Applying $$MANIFEST with tag $_TAG..."
+        S_IMG="$${COMP}"
+        [[ "$${COMP}" != "webui" && "$${COMP}" != "nbi" ]] && S_IMG="$${COMP}service"
+        sed -i "s|labs.etsi.org:5050/tfs/controller/$${COMP}:[a-zA-Z0-9._-]*|$${REGISTRY}/$${S_IMG}:$_TAG|g" "$$MANIFEST"
+        echo "Applying $$MANIFEST with tag $_TAG (Artifact: $${S_IMG})..."
         kubectl apply -f "$$MANIFEST"
       done
 
@@ -48,7 +50,7 @@ steps:
       )
       for SVC in "$${CRDB_SERVICES[@]}"; do
         echo "Injecting env vars into $${SVC}service..."
-        kubectl set env deployment/"$${SVC}service" CRDB_NAMESPACE="default" CRDB_SQL_PORT="26257" --namespace=default
+        kubectl set env deployment/"$${SVC}service" CRDB_NAMESPACE="default" CRDB_SQL_PORT="26257" --namespace=default || true
       done
       
       echo "[DEPLOY] INJECTING CRDB CONFIGURATION (Declarative Fix)..."
@@ -56,7 +58,7 @@ steps:
       for TARGET in "$${CRDB_TARGETS[@]}"; do
         if kubectl get deployment "$${TARGET}service" -n default > /dev/null 2>&1; then
           echo "Injecting CRDB variables into $${TARGET}service..."
-          kubectl set env deployment/"$${TARGET}service" CRDB_NAMESPACE="default" CRDB_SQL_PORT="26257" --namespace=default
+          kubectl set env deployment/"$${TARGET}service" CRDB_NAMESPACE="default" CRDB_SQL_PORT="26257" --namespace=default || true
         fi
       done
       
