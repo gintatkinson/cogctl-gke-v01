@@ -22,7 +22,7 @@ COPY baseline/tfs-controller/proto/ /var/teraflow/proto/
 
 # Phase 7.16: Autonomous Build-Time Gencode Synthesis
 WORKDIR /var/teraflow
-RUN python3 -m grpc_tools.protoc -I=. --python_out=. --grpc_python_out=. proto/*.proto
+RUN python3 -m grpc_tools.protoc -I=proto --python_out=. --grpc_python_out=. proto/*.proto
 RUN sed -i -E 's/^import ([^ ]*)_pb2/from . import \1_pb2/g' proto/*_pb2*.py
 
 WORKDIR /var/teraflow/webui
