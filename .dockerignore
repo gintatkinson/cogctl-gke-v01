@@ -1,0 +1,11 @@
+**/*.pyc
+**/__pycache__
+**/.pytest_cache
+**/.git
+**/.gitignore
+**/.gitlab-ci.yml
+**/venv
+**/.env
+**/*.log
+infra/archive/
+baseline/tfs-controller/src/**/tests/

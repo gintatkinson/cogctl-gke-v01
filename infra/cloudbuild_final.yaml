@@ -39,8 +39,8 @@ steps:
       
       echo "[FINAL] Birthing Database Cluster..."
       kubectl apply -f baseline/tfs-controller/manifests/cockroachdb/cluster.yaml
-      kubectl apply -f baseline/tfs-controller/manifests/nats/
-      kubectl apply -f baseline/tfs-controller/manifests/kafka/
+      kubectl apply -f baseline/tfs-controller/manifests/nats/nats_fidelity.yaml
+      kubectl apply -f baseline/tfs-controller/manifests/kafka/single-node.yaml
       
       echo "[FINAL] Injecting 11-Service Application Stack..."
       # Ordered for dependency alignment (Context -> Device -> Service -> ...)

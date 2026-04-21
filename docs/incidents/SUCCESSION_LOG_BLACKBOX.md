@@ -38,6 +38,42 @@
 - **Discovery**: Build #15 failed with `ErrImagePull` because foundational images (Cockroach Operator) were missing from the project Artifact Registry. Rollout also timed out due to GKE Autopilot provisioning latency.
 - **Remediation**: Triggered `infra/cloudbuild_mirror_foundations.yaml` to vault dependencies in our sanctioned registry. Extended the rollout status gate to **300 seconds** to accommodate background node-provisioning.
 
+### REC-010: Database Manifest Validation & Restoration
+- **Discovery**: Build #17 failed with `apiVersion not set` because `nats/cluster.yaml` was a Helm values file misidentified as a K8s resource by wildcard matching.
+- **Remediation**: Surgically purged the toxic configuration file and hardened `cloudbuild_final.yaml` to explicitly target verified manifests: `nats_fidelity.yaml` and `kafka/single-node.yaml`.
+
+### REC-011: WebUI Internal Linkage & VNT-Manager Sync
+- **Discovery**: Build #18 failed with `ModuleNotFoundError: No module named 'vnt_manager'` in the WebUI service.
+- **Remediation**: Expanded the WebUI Docker context to include internal dependencies (`common`, `vnt_manager`, and service descriptors).
+
+### REC-012: Deterministic Path Resolution & Source-Floor Alignment
+- **Discovery**: Build #19 failed with persistent `ModuleNotFoundError` despite context expansion due to package nesting mismatches.
+- **Remediation**: Implemented a "Source-Floor" architecture in the WebUI Dockerfile, copying the entire `src/` tree and explicitly anchoring `PYTHONPATH=/var/teraflow` to ensure absolute parity with the developer resolution environment.
+
+### REC-013: Unified Proto-Dependency Restoration
+- **Discovery**: Build #20 failed with `ModuleNotFoundError` in the WebUI orchestrator because the `common/proto` symlink was dangling (the `proto/` tree was outside the build context).
+- **Remediation**: Transitioned to a "Unified Context" model, ingesting both the `src/` and `proto/` trees into the container and surgically reconciling the symlink bridge at `/var/teraflow/common/proto`.
+
+### REC-014: Deployment-vs-Synthesis Alignment (The Final Loop)
+- **Discovery**: Build #21 failed with persistent `ModuleNotFoundError` despite the structural fix because the GKE deployment manifest points to a tagged image (`webui:2026-04-20`). The deployment pipeline was simply re-birthing the *old* unhardened binary from the registry.
+- **Remediation**: Re-triggered the surgical "Gold Master" synthesis build to physically bake the Source-Floor architecture and Symlink Reconciliation into the Artifact Registry before triggering the final production rollout.
+
+### REC-016: Dependency Floor Harmonization
+- **Discovery**: Build #22 failed with `ResolutionImpossible` due to a structural conflict between the modern Protobuf 5.x runtime and the ancient gRPC 1.47 floor.
+- **Remediation**: Attempted to modernize the gRPC floor to 1.62.x, which was subsequently overridden by the Lead Architect in favor of a strict baseline restoration.
+
+### REC-017: Strict Baseline Restoration & Protobuf Downgrade
+- **Discovery**: The "Modernization" path (Phase 7.13) presented excessive risk to the enclave's foundational stability given the scope of the ETSI TFS codebase.
+- **Remediation**: Reverted the dependency floor to a strictly pinned state: `protobuf==3.20.3` and `grpcio==1.47.5`. Mutated the synthesis tag to `2026-04-21-rc2` to ensure a clean, cacheless birth of the orchestrator.
+
+### REC-018: Build-Time Gencode Synthesis & Alignment
+- **Discovery**: Phase 7.14 failed with `ImportError` due to a collision between the historical library (3.20.3) and the modern gencode (v6.31.0).
+- **Remediation**: Re-engineered the Docker build process to autonomously synthesize the gRPC gencode *at build-time* using the container's own library environment. Applied the 'Readiness Relaxation Patch' (60s delay) to ensure sidecar stability during the final graduation rollout.
+
+### REC-019: Manifest Variable Hardening
+- **Discovery**: Build #27 failed due to an expansion deadlock where shell-level variables were lost during the Cloud Build execution phase.
+- **Remediation**: Transitioned the Gold Master manifest to declarative substitutions (_SERVICES, _TAG, REGISTRY). This ensures cryptographic continuity and variable stability for the final rc3 birth.
+
 ---
 
 ## 2. Immutable Operational Constraints
