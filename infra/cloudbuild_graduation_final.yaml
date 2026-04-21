@@ -37,23 +37,35 @@ steps:
       
       REGISTRY="us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs"
       
-      echo "[FORGE] Initiating Absolute Synthesis of Enclave DNA (Tag: $_TAG)..."
-      for COMP in "$${COMPONENTS[@]}"; do
-        echo "[FORGE] Birthing $$COMP..."
+      echo "[FORGE] Initiating Absolute Path-Aware Synthesis of Enclave DNA (Tag: $_TAG)..."
+      IFS=$'\n'
+      COMPONENTS=(
+        "context:context:contextservice"
+        "device:device:deviceservice"
+        "service:service:serviceservice"
+        "slice:slice:sliceservice"
+        "pathcomp:pathcomp:pathcompservice"
+        "nbi:nbi:nbiservice"
+        "webui:webui:webui"
+        "monitoring:monitoring:monitoringservice"
+        "automation:automation:automationservice"
+        "analytics:analytics/frontend:analyticsservice"
+        "telemetry:telemetry/frontend:telemetryservice"
+      )
+      
+      for ENTRY in "$${COMPONENTS[@]}"; do
+        IFS=':' read -r S_NAME REL_PATH T_NAME <<< "$$ENTRY"
+        echo "[FORGE] Birthing $$S_NAME (Path: $$REL_PATH, Target: $$T_NAME)..."
         
-        # Topographical Suffix Alignment
-        S_IMG="$$COMP"
-        [[ "$$COMP" != "webui" && "$$COMP" != "nbi" ]] && S_IMG="$${COMP}service"
-        
-        DOCKERFILE="baseline/tfs-controller/src/$$COMP/Dockerfile"
+        DOCKERFILE="baseline/tfs-controller/src/$$REL_PATH/Dockerfile"
         if [ ! -f "$$DOCKERFILE" ]; then 
            echo "Error: Dockerfile $$DOCKERFILE not found."
            exit 1
         fi
         
         # Sequential Build (Throttled for 4GB Floor)
-        docker build -t "$${REGISTRY}/$${S_IMG}:$_TAG" -f "$$DOCKERFILE" .
-        docker push "$${REGISTRY}/$${S_IMG}:$_TAG"
+        docker build -t "$${REGISTRY}/$${T_NAME}:$_TAG" -f "$$DOCKERFILE" .
+        docker push "$${REGISTRY}/$${T_NAME}:$_TAG"
       done
 
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
@@ -65,25 +77,33 @@ steps:
       echo "[DEPLOY] Authenticating to Hardened Cottage: $_CLUSTER_NAME..."
       gcloud container clusters get-credentials "$_CLUSTER_NAME" --zone "$_ZONE" --project "$PROJECT_ID"
       
+      IFS=$'\n'
       COMPONENTS=(
-        "context" "device" "service" "slice" "pathcomp" "nbi" "webui" "monitoring" "automation" "analytics" "telemetry"
+        "context:context:contextservice:contextservice.yaml"
+        "device:device:deviceservice:deviceservice.yaml"
+        "service:service:serviceservice:serviceservice.yaml"
+        "slice:slice:sliceservice:sliceservice.yaml"
+        "pathcomp:pathcomp:pathcompservice:pathcompservice.yaml"
+        "nbi:nbi:nbiservice:nbiservice.yaml"
+        "webui:webui:webui:webuiservice.yaml"
+        "monitoring:monitoring:monitoringservice:monitoringservice.yaml"
+        "automation:automation:automationservice:automationservice.yaml"
+        "analytics:analytics/frontend:analyticsservice:analyticsservice.yaml"
+        "telemetry:telemetry/frontend:telemetryservice:telemetryservice.yaml"
       )
       
       REGISTRY="us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs"
       
       echo "[INDUCTION] Executing Terminal Greedy Induction (Universal Tag: $_TAG)..."
-      for COMP in "$${COMPONENTS[@]}"; do
-        MANIFEST="baseline/tfs-controller/manifests/$${COMP}service.yaml"
+      for ENTRY in "$${COMPONENTS[@]}"; do
+        IFS=':' read -r S_NAME REL_PATH T_NAME MANIFEST_FILE <<< "$$ENTRY"
+        MANIFEST="baseline/tfs-controller/manifests/$$MANIFEST_FILE"
         if [ ! -f "$$MANIFEST" ]; then continue; fi
         
-        # Suffix Alignment for Artifact Pull
-        S_IMG="$$COMP"
-        [[ "$$COMP" != "webui" && "$$COMP" != "nbi" ]] && S_IMG="$${COMP}service"
-        
         # Greedy Overwrite
-        sed -i "s|image: .*$${COMP}:[a-zA-Z0-9._-]*|image: $${REGISTRY}/$${S_IMG}:$_TAG|g" "$$MANIFEST"
+        sed -i "s|image: .*$${S_NAME}:[a-zA-Z0-9._-]*|image: $${REGISTRY}/$${T_NAME}:$_TAG|g" "$$MANIFEST"
         
-        echo "[INDUCTION] Inducing $$COMP onto cluster (Artifact: $$S_IMG)..."
+        echo "[INDUCTION] Inducing $$S_NAME onto cluster (Artifact: $$T_NAME)..."
         kubectl apply -f "$$MANIFEST"
       done
       
