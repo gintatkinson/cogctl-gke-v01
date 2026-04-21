@@ -9,6 +9,7 @@ steps:
 
   # Phase 2: Sequential Throttling (Low Memory Footprint)
   - name: 'gcr.io/cloud-builders/docker'
+    id: 'sequential-synth'
     entrypoint: 'bash'
     args:
       - '-c'
@@ -23,6 +24,24 @@ steps:
           docker push "$$REGISTRY/$$S:2026-04-20"
         done
     waitFor: ['build-foundation']
+
+  # Phase 3: Declarative Deployment (Sync)
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        gcloud builds submit --config infra/cloudbuild_deploy_core.yaml .
+    waitFor: ['sequential-synth']
+
+  # Phase 4: Automated Verification (Audit)
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        gcloud builds submit --config infra/cloudbuild_final_verify.yaml --substitutions=_CLUSTER_NAME="sovereign-genesis-1776528985" .
+    waitFor: ['sequential-synth']
 
 images:
   - 'us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:2026-04-20'

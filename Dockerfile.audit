@@ -1,0 +1,2 @@
+FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:2026-04-20
+RUN ls -R /var/teraflow/context && ls -R /var/teraflow/common

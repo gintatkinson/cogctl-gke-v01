@@ -27,7 +27,17 @@ steps:
       # This manifest was refactored for Autopilot compliance (Deployment vs DaemonSet)
       kubectl apply -f baseline/tfs-controller/src/tests/ofc25/nginx-ingress-controller-opt.yaml
       
-      echo "[FINAL] Applying Foundational Databases (CockroachDB, Kafka, NATS)..."
+      echo "[FINAL] Applying Foundational Database Floor (CRDs & Operator)..."
+      kubectl apply -f baseline/tfs-controller/manifests/cockroachdb/crds.yaml
+      kubectl apply -f baseline/tfs-controller/manifests/cockroachdb/operator.yaml
+      
+      echo "[FINAL] Waiting for CRD Stability..."
+      kubectl wait --for=condition=established --timeout=60s crd/crdbclusters.crdb.cockroachlabs.com
+      
+      echo "[FINAL] Waiting for Operator Manager Readiness..."
+      kubectl rollout status deployment/cockroach-operator-manager -n cockroach-operator-system --timeout=300s
+      
+      echo "[FINAL] Birthing Database Cluster..."
       kubectl apply -f baseline/tfs-controller/manifests/cockroachdb/cluster.yaml
       kubectl apply -f baseline/tfs-controller/manifests/nats/
       kubectl apply -f baseline/tfs-controller/manifests/kafka/

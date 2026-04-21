@@ -10,7 +10,7 @@ REGION="us-central1"
 ZONE="us-central1-a"
 
 # ENSURE GCLOUD IS IN PATH
-export PATH="/home/parallels/google-cloud-sdk/bin:$PATH"
+export PATH="/opt/homebrew/bin:/opt/homebrew/share/google-cloud-sdk/bin:$PATH"
 
 log() {
     echo "[$(date +'%Y-%m-%dT%H:%M:%S%z')] $1"

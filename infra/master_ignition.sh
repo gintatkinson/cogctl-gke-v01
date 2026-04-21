@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-export PATH="/home/parallels/google-cloud-sdk/bin:$PATH"
+export PATH="/opt/homebrew/bin:/opt/homebrew/share/google-cloud-sdk/bin:$PATH"
 export PROJECT_ID="cogctl-gke-v01"
 export REGION="us-central1"
 
