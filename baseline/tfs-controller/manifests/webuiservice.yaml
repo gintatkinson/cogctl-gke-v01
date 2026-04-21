@@ -44,22 +44,10 @@ spec:
           - 0
       containers:
         - name: server
-          image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/webui:2026-04-21-rc3
+          image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/webui:2026-04-20
           imagePullPolicy: Always
           ports:
             - containerPort: 8004
-          readinessProbe:
-            httpGet:
-              path: /healthz/ready
-              port: 8004
-            initialDelaySeconds: 60
-            periodSeconds: 10
-          livenessProbe:
-            httpGet:
-              path: /healthz/live
-              port: 8004
-            initialDelaySeconds: 60
-            periodSeconds: 10
           env:
             - name: LOG_LEVEL
               value: "INFO"

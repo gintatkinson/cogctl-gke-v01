@@ -14,14 +14,14 @@ steps:
     args:
       - '-c'
       - |
-        # Use declarative substitutions from the manifest block
-        IFS=',' read -ra ADDR <<< "$_SERVICES"
-        for S in "$${ADDR[@]}"; do
+        SERVICES=("context" "device" "service" "slice" "automation" "monitoring" "nbi" "webui" "pathcomp" "policy")
+        REGISTRY="us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs"
+        for S in "$${SERVICES[@]}"; do
           echo "=========================================================================="
-          echo "THRUST INITIATED: Surgical Re-Synthesis for Service -> $$S"
+          echo "THRUST INITIATED: Sequential Build for Service -> $$S"
           echo "=========================================================================="
-          docker build -t "$_REGISTRY/$$S:$_TAG" -f "baseline/tfs-controller/src/$$S/Dockerfile" .
-          docker push "$_REGISTRY/$$S:$_TAG"
+          docker build -t "$$REGISTRY/$$S:2026-04-20" -f "baseline/tfs-controller/src/$$S/Dockerfile" .
+          docker push "$$REGISTRY/$$S:2026-04-20"
         done
     waitFor: ['build-foundation']
 
@@ -42,11 +42,6 @@ steps:
       - |
         gcloud builds submit --config infra/cloudbuild_final_verify.yaml --substitutions=_CLUSTER_NAME="sovereign-genesis-1776528985" .
     waitFor: ['sequential-synth']
-
-substitutions:
-  _SERVICES: "webui"
-  _TAG: "2026-04-21-rc3"
-  _REGISTRY: "us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs"
 
 images:
   - 'us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:2026-04-20'
