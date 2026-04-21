@@ -18,15 +18,13 @@ steps:
     args:
       - '-c'
       - |
-        # Phase 7.35: Topographical Synchronization & Explicit Tagging
+        # Phase 7.35: Final Graduation Forge (Build #46)
+        set -ex
         for S in "$${ADDR[@]}"; do
-          echo "=========================================================================="
-          echo "THRUST INITIATED: Surgical Re-Synthesis for Service -> $$S"
-          echo "=========================================================================="
+          echo "THRUST INITIATED: Surgical Re-Synthesis for -> $$S"
           S_IMG="$$S"
-          # Topographical alignment: Append 'service' to match manifest expectations
+          # Topographic alignment: Append 'service' suffix where required
           [[ "$$S" != "webui" && "$$S" != "nbi" ]] && S_IMG="$${S}service"
-
           docker build -t "$_REGISTRY/$$S_IMG:$_TAG" -f "baseline/tfs-controller/src/$$S/Dockerfile" .
           docker push "$_REGISTRY/$$S_IMG:$_TAG"
         done
