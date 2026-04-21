@@ -4,7 +4,7 @@
 steps:
   # Phase 1: Birth the Universal Foundation (With Resuscitated DNA)
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '--no-cache', '-t', '$_REGISTRY/python-base:$_TAG', '-f', 'baseline/tfs-controller/src/common/Dockerfile.base', '.']
+    args: ['build', '--no-cache', '-t', '$_REGISTRY/python-base:2026-04-21', '-f', 'baseline/tfs-controller/src/common/Dockerfile.base', '.']
     id: 'build-foundation'
 
   # Phase 2: Sequential Throttling (Low Memory Footprint)
@@ -18,7 +18,7 @@ steps:
     args:
       - '-c'
       - |
-        # Phase 7.35: Final Graduation Forge (Build #47)
+        # Phase 7.35: Final Graduation Forge (Build #48)
         set -ex
         IFS=',' read -ra ADDR <<< "$$SERVICES"
         for S in "$${ADDR[@]}"; do
@@ -50,7 +50,7 @@ steps:
     waitFor: ['sequential-synth']
 
 images:
-  - 'us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:2026-04-21-rc4'
+  - 'us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:2026-04-21'
 
 substitutions:
   _SERVICES: "context,device,service,slice,automation,monitoring,nbi,webui,pathcomp,policy"

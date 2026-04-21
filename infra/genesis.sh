@@ -68,13 +68,18 @@ gcloud compute firewall-rules create sovereign-allow-public-web-$ID \
     --source-ranges=0.0.0.0/0 \
     --project=$PROJECT_ID
 
-log "STAGE 8: IGNITION - CREATING HARDENED NATIVE CLUSTER..."
-gcloud container clusters create-auto $CLUSTER_NAME \
-    --region $REGION \
+log "STAGE 8: IGNITION - CREATING HARDENED ZONAL CLUSTER (THE COTTAGE)..."
+# Transitioning from Autopilot to Standard Zonal to enforce strict disk and node constraints.
+gcloud container clusters create $CLUSTER_NAME \
+    --zone $REGION-a \
+    --num-nodes 1 \
+    --machine-type e2-standard-4 \
+    --disk-size 50GB \
     --network $VPC_NAME \
     --subnetwork $SUBNET_NAME \
     --cluster-secondary-range-name gke-pods \
     --services-secondary-range-name gke-services \
+    --enable-ip-alias \
     --project $PROJECT_ID
 
 echo "$CLUSTER_NAME" > /tmp/last_cluster_name.txt && echo "[$(date +%Y-%m-%dT%H:%M:%S%z)] MISSION SUCCESS: Sovereign Genesis [$ID] is RUNNING."
