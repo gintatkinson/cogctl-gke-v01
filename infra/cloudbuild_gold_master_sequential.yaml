@@ -18,8 +18,7 @@ steps:
     args:
       - '-c'
       - |
-        # Use isolated environment variables with double-dollar escaping
-        IFS=',' read -ra ADDR <<< "$$SERVICES"
+        # Phase 7.35: Topographical Synchronization & Explicit Tagging
         for S in "$${ADDR[@]}"; do
           echo "=========================================================================="
           echo "THRUST INITIATED: Surgical Re-Synthesis for Service -> $$S"
