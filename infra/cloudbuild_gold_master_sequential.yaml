@@ -10,11 +10,11 @@ steps:
   # Phase 2: Sequential Throttling (Low Memory Footprint)
   - name: 'gcr.io/cloud-builders/docker'
     id: 'sequential-synth'
-    entrypoint: 'bash'
     env:
       - 'SERVICES=$_SERVICES'
       - 'TAG=$_TAG'
       - 'REGISTRY=$_REGISTRY'
+    entrypoint: 'bash'
     args:
       - '-c'
       - |
@@ -28,11 +28,6 @@ steps:
           docker push "$$REGISTRY/$$S:$$TAG"
         done
     waitFor: ['build-foundation']
-
-substitutions:
-  _SERVICES: "webui"
-  _TAG: "2026-04-21-rc3"
-  _REGISTRY: "us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs"
 
   # Phase 3: Declarative Deployment (Sync)
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
@@ -54,3 +49,8 @@ substitutions:
 
 images:
   - 'us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:2026-04-20'
+
+substitutions:
+  _SERVICES: "context,device,service,slice,automation,monitoring,nbi,webui,pathcomp,policy"
+  _TAG: "2026-04-21-rc4"
+  _REGISTRY: "us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs"
