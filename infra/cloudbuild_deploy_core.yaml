@@ -8,6 +8,13 @@ steps:
       echo "[DEPLOY] Authenticating to Zonal Cluster: $_CLUSTER_NAME..."
       gcloud container clusters get-credentials "$_CLUSTER_NAME" --zone "$_ZONE" --project "$PROJECT_ID"
       
+      echo "[DEPLOY] STAGE 0: GLOBAL HYDRATION (Idempotent Birth)..."
+      kubectl create secret generic nats-data --from-literal=NATS_SERVER_HOST=nats --from-literal=NATS_SERVER_PORT=4222 --dry-run=client -o yaml | kubectl apply -f -
+      kubectl create secret generic crdb-data --from-literal=CRDB_HOST=cockroachdb --from-literal=CRDB_USERNAME=root --from-literal=CRDB_PASSWORD=root --dry-run=client -o yaml | kubectl apply -f -
+      
+      echo "[DEPLOY] STAGE 1: FOUNDATION BIRTH (Messaging Floor)..."
+      kubectl apply -f baseline/tfs-controller/manifests/nats/nats_fidelity.yaml
+      
       COMPONENTS=(
         "context"
         "device"
