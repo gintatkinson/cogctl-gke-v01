@@ -86,6 +86,10 @@
 - **Discovery**: RC4 artifacts were birthed as 'Untagged' due to a Cloud Build variable expansion collision ($$TAG expansion failure).
 - **Remediation**: Hardened the Gold Master manifest to utilize direct substitution injection ($_TAG, $_REGISTRY), ensuring 100% cryptographic tag parity during synthesis.
 
+### REC-032: Namespace Cleansing (Proto Shadowing Resolution)
+- **Discovery**: WebUI synthesis failed with 'File exists' because the COPY common/ step births a symlink-shadow that blocks directory creation.
+- **Remediation**: Injected a cleansing anchor (rm -rf) to surgically destroy the shadow before birthing the resuscitated stubs.
+
 ---
 
 ## 2. Immutable Operational Constraints

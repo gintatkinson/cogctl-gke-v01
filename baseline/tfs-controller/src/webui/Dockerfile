@@ -25,8 +25,11 @@ WORKDIR /var/teraflow/proto
 RUN python3 -m grpc_tools.protoc -I=. --python_out=. --grpc_python_out=. *.proto
 RUN sed -i -E 's/^import ([^ ]*)_pb2/from . import \1_pb2/g' *_pb2*.py
 
-# Phase 7.30: Namespace Routing Reconciliation
-RUN mkdir -p /var/teraflow/common/proto && cp -r /var/teraflow/proto/* /var/teraflow/common/proto/ && touch /var/teraflow/common/proto/__init__.py
+# Phase 7.34: Namespace Cleansing & Routing Reconciliation
+RUN rm -rf /var/teraflow/common/proto && \
+    mkdir -p /var/teraflow/common/proto && \
+    cp -r /var/teraflow/proto/* /var/teraflow/common/proto/ && \
+    touch /var/teraflow/common/proto/__init__.py
 
 WORKDIR /var/teraflow/webui
 # Standardize logs and entrypoint
