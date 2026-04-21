@@ -4,7 +4,7 @@
 steps:
   # Phase 1: Birth the Universal Foundation
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:2026-04-20', '-f', 'baseline/tfs-controller/src/common/Dockerfile.base', '.']
+    args: ['build', '-t', 'us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:2026-04-21', '-f', 'baseline/tfs-controller/src/common/Dockerfile.base', '.']
     id: 'build-foundation'
 
   # Phase 2: Sequential Throttling (Low Memory Footprint)
@@ -48,7 +48,7 @@ steps:
     waitFor: ['sequential-synth']
 
 images:
-  - 'us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:2026-04-20'
+  - 'us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:2026-04-21'
 
 substitutions:
   _SERVICES: "context,device,service,slice,automation,monitoring,nbi,webui,pathcomp,policy"
