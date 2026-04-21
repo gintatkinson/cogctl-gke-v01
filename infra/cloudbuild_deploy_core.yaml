@@ -31,8 +31,8 @@ steps:
         fi
         
         # Patch image path to use Sovereign Artifact Registry (Topographical Alignment)
-        sed -i "s|labs.etsi.org:5050/tfs/controller/$${COMP}:[a-zA-Z0-9._-]*|$${REGISTRY}/$${COMP}:$$_TAG|g" "$$MANIFEST"
-        echo "Applying $$MANIFEST with tag $$_TAG..."
+        sed -i "s|labs.etsi.org:5050/tfs/controller/$${COMP}:[a-zA-Z0-9._-]*|$${REGISTRY}/$${COMP}:$_TAG|g" "$$MANIFEST"
+        echo "Applying $$MANIFEST with tag $_TAG..."
         kubectl apply -f "$$MANIFEST"
       done
 
