@@ -24,8 +24,11 @@ steps:
           echo "=========================================================================="
           echo "THRUST INITIATED: Surgical Re-Synthesis for Service -> $$S"
           echo "=========================================================================="
-          docker build -t "$_REGISTRY/$$S:$_TAG" -f "baseline/tfs-controller/src/$$S/Dockerfile" .
-          docker push "$_REGISTRY/$$S:$_TAG"
+          S_IMG="$$S"
+          # Topographical alignment for service-suffixed deployments
+          [[ "$$S" != "webui" && "$$S" != "nbi" ]] && S_IMG="$${S}service"
+          docker build -t "$_REGISTRY/$$S_IMG:$_TAG" -f "baseline/tfs-controller/src/$$S/Dockerfile" .
+          docker push "$_REGISTRY/$$S_IMG:$_TAG"
         done
     waitFor: ['build-foundation']
 
