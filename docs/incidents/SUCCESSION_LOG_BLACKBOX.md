@@ -98,6 +98,26 @@
 - **Discovery**: RC4 ignition failed due to (1) missing SQLAlchemy DNA, (2) untagged births from variable expansion failures, and (3) topographical drift between forge and registry.
 - **Remediation**: Resuscitated the foundation with SQLAlchemy, hardened the manifest with direct substitution injection, and implemented topographical suffixing to ensure 100% pathing parity.
 
+### REC-035: Standard Zonal Transition ("The Cottage Mandate")
+- **Discovery**: Autopilot resource allocation triggered massive disk-quota deadlocks (480GB+ consumption) on blank-slate regional clusters.
+- **Remediation**: Migrated to Standard Zonal GKE (`us-central1-a`) with strict "Cottage" resource constraints (`1 node`, `50GB`). Mandated Standard ephemeral storage to satisfy the 50GB ceiling.
+
+### REC-036: Global Enclave Hydration (Stage 0)
+- **Discovery**: Graduation ignitions on the blank-slate cluster failed due to missing foundational config/messaging DNA.
+- **Remediation**: Injected idempotent Stage 0 logic into the rollout manifest to autonomously birth NATS (nats_fidelity.yaml) and persistence secrets (crdb-data, nats-data) before core service induction.
+
+### REC-037: Foundation Re-Forge (Build #58)
+- **Discovery**: Graduation Forge failed because the resuscitated `python-base:2026-04-21` image was missing from the registry (Foundation Void).
+- **Remediation**: Injected a foundational Step -1 to physically re-birth and vault the base image, incorporating hardened pins (`SQLAlchemy==1.4.39`, `protobuf==3.20.3`, `grpcio==1.47.5`) required to bridge the artifact void.
+
+### REC-038: Path-Aware Synthesis Alignment (Build #60)
+- **Discovery**: Sequential re-forge failed at Analytics/Telemetry due to directory nesting mismatches (Pathing Rift).
+- **Remediation**: Hardened the Graduation Manifest with an `IFS` parsing loop and explicit colon-delimited mapping (`S_NAME:REL_PATH:T_NAME`), ensuring 100% synthesis success for nested services.
+
+### REC-039: Docker Build Context Anchor (Build #61)
+- **Discovery**: Build #60 failed during core synthesis because Dockerfiles could not resolve `common_requirements.in` relative to the repository root build context.
+- **Remediation**: Implemented the mandated `cd baseline/tfs-controller/` anchor before the synthesis loop, shifting the build context to provide absolute local visibility to shared requirement assets.
+
 ---
 
 ## 2. Immutable Operational Constraints
