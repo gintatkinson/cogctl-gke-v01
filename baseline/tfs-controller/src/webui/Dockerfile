@@ -16,9 +16,9 @@
 FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:2026-04-21
 
 # Copy context and webui
-COPY baseline/tfs-controller/src/common/ /var/teraflow/common/
-COPY baseline/tfs-controller/src/webui/ /var/teraflow/webui/
-COPY baseline/tfs-controller/proto/ /var/teraflow/proto/
+COPY src/common/ /var/teraflow/common/
+COPY src/webui/ /var/teraflow/webui/
+COPY proto/ /var/teraflow/proto/
 
 # Phase 7.16: Autonomous Build-Time Gencode Synthesis
 WORKDIR /var/teraflow/proto

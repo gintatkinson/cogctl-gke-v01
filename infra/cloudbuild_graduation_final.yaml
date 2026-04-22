@@ -1,6 +1,6 @@
-# SOVEREIGN GENESIS: TERMINAL GRADUATION INDUCTION (BUILD #61)
-# Universal Tag: 2026-04-21-rc4
-# Topology: Mandated 'cd' context anchor for absolute path-aware synthesis.
+# SOVEREIGN GENESIS: TERMINAL GRADUATION INDUCTION (BUILD #76 - PHASE 7.62)
+# Universal Tag: rc13-verified
+# Topology: Reconciled 'Controller-Root' context with Surgical Prefix Removal.
 
 steps:
 - name: 'gcr.io/cloud-builders/docker'
@@ -14,12 +14,36 @@ steps:
       echo "[FOUNDATION] Birthing Python-Base (Tag: 2026-04-21)..."
       cat <<EOF > Dockerfile.base
       FROM python:3.9-slim
+      # [PHASE 7.57] Source-Based Reconciliation (libyang v2)
       RUN apt-get update && apt-get install -y --no-install-recommends \
-          build-essential git libssl-dev libffi-dev python3-dev && \
+          build-essential git libssl-dev libffi-dev python3-dev \
+          cmake libpcre2-dev && \
           rm -rf /var/lib/apt/lists/*
-      RUN pip install --no-cache-dir \
-          SQLAlchemy==1.4.39 protobuf==3.20.3 grpcio==1.47.5 \
-          grpcio-tools==1.47.5 flask-healthz==1.0.1 Werkzeug==2.3.7
+          
+      RUN git clone https://github.com/CESNET/libyang.git && \
+          cd libyang && git checkout v2.1.128 && \
+          mkdir build && cd build && \
+          cmake -D CMAKE_INSTALL_PREFIX:PATH=/usr .. && \
+          make -j$(nproc) && make install && \
+          ldconfig
+      
+      # [PHASE 7.53] Manifest-Based Dependency Ingestion
+      WORKDIR /var/teraflow
+      COPY baseline/tfs-controller/src/common/requirements_unified.in /var/teraflow/common/
+      RUN pip install --no-cache-dir -r /var/teraflow/common/requirements_unified.in
+      
+      # [SPEC] Ingesting Connective Tissue into Gold Master
+      COPY baseline/tfs-controller/src/common/ /var/teraflow/common/
+      COPY baseline/tfs-controller/proto/ /var/teraflow/proto/
+      
+      # [PHASE 7.51] Code Generation Recovery (The Kill Shot)
+      RUN rm -rf /var/teraflow/common/proto && mkdir -p /var/teraflow/common/proto && \
+          python3 -m grpc_tools.protoc -I/var/teraflow/proto --python_out=/var/teraflow/common/proto \
+          --grpc_python_out=/var/teraflow/common/proto /var/teraflow/proto/*.proto && \
+          find /var/teraflow/common/proto -type f -name "*_pb2*.py" -exec sed -i -E 's/^import ([^ ]*)_pb2/from . import \1_pb2/g' {} + && \
+          touch /var/teraflow/common/proto/__init__.py
+          
+      ENV PYTHONPATH=/var/teraflow
       EOF
       
       docker build -t "$${REGISTRY}/python-base:2026-04-21" -f Dockerfile.base .
@@ -33,16 +57,13 @@ steps:
       set -ex
       REGISTRY="us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs"
       
-      # Shift working directory to align Docker context
-      cd baseline/tfs-controller/
-
       COMPONENTS=(
           "context:src/context:contextservice"
           "device:src/device:deviceservice"
           "service:src/service:serviceservice"
           "slice:src/slice:sliceservice"
           "pathcomp:src/pathcomp:pathcompservice"
-          "nbi:src/nbi:nbiservice"
+          "nbi:src/nbi:nbi"
           "webui:src/webui:webui"
           "monitoring:src/monitoring:monitoringservice"
           "automation:src/automation:automationservice"
@@ -53,15 +74,15 @@ steps:
       for COMP_DATA in "$${COMPONENTS[@]}"; do
           IFS=':' read -r S_NAME REL_PATH T_NAME <<< "$$COMP_DATA"
           echo "[FORGE] Birthing $$S_NAME..."
-          DOCKERFILE="$$REL_PATH/Dockerfile"
+          DOCKERFILE="baseline/tfs-controller/$$REL_PATH/Dockerfile"
           
           if [ ! -f "$$DOCKERFILE" ]; then
               echo "Error: Dockerfile $$DOCKERFILE not found in $(pwd)."
               exit 1
           fi
           
-          # Build using current directory (.) as context
-          docker build -t "$${REGISTRY}/$$T_NAME:$_TAG" -f "$$DOCKERFILE" .
+          # [PHASE 7.62] Standardized Context (baseline/tfs-controller/)
+          docker build -t "$${REGISTRY}/$$T_NAME:$_TAG" -f "$$DOCKERFILE" baseline/tfs-controller/
           docker push "$${REGISTRY}/$$T_NAME:$_TAG"
       done
 
@@ -90,7 +111,11 @@ steps:
           "telemetry:telemetryservice.yaml"
       )
 
-      echo "[INDUCTION] Executing Terminal Greedy Induction (Universal Tag: $_TAG)..."
+      echo "[INDUCTION] Creating Orchestration Secrets..."
+      kubectl create secret generic kfk-kpi-data --from-literal=KAFKA_SERVER_HOST=kafka --from-literal=KAFKA_SERVER_PORT=9092 --dry-run=client -o yaml | kubectl apply -f -
+      kubectl create secret generic qdb-data --from-literal=username=admin --from-literal=password=quest --from-literal=METRICSDB_USER=admin --from-literal=METRICSDB_PASS=quest --dry-run=client -o yaml | kubectl apply -f -
+
+      echo "[INDUCTION] Executing Terminal Induction (Universal Tag: $_TAG)..."
       for COMP_DATA in "$${COMPONENTS[@]}"; do
           IFS=':' read -r S_NAME MANIFEST_FILE <<< "$$COMP_DATA"
           MANIFEST="baseline/tfs-controller/manifests/$$MANIFEST_FILE"
@@ -100,20 +125,33 @@ steps:
           T_NAME="$$S_NAME"service
           [[ "$$S_NAME" == "webui" || "$$S_NAME" == "nbi" ]] && T_NAME="$$S_NAME"
 
-          # Greedy Overwrite
-          sed -i "s|image: .*$${S_NAME}:[a-zA-Z0-9._-]*|image: $${REGISTRY}/$${T_NAME}:$_TAG|g" "$$MANIFEST"
+          # [PHASE 7.59] Deadlock-Proof Deployment (Recreate Strategy)
+          sed -i '/spec:/a \  strategy:\n    type: Recreate' "$$MANIFEST"
+
+          # Greedy Overwrite - [FIXED SED REGEX]
+          sed -i "s|image: .*$${S_NAME}.*:[a-zA-Z0-9._-]*|image: $${REGISTRY}/$${T_NAME}:$_TAG|g" "$$MANIFEST"
           
-          echo "[INDUCTION] Inducing $$S_NAME onto cluster (Artifact: $$T_NAME)..."
+          # Apply the Cottage Squeeze (Resource Throttling) - [PHASE 7.47]
+          sed -i "/requests:/,+1 s|cpu: .*|cpu: 50m|" "$$MANIFEST"
+          sed -i "/requests:/,+2 s|memory: .*|memory: 128Mi|" "$$MANIFEST"
+          
+          # [PHASE 7.60] Internet Exposure
+          if [[ "$$S_NAME" == "webui" || "$$S_NAME" == "nbi" ]]; then
+              sed -i "s|type: ClusterIP|type: LoadBalancer|g" "$$MANIFEST"
+              sed -i "s|type: NodePort|type: LoadBalancer|g" "$$MANIFEST"
+          fi
+
+          echo "[INDUCTION] Inducing $$S_NAME onto cluster (Strategy: Recreate)..."
           kubectl apply -f "$$MANIFEST"
       done
       
-      echo "[GRADUATION] Mission Success. All core services inducted onto the Cottage floor."
+      echo "[GRADUATION] Mission Success. Operation Sovereign Reset completed."
 
 options:
   machineType: 'E2_HIGHCPU_8'
   substitution_option: 'ALLOW_LOOSE'
 
 substitutions:
-  _CLUSTER_NAME: "sovereign-genesis"
+  _CLUSTER_NAME: "sovereign-genesis-1776800295"
   _ZONE: "us-central1-a"
-  _TAG: "2026-04-21-rc4"
+  _TAG: "rc13-verified"
