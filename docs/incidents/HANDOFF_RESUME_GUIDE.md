@@ -1,31 +1,28 @@
-# Project Resume Guide: cogctl-gke-v01
+# SUCCESSION HANDOFF: MISSION RESUME GUIDE
+**Date:** 2026-04-22
+**Status:** HALTED (Phase 7.62 Ready)
 
-## 1. Environment State
-- **Namespace:** default (Confirmed via kubectl get svc -A)
-- **TFS Services:** context, device, service, slice (All Active)
-- **Data Status:** Hardware/Topology loaded. E2E Slices PENDING.
+## 1. Operational State
+The Sovereign TeraFlowSDN Enclave is currently in a **Sterilized State**. 
+- **Cluster**: All default namespace workloads, PVCs, and Secrets have been deleted.
+- **Workspace**: Fully synchronized with `origin/main`. Dockerfiles have been surgically scrubbed of prefixes.
+- **Registry**: Base image `python-base:2026-04-21` is birthed and ready.
 
-## 2. Recovery Tunnels (Run first)
+## 2. Terminal Handoff Directive
+When you materialize in the new Linux environment, execute the following **Resume Command** to ignite the graduation:
+
 ```bash
-killall kubectl 2>/dev/null
-kubectl port-forward svc/contextservice 1010:1010 &
-kubectl port-forward svc/deviceservice 2020:2020 &
-kubectl port-forward svc/serviceservice 3030:3030 &
-kubectl port-forward svc/sliceservice 4040:4040 &
+gcloud builds submit --config infra/cloudbuild_graduation_final.yaml --substitutions=_TAG="rc13-verified" .
 ```
 
-## 3. Resume Commands
-```bash
-export PYTHONPATH=$PYTHONPATH:$(pwd)/baseline/tfs-controller/src
-export CONTEXTSERVICE_SERVICE_HOST=127.0.0.1
-export CONTEXTSERVICE_SERVICE_PORT_GRPC=1010
-export DEVICESERVICE_SERVICE_HOST=127.0.0.1
-export DEVICESERVICE_SERVICE_PORT_GRPC=2020
-export SERVICESERVICE_SERVICE_HOST=127.0.0.1
-export SERVICESERVICE_SERVICE_PORT_GRPC=3030
-export SLICESERVICE_SERVICE_HOST=127.0.0.1
-export SLICESERVICE_SERVICE_PORT_GRPC=4040
+## 3. Next Steps post-Ignition
+1.  **Monitor Readiness**: `kubectl get pods -w` (Wait for 11 services at 2/2 READY).
+2.  **External Exposure**: Retrieve the IP for `webuiservice` via `kubectl get svc webuiservice`.
+3.  **Final Audit**: Execute the 13-screen WebUI audit as documented in `docs/incidents/13_SCREEN_AUDIT.md`.
 
-# Fire the E2E Slice Load
-python3 -m tests.tools.load_scenario ./baseline/tfs-controller/src/tests/ofc25/descriptors/topology_e2e-local-vm.json
-```
+## 4. Source of Truth
+- **Incident Log**: [SUCCESSION_LOG_BLACKBOX.md](https://github.com/gintatkinson/cogctl-gke-v01/blob/main/docs/incidents/SUCCESSION_LOG_BLACKBOX.md)
+- **Issue Manifest**: [RECONCILIATION_MANIFEST_ISSUES.md](https://github.com/gintatkinson/cogctl-gke-v01/blob/main/docs/incidents/RECONCILIATION_MANIFEST_ISSUES.md)
+
+**Mission Status:** The path is clear. Graduation is 1 command away.
+EOF
