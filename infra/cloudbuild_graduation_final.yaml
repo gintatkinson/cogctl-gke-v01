@@ -1,6 +1,6 @@
-# SOVEREIGN GENESIS: TERMINAL GRADUATION INDUCTION (BUILD #60)
+# SOVEREIGN GENESIS: TERMINAL GRADUATION INDUCTION (BUILD #61)
 # Universal Tag: 2026-04-21-rc4
-# Topology: Mandated IFS parsing loop for absolute path-aware synthesis.
+# Topology: Mandated 'cd' context anchor for absolute path-aware synthesis.
 
 steps:
 - name: 'gcr.io/cloud-builders/docker'
@@ -33,30 +33,34 @@ steps:
       set -ex
       REGISTRY="us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs"
       
+      # Shift working directory to align Docker context
+      cd baseline/tfs-controller/
+
       COMPONENTS=(
-          "context:context:contextservice"
-          "device:device:deviceservice"
-          "service:service:serviceservice"
-          "slice:slice:sliceservice"
-          "pathcomp:pathcomp:pathcompservice"
-          "nbi:nbi:nbiservice"
-          "webui:webui:webui"
-          "monitoring:monitoring:monitoringservice"
-          "automation:automation:automationservice"
-          "analytics:analytics/frontend:analyticsservice"
-          "telemetry:telemetry/frontend:telemetryservice"
+          "context:src/context:contextservice"
+          "device:src/device:deviceservice"
+          "service:src/service:serviceservice"
+          "slice:src/slice:sliceservice"
+          "pathcomp:src/pathcomp:pathcompservice"
+          "nbi:src/nbi:nbiservice"
+          "webui:src/webui:webui"
+          "monitoring:src/monitoring:monitoringservice"
+          "automation:src/automation:automationservice"
+          "analytics:src/analytics/frontend:analyticsservice"
+          "telemetry:src/telemetry/frontend:telemetryservice"
       )
 
       for COMP_DATA in "$${COMPONENTS[@]}"; do
           IFS=':' read -r S_NAME REL_PATH T_NAME <<< "$$COMP_DATA"
           echo "[FORGE] Birthing $$S_NAME..."
-          DOCKERFILE="baseline/tfs-controller/src/$$REL_PATH/Dockerfile"
+          DOCKERFILE="$$REL_PATH/Dockerfile"
           
           if [ ! -f "$$DOCKERFILE" ]; then
-              echo "Error: Dockerfile $$DOCKERFILE not found."
+              echo "Error: Dockerfile $$DOCKERFILE not found in $(pwd)."
               exit 1
           fi
           
+          # Build using current directory (.) as context
           docker build -t "$${REGISTRY}/$$T_NAME:$_TAG" -f "$$DOCKERFILE" .
           docker push "$${REGISTRY}/$$T_NAME:$_TAG"
       done
