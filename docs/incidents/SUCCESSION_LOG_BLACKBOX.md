@@ -118,6 +118,42 @@
 - **Discovery**: Build #60 failed during core synthesis because Dockerfiles could not resolve `common_requirements.in` relative to the repository root build context.
 - **Remediation**: Implemented the mandated `cd baseline/tfs-controller/` anchor before the synthesis loop, shifting the build context to provide absolute local visibility to shared requirement assets.
 
+### REC-040: Topographical Code Ingestion (The Empty Shell Fix)
+- **Discovery**: Microservices reached `Running` but crashed immediately with `ModuleNotFoundError` because the Dockerfiles lacked `COPY` commands for the local service code, resulting in empty container shells.
+- **Remediation**: Surgically restored `COPY` commands across all 11 microservice blueprints to ensure absolute topographical code ingestion.
+
+### REC-041: Module Resolution & gRPC Synthesis (The Proto Rift)
+- **Discovery**: Services failed with `ModuleNotFoundError: common.proto` due to missing generated gRPC stubs in the Python namespace.
+- **Remediation**: Automated build-time gRPC stub generation (`grpc_tools.protoc`) and applied a relative-import patch (`sed`) to resolve the Python namespace rift.
+
+### REC-042: Dependency Floor Hardening (grpcio-reflection)
+- **Discovery**: Services failed to start due to missing `grpcio-reflection` library in the foundational image.
+- **Remediation**: Integrated `grpcio-reflection` into the `python-base` image and subsequently transitioned to manifest-based ingestion (`requirements_unified.in`).
+
+### REC-043: Resource Throttling (The Cottage Squeeze)
+- **Discovery**: GKE node reached 97% CPU reservation, triggering scheduling deadlocks.
+- **Remediation**: Enforced mandatory resource throttling (`requests: cpu=50m, memory=128Mi`) across all 11 microservice manifests to maintain compliance with REC-035.
+
+### REC-044: Manifest-Based Dependency Ingestion
+- **Discovery**: Microservices continued to fail with fragmented dependency errors (e.g., `prettytable`, `anytree`).
+- **Remediation**: Re-engineered the foundational build to use `pip install -r requirements_unified.in`, ensuring a complete and hardened dependency floor.
+
+### REC-045: System Header Reconciliation (libyang v2 Source Build)
+- **Discovery**: Build #72 failed because the `libyang` Python library was incompatible with the `libyang3` headers provided by the Debian repo.
+- **Remediation**: Implemented an autonomous source compilation of **`libyang` v2.1.128** within the foundation layer to satisfy exact binary requirements.
+
+### REC-046: Operation Sovereign Reset (The Recreate Strategy)
+- **Discovery**: Rollouts stalled due to a resource deadlock where old pods held CPU reservations while new pods remained `Pending`.
+- **Remediation**: Mandated the **`Recreate`** deployment strategy across all manifests to force-release resources before igniting new artifacts.
+
+### REC-047: Total Sterilization & Recovery (Phase 7.60)
+- **Discovery**: System state became polluted with 300GB of corrupted storage and 1,000+ local workspace modifications.
+- **Remediation**: Executed a "Deep Clean" (total deletion of workloads/PVCs/Secrets) followed by a bit-for-bit GitHub workspace reset and an immutable `rc13-verified` build sequence.
+
+### REC-048: Docker Build Context Realignment (Phase 7.61)
+- **Discovery**: Build #74 failed after the workspace reset because Dockerfiles using the `baseline/tfs-controller/` pathing could not resolve their source code when built from a sub-directory context.
+- **Remediation**: Re-anchored the Docker build context to the **Repository Root (`.`)**, ensuring absolute visibility to all graduation blueprints.
+
 ---
 
 ## 2. Immutable Operational Constraints
