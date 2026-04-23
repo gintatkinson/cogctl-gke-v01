@@ -1,4 +1,4 @@
-# Sovereign Genesis v3.0: Customer Onboarding Guide
+# Sovereign Genesis v3.1: Customer Onboarding Guide
 
 This guide provides the instructions for customers to deploy the Sovereign GKE 11-service infrastructure into their own Google Cloud environment, starting from a raw project.
 
@@ -36,7 +36,7 @@ cd cogctl-gke-v01
 # Ignite the 11-service Graduation
  
 **Note**: This command automatically builds all 11 service images and pushes them to your project's Artifact Registry/GCR fabric.
-gcloud builds submit --config infra/cloudbuild_graduation_final.yaml --substitutions=_TAG="v3.0-customer" .
+gcloud builds submit --config infra/cloudbuild_graduation_final.yaml --substitutions=_TAG="v3.1-customer" .
 ```
 
 ## 3. Post-Deployment Verification
@@ -45,7 +45,7 @@ Once the Cloud Build process completes successfully, perform the following verif
 ### A. Connectivity Audit
 Retrieve the public IP address for your Sovereign WebUI:
 ```bash
-kubectl get service webuiservice -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
+kubectl get service ingress-nginx-controller -n ingress-nginx -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
 ```
 Access the dashboard at: `http://<YOUR_IP>/webui/`
 
