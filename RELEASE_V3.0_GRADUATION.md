@@ -36,4 +36,4 @@ kubectl get pods
 
 ---
 **Sovereign Status**: Graduated & Stable.
-**Access URL**: http://34.135.248.33/webui/
+**Access URL**: http://34.135.248.33:8004/webui/
