@@ -34,6 +34,8 @@ cd cogctl-gke-v01
 
 ```bash
 # Ignite the 11-service Graduation
+ 
+**Note**: This command automatically builds all 11 service images and pushes them to your project's Artifact Registry/GCR fabric.
 gcloud builds submit --config infra/cloudbuild_graduation_final.yaml --substitutions=_TAG="v3.0-customer" .
 ```
 
