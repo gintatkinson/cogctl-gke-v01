@@ -57,10 +57,14 @@ spec:
               value: "FALSE"
             - name: CRDB_DATABASE
               value: "tfs_context"
-            - name: CRDB_NAMESPACE
-              value: "default"
+            - name: CRDB_HOST
+              value: "cockroachdb-public"
             - name: CRDB_SQL_PORT
               value: "26257"
+            - name: CRDB_SSLMODE
+              value: "disable"
+            - name: CRDB_NAMESPACE
+              value: "default"
           envFrom:
             - secretRef:
                 name: crdb-data

@@ -39,6 +39,8 @@ spec:
               value: "INFO"
             - name: ENABLE_FORECASTER
               value: "NO"
+            - name: METRICS_PORT
+              value: "9192"
           resources:
             requests:
               cpu: 125m
@@ -51,6 +53,10 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 8081
+            - containerPort: 9193
+          env:
+            - name: METRICS_PORT
+              value: "9193"
           #readinessProbe:
           #  httpGet:
           #    path: /health

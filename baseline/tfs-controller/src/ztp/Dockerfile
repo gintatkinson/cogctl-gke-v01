@@ -1,1 +1,67 @@
-src/main/docker/Dockerfile.multistage.jvm
+# Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Multi-stage Docker image build
+
+# Stage 1
+FROM maven:3-jdk-11 AS builder
+
+# Define working directory
+WORKDIR /app
+
+# Copy every file in working directory, as defined in .dockerignore file
+COPY ./pom.xml pom.xml
+COPY ./src src/
+COPY ./target/generated-sources/ target/generated-sources/
+RUN mvn --errors --batch-mode package -Dmaven.test.skip=true
+
+# Stage 2
+FROM builder AS unit-test
+
+RUN mvn --errors --batch-mode -Pgenerate-consolidated-coverage verify
+
+# Stage 3
+FROM registry.access.redhat.com/ubi8/ubi-minimal:8.4 AS release
+
+ARG JAVA_PACKAGE=java-11-openjdk-headless
+ARG RUN_JAVA_VERSION=1.3.8
+ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en'
+# Install java and the run-java script
+# Also set up permissions for user `1001`
+RUN microdnf install curl ca-certificates ${JAVA_PACKAGE} \
+    && microdnf update \
+    && microdnf clean all \
+    && mkdir /deployments \
+    && chown 1001 /deployments \
+    && chmod "g+rwX" /deployments \
+    && chown 1001:root /deployments \
+    && curl https://repo1.maven.org/maven2/io/fabric8/run-java-sh/${RUN_JAVA_VERSION}/run-java-sh-${RUN_JAVA_VERSION}-sh.sh -o /deployments/run-java.sh \
+    && chown 1001 /deployments/run-java.sh \
+    && chmod 540 /deployments/run-java.sh \
+    && echo "securerandom.source=file:/dev/urandom" >> /etc/alternatives/jre/conf/security/java.security
+
+# Configure the JAVA_OPTIONS, you can add -XshowSettings:vm to also display the heap size.
+ENV JAVA_OPTIONS="-Dquarkus.http.host=0.0.0.0 -Djava.util.logging.manager=org.jboss.logmanager.LogManager"
+# We make four distinct layers so if there are application changes the library layers can be re-used
+COPY --from=builder --chown=1001 /app/target/quarkus-app/lib/ /deployments/lib/
+COPY --from=builder --chown=1001 /app/target/quarkus-app/*.jar /deployments/
+COPY --from=builder --chown=1001 /app/target/quarkus-app/app/ /deployments/app/
+COPY --from=builder --chown=1001 /app/target/quarkus-app/quarkus/ /deployments/quarkus/
+
+EXPOSE 8080
+EXPOSE 5050
+USER 1001
+
+ENTRYPOINT [ "/deployments/run-java.sh" ]
+

@@ -12,8 +12,8 @@ steps:
       REGISTRY="us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs"
       
       echo "[FOUNDATION] Birthing Python-Base (Tag: 2026-04-21)..."
-      cat <<EOF > Dockerfile.base
-      FROM python:3.9-slim
+      cat <<'EOF' > Dockerfile.base
+      FROM python:3.10-slim
       # [PHASE 7.57] Source-Based Reconciliation (libyang v2)
       RUN apt-get update && apt-get install -y --no-install-recommends \
           build-essential git libssl-dev libffi-dev python3-dev \
@@ -30,24 +30,79 @@ steps:
       # [PHASE 7.53] Manifest-Based Dependency Ingestion
       WORKDIR /var/teraflow
       COPY baseline/tfs-controller/src/common/requirements_unified.in /var/teraflow/common/
-      RUN pip install --no-cache-dir -r /var/teraflow/common/requirements_unified.in
+      RUN echo "deepdiff" >> /var/teraflow/common/requirements_unified.in && \
+          echo "requests" >> /var/teraflow/common/requirements_unified.in && \
+          echo "pyyaml" >> /var/teraflow/common/requirements_unified.in && \
+          echo "geopy" >> /var/teraflow/common/requirements_unified.in && \
+          echo "paramiko" >> /var/teraflow/common/requirements_unified.in && \
+          echo "pandas" >> /var/teraflow/common/requirements_unified.in && \
+          echo "matplotlib" >> /var/teraflow/common/requirements_unified.in && \
+          echo "ncclient" >> /var/teraflow/common/requirements_unified.in && \
+          echo "netifaces" >> /var/teraflow/common/requirements_unified.in && \
+          echo "onnxruntime" >> /var/teraflow/common/requirements_unified.in && \
+          echo "pydantic" >> /var/teraflow/common/requirements_unified.in && \
+          echo "pygnmi" >> /var/teraflow/common/requirements_unified.in && \
+          echo "tabulate" >> /var/teraflow/common/requirements_unified.in && \
+          echo "yattag" >> /var/teraflow/common/requirements_unified.in && \
+          echo "websockets" >> /var/teraflow/common/requirements_unified.in && \
+          echo "elasticsearch" >> /var/teraflow/common/requirements_unified.in && \
+          echo "confluent-kafka" >> /var/teraflow/common/requirements_unified.in && \
+          echo "deepmerge" >> /var/teraflow/common/requirements_unified.in && \
+          echo "cryptography" >> /var/teraflow/common/requirements_unified.in && \
+          echo "scikit-learn" >> /var/teraflow/common/requirements_unified.in && \
+          echo "flask-httpauth" >> /var/teraflow/common/requirements_unified.in && \
+          echo "netaddr" >> /var/teraflow/common/requirements_unified.in && \
+          echo "pyang" >> /var/teraflow/common/requirements_unified.in && \
+          echo "pyangbind" >> /var/teraflow/common/requirements_unified.in && \
+          pip install --no-cache-dir -r /var/teraflow/common/requirements_unified.in
       
-      # [SPEC] Ingesting Connective Tissue into Gold Master
-      COPY baseline/tfs-controller/src/common/ /var/teraflow/common/
+      # [SPEC] Ingesting Total Inter-Service Client Fabric
       COPY baseline/tfs-controller/proto/ /var/teraflow/proto/
+      COPY baseline/tfs-controller/src/ /var/teraflow/src_tmp/
+      
+      # [PHASE 7.63] Deep Client Ingestion (Total Mesh Saturation)
+      # We hunt for all client directories (excluding common) and anchor them to their service root.
+      RUN find /var/teraflow/src_tmp -type d -name "client" ! -path "*/common/*" | while read client_dir; do \
+            service_root=$(dirname "$client_dir"); \
+            while [ "$(basename $(dirname "$service_root"))" != "src_tmp" ] && [ "$service_root" != "/var/teraflow/src_tmp" ]; do \
+              service_root=$(dirname "$service_root"); \
+            done; \
+            service_name=$(basename "$service_root"); \
+            dest_dir="/var/teraflow/$service_name/$(echo "$client_dir" | sed "s|.*$service_name/||")"; \
+            mkdir -p "$dest_dir"; \
+            cp -r "$client_dir/." "$dest_dir/"; \
+            # Anchor all intermediate namespaces
+            curr_dir="$dest_dir"; \
+            while [ "$curr_dir" != "/var/teraflow" ] && [ "$curr_dir" != "/" ]; do \
+              touch "$curr_dir/__init__.py"; \
+              curr_dir=$(dirname "$curr_dir"); \
+            done; \
+          done && \
+          mv /var/teraflow/src_tmp/common/* /var/teraflow/common/ && \
+          rm -rf /var/teraflow/src_tmp && \
+          touch /var/teraflow/common/__init__.py
       
       # [PHASE 7.51] Code Generation Recovery (The Kill Shot)
       RUN rm -rf /var/teraflow/common/proto && mkdir -p /var/teraflow/common/proto && \
           python3 -m grpc_tools.protoc -I/var/teraflow/proto --python_out=/var/teraflow/common/proto \
           --grpc_python_out=/var/teraflow/common/proto /var/teraflow/proto/*.proto && \
           find /var/teraflow/common/proto -type f -name "*_pb2*.py" -exec sed -i -E 's/^import ([^ ]*)_pb2/from . import \1_pb2/g' {} + && \
-          touch /var/teraflow/common/proto/__init__.py
+          touch /var/teraflow/common/proto/__init__.py /var/teraflow/common/__init__.py
           
+      # [PHASE 7.74] Final Component Ingestion (Load Generator)
+      RUN mkdir -p /var/teraflow/load_generator
+      COPY baseline/tfs-controller/src/load_generator/ /var/teraflow/load_generator/
+      
+      # [PHASE 7.66] Total Namespace Saturation
+      RUN find /var/teraflow -type d -exec touch {}/__init__.py \;
+      RUN echo "[DEBUG] Gold Master Structure:" && find /var/teraflow -maxdepth 3
+      
+      WORKDIR /var/teraflow
       ENV PYTHONPATH=/var/teraflow
       EOF
       
-      docker build -t "$${REGISTRY}/python-base:2026-04-21" -f Dockerfile.base .
-      docker push "$${REGISTRY}/python-base:2026-04-21"
+      docker build -t "$${REGISTRY}/python-base:2026-04-22" -f Dockerfile.base .
+      docker push "$${REGISTRY}/python-base:2026-04-22"
 
 - name: 'gcr.io/cloud-builders/docker'
   entrypoint: 'bash'
@@ -68,13 +123,18 @@ steps:
           "monitoring:src/monitoring:monitoringservice"
           "automation:src/automation:automationservice"
           "analytics:src/analytics/frontend:analyticsservice"
-          "telemetry:src/telemetry/frontend:telemetryservice"
+          "telemetry-frontend:src/telemetry/frontend:telemetry-frontend"
+          "telemetry-backend:src/telemetry/backend:telemetry-backend"
       )
 
       for COMP_DATA in "$${COMPONENTS[@]}"; do
           IFS=':' read -r S_NAME REL_PATH T_NAME <<< "$$COMP_DATA"
           echo "[FORGE] Birthing $$S_NAME..."
+          
+          # [PHASE 7.73] Absolute Workdir Enforcement
+          # Ensure every service runs from /var/teraflow to prevent local shadowing
           DOCKERFILE="baseline/tfs-controller/$$REL_PATH/Dockerfile"
+          echo "WORKDIR /var/teraflow" >> "$$DOCKERFILE"
           
           if [ ! -f "$$DOCKERFILE" ]; then
               echo "Error: Dockerfile $$DOCKERFILE not found in $(pwd)."
@@ -108,14 +168,37 @@ steps:
           "monitoring:monitoringservice.yaml"
           "automation:automationservice.yaml"
           "analytics:analyticsservice.yaml"
-          "telemetry:telemetryservice.yaml"
+          "telemetry-frontend:telemetryservice.yaml"
+          "telemetry-backend:telemetryservice.yaml"
       )
 
       echo "[INDUCTION] Creating Orchestration Secrets..."
-      kubectl create secret generic kfk-kpi-data --from-literal=KAFKA_SERVER_HOST=kafka --from-literal=KAFKA_SERVER_PORT=9092 --dry-run=client -o yaml | kubectl apply -f -
-      kubectl create secret generic qdb-data --from-literal=username=admin --from-literal=password=quest --from-literal=METRICSDB_USER=admin --from-literal=METRICSDB_PASS=quest --dry-run=client -o yaml | kubectl apply -f -
+      kubectl create secret generic kfk-kpi-data --from-literal=KFK_SERVER_ADDRESS=kafka-public.default.svc.cluster.local:9092 --from-literal=KAFKA_API_VERSION=3.7.0 --dry-run=client -o yaml | kubectl apply -f -
+      kubectl create secret generic qdb-data --from-literal=username=admin --from-literal=password=quest --from-literal=METRICSDB_USER=admin --from-literal=METRICSDB_PASS=quest --from-literal=METRICSDB_HOSTNAME=questdb-public --dry-run=client -o yaml | kubectl apply -f -
+      
+      # [PHASE 7.63] Sovereign Secret Induction
+      kubectl create secret generic crdb-data --from-literal=CRDB_USERNAME=admin --from-literal=CRDB_PASSWORD=quest --from-literal=CRDB_DATABASE=tfs_context --from-literal=CRDB_NAMESPACE=default --dry-run=client -o yaml | kubectl apply -f -
+      kubectl create secret generic nats-data --from-literal=NATS_USERNAME=admin --from-literal=NATS_PASSWORD=quest --dry-run=client -o yaml | kubectl apply -f -
 
       echo "[INDUCTION] Executing Terminal Induction (Universal Tag: $_TAG)..."
+      
+      # [PHASE 7.63] Sovereign Surgical Patch (Range-Aware Deployment Strategy)
+      # [PHASE 7.63] Sovereign Surgical Patch (Range-Aware Deployment Strategy)
+      sed -i '/kind: Deployment/,/spec:/ s/spec:/spec:\n  strategy:\n    type: Recreate/' baseline/tfs-controller/manifests/*.yaml
+      
+      # [PHASE 7.76] Absolute Backbone Re-Birth
+      echo "[BACKBONE] Purging Ghost Resources..."
+      kubectl delete statefulset kafka questdb --ignore-not-found=true
+      kubectl delete service kafka-public questdb-public --ignore-not-found=true
+      
+      echo "[BACKBONE] Inducing Fresh Persistence Fabric..."
+      sed -i 's/kafka-public.kafka.svc.cluster.local/kafka-public.default.svc.cluster.local/' baseline/tfs-controller/manifests/kafka/single-node.yaml
+      kubectl apply -f baseline/tfs-controller/manifests/kafka/single-node.yaml
+      kubectl apply -f baseline/tfs-controller/manifests/questdb/manifest.yaml
+      
+      # Wait for backbone to warm up
+      sleep 30
+
       for COMP_DATA in "$${COMPONENTS[@]}"; do
           IFS=':' read -r S_NAME MANIFEST_FILE <<< "$$COMP_DATA"
           MANIFEST="baseline/tfs-controller/manifests/$$MANIFEST_FILE"
@@ -123,24 +206,47 @@ steps:
           
           # Induction Target (Physically aligned to artifact names in forge)
           T_NAME="$$S_NAME"service
-          [[ "$$S_NAME" == "webui" || "$$S_NAME" == "nbi" ]] && T_NAME="$$S_NAME"
-
-          # [PHASE 7.59] Deadlock-Proof Deployment (Recreate Strategy)
-          sed -i '/spec:/a \  strategy:\n    type: Recreate' "$$MANIFEST"
+          [[ "$$S_NAME" == "webui" || "$$S_NAME" == "nbi" || "$$S_NAME" == "telemetry-frontend" || "$$S_NAME" == "telemetry-backend" ]] && T_NAME="$$S_NAME"
 
           # Greedy Overwrite - [FIXED SED REGEX]
           sed -i "s|image: .*$${S_NAME}.*:[a-zA-Z0-9._-]*|image: $${REGISTRY}/$${T_NAME}:$_TAG|g" "$$MANIFEST"
           
+          # [PHASE 7.64] Database Security Induction
+          sed -i '/env:/a \            - name: CRDB_SSLMODE\n              value: "disable"' "$$MANIFEST"
+          
           # Apply the Cottage Squeeze (Resource Throttling) - [PHASE 7.47]
           sed -i "/requests:/,+1 s|cpu: .*|cpu: 50m|" "$$MANIFEST"
-          sed -i "/requests:/,+2 s|memory: .*|memory: 128Mi|" "$$MANIFEST"
+          if [[ "$$S_NAME" == "pathcomp" ]]; then
+            # PathComp needs 256Mi for backend
+            sed -i '0,/memory:/ s|memory: .*|memory: 128Mi|' "$$MANIFEST"
+            sed -i '0,/memory:/! s|memory: .*|memory: 256Mi|' "$$MANIFEST"
+          else
+            sed -i "/requests:/,+2 s|memory: .*|memory: 128Mi|" "$$MANIFEST"
+          fi
+          
+          # [PHASE 7.67] Strategic Replica Compression
+          sed -i 's/minReplicas: .*/minReplicas: 1/' "$$MANIFEST"
+          
+          # [PHASE 7.73] Absolute Workdir Enforcement
+          # We run from /var/teraflow and use the standard service package
+          if [[ "$$S_NAME" == "nbi" ]]; then
+              sed -i "/command:/,+1 s|python3.*|[\"python3\", \"-m\", \"nbi.service.app\"]|" "$$MANIFEST"
+          elif [[ "$$S_NAME" == "telemetry-frontend" ]]; then
+              # Multi-container pod: target the frontend container
+              sed -i "/name: frontend/,/command:/ s|python3.*|[\"python3\", \"-m\", \"telemetry.frontend.service.__main__\"]|" "$$MANIFEST"
+          elif [[ "$$S_NAME" == "telemetry-backend" ]]; then
+              # Multi-container pod: target the backend container
+              sed -i "/name: backend/,/command:/ s|python3.*|[\"python3\", \"-m\", \"telemetry.backend.service.__main__\"]|" "$$MANIFEST"
+          else
+              sed -i "/command:/,+1 s|python3.*|[\"python3\", \"-m\", \"$${S_NAME}.service.__main__\"]|" "$$MANIFEST"
+          fi
           
           # [PHASE 7.60] Internet Exposure
           if [[ "$$S_NAME" == "webui" || "$$S_NAME" == "nbi" ]]; then
               sed -i "s|type: ClusterIP|type: LoadBalancer|g" "$$MANIFEST"
               sed -i "s|type: NodePort|type: LoadBalancer|g" "$$MANIFEST"
           fi
-
+          
           echo "[INDUCTION] Inducing $$S_NAME onto cluster (Strategy: Recreate)..."
           kubectl apply -f "$$MANIFEST"
       done

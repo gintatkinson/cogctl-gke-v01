@@ -13,7 +13,7 @@
 # limitations under the License.
 
 # PHASE 2: Gold Master Refactor
-FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:2026-04-21
+FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:2026-04-22
 
 # Add component code
 WORKDIR /var/teraflow
@@ -21,4 +21,4 @@ COPY src/pathcomp/ pathcomp/
 
 # Standardize logs and entrypoint
 ENV PYTHONUNBUFFERED=1
-ENTRYPOINT ["python", "-m", "pathcomp.service"]
+ENTRYPOINT ["python", "-m", "pathcomp.frontend.service"]
