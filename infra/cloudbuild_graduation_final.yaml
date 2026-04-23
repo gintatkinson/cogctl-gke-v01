@@ -242,14 +242,27 @@ steps:
           fi
           
           # [PHASE 7.60] Internet Exposure
-          if [[ "$$S_NAME" == "webui" || "$$S_NAME" == "nbi" ]]; then
+          if [[ "$$S_NAME" == "nbi" ]]; then
               sed -i "s|type: ClusterIP|type: LoadBalancer|g" "$$MANIFEST"
               sed -i "s|type: NodePort|type: LoadBalancer|g" "$$MANIFEST"
+          elif [[ "$$S_NAME" == "webui" ]]; then
+              sed -i "s|type: LoadBalancer|type: NodePort|g" "$$MANIFEST"
+              sed -i "s|type: ClusterIP|type: NodePort|g" "$$MANIFEST"
           fi
           
           echo "[INDUCTION] Inducing $$S_NAME onto cluster (Strategy: Recreate)..."
           kubectl apply -f "$$MANIFEST"
       done
+      
+      # [PHASE 7.98] Sovereign Gateway Induction
+      echo "[GATEWAY] Inducting NGINX Ingress Controller..."
+      kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.10.0/deploy/static/provider/cloud/deploy.yaml
+      
+      echo "[GATEWAY] Waiting for Gateway Warm-up..."
+      sleep 60
+      
+      echo "[GATEWAY] Inducting TFS Ingress Rules (Rewrite Synthesis)..."
+      kubectl apply -f infra/tfs_ingress.yaml
       
       echo "[GRADUATION] Mission Success. Operation Sovereign Reset completed."
 
