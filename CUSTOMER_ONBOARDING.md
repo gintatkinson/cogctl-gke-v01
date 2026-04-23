@@ -1,15 +1,28 @@
 # Sovereign Genesis v3.0: Customer Onboarding Guide
 
-This guide provides the instructions for customers to deploy the Sovereign GKE 11-service infrastructure into their own Google Cloud environment.
+This guide provides the instructions for customers to deploy the Sovereign GKE 11-service infrastructure into their own Google Cloud environment, starting from a raw project.
+
+## 0. The Sovereign Genesis (Cluster Creation)
+If you do not have a GKE cluster, execute the following to create a Sovereign-ready Autopilot cluster:
+
+```bash
+# Set your project ID
+gcloud config set project [YOUR_PROJECT_ID]
+
+# Enable Required Services
+gcloud services enable container.googleapis.com cloudbuild.googleapis.com artifactregistry.googleapis.com
+
+# Create the GKE Autopilot Cluster
+gcloud container clusters create-auto sovereign-genesis     --region us-central1     --project [YOUR_PROJECT_ID]
+
+# Authenticate kubectl to the new cluster
+gcloud container clusters get-credentials sovereign-genesis --region us-central1
+```
 
 ## 1. Prerequisites (GCP Preparation)
-Before deployment, ensure the following are configured in your Google Cloud Project:
-- **Enable APIs**:
-  - Cloud Build API (`cloudbuild.googleapis.com`)
-  - Artifact Registry API (`artifactregistry.googleapis.com`)
-  - GKE API (`container.googleapis.com`)
-- **GKE Cluster**: A running GKE Autopilot or Standard cluster.
-- **CLI Tools**: `gcloud` and `kubectl` authenticated to your project and cluster.
+Ensure the following are confirmed in your authenticated environment:
+- **Project Identity**: `gcloud config get-value project` should match your target project.
+- **Cluster Context**: `kubectl config current-context` should point to `sovereign-genesis`.
 
 ## 2. Infrastructure Deployment
 To deploy the full Sovereign stack (including messaging and persistence backbones), clone this repository and execute the graduation synthesis from the root directory:
@@ -37,8 +50,8 @@ kubectl get pods
 
 ## 4. Key Architectural Notes
 - **Namespace**: This deployment is optimized for the `default` namespace fabric.
-- **Persistence**: Includes pre-configured Kafka and QuestDB instances namespace-aligned for internal DNS resolution.
-- **Remediations**: Automatically applies all Phase 7.95 remediations (Handshake reconciliation, Multi-container synthesis, etc.).
+- **Autopilot Compatibility**: Fully tested on GKE Autopilot with Phase 7.95 "Relaxation Patches" included.
+- **Remediations**: Automatically applies all forensic remediations for Kafka and Telemetry synthesis.
 
 ---
 **Sovereign Support**: For forensic details on specific deadlocks, refer to the [REMEDIATION Documents](https://github.com/gintatkinson/cogctl-gke-v01/blob/main/RELEASE_V3.0_GRADUATION.md) in this repository.
