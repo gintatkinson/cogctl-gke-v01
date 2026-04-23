@@ -25,7 +25,12 @@ Ensure the following are confirmed in your authenticated environment:
 - **Cluster Context**: `kubectl config current-context` should point to `sovereign-genesis`.
 
 ## 2. Infrastructure Deployment
-To deploy the full Sovereign stack (including messaging and persistence backbones), clone this repository and execute the graduation synthesis from the root directory:
+To deploy the full Sovereign stack (including messaging and persistence backbones), clone the Sovereign repository and execute the graduation synthesis from the root directory:
+ 
+```bash
+git clone https://github.com/gintatkinson/cogctl-gke-v01.git
+cd cogctl-gke-v01
+```
 
 ```bash
 # Ignite the 11-service Graduation
