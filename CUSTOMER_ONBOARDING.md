@@ -40,7 +40,7 @@ Retrieve the public IP address for your Sovereign WebUI:
 ```bash
 kubectl get service webuiservice -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
 ```
-Access the dashboard at: `http://<YOUR_IP>:8004/webui/`
+Access the dashboard at: `http://<YOUR_IP>:8004/`
 
 ### B. Health Audit
 Verify that all 11 services are in a healthy `Running` state:
