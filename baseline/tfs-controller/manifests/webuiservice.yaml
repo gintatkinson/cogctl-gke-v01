@@ -29,6 +29,8 @@ kind: Deployment
 metadata:
   name: webuiservice
 spec:
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: webuiservice
@@ -45,7 +47,7 @@ spec:
           - 0
       containers:
         - name: server
-          image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/webui:2026-04-20
+          image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/webui:v3.1-graduation
           imagePullPolicy: Always
           ports:
             - containerPort: 8004
@@ -57,7 +59,7 @@ spec:
           resources:
             requests:
               cpu: 50m
-              memory: 64Mi
+              memory: 128Mi
             limits:
               cpu: 1000m
               memory: 1024Mi
@@ -75,10 +77,10 @@ spec:
               value: "true"
           resources:
             requests:
-              cpu: 125m
-              memory: 512Mi
+              cpu: 250m
+              memory: 1024Mi
             limits:
-              cpu: 500m
+              cpu: 1000m
               memory: 1024Mi
           volumeMounts:
             - mountPath: /var/lib/grafana

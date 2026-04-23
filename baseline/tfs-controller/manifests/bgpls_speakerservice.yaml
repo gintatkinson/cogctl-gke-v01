@@ -17,6 +17,8 @@ kind: Deployment
 metadata:
   name: bgpls-speakerservice
 spec:
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: bgpls-speakerservice
@@ -39,8 +41,8 @@ spec:
               value: "INFO"
           resources:
             requests:
-              cpu: 125m
-              memory: 64Mi
+              cpu: 250m
+              memory: 128Mi
             limits:
               cpu: 1000m
               memory: 1024Mi

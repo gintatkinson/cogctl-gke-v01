@@ -17,6 +17,8 @@ kind: Deployment
 metadata:
   name: deviceservice
 spec:
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: deviceservice
@@ -29,11 +31,10 @@ spec:
       labels:
         app: deviceservice
     spec:
-      nodeName: gk3-sovereign-genesis-17765289-pool-3-cb584269-9g48
       terminationGracePeriodSeconds: 5
       containers:
         - name: server
-          image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/device:2026-04-20
+          image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/deviceservice:v3.1-graduation
           imagePullPolicy: Always
           ports:
             - containerPort: 2020
@@ -52,11 +53,11 @@ spec:
             periodSeconds: 1
           resources:
             requests:
-              cpu: 125m
-              memory: 64Mi
+              cpu: 250m
+              memory: 128Mi
             limits:
-              cpu: 500m
-              memory: 512Mi
+              cpu: 1000m
+              memory: 1024Mi
 ---
 apiVersion: v1
 kind: Service

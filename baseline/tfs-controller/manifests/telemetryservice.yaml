@@ -17,6 +17,8 @@ kind: Deployment
 metadata:
   name: telemetryservice
 spec:
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: telemetryservice
@@ -29,7 +31,7 @@ spec:
       terminationGracePeriodSeconds: 5
       containers:
         - name: frontend
-          image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/telemetry-frontend:2026-04-20
+          image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/telemetry-frontend:v3.1-graduation
           imagePullPolicy: Always
           ports:
             - containerPort: 30050
@@ -52,13 +54,13 @@ spec:
                 name: kfk-kpi-data
           resources:
             requests:
-              cpu: 125m
-              memory: 64Mi
+              cpu: 250m
+              memory: 128Mi
             limits:
               cpu: 1000m
               memory: 1024Mi
         - name: backend
-          image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/telemetry-backend:2026-04-20
+          image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/telemetry-backend:v3.1-graduation
           imagePullPolicy: Always
           ports:
             - containerPort: 30060
@@ -68,13 +70,21 @@ spec:
               value: "INFO"
             - name: METRICS_PORT
               value: "9193"
+            - name: CRDB_DATABASE
+              value: "tfs_telemetry"
+            - name: CRDB_NAMESPACE
+              value: "default"
+            - name: CRDB_SQL_PORT
+              value: "26257"
           envFrom:
+            - secretRef:
+                name: crdb-data
             - secretRef:
                 name: kfk-kpi-data
           resources:
             requests:
-              cpu: 125m
-              memory: 64Mi
+              cpu: 250m
+              memory: 128Mi
             limits:
               cpu: 1000m
               memory: 1024Mi
@@ -92,10 +102,6 @@ spec:
   selector:
     app: telemetryservice
   ports:
-    - name: dnsudp
-      protocol: UDP
-      port: 12345
-      targetPort: 12345
     - name: grpc
       protocol: TCP
       port: 30050
@@ -112,6 +118,22 @@ spec:
       protocol: TCP
       port: 9193
       targetPort: 9193
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: telemetryservice-udp
+  labels:
+    app: telemetryservice
+spec:
+  type: ClusterIP
+  selector:
+    app: telemetryservice
+  ports:
+    - name: dnsudp
+      protocol: UDP
+      port: 12345
+      targetPort: 12345
 ---
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler

@@ -48,6 +48,8 @@ kind: Deployment
 metadata:
   name: prometheus
 spec:
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: prometheus

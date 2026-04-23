@@ -17,6 +17,8 @@ kind: Deployment
 metadata:
   name: automationservice
 spec:
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: automationservice
@@ -32,7 +34,7 @@ spec:
       terminationGracePeriodSeconds: 5
       containers:
         - name: server
-          image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/automation:2026-04-20
+          image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/automationservice:v3.1-graduation
           imagePullPolicy: Always
           ports:
             - containerPort: 30200
@@ -56,8 +58,8 @@ spec:
             periodSeconds: 1
           resources:
             requests:
-              cpu: 125m
-              memory: 64Mi
+              cpu: 250m
+              memory: 128Mi
             limits:
               cpu: 1000m
               memory: 1024Mi

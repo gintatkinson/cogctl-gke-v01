@@ -17,6 +17,8 @@ kind: Deployment
 metadata:
   name: analyticsservice
 spec:
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: analyticsservice
@@ -29,7 +31,7 @@ spec:
       terminationGracePeriodSeconds: 5
       containers:
         - name: frontend
-          image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/analytics-frontend:2026-04-20
+          image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/analytics-frontend:v3.1-graduation
           imagePullPolicy: Always
           ports:
             - containerPort: 30080
@@ -52,13 +54,13 @@ spec:
                 name: kfk-kpi-data
           resources:
             requests:
-              cpu: 125m
-              memory: 64Mi
+              cpu: 250m
+              memory: 128Mi
             limits:
               cpu: 1000m
               memory: 1024Mi
         - name: backend
-          image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/analytics-backend:2026-04-20
+          image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/analytics-backend:v3.1-graduation
           imagePullPolicy: Always
           ports:
             - containerPort: 30090
@@ -68,13 +70,21 @@ spec:
               value: "INFO"
             - name: METRICS_PORT
               value: "9193"
+            - name: CRDB_DATABASE
+              value: "tfs_analytics"
+            - name: CRDB_NAMESPACE
+              value: "default"
+            - name: CRDB_SQL_PORT
+              value: "26257"
           envFrom:
+            - secretRef:
+                name: crdb-data
             - secretRef:
                 name: kfk-kpi-data
           resources:
             requests:
-              cpu: 125m
-              memory: 64Mi
+              cpu: 250m
+              memory: 128Mi
             limits:
               cpu: 1000m
               memory: 1024Mi

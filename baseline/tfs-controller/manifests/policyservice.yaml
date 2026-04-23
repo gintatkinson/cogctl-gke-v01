@@ -46,6 +46,8 @@ metadata:
     app.kubernetes.io/name: policyservice
   name: policyservice
 spec:
+  strategy:
+    type: Recreate
   replicas: 1
   selector:
     matchLabels:
@@ -71,7 +73,7 @@ spec:
               value: contextservice
             - name: MONITORING_SERVICE_HOST
               value: monitoringservice
-          image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/policy:2026-04-20
+          image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/policy:v3.1-graduation
           imagePullPolicy: Always
           name: policyservice
           ports:
@@ -84,7 +86,7 @@ spec:
           resources:
             requests:
               cpu: 50m
-              memory: 512Mi
+              memory: 1024Mi
             limits:
               cpu: 2000m
               memory: 2048Mi

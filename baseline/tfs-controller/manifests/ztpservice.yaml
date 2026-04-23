@@ -45,6 +45,8 @@ metadata:
     app.kubernetes.io/name: ztpservice
   name: ztpservice
 spec:
+  strategy:
+    type: Recreate
   replicas: 1
   selector:
     matchLabels:
@@ -67,7 +69,7 @@ spec:
               value: contextservice
             - name: DEVICE_SERVICE_HOST
               value: deviceservice
-          image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/ztp:2026-04-20
+          image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/ztp:v3.1-graduation
           imagePullPolicy: Always
           name: ztpservice
           ports:
@@ -80,7 +82,7 @@ spec:
           resources:
             requests:
               cpu: 50m
-              memory: 512Mi
+              memory: 1024Mi
             limits:
               cpu: 2000m
               memory: 2048Mi

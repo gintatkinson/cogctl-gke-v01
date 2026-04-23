@@ -17,6 +17,8 @@ kind: Deployment
 metadata:
   name: load-generatorservice
 spec:
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: load-generatorservice
@@ -29,7 +31,7 @@ spec:
       terminationGracePeriodSeconds: 5
       containers:
         - name: server
-          image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/load_generator:2026-04-20
+          image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/load_generator:v3.1-graduation
           imagePullPolicy: Always
           ports:
             - containerPort: 50052
@@ -40,10 +42,10 @@ spec:
           resources:
             requests:
               cpu: 256m
-              memory: 64Mi
+              memory: 128Mi
             limits:
               cpu: 512m
-              memory: 64Mi
+              memory: 128Mi
 ---
 apiVersion: v1
 kind: Service

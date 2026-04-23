@@ -32,6 +32,8 @@ kind: Deployment
 metadata:
   name: dltservice
 spec:
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: dltservice
@@ -43,7 +45,7 @@ spec:
       terminationGracePeriodSeconds: 5
       containers:
         - name: connector
-          image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/dlt-connector:2026-04-20
+          image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/dlt-connector:v3.1-graduation
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
@@ -59,12 +61,12 @@ spec:
           resources:
             requests:
               cpu: 50m
-              memory: 64Mi
+              memory: 128Mi
             limits:
-              cpu: 500m
-              memory: 512Mi
+              cpu: 1000m
+              memory: 1024Mi
         - name: gateway
-          image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/dlt-gateway:2026-04-20
+          image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/dlt-gateway:v3.1-graduation
           imagePullPolicy: Always
           ports:
             - containerPort: 50051
@@ -83,7 +85,7 @@ spec:
           resources:
             requests:
               cpu: 200m
-              memory: 512Mi
+              memory: 1024Mi
             limits:
               cpu: 700m
               memory: 1024Mi

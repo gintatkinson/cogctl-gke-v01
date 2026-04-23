@@ -17,6 +17,8 @@ kind: Deployment
 metadata:
   name: simap-connectorservice
 spec:
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: simap-connectorservice
@@ -29,7 +31,7 @@ spec:
       terminationGracePeriodSeconds: 5
       containers:
         - name: server
-          image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/simap_connector:2026-04-20
+          image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/simap_connector:v3.1-graduation
           imagePullPolicy: Always
           ports:
             - containerPort: 9090
@@ -71,8 +73,8 @@ spec:
             periodSeconds: 1
           resources:
             requests:
-              cpu: 125m
-              memory: 64Mi
+              cpu: 250m
+              memory: 128Mi
             limits:
               cpu: 1000m
               memory: 1024Mi

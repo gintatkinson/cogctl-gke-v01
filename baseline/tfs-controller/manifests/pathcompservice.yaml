@@ -17,6 +17,8 @@ kind: Deployment
 metadata:
   name: pathcompservice
 spec:
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: pathcompservice
@@ -29,7 +31,7 @@ spec:
       terminationGracePeriodSeconds: 5
       containers:
         - name: frontend
-          image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/pathcomp-frontend:2026-04-20
+          image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/pathcomp-frontend:v3.1-graduation
           imagePullPolicy: Always
           ports:
             - containerPort: 10020
@@ -43,13 +45,13 @@ spec:
               value: "9192"
           resources:
             requests:
-              cpu: 125m
-              memory: 64Mi
+              cpu: 250m
+              memory: 128Mi
             limits:
               cpu: 1000m
               memory: 1024Mi
         - name: backend
-          image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/pathcomp-backend:2026-04-20
+          image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/pathcomp-backend:v3.1-graduation
           imagePullPolicy: Always
           ports:
             - containerPort: 8081
@@ -71,7 +73,7 @@ spec:
           #  timeoutSeconds: 5
           resources:
             requests:
-              cpu: 125m
+              cpu: 250m
               memory: 256Mi
             limits:
               cpu: 1000m

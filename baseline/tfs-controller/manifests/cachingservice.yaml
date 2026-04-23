@@ -18,6 +18,8 @@ kind: Deployment
 metadata:
   name: cachingservice
 spec:
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: cachingservice
@@ -45,10 +47,10 @@ spec:
           resources:
             requests:
               cpu: 50m
-              memory: 64Mi
+              memory: 128Mi
             limits:
-              cpu: 500m
-              memory: 512Mi
+              cpu: 1000m
+              memory: 1024Mi
 ---
 apiVersion: v1
 kind: Service

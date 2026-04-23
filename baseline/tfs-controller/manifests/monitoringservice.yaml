@@ -17,6 +17,8 @@ kind: Deployment
 metadata:
   name: monitoringservice
 spec:
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: monitoringservice
@@ -29,7 +31,7 @@ spec:
       terminationGracePeriodSeconds: 5
       containers:
         - name: server
-          image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/monitoring:2026-04-20
+          image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/monitoringservice:v3.1-graduation
           imagePullPolicy: Always
           ports:
             - containerPort: 7070
@@ -57,7 +59,7 @@ spec:
             failureThreshold: 30
           resources:
             requests:
-              cpu: 125m
+              cpu: 250m
               memory: 256Mi
             limits:
               cpu: 1000m
