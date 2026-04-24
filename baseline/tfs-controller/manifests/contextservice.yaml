@@ -65,6 +65,10 @@ spec:
               value: "26257"
             - name: CRDB_SSLMODE
               value: "disable"
+            - name: ALLOW_EXPLICIT_ADD_DEVICE_TO_TOPOLOGY
+              value: "TRUE"
+            - name: ALLOW_EXPLICIT_ADD_LINK_TO_TOPOLOGY
+              value: "TRUE"
             - name: CRDB_NAMESPACE
               value: "default"
           envFrom:

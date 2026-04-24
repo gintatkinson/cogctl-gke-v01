@@ -12,32 +12,29 @@ During the **Sovereign Graduation Induction (v3.1)**, data ingestion attempts us
     - Aggressive GKE throttling induced latency exceeding the 60s NGINX threshold and triggering exponential gRPC retry loops, creating a service deadlock.
 
 ## Remediation: Vertical Burst Scaling
-To stabilize the infrastructure for production-grade data ingestion, the resource baseline was updated to allow for computational bursting.
+The resource baseline was updated to allow for computational bursting during ingestion.
+- **CPU**: 250m Request / 500m Limit (1000m for WebUI/Context).
+- **Memory**: 128Mi Request / 256Mi Limit.
 
-### Changes Implemented:
-- **CPU Request**: Increased from `125m` to `250m`.
-- **CPU Limit**: Increased from `125m` to `500m` (Burst capacity).
-- **Memory Request**: Increased from `64Mi` to `128Mi`.
-- **Memory Limit**: Increased from `64Mi` to `256Mi`.
+## Remediation: Ingress Timeout & Bound Controller
+Fixed the 504 Gateway Time-out by binding the Ingress to NGINX and increasing the timeout to 3600s.
+- **Ingress Class**: Added `spec.ingressClassName: nginx`.
+- **Timeouts**: Enforced `proxy-read-timeout` and `proxy-send-timeout` at `3600s`.
 
-### Affected Manifests:
-The changes were applied to all 11 core microservices in `baseline/tfs-controller/manifests/`:
-- `contextservice.yaml`
-- `deviceservice.yaml`
-- `serviceservice.yaml`
-- `sliceservice.yaml`
-- `pathcompservice.yaml`
-- `nbiservice.yaml`
-- `webuiservice.yaml`
-- `monitoringservice.yaml`
-- `automationservice.yaml`
-- `analyticsservice.yaml`
-- `telemetryservice.yaml`
+## Remediation: Native gRPC Probes
+Resolved `NotReady` states by switching to native gRPC probes, as the graduation images were missing the health-probe binary.
+- **Affected Services**: `deviceservice`, `automationservice`, `forecasterservice`.
+
+## Remediation: Topology Associations
+Enabled `ALLOW_EXPLICIT_ADD_DEVICE_TO_TOPOLOGY=TRUE` in `contextservice` to ensure complex Topologies are correctly populated.
 
 ## Verification
-- Applied manifests with `kubectl apply`.
-- Verified cluster scale-up to accommodate new resource requirements.
-- Connectivity and WebUI reachability confirmed at `http://34.68.33.204/webui/`.
+- Confirmed successful ingestion of 20+ devices and 25+ links.
+- WebUI reachability confirmed at `http://34.68.33.204/webui/`.
+
+## Version Control & Persistence
+The environment is now anchored to the `v3.2-stabilized` release.
+- **Tag**: `v3.2-stabilized`
 
 ## Rollback Procedure
-To revert to the minimal audit baseline (125m CPU), restore the original resource values in the manifests and re-apply.
+To revert, restore the original resource values in the manifests and ensure the target image contains the `grpc_health_probe` binary before reverting probes.

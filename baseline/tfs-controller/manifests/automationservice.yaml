@@ -52,8 +52,8 @@ spec:
             - secretRef:
                 name: crdb-data
           startupProbe:
-            exec:
-              command: ["/bin/grpc_health_probe", "-addr=:30200"]
+            grpc:
+              port: 30200
             failureThreshold: 30
             periodSeconds: 1
           resources:

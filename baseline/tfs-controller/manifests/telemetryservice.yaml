@@ -45,6 +45,10 @@ spec:
               value: "default"
             - name: CRDB_SQL_PORT
               value: "26257"
+            - name: CRDB_HOST
+              value: "cockroachdb-public"
+            - name: CRDB_SSLMODE
+              value: "disable"
             - name: METRICS_PORT
               value: "9192"
           envFrom:
@@ -76,6 +80,10 @@ spec:
               value: "default"
             - name: CRDB_SQL_PORT
               value: "26257"
+            - name: CRDB_HOST
+              value: "cockroachdb-public"
+            - name: CRDB_SSLMODE
+              value: "disable"
           envFrom:
             - secretRef:
                 name: crdb-data

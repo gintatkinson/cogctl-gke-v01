@@ -42,8 +42,8 @@ spec:
             - name: FORECAST_TO_HISTORY_RATIO
               value: "10"
           startupProbe:
-            exec:
-              command: ["/bin/grpc_health_probe", "-addr=:10040"]
+            grpc:
+              port: 10040
             failureThreshold: 30
             periodSeconds: 1
           resources:

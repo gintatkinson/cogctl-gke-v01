@@ -58,7 +58,7 @@ spec:
               value: "/webui/"
           resources:
             requests:
-              cpu: 50m
+              cpu: 250m
               memory: 128Mi
             limits:
               cpu: 1000m
@@ -78,7 +78,7 @@ spec:
           resources:
             requests:
               cpu: 250m
-              memory: 1024Mi
+              memory: 128Mi
             limits:
               cpu: 1000m
               memory: 1024Mi

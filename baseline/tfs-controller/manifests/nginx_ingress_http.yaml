@@ -40,6 +40,7 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"  # max timeout between two successive read operations
     nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"  # max timeout between two successive write operations
 spec:
+  ingressClassName: nginx
   rules:
     - http:
         paths:
@@ -57,63 +58,63 @@ spec:
                 name: webuiservice
                 port:
                   number: 3000
-          - path: /()(.well-known/.*)
+          - path: /.well-known(/|$)(.*)
             pathType: Prefix
             backend:
               service:
                 name: nbiservice
                 port:
                   number: 8080
-          - path: /()(restconf/.*)
+          - path: /restconf(/|$)(.*)
             pathType: Prefix
             backend:
               service:
                 name: nbiservice
                 port:
                   number: 8080
-          - path: /()(socket.io/.*)
+          - path: /socket.io(/|$)(.*)
             pathType: Prefix
             backend:
               service:
                 name: nbiservice
                 port:
                   number: 8080
-          - path: /()(tfs-api/.*)
+          - path: /tfs-api(/|$)(.*)
             pathType: Prefix
             backend:
               service:
                 name: nbiservice
                 port:
                   number: 8080
-          - path: /()(bmw/.*)
+          - path: /bmw(/|$)(.*)
             pathType: Prefix
             backend:
               service:
                 name: nbiservice
                 port:
                   number: 8080
-          - path: /()(qkd_app/.*)
+          - path: /qkd_app(/|$)(.*)
             pathType: Prefix
             backend:
               service:
                 name: nbiservice
                 port:
                   number: 8080
-          - path: /()(camara/.*)
+          - path: /camara(/|$)(.*)
             pathType: Prefix
             backend:
               service:
                 name: nbiservice
                 port:
                   number: 8080
-          - path: /()(agent-probes/.*)
+          - path: /agent-probes(/|$)(.*)
             pathType: Prefix
             backend:
               service:
                 name: nbiservice
                 port:
                   number: 8080
-          - path: /()(osm-api/.*)
+          - path: /osm-api(/|$)(.*)
             pathType: Prefix
             backend:
               service:

@@ -47,8 +47,8 @@ spec:
             - name: CONTEXTSERVICE_PORT
               value: "1010"
           startupProbe:
-            exec:
-              command: ["/bin/grpc_health_probe", "-addr=:2020"]
+            grpc:
+              port: 2020
             failureThreshold: 30
             periodSeconds: 1
           resources:
