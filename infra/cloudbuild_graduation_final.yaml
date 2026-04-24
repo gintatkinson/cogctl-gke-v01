@@ -78,7 +78,7 @@ steps:
               curr_dir=$(dirname "$curr_dir"); \
             done; \
           done && \
-          mv /var/teraflow/src_tmp/common/* /var/teraflow/common/ && \
+          cp -r /var/teraflow/src_tmp/common/* /var/teraflow/common/ && \
           rm -rf /var/teraflow/src_tmp && \
           touch /var/teraflow/common/__init__.py
       
@@ -122,7 +122,8 @@ steps:
           "webui:src/webui:webui"
           "monitoring:src/monitoring:monitoringservice"
           "automation:src/automation:automationservice"
-          "analytics:src/analytics/frontend:analyticsservice"
+          "analytics-frontend:src/analytics/frontend:analytics-frontend"
+          "analytics-backend:src/analytics/backend:analytics-backend"
           "telemetry-frontend:src/telemetry/frontend:telemetry-frontend"
           "telemetry-backend:src/telemetry/backend:telemetry-backend"
       )

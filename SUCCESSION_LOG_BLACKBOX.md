@@ -5,3 +5,8 @@ REC-006: Readiness Dependency & Manifest Hardening (Sovereign Recovery). Anchore
 REC-007: Sequential Memory Throttling (Cost Stewardship). Pivot to a single-threaded build loop (infra/cloudbuild_gold_master_sequential.yaml) to ensure image synthesis remains within the 4GB RAM threshold of standard workers, avoiding high-cost hardware tax.
 
 REC-008: Local Toolchain Isolation (Halt-on-Gap Adaptation). The local host lacks the 'docker' binary. Forensic audits of images must be delegated to Cloud Build verification workers using ad-hoc manifests (infra/cloudbuild_forensic_audit.yaml) to maintain Antigravity Purity.
+REC-009: Inter-Device Synthesis Recovery (Sovereign Ignition Fix). Replaced 'mv' with 'cp -r' in the Gold Master synthesis loop within infra/cloudbuild_graduation_final.yaml to resolve the 'inter-device move failed' error during common module ingestion, enabling the completion of the Terminal Graduation Induction.
+- [REC-010] RECONCILED Analytics Architecture: Split analytics component into frontend/backend build targets.
+- [REC-011] RECONCILED Topographical Drift: Removed hardcoded nodeName from deviceservice.yaml to restore scheduler mobility.
+- [REC-012] RECONCILED Manifest Alignment: Synchronized local manifests with v3.1-graduation tags and strategy: Recreate.
+- [REC-013] RECONCILED Gateway Integrity: Fixed Ingress 504 timeouts via explicit ingressClassName binding and native gRPC probes for v3.1-graduation stability.
