@@ -57,7 +57,7 @@ kubectl get pods
 
 ## 4. Key Architectural Notes
 - **Namespace**: This deployment is optimized for the `default` namespace fabric.
-- **Autopilot Compatibility**: Fully tested on GKE Autopilot with Phase 7.95 "Relaxation Patches" included.
+- **Cluster Architecture**: Optimized for 3-Node Standard Clusters (e2-standard-4) to handle heavy JSON ingestion payloads.
 - **Remediations**: Automatically applies all forensic remediations for Kafka and Telemetry synthesis.
 
 ---
