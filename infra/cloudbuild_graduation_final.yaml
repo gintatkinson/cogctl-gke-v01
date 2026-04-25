@@ -215,17 +215,18 @@ steps:
           # [PHASE 7.64] Database Security Induction
           sed -i '/env:/a \            - name: CRDB_SSLMODE\n              value: "disable"' "$$MANIFEST"
           
-          # Apply the Cottage Squeeze (Resource Throttling) - [PHASE 7.47]
-          sed -i "/requests:/,+1 s|cpu: .*|cpu: 50m|" "$$MANIFEST"
-          if [[ "$$S_NAME" == "pathcomp" ]]; then
-            # PathComp needs 256Mi for backend
-            sed -i '0,/memory:/ s|memory: .*|memory: 128Mi|' "$$MANIFEST"
-            sed -i '0,/memory:/! s|memory: .*|memory: 256Mi|' "$$MANIFEST"
+                    # [PHASE 7.99] Vertical Burst Scaling (Ingestion Stabilization)
+          sed -i 's/cpu: .*/cpu: 250m/' "$$MANIFEST" # Baseline Request
+
+          if [[ "$$S_NAME" == "webui" || "$$S_NAME" == "context" ]]; then
+              sed -i 's/cpu: .*/cpu: 1000m/2' "$$MANIFEST" # Limit Override for Ingestion
           else
-            sed -i "/requests:/,+2 s|memory: .*|memory: 128Mi|" "$$MANIFEST"
+              sed -i 's/cpu: .*/cpu: 500m/2' "$$MANIFEST" # Standard Limit
           fi
-          
-          # [PHASE 7.67] Strategic Replica Compression
+
+          sed -i 's/memory: .*/memory: 128Mi/' "$$MANIFEST" # Baseline Request
+          sed -i 's/memory: .*/memory: 256Mi/2' "$$MANIFEST" # Standard Limit
+# [PHASE 7.67] Strategic Replica Compression
           sed -i 's/minReplicas: .*/minReplicas: 1/' "$$MANIFEST"
           
           # [PHASE 7.73] Absolute Workdir Enforcement
