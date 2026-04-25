@@ -168,7 +168,7 @@ steps:
           "webui:webuiservice.yaml"
           "monitoring:monitoringservice.yaml"
           "automation:automationservice.yaml"
-          "analytics:analyticsservice.yaml"
+          "analytics-frontend:analyticsservice.yaml" "analytics-backend:analyticsservice.yaml"
           "telemetry-frontend:telemetryservice.yaml"
           "telemetry-backend:telemetryservice.yaml"
       )
@@ -236,6 +236,12 @@ steps:
           elif [[ "$$S_NAME" == "telemetry-frontend" ]]; then
               # Multi-container pod: target the frontend container
               sed -i "/name: frontend/,/command:/ s|python3.*|[\"python3\", \"-m\", \"telemetry.frontend.service.__main__\"]|" "$$MANIFEST"
+          elif [[ "$$S_NAME" == "analytics-frontend" ]]; then
+              # Multi-container pod: target the frontend container
+              sed -i "/name: frontend/,/command:/ s|python3.*|["python3", "-m", "analytics.frontend.service.__main__"]|" "$$MANIFEST"
+          elif [[ "$$S_NAME" == "analytics-backend" ]]; then
+              # Multi-container pod: target the backend container
+              sed -i "/name: backend/,/command:/ s|python3.*|["python3", "-m", "analytics.backend.service.__main__"]|" "$$MANIFEST"
           elif [[ "$$S_NAME" == "telemetry-backend" ]]; then
               # Multi-container pod: target the backend container
               sed -i "/name: backend/,/command:/ s|python3.*|[\"python3\", \"-m\", \"telemetry.backend.service.__main__\"]|" "$$MANIFEST"
