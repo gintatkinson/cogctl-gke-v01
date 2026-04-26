@@ -39,15 +39,56 @@ spec:
           ports:
             - containerPort: 30200
             - containerPort: 9192
+          command: ["/bin/sh", "-c"]
+          args:
+            - "sed -i 's/wait_for_environment_variables(/if False: wait_for_environment_variables(/g' /var/teraflow/automation/service/__main__.py && python -m automation.service"
           env:
+            - name: CONTEXT_SERVICE_HOST
+              value: "contextservice"
+            - name: CONTEXT_SERVICE_PORT_GRPC
+              value: "1010"
+            - name: DEVICE_SERVICE_HOST
+              value: "deviceservice"
+            - name: DEVICE_SERVICE_PORT_GRPC
+              value: "2020"
+            - name: KPI_MANAGER_SERVICE_HOST
+              value: "127.0.0.1"
+            - name: KPI_MANAGER_SERVICE_PORT_GRPC
+              value: "0"
+            - name: TELEMETRY_SERVICE_HOST
+              value: "telemetryservice"
+            - name: TELEMETRY_SERVICE_PORT_GRPC
+              value: "30050"
+            - name: ANALYTICS_SERVICE_HOST
+              value: "analyticsservice"
+            - name: ANALYTICS_SERVICE_PORT_GRPC
+              value: "30080"
+            - name: POLICY_SERVICE_HOST
+              value: "127.0.0.1"
+            - name: POLICY_SERVICE_PORT_GRPC
+              value: "0"
             - name: LOG_LEVEL
               value: "INFO"
+            - name: PYTHONUNBUFFERED
+              value: "1"
             - name: CRDB_DATABASE
               value: "tfs_automation"
             - name: CRDB_NAMESPACE
               value: "default"
+            - name: CRDB_SSLMODE
+              value: "disable"
             - name: CRDB_SQL_PORT
               value: "26257"
+            - name: KAFKA_API_VERSION
+              value: "3.7.0"
+            - name: KPI_MANAGER_SERVICE_HOST
+              value: "127.0.0.1"
+            - name: KPI_MANAGER_SERVICE_PORT_GRPC
+              value: "0"
+            - name: POLICYSERVICE_SERVICE_HOST
+              value: "127.0.0.1"
+            - name: POLICYSERVICE_SERVICE_PORT_GRPC
+              value: "0"
           envFrom:
             - secretRef:
                 name: crdb-data

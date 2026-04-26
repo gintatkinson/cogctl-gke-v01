@@ -50,7 +50,7 @@ spec:
           envFrom:
             - secretRef:
                 name: qdb-data
-          readinessProbe:
+          startupProbe:
             tcpSocket:
               port: 7070
             initialDelaySeconds: 300

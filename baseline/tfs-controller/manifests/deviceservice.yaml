@@ -39,6 +39,9 @@ spec:
           ports:
             - containerPort: 2020
             - containerPort: 9192
+          command: ["/bin/sh", "-c"]
+          args:
+            - "pip install macaddress p4runtime==1.3.0 && python -m device.service"
           env:
             - name: LOG_LEVEL
               value: "INFO"
@@ -46,6 +49,12 @@ spec:
               value: "contextservice"
             - name: CONTEXTSERVICE_PORT
               value: "1010"
+            - name: CRDB_NAMESPACE
+              value: "default"
+            - name: KAFKA_API_VERSION
+              value: "3.7.0"
+            - name: PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION
+              value: "python"
           startupProbe:
             grpc:
               port: 2020

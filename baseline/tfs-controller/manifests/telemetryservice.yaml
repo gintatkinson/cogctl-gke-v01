@@ -105,7 +105,6 @@ metadata:
     app: telemetryservice
 spec:
   type: LoadBalancer
-  loadBalancerIP: _LOAD_BALANCER_IP_
   externalTrafficPolicy: Local
   selector:
     app: telemetryservice

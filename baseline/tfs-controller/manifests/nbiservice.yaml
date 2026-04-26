@@ -39,7 +39,7 @@ spec:
             # causes "address already in use" when deploying multiple
             # gunicorn workers.
             #- containerPort: 9192
-          readinessProbe:
+          startupProbe:
             tcpSocket:
               port: 8080
             initialDelaySeconds: 300

@@ -31,7 +31,7 @@ spec:
       terminationGracePeriodSeconds: 5
       containers:
         - name: frontend
-          image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/analytics-frontend:v3.1-graduation
+          image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/analytics-frontend:rc13-verified
           imagePullPolicy: Always
           ports:
             - containerPort: 30080
@@ -64,7 +64,7 @@ spec:
               cpu: 1000m
               memory: 1024Mi
         - name: backend
-          image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/analytics-backend:v3.1-graduation
+          image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/analytics-backend:rc13-verified
           imagePullPolicy: Always
           ports:
             - containerPort: 30090

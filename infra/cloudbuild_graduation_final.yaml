@@ -194,6 +194,14 @@ steps:
       
       echo "[BACKBONE] Inducing Fresh Persistence Fabric..."
       sed -i 's/kafka-public.kafka.svc.cluster.local/kafka-public.default.svc.cluster.local/' baseline/tfs-controller/manifests/kafka/single-node.yaml
+          echo "[FOUNDATION] Inducing CockroachDB and Storage..."
+          kubectl apply -f infra/storage-class-hardened.yaml
+          kubectl apply -f baseline/tfs-controller/manifests/cockroachdb/crds.yaml
+          kubectl wait --for=condition=established --timeout=60s crd/crdbclusters.crdb.cockroachlabs.com
+          kubectl apply -f baseline/tfs-controller/manifests/cockroachdb/operator.yaml
+          kubectl rollout status deployment/cockroach-operator-manager -n cockroach-operator-system --timeout=120s
+          kubectl apply -f baseline/tfs-controller/manifests/cockroachdb/cluster.yaml
+          kubectl apply -f baseline/tfs-controller/manifests/nats/nats_fidelity.yaml
       kubectl apply -f baseline/tfs-controller/manifests/kafka/single-node.yaml
       kubectl apply -f baseline/tfs-controller/manifests/questdb/manifest.yaml
       
@@ -207,7 +215,7 @@ steps:
           
           # Induction Target (Physically aligned to artifact names in forge)
           T_NAME="$$S_NAME"service
-          [[ "$$S_NAME" == "webui" || "$$S_NAME" == "nbi" || "$$S_NAME" == "telemetry-frontend" || "$$S_NAME" == "telemetry-backend" ]] && T_NAME="$$S_NAME"
+          [[ "$$S_NAME" == "webui" || "$$S_NAME" == "nbi" || "$$S_NAME" == "telemetry-frontend" || "$$S_NAME" == "telemetry-backend" || "$$S_NAME" == "analytics-frontend" || "$$S_NAME" == "analytics-backend" ]] && T_NAME="$$S_NAME"
 
           # Greedy Overwrite - [FIXED SED REGEX]
           sed -i "s|image: .*$${S_NAME}.*:[a-zA-Z0-9._-]*|image: $${REGISTRY}/$${T_NAME}:$_TAG|g" "$$MANIFEST"
@@ -279,6 +287,6 @@ options:
   substitution_option: 'ALLOW_LOOSE'
 
 substitutions:
-  _CLUSTER_NAME: "sovereign-genesis-1776800295"
+  _CLUSTER_NAME: "sovereign-genesis"
   _ZONE: "us-central1-a"
   _TAG: "rc13-verified"
