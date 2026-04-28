@@ -26,14 +26,18 @@ The documentation includes project documentation, installation instructions, fun
 
 ## Operations: Cost Management
 
-To stop billing for the GKE compute nodes when the cluster is not in active use, you can manually scale the node pool down to 0. All Kubernetes deployments and configurations will be preserved safely.
+To completely stop all billing (Compute, Control Plane, and Persistent Storage) when not in active use, perform a complete cluster teardown. **Note: This is destructive and you will need to reapply your configurations upon startup.**
 
-**Shut down the cluster (Stop Compute Billing):**
+**Total Teardown (True $0.00 Cost):**
 ```bash
-gcloud container clusters resize sovereign-genesis --node-pool default-pool --num-nodes 0 --zone us-central1-a --quiet
+gcloud container clusters delete sovereign-genesis --zone us-central1-a --quiet
 ```
 
-**Start up the cluster (Resume Active Development):**
+**Rebuild Cluster (Resume Active Development):**
 ```bash
-gcloud container clusters resize sovereign-genesis --node-pool default-pool --num-nodes 3 --zone us-central1-a --quiet
+# 1. Recreate the cluster
+gcloud container clusters create sovereign-genesis --zone us-central1-a --num-nodes=3 --machine-type=e2-standard-4
+
+# 2. Re-apply the Golden Release baseline
+kubectl apply -f ./baseline/tfs-controller/manifests/
 ```
