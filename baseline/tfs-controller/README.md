@@ -23,3 +23,17 @@ The project originated from "[Teraflow H2020 project](https://teraflow-h2020.eu/
 ## Documentation
 The [TeraFlowSDN Wiki](https://labs.etsi.org/rep/tfs/controller/-/wikis/home) pages include the main documentation for the ETSI TeraFlowSDN Controller.
 The documentation includes project documentation, installation instructions, functional tests, supported NBIs and SBIs, etc.
+
+## Operations: Cost Management
+
+To stop billing for the GKE compute nodes when the cluster is not in active use, you can manually scale the node pool down to 0. All Kubernetes deployments and configurations will be preserved safely.
+
+**Shut down the cluster (Stop Compute Billing):**
+```bash
+gcloud container clusters resize sovereign-genesis --node-pool default-pool --num-nodes 0 --zone us-central1-a --quiet
+```
+
+**Start up the cluster (Resume Active Development):**
+```bash
+gcloud container clusters resize sovereign-genesis --node-pool default-pool --num-nodes 3 --zone us-central1-a --quiet
+```
