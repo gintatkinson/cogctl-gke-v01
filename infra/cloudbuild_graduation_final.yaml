@@ -227,36 +227,38 @@ steps:
                     # [PHASE 7.99] Vertical Burst Scaling (Ingestion Stabilization)
           sed -i 's/cpu: .*/cpu: 250m/' "$$MANIFEST" # Baseline Request
 
-          if [[ "$$S_NAME" == "webui" || "$$S_NAME" == "context" ]]; then
-              sed -i 's/cpu: .*/cpu: 1000m/2' "$$MANIFEST" # Limit Override for Ingestion
-          else
-              sed -i 's/cpu: .*/cpu: 500m/2' "$$MANIFEST" # Standard Limit
-          fi
+          # [PHASE 7.XX] DETERMINISTIC MANIFEST HARDENING
+          cat <<EOF > harden_manifest.py
+import sys, re
+manifest = sys.argv[1]
+service = sys.argv[2]
+with open(manifest, 'r') as f:
+    content = f.read()
 
-          sed -i 's/memory: .*/memory: 128Mi/' "$$MANIFEST" # Baseline Request
-          sed -i 's/memory: .*/memory: 256Mi/2' "$$MANIFEST" # Standard Limit
-          # [PHASE 7.67] Strategic Replica Compression
-          sed -i 's/minReplicas: .*/minReplicas: 1/' "$$MANIFEST"
-          
-          # [PHASE 7.73] Absolute Workdir Enforcement
-          # We run from /var/teraflow and use the standard service package
-          if [[ "$$S_NAME" == "nbi" ]]; then
-              sed -i "/command:/,+1 s|python3.*|[\"python3\", \"-m\", \"nbi.service.app\"]|" "$$MANIFEST"
-          elif [[ "$$S_NAME" == "telemetry-frontend" ]]; then
-              # Multi-container pod: target the frontend container
-              sed -i "/name: frontend/,/command:/ s|python3.*|[\"python3\", \"-m\", \"telemetry.frontend.service.__main__\"]|" "$$MANIFEST"
-          elif [[ "$$S_NAME" == "analytics-frontend" ]]; then
-              # Multi-container pod: target the frontend container
-              sed -i "/name: frontend/,/command:/ s|python3.*|["python3", "-m", "analytics.frontend.service.__main__"]|" "$$MANIFEST"
-          elif [[ "$$S_NAME" == "analytics-backend" ]]; then
-              # Multi-container pod: target the backend container
-              sed -i "/name: backend/,/command:/ s|python3.*|["python3", "-m", "analytics.backend.service.__main__"]|" "$$MANIFEST"
-          elif [[ "$$S_NAME" == "telemetry-backend" ]]; then
-              # Multi-container pod: target the backend container
-              sed -i "/name: backend/,/command:/ s|python3.*|[\"python3\", \"-m\", \"telemetry.backend.service.__main__\"]|" "$$MANIFEST"
-          else
-              sed -i "/command:/,+1 s|python3.*|[\"python3\", \"-m\", \"$${S_NAME}.service.__main__\"]|" "$$MANIFEST"
-          fi
+# Hardening logic
+content = re.sub(r'cpu: .*', 'cpu: 250m', content, count=1)
+if service in ['webui', 'context']:
+    content = re.sub(r'cpu: .*', 'cpu: 1000m', content, count=2)
+else:
+    content = re.sub(r'cpu: .*', 'cpu: 500m', content, count=2)
+
+content = re.sub(r'memory: .*', 'memory: 128Mi', content, count=1)
+content = re.sub(r'memory: .*', 'memory: 256Mi', content, count=2)
+
+# Specific command overrides
+if service == "nbi":
+    content = re.sub(r'python3.*', '["python3", "-m", "nbi.service.app"]', content)
+elif service in ["telemetry-frontend", "analytics-frontend"]:
+    content = re.sub(r'python3.*', '["python3", "-m", "' + service.replace("-", ".") + '.service.__main__"]', content)
+elif service in ["telemetry-backend", "analytics-backend"]:
+    content = re.sub(r'python3.*', '["python3", "-m", "' + service.replace("-", ".") + '.service.__main__"]', content)
+elif "command:" in content:
+    content = re.sub(r'python3.*', '["python3", "-m", "' + service + '.service.__main__"]', content)
+
+with open(manifest, 'w') as f:
+    f.write(content)
+EOF
+          python3 harden_manifest.py "$$MANIFEST" "$$S_NAME"
           
           # [PHASE 7.60] Internet Exposure
           if [[ "$$S_NAME" == "nbi" ]]; then
