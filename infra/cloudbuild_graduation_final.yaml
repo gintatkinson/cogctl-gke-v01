@@ -174,34 +174,34 @@ steps:
       )
 
       # [PHASE 7.XX] Birthing Manifest Hardener
-      cat <<'EOF' > harden_manifest.py
-import sys, re
-manifest = sys.argv[1]
-service = sys.argv[2]
-with open(manifest, 'r') as f:
-    content = f.read()
+      cat <<'EOF' | sed 's/^      //' > harden_manifest.py
+      import sys, re
+      manifest = sys.argv[1]
+      service = sys.argv[2]
+      with open(manifest, 'r') as f:
+          content = f.read()
 
-# [PHASE 7.99] Vertical Burst Scaling (Ingestion Stabilization)
-content = re.sub(r'cpu: .*', 'cpu: 250m', content, count=1)
-if service in ['webui', 'context']:
-    content = re.sub(r'cpu: .*', 'cpu: 1000m', content, count=2)
-else:
-    content = re.sub(r'cpu: .*', 'cpu: 500m', content, count=2)
+      # [PHASE 7.99] Vertical Burst Scaling (Ingestion Stabilization)
+      content = re.sub(r'cpu: .*', 'cpu: 250m', content, count=1)
+      if service in ['webui', 'context']:
+          content = re.sub(r'cpu: .*', 'cpu: 1000m', content, count=2)
+      else:
+          content = re.sub(r'cpu: .*', 'cpu: 500m', content, count=2)
 
-content = re.sub(r'memory: .*', 'memory: 128Mi', content, count=1)
-content = re.sub(r'memory: .*', 'memory: 256Mi', content, count=2)
+      content = re.sub(r'memory: .*', 'memory: 128Mi', content, count=1)
+      content = re.sub(r'memory: .*', 'memory: 256Mi', content, count=2)
 
-# [PHASE 7.73] Absolute Workdir Enforcement
-if service == "nbi":
-    content = re.sub(r'python3.*', '["python3", "-m", "nbi.service.app"]', content)
-elif service in ["telemetry-frontend", "analytics-frontend", "telemetry-backend", "analytics-backend"]:
-    content = re.sub(r'python3.*', '["python3", "-m", "' + service.replace("-", ".") + '.service.__main__"]', content)
-elif "command:" in content:
-    content = re.sub(r'python3.*', '["python3", "-m", "' + service + '.service.__main__"]', content)
+      # [PHASE 7.73] Absolute Workdir Enforcement
+      if service == "nbi":
+          content = re.sub(r'python3.*', '["python3", "-m", "nbi.service.app"]', content)
+      elif service in ["telemetry-frontend", "analytics-frontend", "telemetry-backend", "analytics-backend"]:
+          content = re.sub(r'python3.*', '["python3", "-m", "' + service.replace("-", ".") + '.service.__main__"]', content)
+      elif "command:" in content:
+          content = re.sub(r'python3.*', '["python3", "-m", "' + service + '.service.__main__"]', content)
 
-with open(manifest, 'w') as f:
-    f.write(content)
-EOF
+      with open(manifest, 'w') as f:
+          f.write(content)
+      EOF
 
       echo "[INDUCTION] Creating Orchestration Secrets..."
       kubectl create secret generic kfk-kpi-data --from-literal=KFK_SERVER_ADDRESS=kafka-public.default.svc.cluster.local:9092 --from-literal=KAFKA_API_VERSION=3.7.0 --dry-run=client -o yaml | kubectl apply -f -
