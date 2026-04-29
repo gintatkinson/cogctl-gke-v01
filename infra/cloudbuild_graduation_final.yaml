@@ -200,6 +200,7 @@ steps:
           kubectl wait --for=condition=established --timeout=60s crd/crdbclusters.crdb.cockroachlabs.com
           kubectl apply -f baseline/tfs-controller/manifests/cockroachdb/operator.yaml
           kubectl rollout status deployment/cockroach-operator-manager -n cockroach-operator-system --timeout=120s
+          sleep 10
           kubectl apply -f baseline/tfs-controller/manifests/cockroachdb/cluster.yaml
           kubectl apply -f baseline/tfs-controller/manifests/nats/nats_fidelity.yaml
       kubectl apply -f baseline/tfs-controller/manifests/kafka/single-node.yaml
