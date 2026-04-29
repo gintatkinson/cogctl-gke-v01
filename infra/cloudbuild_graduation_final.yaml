@@ -173,40 +173,62 @@ steps:
           "telemetry-backend:telemetryservice.yaml"
       )
 
+      # [PHASE 7.XX] Birthing Manifest Hardener
+      cat <<'EOF' > harden_manifest.py
+import sys, re
+manifest = sys.argv[1]
+service = sys.argv[2]
+with open(manifest, 'r') as f:
+    content = f.read()
+
+# [PHASE 7.99] Vertical Burst Scaling (Ingestion Stabilization)
+content = re.sub(r'cpu: .*', 'cpu: 250m', content, count=1)
+if service in ['webui', 'context']:
+    content = re.sub(r'cpu: .*', 'cpu: 1000m', content, count=2)
+else:
+    content = re.sub(r'cpu: .*', 'cpu: 500m', content, count=2)
+
+content = re.sub(r'memory: .*', 'memory: 128Mi', content, count=1)
+content = re.sub(r'memory: .*', 'memory: 256Mi', content, count=2)
+
+# [PHASE 7.73] Absolute Workdir Enforcement
+if service == "nbi":
+    content = re.sub(r'python3.*', '["python3", "-m", "nbi.service.app"]', content)
+elif service in ["telemetry-frontend", "analytics-frontend", "telemetry-backend", "analytics-backend"]:
+    content = re.sub(r'python3.*', '["python3", "-m", "' + service.replace("-", ".") + '.service.__main__"]', content)
+elif "command:" in content:
+    content = re.sub(r'python3.*', '["python3", "-m", "' + service + '.service.__main__"]', content)
+
+with open(manifest, 'w') as f:
+    f.write(content)
+EOF
+
       echo "[INDUCTION] Creating Orchestration Secrets..."
       kubectl create secret generic kfk-kpi-data --from-literal=KFK_SERVER_ADDRESS=kafka-public.default.svc.cluster.local:9092 --from-literal=KAFKA_API_VERSION=3.7.0 --dry-run=client -o yaml | kubectl apply -f -
       kubectl create secret generic qdb-data --from-literal=username=admin --from-literal=password=quest --from-literal=METRICSDB_USER=admin --from-literal=METRICSDB_PASS=quest --from-literal=METRICSDB_HOSTNAME=questdb-public --dry-run=client -o yaml | kubectl apply -f -
-      
-      # [PHASE 7.63] Sovereign Secret Induction
       kubectl create secret generic crdb-data --from-literal=CRDB_USERNAME=admin --from-literal=CRDB_PASSWORD=quest --from-literal=CRDB_DATABASE=tfs_context --from-literal=CRDB_NAMESPACE=default --dry-run=client -o yaml | kubectl apply -f -
       kubectl create secret generic nats-data --from-literal=NATS_USERNAME=admin --from-literal=NATS_PASSWORD=quest --dry-run=client -o yaml | kubectl apply -f -
 
       echo "[INDUCTION] Executing Terminal Induction (Universal Tag: $_TAG)..."
-      
-      # [PHASE 7.63] Sovereign Surgical Patch (Range-Aware Deployment Strategy)
-      # [PHASE 7.63] Sovereign Surgical Patch (Range-Aware Deployment Strategy)
       sed -i '/kind: Deployment/,/spec:/ s/spec:/spec:\n  strategy:\n    type: Recreate/' baseline/tfs-controller/manifests/*.yaml
       
-      # [PHASE 7.76] Absolute Backbone Re-Birth
       echo "[BACKBONE] Purging Ghost Resources..."
       kubectl delete statefulset kafka questdb --ignore-not-found=true
       kubectl delete service kafka-public questdb-public --ignore-not-found=true
       
       echo "[BACKBONE] Inducing Fresh Persistence Fabric..."
       sed -i 's/kafka-public.kafka.svc.cluster.local/kafka-public.default.svc.cluster.local/' baseline/tfs-controller/manifests/kafka/single-node.yaml
-          echo "[FOUNDATION] Inducing CockroachDB and Storage..."
-          kubectl apply -f infra/storage-class-hardened.yaml
-          kubectl apply -f baseline/tfs-controller/manifests/cockroachdb/crds.yaml
-          kubectl wait --for=condition=established --timeout=60s crd/crdbclusters.crdb.cockroachlabs.com
-          kubectl apply -f baseline/tfs-controller/manifests/cockroachdb/operator.yaml
-          kubectl rollout status deployment/cockroach-operator-manager -n cockroach-operator-system --timeout=120s
-          sleep 10
-          kubectl apply -f baseline/tfs-controller/manifests/cockroachdb/cluster.yaml
-          kubectl apply -f baseline/tfs-controller/manifests/nats/nats_fidelity.yaml
+      kubectl apply -f infra/storage-class-hardened.yaml
+      kubectl apply -f baseline/tfs-controller/manifests/cockroachdb/crds.yaml
+      kubectl wait --for=condition=established --timeout=60s crd/crdbclusters.crdb.cockroachlabs.com
+      kubectl apply -f baseline/tfs-controller/manifests/cockroachdb/operator.yaml
+      kubectl rollout status deployment/cockroach-operator-manager -n cockroach-operator-system --timeout=120s
+      sleep 10
+      kubectl apply -f baseline/tfs-controller/manifests/cockroachdb/cluster.yaml
+      kubectl apply -f baseline/tfs-controller/manifests/nats/nats_fidelity.yaml
       kubectl apply -f baseline/tfs-controller/manifests/kafka/single-node.yaml
       kubectl apply -f baseline/tfs-controller/manifests/questdb/manifest.yaml
       
-      # Wait for backbone to warm up
       sleep 30
 
       for COMP_DATA in "$${COMPONENTS[@]}"; do
@@ -214,78 +236,29 @@ steps:
           MANIFEST="baseline/tfs-controller/manifests/$$MANIFEST_FILE"
           if [ ! -f "$$MANIFEST" ]; then continue; fi
           
-          # Induction Target (Physically aligned to artifact names in forge)
           T_NAME="$$S_NAME"service
           [[ "$$S_NAME" == "webui" || "$$S_NAME" == "nbi" || "$$S_NAME" == "telemetry-frontend" || "$$S_NAME" == "telemetry-backend" || "$$S_NAME" == "analytics-frontend" || "$$S_NAME" == "analytics-backend" ]] && T_NAME="$$S_NAME"
 
-          # Greedy Overwrite - [FIXED SED REGEX]
           sed -i "s|image: .*$${S_NAME}.*:[a-zA-Z0-9._-]*|image: $${REGISTRY}/$${T_NAME}:$_TAG|g" "$$MANIFEST"
-          
-          # [PHASE 7.64] Database Security Induction
           sed -i '/env:/a \            - name: CRDB_SSLMODE\n              value: "disable"' "$$MANIFEST"
           
-                    # [PHASE 7.99] Vertical Burst Scaling (Ingestion Stabilization)
-          sed -i 's/cpu: .*/cpu: 250m/' "$$MANIFEST" # Baseline Request
-
-          # [PHASE 7.XX] DETERMINISTIC MANIFEST HARDENING
-          cat <<EOF > harden_manifest.py
-          import sys, re
-          manifest = sys.argv[1]
-          service = sys.argv[2]
-          with open(manifest, 'r') as f:
-              content = f.read()
-
-          # Hardening logic
-          content = re.sub(r'cpu: .*', 'cpu: 250m', content, count=1)
-          if service in ['webui', 'context']:
-              content = re.sub(r'cpu: .*', 'cpu: 1000m', content, count=2)
-          else:
-              content = re.sub(r'cpu: .*', 'cpu: 500m', content, count=2)
-
-          content = re.sub(r'memory: .*', 'memory: 128Mi', content, count=1)
-          content = re.sub(r'memory: .*', 'memory: 256Mi', content, count=2)
-
-          # Specific command overrides
-          if service == "nbi":
-              content = re.sub(r'python3.*', '["python3", "-m", "nbi.service.app"]', content)
-          elif service in ["telemetry-frontend", "analytics-frontend"]:
-              content = re.sub(r'python3.*', '["python3", "-m", "' + service.replace("-", ".") + '.service.__main__"]', content)
-          elif service in ["telemetry-backend", "analytics-backend"]:
-              content = re.sub(r'python3.*', '["python3", "-m", "' + service.replace("-", ".") + '.service.__main__"]', content)
-          elif "command:" in content:
-              content = re.sub(r'python3.*', '["python3", "-m", "' + service + '.service.__main__"]', content)
-
-          with open(manifest, 'w') as f:
-              f.write(content)
-          EOF
-          # Remove leading indentation from the generated python script
-          sed -i 's/^          //' harden_manifest.py
           python3 harden_manifest.py "$$MANIFEST" "$$S_NAME"
           
-          # [PHASE 7.60] Internet Exposure
           if [[ "$$S_NAME" == "nbi" ]]; then
               sed -i "s|type: ClusterIP|type: LoadBalancer|g" "$$MANIFEST"
-              sed -i "s|type: NodePort|type: LoadBalancer|g" "$$MANIFEST"
           elif [[ "$$S_NAME" == "webui" ]]; then
-              sed -i "s|type: LoadBalancer|type: NodePort|g" "$$MANIFEST"
               sed -i "s|type: ClusterIP|type: NodePort|g" "$$MANIFEST"
           fi
           
-          echo "[INDUCTION] Inducing $$S_NAME onto cluster (Strategy: Recreate)..."
+          echo "[INDUCTION] Inducing $$S_NAME onto cluster..."
           kubectl apply -f "$$MANIFEST"
       done
       
-      # [PHASE 7.98] Sovereign Gateway Induction
-      echo "[GATEWAY] Inducting NGINX Ingress Controller..."
+      echo "[GATEWAY] Inducting NGINX Ingress..."
       kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.10.0/deploy/static/provider/cloud/deploy.yaml
-      
-      echo "[GATEWAY] Waiting for Gateway Warm-up..."
       sleep 60
-      
-      echo "[GATEWAY] Inducting TFS Ingress Rules (Rewrite Synthesis)..."
       kubectl apply -f infra/tfs_ingress.yaml
-      
-      echo "[GRADUATION] Mission Success. Operation Sovereign Reset completed."
+      echo "[GRADUATION] Mission Success."
 
 options:
   machineType: 'E2_HIGHCPU_8'
