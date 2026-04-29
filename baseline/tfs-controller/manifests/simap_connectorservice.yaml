@@ -30,54 +30,64 @@ spec:
     spec:
       terminationGracePeriodSeconds: 5
       containers:
-        - name: server
-          image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/simap_connector:v3.1-graduation
-          imagePullPolicy: Always
-          ports:
-            - containerPort: 9090
-            - containerPort: 9192
-          env:
-            - name: LOG_LEVEL
-              value: "INFO"
-            - name: SIMAP_SERVER_SCHEME
-              value: "http"
-            - name: SIMAP_SERVER_ADDRESS
+      - name: server
+        image: 
+          us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/simap_connector:v3.1-graduation
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 9090
+        - containerPort: 9192
+        env:
+        - name: LOG_LEVEL
+          value: "INFO"
+        - name: SIMAP_SERVER_SCHEME
+          value: "http"
+        - name: SIMAP_SERVER_ADDRESS
               # Assuming SIMAP Server is deployed in a local Docker container, as per:
               # - ./src/tests/tools/simap_server/build.sh
               # - ./src/tests/tools/simap_server/deploy.sh
-              value: "172.17.0.1"
-            - name: SIMAP_SERVER_PORT
+          value: "172.17.0.1"
+        - name: SIMAP_SERVER_PORT
               # Assuming SIMAP Server is deployed in a local Docker container, as per:
               # - ./src/tests/tools/simap_server/build.sh
               # - ./src/tests/tools/simap_server/deploy.sh
-              value: "8080"
-            - name: SIMAP_SERVER_USERNAME
-              value: "admin"
-            - name: SIMAP_SERVER_PASSWORD
-              value: "admin"
-            - name: CRDB_DATABASE
-              value: "tfs_simap_connector"
-            - name: CRDB_NAMESPACE
-              value: "default"
-            - name: CRDB_SQL_PORT
-              value: "26257"
-          envFrom:
-            - secretRef:
-                name: crdb-data
-            - secretRef:
-                name: kfk-kpi-data
-          startupProbe:
-            grpc:
-              port: 9090
-            failureThreshold: 30
-            periodSeconds: 1
-          resources:
-            requests:
-              cpu: 250m
-              memory: 128Mi
-            limits:
-              cpu: 1000m
-              memory: 1024Mi
+          value: "8080"
+        - name: SIMAP_SERVER_USERNAME
+          value: "admin"
+        - name: SIMAP_SERVER_PASSWORD
+          value: "admin"
+        - name: CRDB_DATABASE
+          value: "tfs_simap_connector"
+        - name: CRDB_NAMESPACE
+          value: "default"
+        - name: CRDB_SQL_PORT
+          value: "26257"
+        envFrom:
+        - secretRef:
+            name: crdb-data
+        - secretRef:
+            name: kfk-kpi-data
+        startupProbe:
+          grpc:
+            port: 9090
+          failureThreshold: 5
+          periodSeconds: 1
+          initialDelaySeconds: 10
+        resources:
+          requests:
+            cpu: 250m
+            memory: 128Mi
+          limits:
+            cpu: 1000m
+            memory: 1024Mi
+      initContainers:
+      - name: init-dependencies
+        image: busybox:1.36
+        command:
+        - sh
+        - -c
+        - until nc -z cockroachdb-public 26257 && nc -z nats-client 4222; do 
+          echo "waiting for stateful dependencies..."; sleep 2; done;
 ---
 apiVersion: v1
 kind: Service
@@ -90,12 +100,12 @@ spec:
   selector:
     app: simap-connectorservice
   ports:
-    - name: grpc
-      protocol: TCP
-      port: 9090
-      targetPort: 9090
-    - name: metrics
-      protocol: TCP
-      port: 9192
-      targetPort: 9192
+  - name: grpc
+    protocol: TCP
+    port: 9090
+    targetPort: 9090
+  - name: metrics
+    protocol: TCP
+    port: 9192
+    targetPort: 9192
 

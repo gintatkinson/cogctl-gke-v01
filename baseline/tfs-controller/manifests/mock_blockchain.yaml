@@ -29,21 +29,30 @@ spec:
     spec:
       terminationGracePeriodSeconds: 5
       containers:
-        - name: server
-          image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/mock_blockchain:v3.1-graduation
-          imagePullPolicy: Always
-          ports:
-            - containerPort: 50051
-          env:
-            - name: LOG_LEVEL
-              value: "INFO"
-          resources:
-            requests:
-              cpu: 100m
-              memory: 1024Mi
-            limits:
-              cpu: 700m
-              memory: 1024Mi
+      - name: server
+        image: 
+          us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/mock_blockchain:v3.1-graduation
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 50051
+        env:
+        - name: LOG_LEVEL
+          value: "INFO"
+        resources:
+          requests:
+            cpu: 100m
+            memory: 1024Mi
+          limits:
+            cpu: 700m
+            memory: 1024Mi
+      initContainers:
+      - name: init-dependencies
+        image: busybox:1.36
+        command:
+        - sh
+        - -c
+        - until nc -z cockroachdb-public 26257 && nc -z nats-client 4222; do 
+          echo "waiting for stateful dependencies..."; sleep 2; done;
 ---
 apiVersion: v1
 kind: Service
@@ -54,8 +63,8 @@ spec:
   selector:
     app: mock-blockchain
   ports:
-    - name: grpc
-      protocol: TCP
-      port: 50051
-      targetPort: 50051
+  - name: grpc
+    protocol: TCP
+    port: 50051
+    targetPort: 50051
 

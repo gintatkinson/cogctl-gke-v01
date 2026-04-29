@@ -33,77 +33,88 @@ spec:
     spec:
       terminationGracePeriodSeconds: 5
       containers:
-        - name: server
-          image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/automationservice:v3.1-graduation
-          imagePullPolicy: Always
-          ports:
-            - containerPort: 30200
-            - containerPort: 9192
-          command: ["/bin/sh", "-c"]
-          args:
-            - "sed -i 's/wait_for_environment_variables(/if False: wait_for_environment_variables(/g' /var/teraflow/automation/service/__main__.py && python -m automation.service"
-          env:
-            - name: CONTEXT_SERVICE_HOST
-              value: "contextservice"
-            - name: CONTEXT_SERVICE_PORT_GRPC
-              value: "1010"
-            - name: DEVICE_SERVICE_HOST
-              value: "deviceservice"
-            - name: DEVICE_SERVICE_PORT_GRPC
-              value: "2020"
-            - name: KPI_MANAGER_SERVICE_HOST
-              value: "127.0.0.1"
-            - name: KPI_MANAGER_SERVICE_PORT_GRPC
-              value: "0"
-            - name: TELEMETRY_SERVICE_HOST
-              value: "telemetryservice"
-            - name: TELEMETRY_SERVICE_PORT_GRPC
-              value: "30050"
-            - name: ANALYTICS_SERVICE_HOST
-              value: "analyticsservice"
-            - name: ANALYTICS_SERVICE_PORT_GRPC
-              value: "30080"
-            - name: POLICY_SERVICE_HOST
-              value: "127.0.0.1"
-            - name: POLICY_SERVICE_PORT_GRPC
-              value: "0"
-            - name: LOG_LEVEL
-              value: "INFO"
-            - name: PYTHONUNBUFFERED
-              value: "1"
-            - name: CRDB_DATABASE
-              value: "tfs_automation"
-            - name: CRDB_NAMESPACE
-              value: "default"
-            - name: CRDB_SSLMODE
-              value: "disable"
-            - name: CRDB_SQL_PORT
-              value: "26257"
-            - name: KAFKA_API_VERSION
-              value: "3.7.0"
-            - name: KPI_MANAGER_SERVICE_HOST
-              value: "127.0.0.1"
-            - name: KPI_MANAGER_SERVICE_PORT_GRPC
-              value: "0"
-            - name: POLICYSERVICE_SERVICE_HOST
-              value: "127.0.0.1"
-            - name: POLICYSERVICE_SERVICE_PORT_GRPC
-              value: "0"
-          envFrom:
-            - secretRef:
-                name: crdb-data
-          startupProbe:
-            grpc:
-              port: 30200
-            failureThreshold: 30
-            periodSeconds: 1
-          resources:
-            requests:
-              cpu: 250m
-              memory: 128Mi
-            limits:
-              cpu: 1000m
-              memory: 1024Mi
+      - name: server
+        image: 
+          us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/automationservice:v3.1-graduation
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 30200
+        - containerPort: 9192
+        command: ["/bin/sh", "-c"]
+        args:
+        - "sed -i 's/wait_for_environment_variables(/if False: wait_for_environment_variables(/g'
+          /var/teraflow/automation/service/__main__.py && python -m automation.service"
+        env:
+        - name: CONTEXT_SERVICE_HOST
+          value: "contextservice"
+        - name: CONTEXT_SERVICE_PORT_GRPC
+          value: "1010"
+        - name: DEVICE_SERVICE_HOST
+          value: "deviceservice"
+        - name: DEVICE_SERVICE_PORT_GRPC
+          value: "2020"
+        - name: KPI_MANAGER_SERVICE_HOST
+          value: "127.0.0.1"
+        - name: KPI_MANAGER_SERVICE_PORT_GRPC
+          value: "0"
+        - name: TELEMETRY_SERVICE_HOST
+          value: "telemetryservice"
+        - name: TELEMETRY_SERVICE_PORT_GRPC
+          value: "30050"
+        - name: ANALYTICS_SERVICE_HOST
+          value: "analyticsservice"
+        - name: ANALYTICS_SERVICE_PORT_GRPC
+          value: "30080"
+        - name: POLICY_SERVICE_HOST
+          value: "127.0.0.1"
+        - name: POLICY_SERVICE_PORT_GRPC
+          value: "0"
+        - name: LOG_LEVEL
+          value: "INFO"
+        - name: PYTHONUNBUFFERED
+          value: "1"
+        - name: CRDB_DATABASE
+          value: "tfs_automation"
+        - name: CRDB_NAMESPACE
+          value: "default"
+        - name: CRDB_SSLMODE
+          value: "disable"
+        - name: CRDB_SQL_PORT
+          value: "26257"
+        - name: KAFKA_API_VERSION
+          value: "3.7.0"
+        - name: KPI_MANAGER_SERVICE_HOST
+          value: "127.0.0.1"
+        - name: KPI_MANAGER_SERVICE_PORT_GRPC
+          value: "0"
+        - name: POLICYSERVICE_SERVICE_HOST
+          value: "127.0.0.1"
+        - name: POLICYSERVICE_SERVICE_PORT_GRPC
+          value: "0"
+        envFrom:
+        - secretRef:
+            name: crdb-data
+        startupProbe:
+          grpc:
+            port: 30200
+          failureThreshold: 5
+          periodSeconds: 1
+          initialDelaySeconds: 10
+        resources:
+          requests:
+            cpu: 250m
+            memory: 128Mi
+          limits:
+            cpu: 1000m
+            memory: 1024Mi
+      initContainers:
+      - name: init-dependencies
+        image: busybox:1.36
+        command:
+        - sh
+        - -c
+        - until nc -z cockroachdb-public 26257 && nc -z nats-client 4222; do 
+          echo "waiting for stateful dependencies..."; sleep 2; done;
 ---
 apiVersion: v1
 kind: Service
@@ -116,13 +127,13 @@ spec:
   selector:
     app: automationservice
   ports:
-    - name: grpc
-      protocol: TCP
-      port: 30200
-      targetPort: 30200
-    - name: metrics
-      protocol: TCP
-      port: 9192
-      targetPort: 9192
+  - name: grpc
+    protocol: TCP
+    port: 30200
+    targetPort: 30200
+  - name: metrics
+    protocol: TCP
+    port: 9192
+    targetPort: 9192
 
 

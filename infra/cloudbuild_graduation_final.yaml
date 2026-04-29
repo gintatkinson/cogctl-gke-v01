@@ -101,8 +101,8 @@ steps:
       ENV PYTHONPATH=/var/teraflow
       EOF
       
-      docker build -t "$${REGISTRY}/python-base:2026-04-22" -f Dockerfile.base .
-      docker push "$${REGISTRY}/python-base:2026-04-22"
+      docker build -t "$${REGISTRY}/python-base:$_TAG" -f Dockerfile.base .
+      docker push "$${REGISTRY}/python-base:$_TAG"
 
 - name: 'gcr.io/cloud-builders/docker'
   entrypoint: 'bash'
@@ -234,7 +234,7 @@ steps:
 
           sed -i 's/memory: .*/memory: 128Mi/' "$$MANIFEST" # Baseline Request
           sed -i 's/memory: .*/memory: 256Mi/2' "$$MANIFEST" # Standard Limit
-# [PHASE 7.67] Strategic Replica Compression
+          # [PHASE 7.67] Strategic Replica Compression
           sed -i 's/minReplicas: .*/minReplicas: 1/' "$$MANIFEST"
           
           # [PHASE 7.73] Absolute Workdir Enforcement

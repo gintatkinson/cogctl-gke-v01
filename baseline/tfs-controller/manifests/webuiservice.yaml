@@ -19,7 +19,7 @@ metadata:
 spec:
   storageClassName: hardened-storage
   accessModes:
-    - ReadWriteOnce
+  - ReadWriteOnce
   resources:
     requests:
       storage: 1Gi
@@ -44,51 +44,60 @@ spec:
       securityContext:
         fsGroup: 472
         supplementalGroups:
-          - 0
+        - 0
       containers:
-        - name: server
-          image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/webui:v3.1-graduation
-          imagePullPolicy: Always
-          ports:
-            - containerPort: 8004
-          env:
-            - name: LOG_LEVEL
-              value: "INFO"
-            - name: WEBUISERVICE_SERVICE_BASEURL_HTTP
-              value: "/webui/"
-          resources:
-            requests:
-              cpu: 250m
-              memory: 128Mi
-            limits:
-              cpu: 1000m
-              memory: 1024Mi
-        - name: grafana
-          image: grafana/grafana:8.5.22
-          imagePullPolicy: IfNotPresent
-          ports:
-            - containerPort: 3000
-              name: http-grafana
-              protocol: TCP
-          env:
-            - name: GF_SERVER_ROOT_URL
-              value: "http://0.0.0.0:3000/grafana/"
-            - name: GF_SERVER_SERVE_FROM_SUB_PATH
-              value: "true"
-          resources:
-            requests:
-              cpu: 250m
-              memory: 128Mi
-            limits:
-              cpu: 1000m
-              memory: 1024Mi
-          volumeMounts:
-            - mountPath: /var/lib/grafana
-              name: grafana-pv
+      - name: server
+        image: 
+          us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/webui:v3.1-graduation
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8004
+        env:
+        - name: LOG_LEVEL
+          value: "INFO"
+        - name: WEBUISERVICE_SERVICE_BASEURL_HTTP
+          value: "/webui/"
+        resources:
+          requests:
+            cpu: 250m
+            memory: 128Mi
+          limits:
+            cpu: 1000m
+            memory: 1024Mi
+      - name: grafana
+        image: grafana/grafana:8.5.22
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 3000
+          name: http-grafana
+          protocol: TCP
+        env:
+        - name: GF_SERVER_ROOT_URL
+          value: "http://0.0.0.0:3000/grafana/"
+        - name: GF_SERVER_SERVE_FROM_SUB_PATH
+          value: "true"
+        resources:
+          requests:
+            cpu: 250m
+            memory: 128Mi
+          limits:
+            cpu: 1000m
+            memory: 1024Mi
+        volumeMounts:
+        - mountPath: /var/lib/grafana
+          name: grafana-pv
       volumes:
-        - name: grafana-pv
-          persistentVolumeClaim:
-            claimName: grafana-pvc
+      - name: grafana-pv
+        persistentVolumeClaim:
+          claimName: grafana-pvc
+      initContainers:
+      - name: init-dependencies
+        image: busybox:1.36
+        command:
+        - sh
+        - -c
+        - until nc -z cockroachdb-public 26257 && nc -z nats-client 4222; do 
+          echo "waiting for stateful dependencies..."; sleep 2; done;
 ---
 apiVersion: v1
 kind: Service
@@ -101,12 +110,12 @@ spec:
   selector:
     app: webuiservice
   ports:
-    - name: webui
-      port: 8004
-      targetPort: 8004
-    - name: grafana
-      port: 3000
-      targetPort: 3000
+  - name: webui
+    port: 8004
+    targetPort: 8004
+  - name: grafana
+    port: 3000
+    targetPort: 3000
 ---
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
@@ -120,12 +129,12 @@ spec:
   minReplicas: 1
   maxReplicas: 20
   metrics:
-    - type: Resource
-      resource:
-        name: cpu
-        target:
-          type: Utilization
-          averageUtilization: 50
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 50
   #behavior:
   #  scaleDown:
   #    stabilizationWindowSeconds: 30
