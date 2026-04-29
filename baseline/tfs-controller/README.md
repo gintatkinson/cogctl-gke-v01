@@ -33,11 +33,20 @@ To completely stop all billing (Compute, Control Plane, and Persistent Storage) 
 gcloud container clusters delete sovereign-genesis --zone us-central1-a --quiet
 ```
 
-**Rebuild Cluster (Resume Active Development):**
+**Rebuild Cluster (Resume Active Development from Ground Zero):**
 ```bash
-# 1. Recreate the cluster
+# 1. Recreate the cluster compute nodes
 gcloud container clusters create sovereign-genesis --zone us-central1-a --num-nodes=3 --machine-type=e2-standard-4
 
-# 2. Re-apply the Golden Release baseline
+# 2. Fetch connection credentials
+gcloud container clusters get-credentials sovereign-genesis --zone us-central1-a
+
+# 3. Install core infrastructure prerequisites (Storage Classes)
+kubectl apply -f ./infra/storage-class-hardened.yaml
+
+# 4. Install NGINX Ingress Controller (Public IP Router)
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.10.1/deploy/static/provider/cloud/deploy.yaml
+
+# 5. Re-apply the Golden Release application baseline
 kubectl apply -f ./baseline/tfs-controller/manifests/
 ```
