@@ -257,7 +257,7 @@ steps:
 
           with open(manifest, 'w') as f:
               f.write(content)
-EOF
+          EOF
           # Remove leading indentation from the generated python script
           sed -i 's/^          //' harden_manifest.py
           python3 harden_manifest.py "$$MANIFEST" "$$S_NAME"
