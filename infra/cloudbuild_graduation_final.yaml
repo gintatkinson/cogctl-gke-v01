@@ -229,35 +229,37 @@ steps:
 
           # [PHASE 7.XX] DETERMINISTIC MANIFEST HARDENING
           cat <<EOF > harden_manifest.py
-import sys, re
-manifest = sys.argv[1]
-service = sys.argv[2]
-with open(manifest, 'r') as f:
-    content = f.read()
+          import sys, re
+          manifest = sys.argv[1]
+          service = sys.argv[2]
+          with open(manifest, 'r') as f:
+              content = f.read()
 
-# Hardening logic
-content = re.sub(r'cpu: .*', 'cpu: 250m', content, count=1)
-if service in ['webui', 'context']:
-    content = re.sub(r'cpu: .*', 'cpu: 1000m', content, count=2)
-else:
-    content = re.sub(r'cpu: .*', 'cpu: 500m', content, count=2)
+          # Hardening logic
+          content = re.sub(r'cpu: .*', 'cpu: 250m', content, count=1)
+          if service in ['webui', 'context']:
+              content = re.sub(r'cpu: .*', 'cpu: 1000m', content, count=2)
+          else:
+              content = re.sub(r'cpu: .*', 'cpu: 500m', content, count=2)
 
-content = re.sub(r'memory: .*', 'memory: 128Mi', content, count=1)
-content = re.sub(r'memory: .*', 'memory: 256Mi', content, count=2)
+          content = re.sub(r'memory: .*', 'memory: 128Mi', content, count=1)
+          content = re.sub(r'memory: .*', 'memory: 256Mi', content, count=2)
 
-# Specific command overrides
-if service == "nbi":
-    content = re.sub(r'python3.*', '["python3", "-m", "nbi.service.app"]', content)
-elif service in ["telemetry-frontend", "analytics-frontend"]:
-    content = re.sub(r'python3.*', '["python3", "-m", "' + service.replace("-", ".") + '.service.__main__"]', content)
-elif service in ["telemetry-backend", "analytics-backend"]:
-    content = re.sub(r'python3.*', '["python3", "-m", "' + service.replace("-", ".") + '.service.__main__"]', content)
-elif "command:" in content:
-    content = re.sub(r'python3.*', '["python3", "-m", "' + service + '.service.__main__"]', content)
+          # Specific command overrides
+          if service == "nbi":
+              content = re.sub(r'python3.*', '["python3", "-m", "nbi.service.app"]', content)
+          elif service in ["telemetry-frontend", "analytics-frontend"]:
+              content = re.sub(r'python3.*', '["python3", "-m", "' + service.replace("-", ".") + '.service.__main__"]', content)
+          elif service in ["telemetry-backend", "analytics-backend"]:
+              content = re.sub(r'python3.*', '["python3", "-m", "' + service.replace("-", ".") + '.service.__main__"]', content)
+          elif "command:" in content:
+              content = re.sub(r'python3.*', '["python3", "-m", "' + service + '.service.__main__"]', content)
 
-with open(manifest, 'w') as f:
-    f.write(content)
+          with open(manifest, 'w') as f:
+              f.write(content)
 EOF
+          # Remove leading indentation from the generated python script
+          sed -i 's/^          //' harden_manifest.py
           python3 harden_manifest.py "$$MANIFEST" "$$S_NAME"
           
           # [PHASE 7.60] Internet Exposure
