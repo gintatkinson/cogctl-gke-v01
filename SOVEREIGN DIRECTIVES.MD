@@ -12,9 +12,10 @@
 - **Rule 3.1**: Third-party services (CockroachDB, NATS, Kafka) must be mirrored into the local Artifact Registry before deployment.
 - **Rule 3.2**: Direct pulls from uncertified external registries are prohibited in production-path deployments.
 
-## 4. Immutable Configuration
-- **Rule 4.1**: Service manifests in the `baseline/` directory are the sole Source of Truth.
-- **Rule 4.2**: Manual `kubectl edit` or `kubectl patch` operations must be ported into the baseline manifests within 24 hours of execution.
+## 4. Immutable Configuration & The "Zero-Hack" Mandate
+- **Rule 4.1 (Source of Truth)**: Service manifests in the `baseline/` directory are the absolute and sole Source of Truth.
+- **Rule 4.2 (The Zero-Hack Mandate)**: Pipeline-injected code mutations (e.g., `sed` replacements), manual `kubectl edit` operations, and runtime overrides are strictly **PROHIBITED** by default. If the baseline manifest cannot deploy cleanly, the baseline manifest must be fixed. 
+- **Rule 4.3 (The Executive Exception)**: Tactical overrides ("hacks") are only permitted in the rarest of critical emergencies to prevent total enclave failure. These maneuvers require explicit, documented **Executive Approval** prior to execution. Any approved override must be accompanied by a mandatory 24-hour remediation ticket to permanently bake the fix into the baseline code.
 
 ## 5. Knowledge Anchoring (Succession)
 - **Rule 5.1**: Every service crash or configuration gap (e.g., `CRDB_NAMESPACE`) must be documented in a Technical Solution Spec and a GitHub Issue.
