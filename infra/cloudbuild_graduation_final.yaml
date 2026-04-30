@@ -215,85 +215,85 @@ steps:
       # Installing PyYAML for structural integrity (Overriding PEP 668 for ephemeral env)
       pip3 install --user PyYAML --break-system-packages
       
-      cat <<'EOF' | sed 's/^      //' > harden_manifest.py
-      import sys, yaml, re
+      cat <<'EOF' > harden_manifest.py
+import sys, yaml, re
 
-      def harden():
-          manifest_path = sys.argv[1]
-          service = sys.argv[2]
-          tag = sys.argv[3]
-          registry = sys.argv[4]
+def harden():
+    manifest_path = sys.argv[1]
+    service = sys.argv[2]
+    tag = sys.argv[3]
+    registry = sys.argv[4]
 
-          with open(manifest_path, 'r') as f:
-              try:
-                  docs = list(yaml.safe_load_all(f))
-              except Exception as e:
-                  print(f"FAILED PRE-LOAD VALIDATION: {e}")
-                  sys.exit(1)
+    with open(manifest_path, 'r') as f:
+        try:
+            docs = list(yaml.safe_load_all(f))
+        except Exception as e:
+            print(f"FAILED PRE-LOAD VALIDATION: {e}")
+            sys.exit(1)
 
-          for doc in docs:
-              if not doc or 'kind' not in doc: continue
-              
-              # [PHASE 1] Deployment Hardening
-              if doc['kind'] == 'Deployment':
-                  spec = doc.get('spec', {})
-                  template = spec.get('template', {})
-                  pod_spec = template.get('spec', {})
-                  containers = pod_spec.get('containers', [])
-                  
-                  # Strategy Recreate
-                  spec['strategy'] = {'type': 'Recreate'}
-                  
-                  for container in containers:
-                      if service in container.get('image', ''):
-                          # Image Update
-                          t_name = service if service in ["webui", "nbi", "telemetry-frontend", "telemetry-backend", "analytics-frontend", "analytics-backend"] else service + "service"
-                          container['image'] = f"{registry}/{t_name}:{tag}"
-                          
-                          # Resource Hardening
-                          resources = container.get('resources', {})
-                          limits = resources.get('limits', {})
-                          requests = resources.get('requests', {})
-                          requests['cpu'] = '250m'
-                          requests['memory'] = '128Mi'
-                          limits['cpu'] = '1000m' if service in ['webui', 'context'] else '500m'
-                          limits['memory'] = '256Mi'
-                          container['resources'] = {'limits': limits, 'requests': requests}
-                          
-                          # Environment Induction (CRDB SSL Disable)
-                          env = container.get('env', [])
-                          if not any(e.get('name') == 'CRDB_SSLMODE' for e in env):
-                              env.append({'name': 'CRDB_SSLMODE', 'value': 'disable'})
-                          container['env'] = env
+    for doc in docs:
+        if not doc or 'kind' not in doc: continue
+        
+        # [PHASE 1] Deployment Hardening
+        if doc['kind'] == 'Deployment':
+            spec = doc.get('spec', {})
+            template = spec.get('template', {})
+            pod_spec = template.get('spec', {})
+            containers = pod_spec.get('containers', [])
+            
+            # Strategy Recreate
+            spec['strategy'] = {'type': 'Recreate'}
+            
+            for container in containers:
+                if service in container.get('image', ''):
+                    # Image Update
+                    t_name = service if service in ["webui", "nbi", "telemetry-frontend", "telemetry-backend", "analytics-frontend", "analytics-backend"] else service + "service"
+                    container['image'] = f"{registry}/{t_name}:{tag}"
+                    
+                    # Resource Hardening
+                    resources = container.get('resources', {})
+                    limits = resources.get('limits', {})
+                    requests = resources.get('requests', {})
+                    requests['cpu'] = '250m'
+                    requests['memory'] = '128Mi'
+                    limits['cpu'] = '1000m' if service in ['webui', 'context'] else '500m'
+                    limits['memory'] = '256Mi'
+                    container['resources'] = {'limits': limits, 'requests': requests}
+                    
+                    # Environment Induction (CRDB SSL Disable)
+                    env = container.get('env', [])
+                    if not any(e.get('name') == 'CRDB_SSLMODE' for e in env):
+                        env.append({'name': 'CRDB_SSLMODE', 'value': 'disable'})
+                    container['env'] = env
 
-                          # Entrypoint Enforcement
-                          if service == "nbi":
-                              container['command'] = ["python3", "-m", "nbi.service.app"]
-                          elif service in ["telemetry-frontend", "analytics-frontend", "telemetry-backend", "analytics-backend"]:
-                              container['command'] = ["python3", "-m", f"{service.replace('-', '.')}.service.__main__"]
-                          elif 'command' in container:
-                              container['command'] = ["python3", "-m", f"{service}.service.__main__"]
+                    # Entrypoint Enforcement
+                    if service == "nbi":
+                        container['command'] = ["python3", "-m", "nbi.service.app"]
+                    elif service in ["telemetry-frontend", "analytics-frontend", "telemetry-backend", "analytics-backend"]:
+                        container['command'] = ["python3", "-m", f"{service.replace('-', '.')}.service.__main__"]
+                    elif 'command' in container:
+                        container['command'] = ["python3", "-m", f"{service}.service.__main__"]
 
-              # [PHASE 2] Service Exposure
-              if doc['kind'] == 'Service':
-                  if service == "nbi":
-                      doc['spec']['type'] = 'LoadBalancer'
-                  elif service == "webui":
-                      doc['spec']['type'] = 'NodePort'
+        # [PHASE 2] Service Exposure
+        if doc['kind'] == 'Service':
+            if service == "nbi":
+                doc['spec']['type'] = 'LoadBalancer'
+            elif service == "webui":
+                doc['spec']['type'] = 'NodePort'
 
-          # [PHASE 3] Structural Validation & Persistence
-          try:
-              output = yaml.dump_all(docs, default_flow_style=False)
-              yaml.safe_load(output) # Pre-flight validation
-              with open(manifest_path, 'w') as f:
-                  f.write(output)
-          except Exception as e:
-              print(f"FAILED POST-SAVE VALIDATION: {e}")
-              sys.exit(1)
+    # [PHASE 3] Structural Validation & Persistence
+    try:
+        output = yaml.dump_all(docs, default_flow_style=False)
+        yaml.safe_load(output) # Pre-flight validation
+        with open(manifest_path, 'w') as f:
+            f.write(output)
+    except Exception as e:
+        print(f"FAILED POST-SAVE VALIDATION: {e}")
+        sys.exit(1)
 
-      if __name__ == "__main__":
-          harden()
-      EOF
+if __name__ == "__main__":
+    harden()
+EOF
 
       echo "[INDUCTION] Creating Orchestration Secrets..."
       kubectl create secret generic kfk-kpi-data --from-literal=KFK_SERVER_ADDRESS=kafka-public.default.svc.cluster.local:9092 --from-literal=KAFKA_API_VERSION=3.7.0 --dry-run=client -o yaml | kubectl apply -f -
