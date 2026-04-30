@@ -4,6 +4,7 @@
 
 steps:
 - name: 'gcr.io/cloud-builders/docker'
+  id: 'foundation'
   entrypoint: 'bash'
   args:
     - '-c'
@@ -105,49 +106,86 @@ steps:
       docker push "$${REGISTRY}/python-base:$_TAG"
 
 - name: 'gcr.io/cloud-builders/docker'
+  id: 'forge-context'
+  waitFor: ['foundation']
   entrypoint: 'bash'
-  args:
-    - '-c'
-    - |
-      set -ex
-      REGISTRY="us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs"
-      
-      COMPONENTS=(
-          "context:src/context:contextservice"
-          "device:src/device:deviceservice"
-          "service:src/service:serviceservice"
-          "slice:src/slice:sliceservice"
-          "pathcomp:src/pathcomp:pathcompservice"
-          "nbi:src/nbi:nbi"
-          "webui:src/webui:webui"
-          "monitoring:src/monitoring:monitoringservice"
-          "automation:src/automation:automationservice"
-          "analytics-frontend:src/analytics/frontend:analytics-frontend"
-          "analytics-backend:src/analytics/backend:analytics-backend"
-          "telemetry-frontend:src/telemetry/frontend:telemetry-frontend"
-          "telemetry-backend:src/telemetry/backend:telemetry-backend"
-      )
+  args: ['-c', 'sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|" baseline/tfs-controller/src/context/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/contextservice:$_TAG -f baseline/tfs-controller/src/context/Dockerfile baseline/tfs-controller/']
 
-      for COMP_DATA in "$${COMPONENTS[@]}"; do
-          IFS=':' read -r S_NAME REL_PATH T_NAME <<< "$$COMP_DATA"
-          echo "[FORGE] Birthing $$S_NAME..."
-          
-          # [PHASE 7.73] Absolute Workdir Enforcement
-          # Ensure every service runs from /var/teraflow to prevent local shadowing
-          DOCKERFILE="baseline/tfs-controller/$$REL_PATH/Dockerfile"
-          echo "WORKDIR /var/teraflow" >> "$$DOCKERFILE"
-          
-          if [ ! -f "$$DOCKERFILE" ]; then
-              echo "Error: Dockerfile $$DOCKERFILE not found in $(pwd)."
-              exit 1
-          fi
-          
-          # [PHASE 7.62] Standardized Context (baseline/tfs-controller/)
-          docker build -t "$${REGISTRY}/$$T_NAME:$_TAG" -f "$$DOCKERFILE" baseline/tfs-controller/
-          docker push "$${REGISTRY}/$$T_NAME:$_TAG"
-      done
+- name: 'gcr.io/cloud-builders/docker'
+  id: 'forge-device'
+  waitFor: ['foundation']
+  entrypoint: 'bash'
+  args: ['-c', 'sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|" baseline/tfs-controller/src/device/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/deviceservice:$_TAG -f baseline/tfs-controller/src/device/Dockerfile baseline/tfs-controller/']
+
+- name: 'gcr.io/cloud-builders/docker'
+  id: 'forge-service'
+  waitFor: ['foundation']
+  entrypoint: 'bash'
+  args: ['-c', 'sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|" baseline/tfs-controller/src/service/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/serviceservice:$_TAG -f baseline/tfs-controller/src/service/Dockerfile baseline/tfs-controller/']
+
+- name: 'gcr.io/cloud-builders/docker'
+  id: 'forge-slice'
+  waitFor: ['foundation']
+  entrypoint: 'bash'
+  args: ['-c', 'sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|" baseline/tfs-controller/src/slice/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/sliceservice:$_TAG -f baseline/tfs-controller/src/slice/Dockerfile baseline/tfs-controller/']
+
+- name: 'gcr.io/cloud-builders/docker'
+  id: 'forge-pathcomp'
+  waitFor: ['foundation']
+  entrypoint: 'bash'
+  args: ['-c', 'sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|" baseline/tfs-controller/src/pathcomp/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/pathcompservice:$_TAG -f baseline/tfs-controller/src/pathcomp/Dockerfile baseline/tfs-controller/']
+
+- name: 'gcr.io/cloud-builders/docker'
+  id: 'forge-monitoring'
+  waitFor: ['foundation']
+  entrypoint: 'bash'
+  args: ['-c', 'sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|" baseline/tfs-controller/src/monitoring/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/monitoringservice:$_TAG -f baseline/tfs-controller/src/monitoring/Dockerfile baseline/tfs-controller/']
+
+- name: 'gcr.io/cloud-builders/docker'
+  id: 'forge-automation'
+  waitFor: ['foundation']
+  entrypoint: 'bash'
+  args: ['-c', 'sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|" baseline/tfs-controller/src/automation/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/automationservice:$_TAG -f baseline/tfs-controller/src/automation/Dockerfile baseline/tfs-controller/']
+
+- name: 'gcr.io/cloud-builders/docker'
+  id: 'forge-webui'
+  waitFor: ['foundation']
+  entrypoint: 'bash'
+  args: ['-c', 'sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|" baseline/tfs-controller/src/webui/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/webui:$_TAG -f baseline/tfs-controller/src/webui/Dockerfile baseline/tfs-controller/']
+
+- name: 'gcr.io/cloud-builders/docker'
+  id: 'forge-nbi'
+  waitFor: ['foundation']
+  entrypoint: 'bash'
+  args: ['-c', 'sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|" baseline/tfs-controller/src/nbi/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/nbi:$_TAG -f baseline/tfs-controller/src/nbi/Dockerfile baseline/tfs-controller/']
+
+- name: 'gcr.io/cloud-builders/docker'
+  id: 'forge-analytics-frontend'
+  waitFor: ['foundation']
+  entrypoint: 'bash'
+  args: ['-c', 'sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|" baseline/tfs-controller/src/analytics/frontend/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/analytics-frontend:$_TAG -f baseline/tfs-controller/src/analytics/frontend/Dockerfile baseline/tfs-controller/']
+
+- name: 'gcr.io/cloud-builders/docker'
+  id: 'forge-analytics-backend'
+  waitFor: ['foundation']
+  entrypoint: 'bash'
+  args: ['-c', 'sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|" baseline/tfs-controller/src/analytics/backend/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/analytics-backend:$_TAG -f baseline/tfs-controller/src/analytics/backend/Dockerfile baseline/tfs-controller/']
+
+- name: 'gcr.io/cloud-builders/docker'
+  id: 'forge-telemetry-frontend'
+  waitFor: ['foundation']
+  entrypoint: 'bash'
+  args: ['-c', 'sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|" baseline/tfs-controller/src/telemetry/frontend/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/telemetry-frontend:$_TAG -f baseline/tfs-controller/src/telemetry/frontend/Dockerfile baseline/tfs-controller/']
+
+- name: 'gcr.io/cloud-builders/docker'
+  id: 'forge-telemetry-backend'
+  waitFor: ['foundation']
+  entrypoint: 'bash'
+  args: ['-c', 'sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|" baseline/tfs-controller/src/telemetry/backend/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/telemetry-backend:$_TAG -f baseline/tfs-controller/src/telemetry/backend/Dockerfile baseline/tfs-controller/']
 
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  id: 'induction'
+  waitFor: ['forge-context', 'forge-device', 'forge-service', 'forge-slice', 'forge-pathcomp', 'forge-monitoring', 'forge-automation', 'forge-webui', 'forge-nbi', 'forge-analytics-frontend', 'forge-analytics-backend', 'forge-telemetry-frontend', 'forge-telemetry-backend']
   entrypoint: 'bash'
   args:
     - '-c'
