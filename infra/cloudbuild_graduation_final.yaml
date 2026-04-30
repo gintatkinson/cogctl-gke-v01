@@ -174,8 +174,8 @@ steps:
       )
 
       # [PHASE 7.XX] Birthing Manifest Hardener (Architectural Truth Orchestrator)
-      # Installing PyYAML for structural integrity
-      pip3 install --user PyYAML
+      # Installing PyYAML for structural integrity (Overriding PEP 668 for ephemeral env)
+      pip3 install --user PyYAML --break-system-packages
       
       cat <<'EOF' | sed 's/^      //' > harden_manifest.py
       import sys, yaml, re
