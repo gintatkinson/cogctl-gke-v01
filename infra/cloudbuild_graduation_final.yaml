@@ -289,7 +289,7 @@ steps:
           MANIFEST="baseline/tfs-controller/manifests/$$MANIFEST_FILE"
           if [ ! -f "$$MANIFEST" ]; then continue; fi
           
-          python3 harden_manifest.py "$$MANIFEST" "$$S_NAME" "$_TAG" "$REGISTRY"
+          python3 harden_manifest.py "$$MANIFEST" "$$S_NAME" "$_TAG" "$_REGISTRY"
           
           echo "[INDUCTION] Inducing $$S_NAME onto cluster..."
           kubectl apply -f "$$MANIFEST"
@@ -309,3 +309,4 @@ substitutions:
   _CLUSTER_NAME: "sovereign-genesis"
   _ZONE: "us-central1-a"
   _TAG: "rc13-verified"
+  _REGISTRY: "us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs"
