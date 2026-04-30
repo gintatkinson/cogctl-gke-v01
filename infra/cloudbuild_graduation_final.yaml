@@ -281,15 +281,15 @@ steps:
               elif service == "webui":
                   doc['spec']['type'] = 'NodePort'
 
-      # [PHASE 3] Structural Validation & Persistence
-      try:
-          output = yaml.dump_all(docs, default_flow_style=False)
-          yaml.safe_load(output) # Pre-flight validation
-          with open(manifest_path, 'w') as f:
-              f.write(output)
-      except Exception as e:
-          print(f"FAILED POST-SAVE VALIDATION: {e}")
-          sys.exit(1)
+          # [PHASE 3] Structural Validation & Persistence
+          try:
+              output = yaml.dump_all(docs, default_flow_style=False)
+              yaml.safe_load(output) # Pre-flight validation
+              with open(manifest_path, 'w') as f:
+                  f.write(output)
+          except Exception as e:
+              print(f"FAILED POST-SAVE VALIDATION: {e}")
+              sys.exit(1)
 
       if __name__ == "__main__":
           harden()
