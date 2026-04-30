@@ -173,31 +173,50 @@ steps:
           "telemetry-backend:telemetryservice.yaml"
       )
 
-      # [PHASE 7.XX] Birthing Manifest Hardener
+      # [PHASE 7.XX] Birthing Manifest Hardener (Universal Orchestrator)
       cat <<'EOF' | sed 's/^      //' > harden_manifest.py
       import sys, re
       manifest = sys.argv[1]
       service = sys.argv[2]
+      tag = sys.argv[3]
+      registry = sys.argv[4]
+      
       with open(manifest, 'r') as f:
           content = f.read()
 
-      # [PHASE 7.99] Vertical Burst Scaling (Ingestion Stabilization)
-      content = re.sub(r'cpu: .*', 'cpu: 250m', content, count=1)
-      if service in ['webui', 'context']:
-          content = re.sub(r'cpu: .*', 'cpu: 1000m', content, count=2)
-      else:
-          content = re.sub(r'cpu: .*', 'cpu: 500m', content, count=2)
+      # [PHASE 1] Image & Strategy Overwrite
+      t_name = service + "service"
+      if service in ["webui", "nbi", "telemetry-frontend", "telemetry-backend", "analytics-frontend", "analytics-backend"]:
+          t_name = service
+      content = re.sub(r'image: .*' + service + r'.*:[a-zA-Z0-9._-]*', f'image: {registry}/{t_name}:{tag}', content)
+      content = re.sub(r'strategy:\n\s+type: .*', 'strategy:\n    type: Recreate', content)
+      if 'strategy:' not in content:
+          content = re.sub(r'spec:\n', 'spec:\n  strategy:\n    type: Recreate\n', content, count=1)
 
+      # [PHASE 2] Resource Hardening
+      content = re.sub(r'cpu: .*', 'cpu: 250m', content, count=1)
+      cpu_limit = "1000m" if service in ['webui', 'context'] else "500m"
+      content = re.sub(r'cpu: .*', f'cpu: {cpu_limit}', content, count=2)
       content = re.sub(r'memory: .*', 'memory: 128Mi', content, count=1)
       content = re.sub(r'memory: .*', 'memory: 256Mi', content, count=2)
 
-      # [PHASE 7.73] Absolute Workdir Enforcement
+      # [PHASE 3] Environment & Security Induction (CRDB SSL Disable)
+      if 'env:' in content and 'CRDB_SSLMODE' not in content:
+          content = re.sub(r'env:', 'env:\n        - name: CRDB_SSLMODE\n          value: "disable"', content, count=1)
+
+      # [PHASE 4] Absolute Workdir & Entrypoint Enforcement
       if service == "nbi":
           content = re.sub(r'python3.*', '["python3", "-m", "nbi.service.app"]', content)
       elif service in ["telemetry-frontend", "analytics-frontend", "telemetry-backend", "analytics-backend"]:
           content = re.sub(r'python3.*', '["python3", "-m", "' + service.replace("-", ".") + '.service.__main__"]', content)
       elif "command:" in content:
           content = re.sub(r'python3.*', '["python3", "-m", "' + service + '.service.__main__"]', content)
+
+      # [PHASE 5] Service Exposure Logic
+      if service == "nbi":
+          content = content.replace("type: ClusterIP", "type: LoadBalancer").replace("type: NodePort", "type: LoadBalancer")
+      elif service == "webui":
+          content = content.replace("type: ClusterIP", "type: NodePort").replace("type: LoadBalancer", "type: NodePort")
 
       with open(manifest, 'w') as f:
           f.write(content)
@@ -210,7 +229,6 @@ steps:
       kubectl create secret generic nats-data --from-literal=NATS_USERNAME=admin --from-literal=NATS_PASSWORD=quest --dry-run=client -o yaml | kubectl apply -f -
 
       echo "[INDUCTION] Executing Terminal Induction (Universal Tag: $_TAG)..."
-      sed -i '/kind: Deployment/,/spec:/ s/spec:/spec:\n  strategy:\n    type: Recreate/' baseline/tfs-controller/manifests/*.yaml
       
       echo "[BACKBONE] Purging Ghost Resources..."
       kubectl delete statefulset kafka questdb --ignore-not-found=true
@@ -231,24 +249,12 @@ steps:
       
       sleep 30
 
-      for COMP_DATA in "$${COMPONENTS[@]}"; do
+      for COMP_DATA in "${COMPONENTS[@]}"; do
           IFS=':' read -r S_NAME MANIFEST_FILE <<< "$$COMP_DATA"
           MANIFEST="baseline/tfs-controller/manifests/$$MANIFEST_FILE"
           if [ ! -f "$$MANIFEST" ]; then continue; fi
           
-          T_NAME="$$S_NAME"service
-          [[ "$$S_NAME" == "webui" || "$$S_NAME" == "nbi" || "$$S_NAME" == "telemetry-frontend" || "$$S_NAME" == "telemetry-backend" || "$$S_NAME" == "analytics-frontend" || "$$S_NAME" == "analytics-backend" ]] && T_NAME="$$S_NAME"
-
-          sed -i "s|image: .*$${S_NAME}.*:[a-zA-Z0-9._-]*|image: $${REGISTRY}/$${T_NAME}:$_TAG|g" "$$MANIFEST"
-          sed -i '/env:/a \            - name: CRDB_SSLMODE\n              value: "disable"' "$$MANIFEST"
-          
-          python3 harden_manifest.py "$$MANIFEST" "$$S_NAME"
-          
-          if [[ "$$S_NAME" == "nbi" ]]; then
-              sed -i "s|type: ClusterIP|type: LoadBalancer|g" "$$MANIFEST"
-          elif [[ "$$S_NAME" == "webui" ]]; then
-              sed -i "s|type: ClusterIP|type: NodePort|g" "$$MANIFEST"
-          fi
+          python3 harden_manifest.py "$$MANIFEST" "$$S_NAME" "$_TAG" "$REGISTRY"
           
           echo "[INDUCTION] Inducing $$S_NAME onto cluster..."
           kubectl apply -f "$$MANIFEST"
