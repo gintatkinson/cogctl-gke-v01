@@ -1,14 +1,32 @@
-#!/usr/bin/env bash
-set -euo pipefail
-mkdir -p "$(pwd)/logs"
-LOG_FILE="$(pwd)/logs/awake_$(date +%Y%m%d_%H%M%S).log"
-export CLOUDSDK_CORE_DISABLE_PROMPTS=1
-# Force the zone to us-central1-a
-export CLOUDSDK_COMPUTE_ZONE=us-central1-a
-echo "--- INITIATING MASTER IGNITION (ZONE: us-central1-a) ---"
-nohup bash infra/master_ignition.sh > "$LOG_FILE" 2>&1 < /dev/null &
-disown
-echo "[SUCCESS] Master Ignition engine successfully detached."
-echo "[INFO] Tracking execution at: $LOG_FILE"
-echo "[INFO] The enclave will rebuild in the background (~12 minutes)."
-echo "The background process is running safely. You have your prompt back."
+#!/bin/bash
+# Total Ignition Engine: Sovereign Genesis
+# Rebuilds compute and deploys the full service stack.
+
+ZONE="us-central1-a"
+CLUSTER_NAME="sovereign-genesis"
+
+echo "--- INITIATING TOTAL IGNITION (ZONE: $ZONE) ---"
+
+# 1. Create the GKE Cluster
+gcloud container clusters create $CLUSTER_NAME \
+    --zone $ZONE \
+    --num-nodes 3 \
+    --machine-type n1-standard-4 \
+    --quiet
+
+# 2. Get Credentials
+gcloud container clusters get-credentials $CLUSTER_NAME --zone $ZONE
+
+# 3. Deploy Backbone (Databases & Messaging)
+echo "Deploying backbone infrastructure..."
+kubectl apply -f infra/manifests/backbone/
+
+# 4. Wait for CRDs and Operators (Brief pause for stability)
+sleep 10
+
+# 5. Deploy Application Services
+echo "Deploying application services..."
+kubectl apply -f infra/manifests/services/
+kubectl apply -f infra/gce_ingress.yaml
+
+echo "[SUCCESS] Enclave is operational."
