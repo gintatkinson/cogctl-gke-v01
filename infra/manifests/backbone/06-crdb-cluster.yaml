@@ -1,0 +1,35 @@
+apiVersion: crdb.cockroachlabs.com/v1alpha1
+kind: CrdbCluster
+metadata:
+  name: cockroachdb
+  namespace: sovereign-genesis
+spec:
+  additionalLabels:
+    crdb: is-cool
+  dataStore:
+    pvc:
+      spec:
+        accessModes:
+        - ReadWriteOnce
+        resources:
+          requests:
+            storage: 60Gi
+        volumeMode: Filesystem
+  image:
+    name: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/cockroach:v22.2.8
+  nodes: 3
+  resources:
+    limits:
+      cpu: '1'
+      memory: 2Gi
+    requests:
+      cpu: 500m
+      memory: 1Gi
+  tlsEnabled: false
+  topologySpreadConstraints:
+  - labelSelector:
+      matchLabels:
+        app.kubernetes.io/instance: cockroachdb
+    maxSkew: 1
+    topologyKey: kubernetes.io/hostname
+    whenUnsatisfiable: ScheduleAnyway

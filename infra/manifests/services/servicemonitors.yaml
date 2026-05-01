@@ -1,0 +1,448 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app: contextservice
+  name: tfs-contextservice-metric
+  namespace: sovereign-genesis
+spec:
+  endpoints:
+  - interval: 5s
+    path: /metrics
+    port: metrics
+    scheme: http
+  namespaceSelector:
+    any: false
+    matchNames:
+    - tfs
+  selector:
+    matchLabels:
+      app: contextservice
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app: deviceservice
+  name: tfs-deviceservice-metric
+  namespace: sovereign-genesis
+spec:
+  endpoints:
+  - interval: 5s
+    path: /metrics
+    port: metrics
+    scheme: http
+  namespaceSelector:
+    any: false
+    matchNames:
+    - tfs
+  selector:
+    matchLabels:
+      app: deviceservice
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app: serviceservice
+  name: tfs-serviceservice-metric
+  namespace: sovereign-genesis
+spec:
+  endpoints:
+  - interval: 5s
+    path: /metrics
+    port: metrics
+    scheme: http
+  namespaceSelector:
+    any: false
+    matchNames:
+    - tfs
+  selector:
+    matchLabels:
+      app: serviceservice
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app: sliceservice
+  name: tfs-sliceservice-metric
+  namespace: sovereign-genesis
+spec:
+  endpoints:
+  - interval: 5s
+    path: /metrics
+    port: metrics
+    scheme: http
+  namespaceSelector:
+    any: false
+    matchNames:
+    - tfs
+  selector:
+    matchLabels:
+      app: sliceservice
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app: pathcompservice
+  name: tfs-pathcompservice-metric
+  namespace: sovereign-genesis
+spec:
+  endpoints:
+  - interval: 5s
+    path: /metrics
+    port: metrics
+    scheme: http
+  namespaceSelector:
+    any: false
+    matchNames:
+    - tfs
+  selector:
+    matchLabels:
+      app: pathcompservice
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app: monitoringservice
+  name: tfs-monitoringservice-metric
+  namespace: sovereign-genesis
+spec:
+  endpoints:
+  - interval: 5s
+    path: /metrics
+    port: metrics
+    scheme: http
+  namespaceSelector:
+    any: false
+    matchNames:
+    - tfs
+  selector:
+    matchLabels:
+      app: monitoringservice
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app: dltservice
+  name: tfs-dltservice-metric
+  namespace: sovereign-genesis
+spec:
+  endpoints:
+  - interval: 5s
+    path: /metrics
+    port: metrics
+    scheme: http
+  namespaceSelector:
+    any: false
+    matchNames:
+    - tfs
+  selector:
+    matchLabels:
+      app: dltservice
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app: interdomainservice
+  name: tfs-interdomainservice-metric
+  namespace: sovereign-genesis
+spec:
+  endpoints:
+  - interval: 5s
+    path: /metrics
+    port: metrics
+    scheme: http
+  namespaceSelector:
+    any: false
+    matchNames:
+    - tfs
+  selector:
+    matchLabels:
+      app: interdomainservice
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app: policyservice
+  name: tfs-policyservice-metric
+  namespace: sovereign-genesis
+spec:
+  endpoints:
+  - interval: 5s
+    path: /q/metrics
+    port: metrics
+    scheme: http
+  namespaceSelector:
+    any: false
+    matchNames:
+    - tfs
+  selector:
+    matchLabels:
+      app: policyservice
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app: ztpservice
+  name: tfs-ztpservice-metric
+  namespace: sovereign-genesis
+spec:
+  endpoints:
+  - interval: 5s
+    path: /q/metrics
+    port: metrics
+    scheme: http
+  namespaceSelector:
+    any: false
+    matchNames:
+    - tfs
+  selector:
+    matchLabels:
+      app: ztpservice
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app: nbiservice
+  name: tfs-nbiservice-metric
+  namespace: sovereign-genesis
+spec:
+  endpoints:
+  - interval: 5s
+    path: /metrics
+    port: metrics
+    scheme: http
+  namespaceSelector:
+    any: false
+    matchNames:
+    - tfs
+  selector:
+    matchLabels:
+      app: nbiservice
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app: load-generatorservice
+  name: tfs-load-generatorservice-metric
+  namespace: sovereign-genesis
+spec:
+  endpoints:
+  - interval: 5s
+    path: /metrics
+    port: metrics
+    scheme: http
+  namespaceSelector:
+    any: false
+    matchNames:
+    - tfs
+  selector:
+    matchLabels:
+      app: load-generatorservice
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app: dbscanservingservice
+  name: tfs-dbscanservingservice-metric
+  namespace: sovereign-genesis
+spec:
+  endpoints:
+  - interval: 5s
+    path: /metrics
+    port: metrics
+    scheme: http
+  namespaceSelector:
+    any: false
+    matchNames:
+    - tfs
+  selector:
+    matchLabels:
+      app: dbscanservingservice
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app: opticalattackmitigatorservice
+  name: tfs-opticalattackmitigatorservice-metric
+  namespace: sovereign-genesis
+spec:
+  endpoints:
+  - interval: 5s
+    path: /metrics
+    port: metrics
+    scheme: http
+  namespaceSelector:
+    any: false
+    matchNames:
+    - tfs
+  selector:
+    matchLabels:
+      app: opticalattackmitigatorservice
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app: opticalattackdetectorservice
+  name: tfs-opticalattackdetectorservice-metric
+  namespace: sovereign-genesis
+spec:
+  endpoints:
+  - interval: 5s
+    path: /metrics
+    port: metrics
+    scheme: http
+  namespaceSelector:
+    any: false
+    matchNames:
+    - tfs
+  selector:
+    matchLabels:
+      app: opticalattackdetectorservice
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app: opticalattackmanagerservice
+  name: tfs-opticalattackmanagerservice-metric
+  namespace: sovereign-genesis
+spec:
+  endpoints:
+  - interval: 5s
+    path: /metrics
+    port: metrics
+    scheme: http
+  namespaceSelector:
+    any: false
+    matchNames:
+    - tfs
+  selector:
+    matchLabels:
+      app: opticalattackmanagerservice
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app: analyticsservice
+  name: tfs-analyticsservice-metric
+  namespace: sovereign-genesis
+spec:
+  endpoints:
+  - interval: 5s
+    path: /metrics
+    port: metrics-frontend
+    scheme: http
+  - interval: 5s
+    path: /metrics
+    port: metrics-backend
+    scheme: http
+  namespaceSelector:
+    any: false
+    matchNames:
+    - tfs
+  selector:
+    matchLabels:
+      app: analyticsservice
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app: telemetryservice
+  name: tfs-telemetryservice-metric
+  namespace: sovereign-genesis
+spec:
+  endpoints:
+  - interval: 5s
+    path: /metrics
+    port: metrics-frontend
+    scheme: http
+  - interval: 5s
+    path: /metrics
+    port: metrics-backend
+    scheme: http
+  namespaceSelector:
+    any: false
+    matchNames:
+    - tfs
+  selector:
+    matchLabels:
+      app: telemetryservice
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app: kpi-managerservice
+  name: tfs-kpi-managerservice-metric
+  namespace: sovereign-genesis
+spec:
+  endpoints:
+  - interval: 5s
+    path: /metrics
+    port: metrics
+    scheme: http
+  namespaceSelector:
+    any: false
+    matchNames:
+    - tfs
+  selector:
+    matchLabels:
+      app: kpi-managerservice
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app: kpi-value-apiservice
+  name: tfs-kpi-value-apiservice-metric
+  namespace: sovereign-genesis
+spec:
+  endpoints:
+  - interval: 5s
+    path: /metrics
+    port: metrics
+    scheme: http
+  namespaceSelector:
+    any: false
+    matchNames:
+    - tfs
+  selector:
+    matchLabels:
+      app: kpi-value-apiservice
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app: kpi-value-writerservice
+  name: tfs-kpi-value-writerservice-metric
+  namespace: sovereign-genesis
+spec:
+  endpoints:
+  - interval: 5s
+    path: /metrics
+    port: metrics
+    scheme: http
+  namespaceSelector:
+    any: false
+    matchNames:
+    - tfs
+  selector:
+    matchLabels:
+      app: kpi-value-writerservice

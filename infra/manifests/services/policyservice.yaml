@@ -1,0 +1,97 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    app.quarkus.io/build-timestamp: 2023-03-30 - 13:49:59 +0000
+    app.quarkus.io/commit-id: 8065cee75be759e14af792737179537096de5e11
+  labels:
+    app: policyservice
+    app.kubernetes.io/name: policyservice
+  name: policyservice
+  namespace: sovereign-genesis
+spec:
+  ports:
+  - name: metrics
+    port: 9192
+    targetPort: 8080
+  - name: grpc
+    port: 6060
+    targetPort: 6060
+  selector:
+    app.kubernetes.io/name: policyservice
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    app.quarkus.io/build-timestamp: 2023-03-30 - 13:49:59 +0000
+    app.quarkus.io/commit-id: 8065cee75be759e14af792737179537096de5e11
+  labels:
+    app: policyservice
+    app.kubernetes.io/name: policyservice
+  name: policyservice
+  namespace: sovereign-genesis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: policyservice
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        app.quarkus.io/build-timestamp: 2023-03-30 - 13:49:59 +0000
+        app.quarkus.io/commit-id: 8065cee75be759e14af792737179537096de5e11
+      labels:
+        app: policyservice
+        app.kubernetes.io/name: policyservice
+    spec:
+      containers:
+      - env:
+        - name: KUBERNETES_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: SERVICE_SERVICE_HOST
+          value: serviceservice
+        - name: CONTEXT_SERVICE_HOST
+          value: contextservice
+        - name: MONITORING_SERVICE_HOST
+          value: monitoringservice
+        - name: KFK_SERVER_ADDRESS
+          value: kafka-public:9092
+        - name: KAFKA_SERVER
+          value: kafka-public:9092
+        image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/policy:v3.1-customer
+        imagePullPolicy: Always
+        name: policyservice
+        ports:
+        - containerPort: 8080
+          name: metrics
+          protocol: TCP
+        - containerPort: 6060
+          name: grpc-server
+          protocol: TCP
+        resources:
+          limits:
+            cpu: 2000m
+            memory: 2048Mi
+          requests:
+            cpu: 50m
+            memory: 1024Mi
+      initContainers:
+      - command:
+        - sh
+        - -c
+        - until nc -z cockroachdb-public 26257 && nc -z nats 4222; do echo
+          "waiting for stateful dependencies..."; sleep 2; done;
+        env:
+        - name: KFK_SERVER_ADDRESS
+          value: kafka-public:9092
+        - name: KAFKA_SERVER
+          value: kafka-public:9092
+        image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/busybox:v3.1-customer
+        imagePullPolicy: Always
+        name: init-dependencies

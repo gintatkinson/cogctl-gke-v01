@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: tfs-gce-ingress
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: "tfs-static-ip"
+spec:
+  defaultBackend:
+    service:
+      name: webuiservice
+      port:
+        number: 8004
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: webuiservice
+            port:
+              number: 8004

@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nats
+  name: nats
+  namespace: sovereign-genesis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nats
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: nats
+    spec:
+      containers:
+      - env:
+        - name: KFK_SERVER_ADDRESS
+          value: kafka-client:9092
+        - name: KAFKA_SERVER
+          value: kafka-client:9092
+        image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/nats:v3.1-customer
+        imagePullPolicy: Always
+        name: nats
+        ports:
+        - containerPort: 4222
+          name: client
+        - containerPort: 8222
+          name: monitor
+        resources:
+          limits:
+            cpu: 500m
+            memory: 512Mi
+          requests:
+            cpu: 100m
+            memory: 64Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: nats
+  name: nats
+  namespace: sovereign-genesis
+spec:
+  ports:
+  - name: client
+    port: 4222
+  - name: monitor
+    port: 8222
+  selector:
+    app: nats

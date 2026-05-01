@@ -1,3 +1,5 @@
 .sovereign_archive/
 scratch/
 *.log
+__pycache__/
+.terraform/

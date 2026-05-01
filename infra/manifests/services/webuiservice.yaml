@@ -1,0 +1,140 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: grafana-pvc
+  namespace: sovereign-genesis
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: hardened-storage
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webuiservice
+  namespace: sovereign-genesis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webuiservice
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: webuiservice
+    spec:
+      containers:
+      - env:
+        - name: LOG_LEVEL
+          value: INFO
+        - name: WEBUISERVICE_SERVICE_BASEURL_HTTP
+          value: /webui/
+        - name: KFK_SERVER_ADDRESS
+          value: kafka-public:9092
+        - name: KAFKA_SERVER
+          value: kafka-public:9092
+        image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/webui:v3.1-customer
+        imagePullPolicy: Always
+        name: server
+        ports:
+        - containerPort: 8004
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 1024Mi
+          requests:
+            cpu: 250m
+            memory: 128Mi
+      - env:
+        - name: GF_SERVER_ROOT_URL
+          value: http://0.0.0.0:3000/grafana/
+        - name: GF_SERVER_SERVE_FROM_SUB_PATH
+          value: 'true'
+        - name: KFK_SERVER_ADDRESS
+          value: kafka-public:9092
+        - name: KAFKA_SERVER
+          value: kafka-public:9092
+        image: grafana/grafana:9.4.7
+        imagePullPolicy: Always
+        name: grafana
+        ports:
+        - containerPort: 3000
+          name: http-grafana
+          protocol: TCP
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 1024Mi
+          requests:
+            cpu: 250m
+            memory: 128Mi
+        volumeMounts:
+        - mountPath: /var/lib/grafana
+          name: grafana-pv
+      initContainers:
+      - command:
+        - sh
+        - -c
+        - until nc -z cockroachdb-public 26257 && nc -z nats 4222; do echo
+          "waiting for stateful dependencies..."; sleep 2; done;
+        env:
+        - name: KFK_SERVER_ADDRESS
+          value: kafka-public:9092
+        - name: KAFKA_SERVER
+          value: kafka-public:9092
+        image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/busybox:v3.1-customer
+        imagePullPolicy: Always
+        name: init-dependencies
+      securityContext:
+        fsGroup: 472
+        supplementalGroups:
+        - 0
+      terminationGracePeriodSeconds: 5
+      volumes:
+      - name: grafana-pv
+        persistentVolumeClaim:
+          claimName: grafana-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: webuiservice
+  name: webuiservice
+  namespace: sovereign-genesis
+spec:
+  ports:
+  - name: webui
+    port: 8004
+    targetPort: 8004
+  - name: grafana
+    port: 3000
+    targetPort: 3000
+  selector:
+    app: webuiservice
+  type: ClusterIP
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: webuiservice-hpa
+  namespace: sovereign-genesis
+spec:
+  maxReplicas: 20
+  metrics:
+  - resource:
+      name: cpu
+      target:
+        averageUtilization: 50
+        type: Utilization
+    type: Resource
+  minReplicas: 1
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: webuiservice

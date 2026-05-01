@@ -1,0 +1,85 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: osm-clientservice
+  namespace: sovereign-genesis
+spec:
+  selector:
+    matchLabels:
+      app: osm-clientservice
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: osm-clientservice
+    spec:
+      containers:
+      - env:
+        - name: OSM_ADDRESS
+          value: 127.0.0.1
+        - name: OSM_PORT
+          value: '80'
+        - name: OSM_USERNAME
+          value: admin
+        - name: OSM_PASSWORD
+          value: admin
+        - name: OSM_PROJECT
+          value: admin
+        - name: OSM_VERIFY_TLS
+          value: 'FALSE'
+        - name: LOG_LEVEL
+          value: INFO
+        - name: KFK_SERVER_ADDRESS
+          value: kafka-public:9092
+        - name: KAFKA_SERVER
+          value: kafka-public:9092
+        image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/osm_client:v3.1-customer
+        imagePullPolicy: Always
+        name: server
+        ports:
+        - containerPort: 30210
+        - containerPort: 9192
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 1024Mi
+          requests:
+            cpu: 250m
+            memory: 128Mi
+      initContainers:
+      - command:
+        - sh
+        - -c
+        - until nc -z cockroachdb-public 26257 && nc -z nats 4222; do echo
+          "waiting for stateful dependencies..."; sleep 2; done;
+        env:
+        - name: KFK_SERVER_ADDRESS
+          value: kafka-public:9092
+        - name: KAFKA_SERVER
+          value: kafka-public:9092
+        image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/busybox:v3.1-customer
+        imagePullPolicy: Always
+        name: init-dependencies
+      terminationGracePeriodSeconds: 5
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: osm-clientservice
+  name: osm-clientservice
+  namespace: sovereign-genesis
+spec:
+  ports:
+  - name: grpc
+    port: 30210
+    protocol: TCP
+    targetPort: 30210
+  - name: metrics
+    port: 9192
+    protocol: TCP
+    targetPort: 9192
+  selector:
+    app: osm-clientservice
+  type: ClusterIP

@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cachingservice
+  namespace: sovereign-genesis
+spec:
+  selector:
+    matchLabels:
+      app: cachingservice
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: cachingservice
+    spec:
+      containers:
+      - args:
+        - --requirepass
+        - $(REDIS_PASSWORD)
+        command:
+        - redis-server
+        env:
+        - name: REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: REDIS_PASSWORD
+              name: redis-secrets
+        - name: KFK_SERVER_ADDRESS
+          value: kafka-public:9092
+        - name: KAFKA_SERVER
+          value: kafka-public:9092
+        image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/redis:v3.1-customer
+        imagePullPolicy: Always
+        name: redis
+        ports:
+        - containerPort: 6379
+          name: client
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 1024Mi
+          requests:
+            cpu: 50m
+            memory: 128Mi
+      initContainers:
+      - command:
+        - sh
+        - -c
+        - until nc -z cockroachdb-public 26257 && nc -z nats 4222; do echo
+          "waiting for stateful dependencies..."; sleep 2; done;
+        env:
+        - name: KFK_SERVER_ADDRESS
+          value: kafka-public:9092
+        - name: KAFKA_SERVER
+          value: kafka-public:9092
+        image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/busybox:v3.1-customer
+        imagePullPolicy: Always
+        name: init-dependencies
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cachingservice
+  namespace: sovereign-genesis
+spec:
+  ports:
+  - name: redis
+    port: 6379
+    targetPort: 6379
+  selector:
+    app: cachingservice
+  type: ClusterIP

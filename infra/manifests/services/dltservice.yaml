@@ -1,0 +1,149 @@
+apiVersion: v1
+data:
+  CERT_DIRECTORY_PATH: /etc/hyperledger/fabric-signcerts/signcerts.pem
+  CHAINCODE_NAME: tfs_dlt
+  CHANNEL_NAME: tfs_channel
+  KEY_DIRECTORY_PATH: /etc/hyperledger/fabric-keystore/keystore
+  MSP_ID: ETSI
+  PEER_ENDPOINT: 127.0.0.1:7051
+  PEER_HOST_ALIAS: peer0.org1.tfs.etsi.org
+  TLS_CERT_PATH: /etc/hyperledger/fabric-ca-crt/ca.crt
+kind: ConfigMap
+metadata:
+  name: dlt-config
+  namespace: sovereign-genesis
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dltservice
+  namespace: sovereign-genesis
+spec:
+  selector:
+    matchLabels:
+      app: dltservice
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: dltservice
+    spec:
+      containers:
+      - env:
+        - name: LOG_LEVEL
+          value: INFO
+        - name: KFK_SERVER_ADDRESS
+          value: kafka-public:9092
+        - name: KAFKA_SERVER
+          value: kafka-public:9092
+        image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/dlt-connector:v3.1-customer
+        imagePullPolicy: Always
+        name: connector
+        ports:
+        - containerPort: 8080
+        - containerPort: 9192
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 1024Mi
+          requests:
+            cpu: 50m
+            memory: 128Mi
+      - env:
+        - name: KEY_DIRECTORY_PATH
+          value: /etc/hyperledger/fabric-keystore/keystore
+        - name: CERT_DIRECTORY_PATH
+          value: /etc/hyperledger/fabric-signcerts/signcerts.pem
+        - name: TLS_CERT_PATH
+          value: /etc/hyperledger/fabric-ca-crt/ca.crt
+        - name: KFK_SERVER_ADDRESS
+          value: kafka-public:9092
+        - name: KAFKA_SERVER
+          value: kafka-public:9092
+        envFrom:
+        - configMapRef:
+            name: dlt-config
+        image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/dlt-gateway:v3.1-customer
+        imagePullPolicy: Always
+        name: gateway
+        ports:
+        - containerPort: 50051
+        resources:
+          limits:
+            cpu: 700m
+            memory: 1024Mi
+          requests:
+            cpu: 200m
+            memory: 1024Mi
+        volumeMounts:
+        - mountPath: /etc/hyperledger/fabric-keystore
+          name: keystore
+          readOnly: true
+        - mountPath: /etc/hyperledger/fabric-signcerts
+          name: signcerts
+          readOnly: true
+        - mountPath: /etc/hyperledger/fabric-ca-crt
+          name: ca-crt
+          readOnly: true
+      initContainers:
+      - command:
+        - sh
+        - -c
+        - until nc -z cockroachdb-public 26257 && nc -z nats 4222; do echo
+          "waiting for stateful dependencies..."; sleep 2; done;
+        env:
+        - name: KFK_SERVER_ADDRESS
+          value: kafka-public:9092
+        - name: KAFKA_SERVER
+          value: kafka-public:9092
+        image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/busybox:v3.1-customer
+        imagePullPolicy: Always
+        name: init-dependencies
+      terminationGracePeriodSeconds: 5
+      volumes:
+      - name: keystore
+        secret:
+          secretName: dlt-keystone
+      - name: signcerts
+        secret:
+          secretName: dlt-signcerts
+      - name: ca-crt
+        secret:
+          secretName: dlt-ca-crt
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gatewayservice
+  namespace: sovereign-genesis
+spec:
+  ports:
+  - nodePort: 32001
+    port: 50051
+    protocol: TCP
+    targetPort: 50051
+  selector:
+    app: dltservice
+  type: NodePort
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: dltservice
+  name: dltservice
+  namespace: sovereign-genesis
+spec:
+  ports:
+  - name: grpc
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  - name: metrics
+    port: 9192
+    protocol: TCP
+    targetPort: 9192
+  selector:
+    app: dltservice
+  type: ClusterIP

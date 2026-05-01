@@ -1,0 +1,93 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    app.quarkus.io/build-timestamp: 2022-09-19 - 10:48:18 +0000
+  labels:
+    app: ztpservice
+    app.kubernetes.io/name: ztpservice
+  name: ztpservice
+  namespace: sovereign-genesis
+spec:
+  ports:
+  - name: grpc
+    port: 5050
+    targetPort: 5050
+  - name: metrics
+    port: 9192
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app.kubernetes.io/name: ztpservice
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    app.quarkus.io/build-timestamp: 2022-09-19 - 10:48:18 +0000
+  labels:
+    app: ztpservice
+    app.kubernetes.io/name: ztpservice
+  name: ztpservice
+  namespace: sovereign-genesis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: ztpservice
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        app.quarkus.io/build-timestamp: 2022-09-19 - 10:48:18 +0000
+      labels:
+        app: ztpservice
+        app.kubernetes.io/name: ztpservice
+    spec:
+      containers:
+      - env:
+        - name: KUBERNETES_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: CONTEXT_SERVICE_HOST
+          value: contextservice
+        - name: DEVICE_SERVICE_HOST
+          value: deviceservice
+        - name: KFK_SERVER_ADDRESS
+          value: kafka-public:9092
+        - name: KAFKA_SERVER
+          value: kafka-public:9092
+        image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/ztp:v3.1-customer
+        imagePullPolicy: Always
+        name: ztpservice
+        ports:
+        - containerPort: 5050
+          name: grpc
+          protocol: TCP
+        - containerPort: 8080
+          name: metrics
+          protocol: TCP
+        resources:
+          limits:
+            cpu: 2000m
+            memory: 2048Mi
+          requests:
+            cpu: 50m
+            memory: 1024Mi
+      initContainers:
+      - command:
+        - sh
+        - -c
+        - until nc -z cockroachdb-public 26257 && nc -z nats 4222; do echo
+          "waiting for stateful dependencies..."; sleep 2; done;
+        env:
+        - name: KFK_SERVER_ADDRESS
+          value: kafka-public:9092
+        - name: KAFKA_SERVER
+          value: kafka-public:9092
+        image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/busybox:v3.1-customer
+        imagePullPolicy: Always
+        name: init-dependencies

@@ -1,0 +1,14 @@
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: my-ip-pool
+  namespace: sovereign-genesis
+spec:
+  addresses:
+  - 192.168.5.250-192.168.5.251
+---
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: l2-adv
+  namespace: sovereign-genesis

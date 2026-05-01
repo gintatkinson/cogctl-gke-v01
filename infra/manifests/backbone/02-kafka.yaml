@@ -1,0 +1,85 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/component: message-broker
+    app.kubernetes.io/instance: kafka
+    app.kubernetes.io/name: kafka
+  name: kafka-public
+  namespace: sovereign-genesis
+spec:
+  ports:
+  - name: clients
+    port: 9092
+    protocol: TCP
+    targetPort: 9092
+  - name: control-plane
+    port: 9093
+    protocol: TCP
+    targetPort: 9093
+  - name: external
+    port: 9094
+    protocol: TCP
+    targetPort: 9094
+  selector:
+    app.kubernetes.io/component: message-broker
+    app.kubernetes.io/instance: kafka
+    app.kubernetes.io/name: kafka
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: kafka
+  namespace: sovereign-genesis
+spec:
+  minReadySeconds: 5
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: message-broker
+      app.kubernetes.io/instance: kafka
+      app.kubernetes.io/name: kafka
+  serviceName: kafka-public
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/component: message-broker
+        app.kubernetes.io/instance: kafka
+        app.kubernetes.io/name: kafka
+    spec:
+      containers:
+      - env:
+        - name: KAFKA_CFG_NODE_ID
+          value: '1'
+        - name: KAFKA_CFG_PROCESS_ROLES
+          value: controller,broker
+        - name: KAFKA_CFG_LISTENERS
+          value: PLAINTEXT://:9092,CONTROLLER://:9093,EXTERNAL://:9094
+        - name: KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP
+          value: PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT,EXTERNAL:PLAINTEXT
+        - name: KAFKA_CFG_ADVERTISED_LISTENERS
+          value: PLAINTEXT://kafka-public:9092,EXTERNAL://localhost:9094
+        - name: KAFKA_CFG_CONTROLLER_LISTENER_NAMES
+          value: CONTROLLER
+        - name: KAFKA_CFG_CONTROLLER_QUORUM_VOTERS
+          value: 1@kafka-0:9093
+        image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/kafka:v3.1-customer
+        imagePullPolicy: Always
+        name: kafka
+        ports:
+        - containerPort: 9092
+          name: clients
+        - containerPort: 9093
+          name: control-plane
+        - containerPort: 9094
+          name: external
+        resources:
+          limits:
+            cpu: '1'
+            memory: 2Gi
+          requests:
+            cpu: 125m
+            memory: 1Gi
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 10

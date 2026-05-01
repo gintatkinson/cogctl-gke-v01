@@ -1,0 +1,132 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: contextservice
+  namespace: sovereign-genesis
+spec:
+  selector:
+    matchLabels:
+      app: contextservice
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        config.linkerd.io/skip-outbound-ports: '4222'
+      labels:
+        app: contextservice
+    spec:
+      containers:
+      - env:
+        - name: MB_BACKEND
+          value: nats
+        - name: NATS_URI
+          value: nats://nats:4222
+        - name: NATS_NAMESPACE
+          value: sovereign-genesis
+        - name: NATS_CLIENT_PORT
+          value: '4222'
+        - name: NATS_HOST
+          value: nats
+        - name: NATS_PORT
+          value: '4222'
+        - name: LOG_LEVEL
+          value: INFO
+        - name: CRDB_DATABASE
+          value: tfs_context
+        - name: CRDB_HOST
+          value: cockroachdb-public
+        - name: CRDB_SQL_PORT
+          value: '26257'
+        - name: CRDB_SSLMODE
+          value: disable
+        - name: ALLOW_EXPLICIT_ADD_DEVICE_TO_TOPOLOGY
+          value: 'TRUE'
+        - name: ALLOW_EXPLICIT_ADD_LINK_TO_TOPOLOGY
+          value: 'TRUE'
+        - name: CRDB_NAMESPACE
+          value: sovereign-genesis
+        - name: KFK_SERVER_ADDRESS
+          value: kafka-public:9092
+        - name: KAFKA_SERVER
+          value: kafka-public:9092
+        envFrom:
+        - secretRef:
+            name: crdb-data
+        - secretRef:
+            name: nats-data
+        image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/contextservice:v3.1-customer
+        imagePullPolicy: Always
+        name: server
+        ports:
+        - containerPort: 1010
+        - containerPort: 9192
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 1024Mi
+          requests:
+            cpu: 250m
+            memory: 128Mi
+        startupProbe:
+          failureThreshold: 5
+          grpc:
+            port: 1010
+          initialDelaySeconds: 10
+          periodSeconds: 1
+      initContainers:
+      - command:
+        - sh
+        - -c
+        - until nc -z cockroachdb-public 26257 && nc -z nats 4222; do echo "waiting
+          for stateful dependencies..."; sleep 2; done;
+        env:
+        - name: KFK_SERVER_ADDRESS
+          value: kafka-public:9092
+        - name: KAFKA_SERVER
+          value: kafka-public:9092
+        image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/busybox:v3.1-customer
+        imagePullPolicy: Always
+        name: init-dependencies
+      terminationGracePeriodSeconds: 5
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: contextservice
+  name: contextservice
+  namespace: sovereign-genesis
+spec:
+  ports:
+  - name: grpc
+    port: 1010
+    protocol: TCP
+    targetPort: 1010
+  - name: metrics
+    port: 9192
+    protocol: TCP
+    targetPort: 9192
+  selector:
+    app: contextservice
+  type: ClusterIP
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: contextservice-hpa
+  namespace: sovereign-genesis
+spec:
+  maxReplicas: 20
+  metrics:
+  - resource:
+      name: cpu
+      target:
+        averageUtilization: 80
+        type: Utilization
+    type: Resource
+  minReplicas: 1
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: contextservice
