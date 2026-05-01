@@ -8,8 +8,9 @@ ZONE="us-central1-a"
 case $COMMAND in
   shutdown)
     echo "[SHUTDOWN] Initiating graceful termination of $CLUSTER..."
-    gcloud container clusters delete "$CLUSTER" --zone "$ZONE" --quiet --async
-    echo "[SHUTDOWN] Deletion requested. Billing will cease once Google completes the background task."
+    gcloud container clusters delete "$CLUSTER" --zone "$ZONE" --quiet
+    ./foundation_purge.sh
+    echo "[SHUTDOWN] Enclave sanitized. Zero-debt state achieved."
     ;;
   
   restart)

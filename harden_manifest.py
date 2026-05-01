@@ -11,7 +11,9 @@ def harden():
             if not doc or 'kind' not in doc:
                 continue
             if doc['kind'] in ['Deployment', 'StatefulSet']:
-                for container in doc['spec']['template']['spec']['containers']:
+                # Only update the primary container (index 0) to avoid killing sidecars
+                if 'containers' in doc['spec']['template']['spec'] and doc['spec']['template']['spec']['containers']:
+                    container = doc['spec']['template']['spec']['containers'][0]
                     container['image'] = f"{registry}/{service_name}:{tag}"
                     container['imagePullPolicy'] = 'Always'
         with open(file_path, 'w') as f:

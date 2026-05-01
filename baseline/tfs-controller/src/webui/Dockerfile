@@ -15,23 +15,16 @@
 # PHASE 2: Gold Master Refactor
 FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:rc13-verified
 
-# Copy context and webui
+# Copy necessary components
 COPY src/common/ /var/teraflow/common/
+COPY src/context/ /var/teraflow/context/
+COPY src/service/ /var/teraflow/service/
 COPY src/webui/ /var/teraflow/webui/
 COPY proto/ /var/teraflow/proto/
 
-# Phase 7.16: Autonomous Build-Time Gencode Synthesis
-WORKDIR /var/teraflow/proto
-RUN python3 -m grpc_tools.protoc -I=. --python_out=. --grpc_python_out=. *.proto
-RUN sed -i -E 's/^import ([^ ]*)_pb2/from . import \1_pb2/g' *_pb2*.py
-
-# Phase 7.34: Namespace Cleansing & Routing Reconciliation
-RUN rm -rf /var/teraflow/common/proto && \
-    mkdir -p /var/teraflow/common/proto && \
-    cp -r /var/teraflow/proto/* /var/teraflow/common/proto/ && \
-    touch /var/teraflow/common/proto/__init__.py
-
-WORKDIR /var/teraflow/webui
 # Standardize logs and entrypoint
+WORKDIR /var/teraflow
 ENV PYTHONUNBUFFERED=1
+ENV PYTHONPATH=/var/teraflow
 ENTRYPOINT ["python", "-m", "webui.service"]
+
