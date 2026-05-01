@@ -109,79 +109,79 @@ steps:
   id: 'forge-context'
   waitFor: ['foundation']
   entrypoint: 'bash'
-  args: ['-c', 'sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|" baseline/tfs-controller/src/context/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/contextservice:$_TAG -f baseline/tfs-controller/src/context/Dockerfile baseline/tfs-controller/']
+  args: ['-c', 'sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|" baseline/tfs-controller/src/context/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/contextservice:$_TAG -f baseline/tfs-controller/src/context/Dockerfile baseline/tfs-controller/ && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/contextservice:$_TAG']
 
 - name: 'gcr.io/cloud-builders/docker'
   id: 'forge-device'
   waitFor: ['foundation']
   entrypoint: 'bash'
-  args: ['-c', 'sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|" baseline/tfs-controller/src/device/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/deviceservice:$_TAG -f baseline/tfs-controller/src/device/Dockerfile baseline/tfs-controller/']
+  args: ['-c', 'sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|" baseline/tfs-controller/src/device/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/deviceservice:$_TAG -f baseline/tfs-controller/src/device/Dockerfile baseline/tfs-controller/ && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/deviceservice:$_TAG']
 
 - name: 'gcr.io/cloud-builders/docker'
   id: 'forge-service'
   waitFor: ['foundation']
   entrypoint: 'bash'
-  args: ['-c', 'sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|" baseline/tfs-controller/src/service/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/serviceservice:$_TAG -f baseline/tfs-controller/src/service/Dockerfile baseline/tfs-controller/']
+  args: ['-c', 'sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|" baseline/tfs-controller/src/service/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/serviceservice:$_TAG -f baseline/tfs-controller/src/service/Dockerfile baseline/tfs-controller/ && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/serviceservice:$_TAG']
 
 - name: 'gcr.io/cloud-builders/docker'
   id: 'forge-slice'
   waitFor: ['foundation']
   entrypoint: 'bash'
-  args: ['-c', 'sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|" baseline/tfs-controller/src/slice/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/sliceservice:$_TAG -f baseline/tfs-controller/src/slice/Dockerfile baseline/tfs-controller/']
+  args: ['-c', 'sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|" baseline/tfs-controller/src/slice/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/sliceservice:$_TAG -f baseline/tfs-controller/src/slice/Dockerfile baseline/tfs-controller/ && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/sliceservice:$_TAG']
 
 - name: 'gcr.io/cloud-builders/docker'
   id: 'forge-pathcomp'
   waitFor: ['foundation']
   entrypoint: 'bash'
-  args: ['-c', 'sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|" baseline/tfs-controller/src/pathcomp/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/pathcompservice:$_TAG -f baseline/tfs-controller/src/pathcomp/Dockerfile baseline/tfs-controller/']
+  args: ['-c', 'sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|" baseline/tfs-controller/src/pathcomp/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/pathcompservice:$_TAG -f baseline/tfs-controller/src/pathcomp/Dockerfile baseline/tfs-controller/ && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/pathcompservice:$_TAG']
 
 - name: 'gcr.io/cloud-builders/docker'
   id: 'forge-monitoring'
   waitFor: ['foundation']
   entrypoint: 'bash'
-  args: ['-c', 'sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|" baseline/tfs-controller/src/monitoring/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/monitoringservice:$_TAG -f baseline/tfs-controller/src/monitoring/Dockerfile baseline/tfs-controller/']
+  args: ['-c', 'sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|" baseline/tfs-controller/src/monitoring/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/monitoringservice:$_TAG -f baseline/tfs-controller/src/monitoring/Dockerfile baseline/tfs-controller/ && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/monitoringservice:$_TAG']
 
 - name: 'gcr.io/cloud-builders/docker'
   id: 'forge-automation'
   waitFor: ['foundation']
   entrypoint: 'bash'
-  args: ['-c', 'sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|" baseline/tfs-controller/src/automation/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/automationservice:$_TAG -f baseline/tfs-controller/src/automation/Dockerfile baseline/tfs-controller/']
+  args: ['-c', 'sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|" baseline/tfs-controller/src/automation/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/automationservice:$_TAG -f baseline/tfs-controller/src/automation/Dockerfile baseline/tfs-controller/ && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/automationservice:$_TAG']
 
 - name: 'gcr.io/cloud-builders/docker'
   id: 'forge-webui'
   waitFor: ['foundation']
   entrypoint: 'bash'
-  args: ['-c', 'sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|" baseline/tfs-controller/src/webui/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/webui:$_TAG -f baseline/tfs-controller/src/webui/Dockerfile baseline/tfs-controller/']
+  args: ['-c', 'sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|" baseline/tfs-controller/src/webui/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/webui:$_TAG -f baseline/tfs-controller/src/webui/Dockerfile baseline/tfs-controller/ && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/webui:$_TAG']
 
 - name: 'gcr.io/cloud-builders/docker'
   id: 'forge-nbi'
   waitFor: ['foundation']
   entrypoint: 'bash'
-  args: ['-c', 'sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|" baseline/tfs-controller/src/nbi/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/nbi:$_TAG -f baseline/tfs-controller/src/nbi/Dockerfile baseline/tfs-controller/']
+  args: ['-c', 'sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|" baseline/tfs-controller/src/nbi/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/nbi:$_TAG -f baseline/tfs-controller/src/nbi/Dockerfile baseline/tfs-controller/ && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/nbi:$_TAG']
 
 - name: 'gcr.io/cloud-builders/docker'
   id: 'forge-analytics-frontend'
   waitFor: ['foundation']
   entrypoint: 'bash'
-  args: ['-c', 'sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|" baseline/tfs-controller/src/analytics/frontend/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/analytics-frontend:$_TAG -f baseline/tfs-controller/src/analytics/frontend/Dockerfile baseline/tfs-controller/']
+  args: ['-c', 'sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|" baseline/tfs-controller/src/analytics/frontend/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/analytics-frontend:$_TAG -f baseline/tfs-controller/src/analytics/frontend/Dockerfile baseline/tfs-controller/ && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/analytics-frontend:$_TAG']
 
 - name: 'gcr.io/cloud-builders/docker'
   id: 'forge-analytics-backend'
   waitFor: ['foundation']
   entrypoint: 'bash'
-  args: ['-c', 'sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|" baseline/tfs-controller/src/analytics/backend/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/analytics-backend:$_TAG -f baseline/tfs-controller/src/analytics/backend/Dockerfile baseline/tfs-controller/']
+  args: ['-c', 'sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|" baseline/tfs-controller/src/analytics/backend/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/analytics-backend:$_TAG -f baseline/tfs-controller/src/analytics/backend/Dockerfile baseline/tfs-controller/ && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/analytics-backend:$_TAG']
 
 - name: 'gcr.io/cloud-builders/docker'
   id: 'forge-telemetry-frontend'
   waitFor: ['foundation']
   entrypoint: 'bash'
-  args: ['-c', 'sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|" baseline/tfs-controller/src/telemetry/frontend/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/telemetry-frontend:$_TAG -f baseline/tfs-controller/src/telemetry/frontend/Dockerfile baseline/tfs-controller/']
+  args: ['-c', 'sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|" baseline/tfs-controller/src/telemetry/frontend/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/telemetry-frontend:$_TAG -f baseline/tfs-controller/src/telemetry/frontend/Dockerfile baseline/tfs-controller/ && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/telemetry-frontend:$_TAG']
 
 - name: 'gcr.io/cloud-builders/docker'
   id: 'forge-telemetry-backend'
   waitFor: ['foundation']
   entrypoint: 'bash'
-  args: ['-c', 'sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|" baseline/tfs-controller/src/telemetry/backend/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/telemetry-backend:$_TAG -f baseline/tfs-controller/src/telemetry/backend/Dockerfile baseline/tfs-controller/']
+  args: ['-c', 'sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|" baseline/tfs-controller/src/telemetry/backend/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/telemetry-backend:$_TAG -f baseline/tfs-controller/src/telemetry/backend/Dockerfile baseline/tfs-controller/ && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/telemetry-backend:$_TAG']
 
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   id: 'induction'
