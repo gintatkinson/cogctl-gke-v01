@@ -215,31 +215,7 @@ steps:
       # Installing PyYAML for structural integrity (Overriding PEP 668 for ephemeral env)
       pip3 install --user PyYAML --break-system-packages
       
-      cat <<'EOF' | sed 's/^      //' > harden_manifest.py
-      import sys, yaml
-
-      def harden():
-          if len(sys.argv) < 5:
-              sys.exit(1)
-          file_path, service_name, tag, registry = sys.argv[1:]
-          try:
-              with open(file_path, 'r') as f:
-                  data = list(yaml.load_all(f, Loader=yaml.FullLoader))
-              for doc in data:
-                  if not doc or 'kind' not in doc:
-                      continue
-                  if doc['kind'] in ['Deployment', 'StatefulSet']:
-                      for container in doc['spec']['template']['spec']['containers']:
-                          container['image'] = f"{registry}/{service_name}:{tag}"
-                          container['imagePullPolicy'] = 'Always'
-              with open(file_path, 'w') as f:
-                  yaml.dump_all(data, f)
-          except Exception as e:
-              sys.exit(1)
-
-      if __name__ == "__main__":
-          harden()
-      EOF
+      echo "[INDUCTION] Using verified harden_manifest.py from repository..."
 
       echo "[INDUCTION] Creating Orchestration Secrets..."
       kubectl create secret generic kfk-kpi-data --from-literal=KFK_SERVER_ADDRESS=kafka-public.default.svc.cluster.local:9092 --from-literal=KAFKA_API_VERSION=3.7.0 --dry-run=client -o yaml | kubectl apply -f -
