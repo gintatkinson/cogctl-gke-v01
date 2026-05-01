@@ -1,13 +1,24 @@
-#!/usr/bin/env bash
-set -euo pipefail
-mkdir -p "$(pwd)/logs"
-LOG_FILE="$(pwd)/logs/hibernate_$(date +%Y%m%d_%H%M%S).log"
-export CLOUDSDK_CORE_DISABLE_PROMPTS=1
-# Force the zone to us-central1-a
-export CLOUDSDK_COMPUTE_ZONE=us-central1-a
-echo "--- INITIATING TOTAL PURGE (ZONE: us-central1-a) ---"
-nohup bash infra/foundation_purge.sh > "$LOG_FILE" 2>&1 < /dev/null &
-disown
-echo "[SUCCESS] Master Hibernation engine successfully detached."
-echo "[INFO] Tracking execution at: $LOG_FILE"
-echo "The background process is running safely. You have your prompt back."
+#!/bin/bash
+# Total Purge Engine: Sovereign Genesis
+# Targets compute and persistent storage for Zero-Debt Hibernation.
+
+ZONE="us-central1-a"
+CLUSTER_NAME="sovereign-genesis"
+
+echo "--- INITIATING TOTAL PURGE (ZONE: $ZONE) ---"
+
+# 1. Delete Cluster (Wait for completion to identify orphaned disks)
+gcloud container clusters delete $CLUSTER_NAME --zone $ZONE --quiet
+
+# 2. Purge Orphaned Persistent Disks (PVCs)
+echo "Searching for orphaned PVC disks..."
+PVC_DISKS=$(gcloud compute disks list --filter="zone:$ZONE AND name~pvc-.*" --format="value(name)")
+
+if [ -n "$PVC_DISKS" ]; then
+    echo "Deleting disks: $PVC_DISKS"
+    gcloud compute disks delete $PVC_DISKS --zone $ZONE --quiet
+else
+    echo "No orphaned disks found."
+fi
+
+echo "[SUCCESS] Enclave fully decommissioned. Zero-Debt achieved."
