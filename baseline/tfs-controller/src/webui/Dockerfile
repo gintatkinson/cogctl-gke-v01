@@ -16,13 +16,21 @@
 FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:rc13-verified
 
 # Copy necessary components
-COPY src/common/ /var/teraflow/common/
 COPY src/context/ /var/teraflow/context/
 COPY src/service/ /var/teraflow/service/
 COPY src/webui/ /var/teraflow/webui/
 COPY proto/ /var/teraflow/proto/
 
 # Standardize logs and entrypoint
+WORKDIR /var/teraflow/proto
+RUN python3 -m grpc_tools.protoc -I=. --python_out=. --grpc_python_out=. *.proto
+RUN sed -i -E 's/^import ([^ ]*)_pb2/from . import \1_pb2/g' *_pb2*.py
+
+# Move to common/proto
+RUN mkdir -p /var/teraflow/common/proto && \
+    cp *_pb2* /var/teraflow/common/proto/ && \
+    touch /var/teraflow/common/proto/__init__.py
+
 WORKDIR /var/teraflow
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONPATH=/var/teraflow

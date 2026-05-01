@@ -136,6 +136,12 @@ steps:
   args: ['-c', 'sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|" baseline/tfs-controller/src/pathcomp/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/pathcompservice:$_TAG -f baseline/tfs-controller/src/pathcomp/Dockerfile baseline/tfs-controller/ && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/pathcompservice:$_TAG']
 
 - name: 'gcr.io/cloud-builders/docker'
+  id: 'forge-pathcomp-backend'
+  waitFor: ['foundation']
+  entrypoint: 'bash'
+  args: ['-c', 'docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/pathcomp-backend:$_TAG -f baseline/tfs-controller/src/pathcomp/backend/Dockerfile baseline/tfs-controller/src/pathcomp/backend/ && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/pathcomp-backend:$_TAG']
+
+- name: 'gcr.io/cloud-builders/docker'
   id: 'forge-monitoring'
   waitFor: ['foundation']
   entrypoint: 'bash'

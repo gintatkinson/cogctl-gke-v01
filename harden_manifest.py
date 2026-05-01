@@ -11,11 +11,14 @@ def harden():
             if not doc or 'kind' not in doc:
                 continue
             if doc['kind'] in ['Deployment', 'StatefulSet']:
-                # Only update the primary container (index 0) to avoid killing sidecars
-                if 'containers' in doc['spec']['template']['spec'] and doc['spec']['template']['spec']['containers']:
-                    container = doc['spec']['template']['spec']['containers'][0]
-                    container['image'] = f"{registry}/{service_name}:{tag}"
-                    container['imagePullPolicy'] = 'Always'
+                for container in doc['spec']['template']['spec']['containers']:
+                    if 'v3.1-graduation' in container.get('image', ''):
+                        # Heuristic: if container name is 'backend' and service is pathcomp, use pathcomp-backend
+                        if container['name'] == 'backend' and service_name == 'pathcompservice':
+                            container['image'] = f"{registry}/pathcomp-backend:{tag}"
+                        else:
+                            container['image'] = f"{registry}/{service_name}:{tag}"
+                        container['imagePullPolicy'] = 'Always'
         with open(file_path, 'w') as f:
             yaml.dump_all(data, f)
     except Exception as e:
