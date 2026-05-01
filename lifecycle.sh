@@ -25,6 +25,12 @@ case $COMMAND in
     echo "[RESTART] Authenticating..."
     gcloud container clusters get-credentials "$CLUSTER" --zone "$ZONE"
     
+    echo "[RESTART] Waiting for nodes to achieve 'Ready' state..."
+    until kubectl get nodes 2>/dev/null | grep -q " Ready"; do
+      echo "Polling nodes..."
+      sleep 10
+    done
+
     echo "[RESTART] Inducing 11 Core Services..."
     gcloud builds submit --config infra/cloudbuild_graduation_final.yaml --substitutions=_TAG="rc13-verified" .
     ;;
