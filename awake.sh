@@ -3,7 +3,9 @@ set -euo pipefail
 mkdir -p "$(pwd)/logs"
 LOG_FILE="$(pwd)/logs/awake_$(date +%Y%m%d_%H%M%S).log"
 export CLOUDSDK_CORE_DISABLE_PROMPTS=1
-echo "--- INITIATING MASTER IGNITION ---"
+# Force the zone to us-central1-a
+export CLOUDSDK_COMPUTE_ZONE=us-central1-a
+echo "--- INITIATING MASTER IGNITION (ZONE: us-central1-a) ---"
 nohup bash infra/master_ignition.sh > "$LOG_FILE" 2>&1 < /dev/null &
 disown
 echo "[SUCCESS] Master Ignition engine successfully detached."
