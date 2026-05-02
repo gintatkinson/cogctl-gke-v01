@@ -12,10 +12,9 @@ steps:
       echo "[PURGE] Hunting for orphaned Sovereign disks..."
       ORPHAN_DISKS=$(gcloud compute disks list --filter="name ~ gke-sovereign-genesis AND users ~ none" --format="value(name)")
 
-      if [ -n "$ORPHAN_DISKS" ]; then
-          echo "[PURGE] Found orphans: $ORPHAN_DISKS"
-          # Bulk delete for efficiency
-          gcloud compute disks delete $ORPHAN_DISKS --zone "${_ZONE}" --project "${PROJECT_ID}" --quiet
+      if [ -n "$$ORPHAN_DISKS" ]; then
+          echo "[PURGE] Found orphans: $$ORPHAN_DISKS"
+          gcloud compute disks delete $$ORPHAN_DISKS --zone "${_ZONE}" --project "${PROJECT_ID}" --quiet
       else
           echo "[PURGE] No orphaned disks found. Clean state verified."
       fi
