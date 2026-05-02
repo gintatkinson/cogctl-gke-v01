@@ -59,10 +59,11 @@ steps:
       set -ex
       gcloud container clusters get-credentials "${_CLUSTER_NAME}" --zone "${_ZONE}" --project "${PROJECT_ID}"
       echo "[IGNITION] Registering CRDs and Operators..."
+      # CRDs MUST be applied before the Operator
+      kubectl apply -f infra/manifests/backbone/05-crdb-crds.yaml
       kubectl apply -f infra/manifests/backbone/04-crdb-operator.yaml -n "${_NAMESPACE}"
-      kubectl apply -f infra/manifests/backbone/05-crdb-crds.yaml -n "${_NAMESPACE}"
       echo "Waiting for CRD reconciliation..."
-      sleep 30
+      sleep 45
 
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   id: 'deploy-backbone-instances'
