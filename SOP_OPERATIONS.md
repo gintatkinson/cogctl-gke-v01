@@ -41,7 +41,39 @@ Use this procedure to return the system to an operational state.
 3. **Core Layer**: All 11 services will transition to `Running`.
 4. **Ingress**: The LoadBalancer will resume traffic routing once the `webuiservice` passes readiness probes.
 
-## 3. Troubleshooting
-If services remain in `CrashLoopBackOff` after 5 minutes:
-- Force a resource release: `kubectl delete pods --all`
-- Verify storage binding: `kubectl get pvc`
+## 3. Zero-Consumption Termination (Total Destruction)
+Use this procedure to achieve **$0.00/month** consumption. This deletes the cluster and all persistent disks.
+
+### Procedure
+1. Destroy the cluster:
+   ```bash
+   gcloud container clusters delete sovereign-genesis --zone us-central1-a --quiet
+   ```
+2. Verify no orphaned disks remain:
+   ```bash
+   gcloud compute disks list --filter="name~'sovereign-genesis'"
+   ```
+
+### Status
+- **Costs**: $0.00 (Total).
+- **State**: Permanently Deleted.
+- **Restart**: Requires a full "Resurrection" build.
+
+## 4. Resurrection (Restoring from Zero)
+Use this procedure to re-birth the system after a Total Termination.
+
+### Procedure
+1. Execute the hardened graduation pipeline:
+   ```bash
+   gcloud builds submit --config infra/cloudbuild_graduation_final.yaml .
+   ```
+
+### Status
+- **Success Criteria**: All 11 services reach `Running` on a fresh cluster.
+- **Data State**: Reset to the "rc13-verified" baseline.
+
+## 5. Comparison Matrix
+| Mode | Compute | Storage | Mgmt Fee | State | Restart |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Hibernation** | $0 | Yes | Yes | Preserved | 3 mins |
+| **Termination** | $0 | $0 | $0 | Wiped | 12 mins |
