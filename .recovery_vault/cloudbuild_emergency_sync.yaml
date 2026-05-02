@@ -1,0 +1,47 @@
+
+steps:
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: 'get-pat'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        gcloud secrets versions access latest --secret="ETSI_GITLAB_PAT" > /workspace/gl_pat.txt
+
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'mirror-images'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        cat /workspace/gl_pat.txt | docker login labs.etsi.org:5050 -u "sovereign-agent" --password-stdin
+        REGISTRY="us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs"
+        
+        IMAGES=("analytics-frontend" "analytics-backend" "bgpls_speaker" "dbscanserving" "dlt-connector" "dlt-gateway" "e2e_orchestrator" "forecaster" "interdomain" "kpi_manager" "kpi_value_api" "kpi_value_writer" "l3_attackmitigator" "l3_centralizedattackdetector" "l3_distributedattackdetector" "load_generator" "mock_blockchain" "opticalattackdetector" "opticalattackmanager" "opticalattackmitigator" "opticalcontroller" "osm_client" "pathcomp-frontend" "pathcomp-backend" "policy" "qkd_app" "qos_profile" "simap_connector" "telemetry-frontend" "telemetry-backend" "te" "vnt_manager" "ztp" "ztp_server")
+        
+        for IMG in "$${IMAGES[@]}"; do
+          echo "Scanning for $${IMG}..."
+          # Try different naming conventions
+          SOURCES=(
+            "labs.etsi.org:5050/tfs/controller/$${IMG}:latest"
+            "labs.etsi.org:5050/tfs/controller/$${IMG//_/-}:latest"
+            "labs.etsi.org:5050/tfs/controller/$${IMG}service:latest"
+          )
+          
+          SUCCESS=0
+          for SRC in "$${SOURCES[@]}"; do
+            echo "Attempting to pull $${SRC}..."
+            if docker pull $${SRC}; then
+              TARGET="$${REGISTRY}/$${IMG}:v3.1-customer"
+              echo "Success! Tagging $${SRC} as $${TARGET}"
+              docker tag $${SRC} $${TARGET}
+              docker push $${TARGET}
+              SUCCESS=1
+              break
+            fi
+          done
+          
+          if [ $${SUCCESS} -eq 0 ]; then
+            echo "FAILED to find image for $${IMG}"
+          fi
+        done

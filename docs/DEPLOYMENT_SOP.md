@@ -1,4 +1,3 @@
-# Cognitive Controller: Core Deployment SOP
 
 ## Architectural Principles
 1. **Single Source of Truth:** The GitHub repository (`cogctl-gke-v01`) is the definitive, pure reference.

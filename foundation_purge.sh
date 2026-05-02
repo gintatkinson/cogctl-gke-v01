@@ -1,13 +1,11 @@
 #!/bin/bash
-echo "[PURGE] Hunting for orphaned Sovereign disks..."
-ORPHAN_DISKS=$(gcloud compute disks list --filter="name ~ gke-sovereign-genesis AND users ~ none" --format="value(name)")
+# SOVEREIGN FOUNDATION PURGE INDUCTION
+# This script is a wrapper for Remote Execution.
+# It contains NO local logic to avoid environment contamination.
 
-if [ -n "$ORPHAN_DISKS" ]; then
-    echo "[PURGE] Found orphans: $ORPHAN_DISKS"
-    for DISK in $ORPHAN_DISKS; do
-        echo "[PURGE] Neutralizing $DISK..."
-        gcloud compute disks delete "$DISK" --zone "us-central1-a" --quiet
-    done
-else
-    echo "[PURGE] No orphaned disks found. Clean state verified."
-fi
+echo "--- INDUCTING REMOTE FOUNDATION PURGE (CLOUD BUILD) ---"
+
+# Trigger the remote manifest which uses containerized tools in GKE/GCP.
+gcloud builds submit --config infra/foundation_purge.yaml .
+
+echo "--- INDUCTION COMPLETE. MONITOR CLOUD CONSOLE FOR PURGE STATUS ---"

@@ -1,0 +1,431 @@
+steps:
+- args:
+  - -c
+  - docker pull us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/contextservice:latest
+    && docker tag us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/contextservice:latest
+    us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/contextservice:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/contextservice:v3.1-customer
+    || echo 'Skipping contextservice'
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - docker pull us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/deviceservice:latest
+    && docker tag us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/deviceservice:latest
+    us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/deviceservice:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/deviceservice:v3.1-customer
+    || echo 'Skipping deviceservice'
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - docker pull us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/serviceservice:latest
+    && docker tag us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/serviceservice:latest
+    us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/serviceservice:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/serviceservice:v3.1-customer
+    || echo 'Skipping serviceservice'
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - docker pull us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/sliceservice:latest
+    && docker tag us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/sliceservice:latest
+    us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/sliceservice:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/sliceservice:v3.1-customer
+    || echo 'Skipping sliceservice'
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - docker pull us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/pathcompservice:latest
+    && docker tag us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/pathcompservice:latest
+    us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/pathcompservice:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/pathcompservice:v3.1-customer
+    || echo 'Skipping pathcompservice'
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - docker pull us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/monitoringservice:latest
+    && docker tag us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/monitoringservice:latest
+    us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/monitoringservice:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/monitoringservice:v3.1-customer
+    || echo 'Skipping monitoringservice'
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - docker pull us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/automationservice:latest
+    && docker tag us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/automationservice:latest
+    us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/automationservice:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/automationservice:v3.1-customer
+    || echo 'Skipping automationservice'
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - docker pull us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/analyticsservice:latest
+    && docker tag us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/analyticsservice:latest
+    us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/analyticsservice:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/analyticsservice:v3.1-customer
+    || echo 'Skipping analyticsservice'
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - docker pull us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/telemetryservice:latest
+    && docker tag us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/telemetryservice:latest
+    us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/telemetryservice:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/telemetryservice:v3.1-customer
+    || echo 'Skipping telemetryservice'
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - docker pull us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/nbiservice:latest
+    && docker tag us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/nbiservice:latest
+    us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/nbiservice:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/nbiservice:v3.1-customer
+    || echo 'Skipping nbiservice'
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - docker pull us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/webuiservice:latest
+    && docker tag us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/webuiservice:latest
+    us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/webuiservice:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/webuiservice:v3.1-customer
+    || echo 'Skipping webuiservice'
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - docker pull us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/bgpls_speaker:latest
+    && docker tag us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/bgpls_speaker:latest
+    us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/bgpls_speaker:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/bgpls_speaker:v3.1-customer
+    || echo 'Skipping bgpls_speaker'
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - docker pull us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/dbscanserving:latest
+    && docker tag us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/dbscanserving:latest
+    us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/dbscanserving:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/dbscanserving:v3.1-customer
+    || echo 'Skipping dbscanserving'
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - docker pull us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/dlt-connector:latest
+    && docker tag us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/dlt-connector:latest
+    us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/dlt-connector:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/dlt-connector:v3.1-customer
+    || echo 'Skipping dlt-connector'
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - docker pull us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/dlt-gateway:latest
+    && docker tag us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/dlt-gateway:latest
+    us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/dlt-gateway:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/dlt-gateway:v3.1-customer
+    || echo 'Skipping dlt-gateway'
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - docker pull us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/e2e_orchestrator:latest
+    && docker tag us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/e2e_orchestrator:latest
+    us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/e2e_orchestrator:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/e2e_orchestrator:v3.1-customer
+    || echo 'Skipping e2e_orchestrator'
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - docker pull us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/forecaster:latest
+    && docker tag us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/forecaster:latest
+    us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/forecaster:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/forecaster:v3.1-customer
+    || echo 'Skipping forecaster'
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - docker pull us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/interdomain:latest
+    && docker tag us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/interdomain:latest
+    us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/interdomain:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/interdomain:v3.1-customer
+    || echo 'Skipping interdomain'
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - docker pull us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/kpi_manager:latest
+    && docker tag us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/kpi_manager:latest
+    us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/kpi_manager:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/kpi_manager:v3.1-customer
+    || echo 'Skipping kpi_manager'
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - docker pull us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/kpi_value_api:latest
+    && docker tag us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/kpi_value_api:latest
+    us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/kpi_value_api:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/kpi_value_api:v3.1-customer
+    || echo 'Skipping kpi_value_api'
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - docker pull us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/kpi_value_writer:latest
+    && docker tag us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/kpi_value_writer:latest
+    us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/kpi_value_writer:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/kpi_value_writer:v3.1-customer
+    || echo 'Skipping kpi_value_writer'
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - docker pull us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/l3_attackmitigator:latest
+    && docker tag us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/l3_attackmitigator:latest
+    us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/l3_attackmitigator:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/l3_attackmitigator:v3.1-customer
+    || echo 'Skipping l3_attackmitigator'
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - docker pull us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/l3_centralizedattackdetector:latest
+    && docker tag us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/l3_centralizedattackdetector:latest
+    us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/l3_centralizedattackdetector:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/l3_centralizedattackdetector:v3.1-customer
+    || echo 'Skipping l3_centralizedattackdetector'
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - docker pull us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/l3_distributedattackdetector:latest
+    && docker tag us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/l3_distributedattackdetector:latest
+    us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/l3_distributedattackdetector:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/l3_distributedattackdetector:v3.1-customer
+    || echo 'Skipping l3_distributedattackdetector'
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - docker pull us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/load_generator:latest
+    && docker tag us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/load_generator:latest
+    us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/load_generator:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/load_generator:v3.1-customer
+    || echo 'Skipping load_generator'
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - docker pull us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/mock_blockchain:latest
+    && docker tag us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/mock_blockchain:latest
+    us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/mock_blockchain:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/mock_blockchain:v3.1-customer
+    || echo 'Skipping mock_blockchain'
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - docker pull us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/opticalattackdetector:latest
+    && docker tag us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/opticalattackdetector:latest
+    us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/opticalattackdetector:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/opticalattackdetector:v3.1-customer
+    || echo 'Skipping opticalattackdetector'
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - docker pull us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/opticalattackmanager:latest
+    && docker tag us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/opticalattackmanager:latest
+    us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/opticalattackmanager:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/opticalattackmanager:v3.1-customer
+    || echo 'Skipping opticalattackmanager'
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - docker pull us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/opticalattackmitigator:latest
+    && docker tag us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/opticalattackmitigator:latest
+    us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/opticalattackmitigator:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/opticalattackmitigator:v3.1-customer
+    || echo 'Skipping opticalattackmitigator'
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - docker pull us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/opticalcontroller:latest
+    && docker tag us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/opticalcontroller:latest
+    us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/opticalcontroller:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/opticalcontroller:v3.1-customer
+    || echo 'Skipping opticalcontroller'
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - docker pull us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/osm_client:latest
+    && docker tag us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/osm_client:latest
+    us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/osm_client:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/osm_client:v3.1-customer
+    || echo 'Skipping osm_client'
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - docker pull us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/pathcomp-backend:latest
+    && docker tag us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/pathcomp-backend:latest
+    us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/pathcomp-backend:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/pathcomp-backend:v3.1-customer
+    || echo 'Skipping pathcomp-backend'
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - docker pull us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/pathcomp-frontend:latest
+    && docker tag us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/pathcomp-frontend:latest
+    us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/pathcomp-frontend:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/pathcomp-frontend:v3.1-customer
+    || echo 'Skipping pathcomp-frontend'
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - docker pull us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/policy:latest
+    && docker tag us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/policy:latest
+    us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/policy:v3.1-customer &&
+    docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/policy:v3.1-customer
+    || echo 'Skipping policy'
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - docker pull us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/qkd_app:latest
+    && docker tag us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/qkd_app:latest
+    us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/qkd_app:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/qkd_app:v3.1-customer
+    || echo 'Skipping qkd_app'
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - docker pull us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/qos_profile:latest
+    && docker tag us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/qos_profile:latest
+    us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/qos_profile:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/qos_profile:v3.1-customer
+    || echo 'Skipping qos_profile'
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - docker pull us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/simap_connector:latest
+    && docker tag us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/simap_connector:latest
+    us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/simap_connector:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/simap_connector:v3.1-customer
+    || echo 'Skipping simap_connector'
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - docker pull us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/te:latest
+    && docker tag us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/te:latest
+    us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/te:v3.1-customer && docker
+    push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/te:v3.1-customer
+    || echo 'Skipping te'
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - docker pull us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/vnt_manager:latest
+    && docker tag us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/vnt_manager:latest
+    us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/vnt_manager:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/vnt_manager:v3.1-customer
+    || echo 'Skipping vnt_manager'
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - docker pull us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/ztp:latest
+    && docker tag us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/ztp:latest
+    us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/ztp:v3.1-customer && docker
+    push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/ztp:v3.1-customer
+    || echo 'Skipping ztp'
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - docker pull us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/ztp_server:latest
+    && docker tag us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/ztp_server:latest
+    us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/ztp_server:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/ztp_server:v3.1-customer
+    || echo 'Skipping ztp_server'
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - docker pull busybox:1.36 && docker tag busybox:1.36 us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/busybox:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/busybox:v3.1-customer
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - docker pull redis:7.0-alpine && docker tag redis:7.0-alpine us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/redis:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/redis:v3.1-customer
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - docker pull nginx:latest && docker tag nginx:latest us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/nginx:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/nginx:v3.1-customer
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - docker pull cockroachdb/cockroach:v22.2.18 && docker tag cockroachdb/cockroach:v22.2.18
+    us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/cockroach:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/cockroach:v3.1-customer
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - docker pull nats:2.9.25-alpine && docker tag nats:2.9.25-alpine us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/nats:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/nats:v3.1-customer
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - docker pull questdb/questdb:7.3.3 && docker tag questdb/questdb:7.3.3 us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/questdb:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/questdb:v3.1-customer
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - docker pull bitnami/kafka:3.7.0 && docker tag bitnami/kafka:3.7.0 us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/kafka:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/kafka:v3.1-customer
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - docker pull bitnami/zookeeper:3.9.1 && docker tag bitnami/zookeeper:3.9.1 us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/zookeeper:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/zookeeper:v3.1-customer
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - docker pull grafana/grafana:10.1.0 && docker tag grafana/grafana:10.1.0 us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/grafana:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/grafana:v3.1-customer
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - docker pull prom/prometheus:v2.47.0 && docker tag prom/prometheus:v2.47.0 us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/prometheus:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/prometheus:v3.1-customer
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker

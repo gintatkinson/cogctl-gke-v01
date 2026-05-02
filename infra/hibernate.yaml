@@ -1,0 +1,41 @@
+# SOVEREIGN GENESIS: REMOTE HIBERNATION ENGINE
+# Performs a zero-debt purge of the infrastructure context.
+
+steps:
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  id: 'purge-cluster'
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - |
+      set -ex
+      echo "[PURGE] Deleting Cluster: ${_CLUSTER_NAME}..."
+      gcloud container clusters delete "${_CLUSTER_NAME}" \
+          --zone "${_ZONE}" \
+          --project "${PROJECT_ID}" \
+          --quiet
+
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  id: 'purge-disks'
+  waitFor: ['purge-cluster']
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - |
+      set -ex
+      echo "[PURGE] Searching for orphaned PVC disks in ${_ZONE}..."
+      PVC_DISKS=$(gcloud compute disks list --project "${PROJECT_ID}" --filter="zone:${_ZONE} AND name~pvc-.*" --format="value(name)")
+      
+      if [ -n "$PVC_DISKS" ]; then
+          echo "[PURGE] Deleting disks: $PVC_DISKS"
+          gcloud compute disks delete $PVC_DISKS --zone "${_ZONE}" --project "${PROJECT_ID}" --quiet
+      else
+          echo "[PURGE] No orphaned disks found. Zero-debt achieved."
+      fi
+
+substitutions:
+  _CLUSTER_NAME: "sovereign-genesis"
+  _ZONE: "us-central1-a"
+
+options:
+  logging: CLOUD_LOGGING_ONLY

@@ -1,0 +1,80 @@
+steps:
+- args:
+  - -c
+  - docker pull busybox:1.36 && docker tag busybox:1.36 us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/busybox:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/busybox:v3.1-customer
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - docker pull redis:7.0-alpine && docker tag redis:7.0-alpine us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/redis:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/redis:v3.1-customer
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - docker pull nginx:latest && docker tag nginx:latest us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/nginx:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/nginx:v3.1-customer
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - docker pull cockroachdb/cockroach:v22.2.18 && docker tag cockroachdb/cockroach:v22.2.18
+    us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/cockroach:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/cockroach:v3.1-customer
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - docker pull nats:2.9.25-alpine && docker tag nats:2.9.25-alpine us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/nats:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/nats:v3.1-customer
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - docker pull questdb/questdb:7.3.3 && docker tag questdb/questdb:7.3.3 us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/questdb:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/questdb:v3.1-customer
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - docker pull bitnami/kafka:3.7.0 && docker tag bitnami/kafka:3.7.0 us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/kafka:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/kafka:v3.1-customer
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - docker pull bitnami/zookeeper:3.9.1 && docker tag bitnami/zookeeper:3.9.1 us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/zookeeper:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/zookeeper:v3.1-customer
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - docker pull grafana/grafana:10.1.0 && docker tag grafana/grafana:10.1.0 us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/grafana:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/grafana:v3.1-customer
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - docker pull prom/prometheus:v2.47.0 && docker tag prom/prometheus:v2.47.0 us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/prometheus:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/prometheus:v3.1-customer
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - docker pull cockroachdb/cockroach-operator:v2.11.0 && docker tag cockroachdb/cockroach-operator:v2.11.0
+    us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/cockroach-operator:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/cockroach-operator:v3.1-customer
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - "\nfor img in $$(gcloud artifacts docker images list us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs\
+    \ --format='value(package)'); do\n  echo \"Processing $$img...\"\n  LATEST_TAG=$$(gcloud\
+    \ artifacts docker tags list $$img --limit=1 --format='value(tag)' --sort-by='~tag'\
+    \ | grep -v 'v3.1-customer' | head -n 1)\n  if [ ! -z \"$$LATEST_TAG\" ]; then\n\
+    \    echo \"Found tag $$LATEST_TAG for $$img. Mapping to v3.1-customer...\"\n\
+    \    docker pull $$img:$$LATEST_TAG && docker tag $$img:$$LATEST_TAG $$img:v3.1-customer\
+    \ && docker push $$img:v3.1-customer\n  fi\ndone\n"
+  entrypoint: bash
+  name: gcr.io/google.com/cloudsdktool/cloud-sdk

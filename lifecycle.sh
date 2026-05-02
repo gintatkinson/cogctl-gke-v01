@@ -1,38 +1,23 @@
 #!/bin/bash
-set -e
+# SOVEREIGN LIFECYCLE INDUCTION
+# This script is a wrapper for Remote Execution.
+# It contains NO local logic to avoid environment contamination.
 
 COMMAND=$1
-CLUSTER="sovereign-genesis"
-ZONE="us-central1-a"
 
 case $COMMAND in
   shutdown)
-    echo "[SHUTDOWN] Initiating graceful termination of $CLUSTER..."
-    gcloud container clusters delete "$CLUSTER" --zone "$ZONE" --quiet
-    ./foundation_purge.sh
-    echo "[SHUTDOWN] Enclave sanitized. Zero-debt state achieved."
+    echo "[LIFECYCLE] Inducting REMOTE SHUTDOWN..."
+    ./hibernate.sh
     ;;
   
   restart)
-    echo "[RESTART] Ensuring clean slate..."
-    if gcloud container clusters describe "$CLUSTER" --zone "$ZONE" >/dev/null 2>&1; then
-        echo "[RESTART] Active cluster detected. Triggering deep purge first."
-        gcloud container clusters delete "$CLUSTER" --zone "$ZONE" --quiet
-    fi
-    echo "[RESTART] Provisioning fresh infrastructure..."
-    gcloud container clusters create "$CLUSTER" --zone "$ZONE" \
-        --machine-type n1-standard-4 --num-nodes 3 --quiet
-    
-    echo "[RESTART] Authenticating..."
-    gcloud container clusters get-credentials "$CLUSTER" --zone "$ZONE"
-    
-    echo "[RESTART] Waiting for nodes to achieve 'Ready' state..."
-    until kubectl get nodes 2>/dev/null | grep -q " Ready"; do
-      echo "Polling nodes..."
-      sleep 10
-    done
-
-    echo "[RESTART] Inducing 11 Core Services..."
+    echo "[LIFECYCLE] Inducting REMOTE RESTART..."
+    # 1. First trigger the remote ignition (which handles cluster creation)
+    ./awake.sh
+    # 2. The remote ignition manifest should ideally trigger the build, 
+    # but we will follow the SOP and trigger the graduation build here as a second remote step.
+    echo "[LIFECYCLE] Inducting GRADUATION INDUCTION..."
     gcloud builds submit --config infra/cloudbuild_graduation_final.yaml --substitutions=_TAG="rc13-verified" .
     ;;
 

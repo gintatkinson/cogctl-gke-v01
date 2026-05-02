@@ -1,0 +1,475 @@
+steps:
+- args:
+  - -c
+  - docker pull busybox:1.36 && docker tag busybox:1.36 us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/busybox:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/busybox:v3.1-customer
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - docker pull grafana/grafana:10.1.0 && docker tag grafana/grafana:10.1.0 us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/grafana:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/grafana:v3.1-customer
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - docker pull prom/prometheus:v2.47.0 && docker tag prom/prometheus:v2.47.0 us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/prometheus:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/prometheus:v3.1-customer
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - docker pull redis:7.0-alpine && docker tag redis:7.0-alpine us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/redis:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/redis:v3.1-customer
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - 'SUCCESS=0; for v in analytics-backend analytics-backendservice analytics_backend;
+    do echo ''Trying ETSI variant: $v''; if docker pull labs.etsi.org:5050/tfs/controller/$v:latest;
+    then docker tag labs.etsi.org:5050/tfs/controller/$v:latest us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/analytics-backend:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/analytics-backend:v3.1-customer
+    && SUCCESS=1 && break; fi; done; [ $SUCCESS -eq 1 ] || echo ''FAILED to find image
+    for analytics-backend'''
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - 'SUCCESS=0; for v in analytics-frontend analytics-frontendservice analytics_frontend;
+    do echo ''Trying ETSI variant: $v''; if docker pull labs.etsi.org:5050/tfs/controller/$v:latest;
+    then docker tag labs.etsi.org:5050/tfs/controller/$v:latest us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/analytics-frontend:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/analytics-frontend:v3.1-customer
+    && SUCCESS=1 && break; fi; done; [ $SUCCESS -eq 1 ] || echo ''FAILED to find image
+    for analytics-frontend'''
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - 'SUCCESS=0; for v in automationservice automation; do echo ''Trying ETSI variant:
+    $v''; if docker pull labs.etsi.org:5050/tfs/controller/$v:latest; then docker
+    tag labs.etsi.org:5050/tfs/controller/$v:latest us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/automationservice:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/automationservice:v3.1-customer
+    && SUCCESS=1 && break; fi; done; [ $SUCCESS -eq 1 ] || echo ''FAILED to find image
+    for automationservice'''
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - 'SUCCESS=0; for v in bgpls_speaker bgpls_speakerservice bgpls-speaker; do echo
+    ''Trying ETSI variant: $v''; if docker pull labs.etsi.org:5050/tfs/controller/$v:latest;
+    then docker tag labs.etsi.org:5050/tfs/controller/$v:latest us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/bgpls_speaker:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/bgpls_speaker:v3.1-customer
+    && SUCCESS=1 && break; fi; done; [ $SUCCESS -eq 1 ] || echo ''FAILED to find image
+    for bgpls_speaker'''
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - 'SUCCESS=0; for v in cockroach-operator cockroach-operatorservice cockroach_operator;
+    do echo ''Trying ETSI variant: $v''; if docker pull labs.etsi.org:5050/tfs/controller/$v:latest;
+    then docker tag labs.etsi.org:5050/tfs/controller/$v:latest us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/cockroach-operator:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/cockroach-operator:v3.1-customer
+    && SUCCESS=1 && break; fi; done; [ $SUCCESS -eq 1 ] || echo ''FAILED to find image
+    for cockroach-operator'''
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - 'SUCCESS=0; for v in contextservice context; do echo ''Trying ETSI variant: $v'';
+    if docker pull labs.etsi.org:5050/tfs/controller/$v:latest; then docker tag labs.etsi.org:5050/tfs/controller/$v:latest
+    us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/contextservice:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/contextservice:v3.1-customer
+    && SUCCESS=1 && break; fi; done; [ $SUCCESS -eq 1 ] || echo ''FAILED to find image
+    for contextservice'''
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - 'SUCCESS=0; for v in dbscanserving dbscanservingservice; do echo ''Trying ETSI
+    variant: $v''; if docker pull labs.etsi.org:5050/tfs/controller/$v:latest; then
+    docker tag labs.etsi.org:5050/tfs/controller/$v:latest us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/dbscanserving:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/dbscanserving:v3.1-customer
+    && SUCCESS=1 && break; fi; done; [ $SUCCESS -eq 1 ] || echo ''FAILED to find image
+    for dbscanserving'''
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - 'SUCCESS=0; for v in deviceservice device; do echo ''Trying ETSI variant: $v'';
+    if docker pull labs.etsi.org:5050/tfs/controller/$v:latest; then docker tag labs.etsi.org:5050/tfs/controller/$v:latest
+    us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/deviceservice:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/deviceservice:v3.1-customer
+    && SUCCESS=1 && break; fi; done; [ $SUCCESS -eq 1 ] || echo ''FAILED to find image
+    for deviceservice'''
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - 'SUCCESS=0; for v in dlt-connector dlt dlt-connectorservice dlt_connector; do
+    echo ''Trying ETSI variant: $v''; if docker pull labs.etsi.org:5050/tfs/controller/$v:latest;
+    then docker tag labs.etsi.org:5050/tfs/controller/$v:latest us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/dlt-connector:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/dlt-connector:v3.1-customer
+    && SUCCESS=1 && break; fi; done; [ $SUCCESS -eq 1 ] || echo ''FAILED to find image
+    for dlt-connector'''
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - 'SUCCESS=0; for v in dlt-gateway dlt dlt-gatewayservice dlt_gateway; do echo ''Trying
+    ETSI variant: $v''; if docker pull labs.etsi.org:5050/tfs/controller/$v:latest;
+    then docker tag labs.etsi.org:5050/tfs/controller/$v:latest us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/dlt-gateway:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/dlt-gateway:v3.1-customer
+    && SUCCESS=1 && break; fi; done; [ $SUCCESS -eq 1 ] || echo ''FAILED to find image
+    for dlt-gateway'''
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - 'SUCCESS=0; for v in e2e_orchestrator e2e_orchestratorservice e2e-orchestrator;
+    do echo ''Trying ETSI variant: $v''; if docker pull labs.etsi.org:5050/tfs/controller/$v:latest;
+    then docker tag labs.etsi.org:5050/tfs/controller/$v:latest us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/e2e_orchestrator:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/e2e_orchestrator:v3.1-customer
+    && SUCCESS=1 && break; fi; done; [ $SUCCESS -eq 1 ] || echo ''FAILED to find image
+    for e2e_orchestrator'''
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - 'SUCCESS=0; for v in forecaster forecasterservice; do echo ''Trying ETSI variant:
+    $v''; if docker pull labs.etsi.org:5050/tfs/controller/$v:latest; then docker
+    tag labs.etsi.org:5050/tfs/controller/$v:latest us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/forecaster:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/forecaster:v3.1-customer
+    && SUCCESS=1 && break; fi; done; [ $SUCCESS -eq 1 ] || echo ''FAILED to find image
+    for forecaster'''
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - 'SUCCESS=0; for v in interdomain interdomainservice; do echo ''Trying ETSI variant:
+    $v''; if docker pull labs.etsi.org:5050/tfs/controller/$v:latest; then docker
+    tag labs.etsi.org:5050/tfs/controller/$v:latest us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/interdomain:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/interdomain:v3.1-customer
+    && SUCCESS=1 && break; fi; done; [ $SUCCESS -eq 1 ] || echo ''FAILED to find image
+    for interdomain'''
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - docker pull bitnami/kafka:3.7.0 && docker tag bitnami/kafka:3.7.0 us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/kafka:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/kafka:v3.1-customer
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - 'SUCCESS=0; for v in kpi_manager kpi_managerservice kpi-manager; do echo ''Trying
+    ETSI variant: $v''; if docker pull labs.etsi.org:5050/tfs/controller/$v:latest;
+    then docker tag labs.etsi.org:5050/tfs/controller/$v:latest us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/kpi_manager:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/kpi_manager:v3.1-customer
+    && SUCCESS=1 && break; fi; done; [ $SUCCESS -eq 1 ] || echo ''FAILED to find image
+    for kpi_manager'''
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - 'SUCCESS=0; for v in kpi_value_api kpi_value_apiservice kpi-value-api; do echo
+    ''Trying ETSI variant: $v''; if docker pull labs.etsi.org:5050/tfs/controller/$v:latest;
+    then docker tag labs.etsi.org:5050/tfs/controller/$v:latest us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/kpi_value_api:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/kpi_value_api:v3.1-customer
+    && SUCCESS=1 && break; fi; done; [ $SUCCESS -eq 1 ] || echo ''FAILED to find image
+    for kpi_value_api'''
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - 'SUCCESS=0; for v in kpi_value_writer kpi_value_writerservice kpi-value-writer;
+    do echo ''Trying ETSI variant: $v''; if docker pull labs.etsi.org:5050/tfs/controller/$v:latest;
+    then docker tag labs.etsi.org:5050/tfs/controller/$v:latest us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/kpi_value_writer:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/kpi_value_writer:v3.1-customer
+    && SUCCESS=1 && break; fi; done; [ $SUCCESS -eq 1 ] || echo ''FAILED to find image
+    for kpi_value_writer'''
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - 'SUCCESS=0; for v in l3_attackmitigator l3_attackmitigatorservice l3-attackmitigator;
+    do echo ''Trying ETSI variant: $v''; if docker pull labs.etsi.org:5050/tfs/controller/$v:latest;
+    then docker tag labs.etsi.org:5050/tfs/controller/$v:latest us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/l3_attackmitigator:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/l3_attackmitigator:v3.1-customer
+    && SUCCESS=1 && break; fi; done; [ $SUCCESS -eq 1 ] || echo ''FAILED to find image
+    for l3_attackmitigator'''
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - 'SUCCESS=0; for v in l3_centralizedattackdetector l3_centralizedattackdetectorservice
+    l3-centralizedattackdetector; do echo ''Trying ETSI variant: $v''; if docker pull
+    labs.etsi.org:5050/tfs/controller/$v:latest; then docker tag labs.etsi.org:5050/tfs/controller/$v:latest
+    us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/l3_centralizedattackdetector:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/l3_centralizedattackdetector:v3.1-customer
+    && SUCCESS=1 && break; fi; done; [ $SUCCESS -eq 1 ] || echo ''FAILED to find image
+    for l3_centralizedattackdetector'''
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - 'SUCCESS=0; for v in l3_distributedattackdetector l3_distributedattackdetectorservice
+    l3-distributedattackdetector; do echo ''Trying ETSI variant: $v''; if docker pull
+    labs.etsi.org:5050/tfs/controller/$v:latest; then docker tag labs.etsi.org:5050/tfs/controller/$v:latest
+    us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/l3_distributedattackdetector:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/l3_distributedattackdetector:v3.1-customer
+    && SUCCESS=1 && break; fi; done; [ $SUCCESS -eq 1 ] || echo ''FAILED to find image
+    for l3_distributedattackdetector'''
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - 'SUCCESS=0; for v in load_generator load_generatorservice load-generator; do echo
+    ''Trying ETSI variant: $v''; if docker pull labs.etsi.org:5050/tfs/controller/$v:latest;
+    then docker tag labs.etsi.org:5050/tfs/controller/$v:latest us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/load_generator:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/load_generator:v3.1-customer
+    && SUCCESS=1 && break; fi; done; [ $SUCCESS -eq 1 ] || echo ''FAILED to find image
+    for load_generator'''
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - 'SUCCESS=0; for v in mock_blockchain mock-blockchain mock_blockchainservice; do
+    echo ''Trying ETSI variant: $v''; if docker pull labs.etsi.org:5050/tfs/controller/$v:latest;
+    then docker tag labs.etsi.org:5050/tfs/controller/$v:latest us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/mock_blockchain:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/mock_blockchain:v3.1-customer
+    && SUCCESS=1 && break; fi; done; [ $SUCCESS -eq 1 ] || echo ''FAILED to find image
+    for mock_blockchain'''
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - 'SUCCESS=0; for v in monitoringservice monitoring; do echo ''Trying ETSI variant:
+    $v''; if docker pull labs.etsi.org:5050/tfs/controller/$v:latest; then docker
+    tag labs.etsi.org:5050/tfs/controller/$v:latest us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/monitoringservice:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/monitoringservice:v3.1-customer
+    && SUCCESS=1 && break; fi; done; [ $SUCCESS -eq 1 ] || echo ''FAILED to find image
+    for monitoringservice'''
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - docker pull nats:2.9.25-alpine && docker tag nats:2.9.25-alpine us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/nats:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/nats:v3.1-customer
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - 'SUCCESS=0; for v in nbi nbiservice; do echo ''Trying ETSI variant: $v''; if docker
+    pull labs.etsi.org:5050/tfs/controller/$v:latest; then docker tag labs.etsi.org:5050/tfs/controller/$v:latest
+    us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/nbi:v3.1-customer && docker
+    push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/nbi:v3.1-customer
+    && SUCCESS=1 && break; fi; done; [ $SUCCESS -eq 1 ] || echo ''FAILED to find image
+    for nbi'''
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - 'SUCCESS=0; for v in opticalattackdetector opticalattackdetectorservice; do echo
+    ''Trying ETSI variant: $v''; if docker pull labs.etsi.org:5050/tfs/controller/$v:latest;
+    then docker tag labs.etsi.org:5050/tfs/controller/$v:latest us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/opticalattackdetector:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/opticalattackdetector:v3.1-customer
+    && SUCCESS=1 && break; fi; done; [ $SUCCESS -eq 1 ] || echo ''FAILED to find image
+    for opticalattackdetector'''
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - 'SUCCESS=0; for v in opticalattackmanager opticalattackmanagerservice; do echo
+    ''Trying ETSI variant: $v''; if docker pull labs.etsi.org:5050/tfs/controller/$v:latest;
+    then docker tag labs.etsi.org:5050/tfs/controller/$v:latest us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/opticalattackmanager:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/opticalattackmanager:v3.1-customer
+    && SUCCESS=1 && break; fi; done; [ $SUCCESS -eq 1 ] || echo ''FAILED to find image
+    for opticalattackmanager'''
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - 'SUCCESS=0; for v in opticalattackmitigator opticalattackmitigatorservice; do
+    echo ''Trying ETSI variant: $v''; if docker pull labs.etsi.org:5050/tfs/controller/$v:latest;
+    then docker tag labs.etsi.org:5050/tfs/controller/$v:latest us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/opticalattackmitigator:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/opticalattackmitigator:v3.1-customer
+    && SUCCESS=1 && break; fi; done; [ $SUCCESS -eq 1 ] || echo ''FAILED to find image
+    for opticalattackmitigator'''
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - 'SUCCESS=0; for v in opticalcontroller opticalcontrollerservice; do echo ''Trying
+    ETSI variant: $v''; if docker pull labs.etsi.org:5050/tfs/controller/$v:latest;
+    then docker tag labs.etsi.org:5050/tfs/controller/$v:latest us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/opticalcontroller:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/opticalcontroller:v3.1-customer
+    && SUCCESS=1 && break; fi; done; [ $SUCCESS -eq 1 ] || echo ''FAILED to find image
+    for opticalcontroller'''
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - 'SUCCESS=0; for v in osm_client osm_clientservice osm-client; do echo ''Trying
+    ETSI variant: $v''; if docker pull labs.etsi.org:5050/tfs/controller/$v:latest;
+    then docker tag labs.etsi.org:5050/tfs/controller/$v:latest us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/osm_client:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/osm_client:v3.1-customer
+    && SUCCESS=1 && break; fi; done; [ $SUCCESS -eq 1 ] || echo ''FAILED to find image
+    for osm_client'''
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - 'SUCCESS=0; for v in pathcomp-backend pathcomp-backendservice pathcomp_backend;
+    do echo ''Trying ETSI variant: $v''; if docker pull labs.etsi.org:5050/tfs/controller/$v:latest;
+    then docker tag labs.etsi.org:5050/tfs/controller/$v:latest us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/pathcomp-backend:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/pathcomp-backend:v3.1-customer
+    && SUCCESS=1 && break; fi; done; [ $SUCCESS -eq 1 ] || echo ''FAILED to find image
+    for pathcomp-backend'''
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - 'SUCCESS=0; for v in pathcomp-frontend pathcomp-frontendservice pathcomp_frontend;
+    do echo ''Trying ETSI variant: $v''; if docker pull labs.etsi.org:5050/tfs/controller/$v:latest;
+    then docker tag labs.etsi.org:5050/tfs/controller/$v:latest us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/pathcomp-frontend:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/pathcomp-frontend:v3.1-customer
+    && SUCCESS=1 && break; fi; done; [ $SUCCESS -eq 1 ] || echo ''FAILED to find image
+    for pathcomp-frontend'''
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - 'SUCCESS=0; for v in policy policyservice; do echo ''Trying ETSI variant: $v'';
+    if docker pull labs.etsi.org:5050/tfs/controller/$v:latest; then docker tag labs.etsi.org:5050/tfs/controller/$v:latest
+    us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/policy:v3.1-customer &&
+    docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/policy:v3.1-customer
+    && SUCCESS=1 && break; fi; done; [ $SUCCESS -eq 1 ] || echo ''FAILED to find image
+    for policy'''
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - 'SUCCESS=0; for v in qkd_app qkd_appservice qkd-app; do echo ''Trying ETSI variant:
+    $v''; if docker pull labs.etsi.org:5050/tfs/controller/$v:latest; then docker
+    tag labs.etsi.org:5050/tfs/controller/$v:latest us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/qkd_app:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/qkd_app:v3.1-customer
+    && SUCCESS=1 && break; fi; done; [ $SUCCESS -eq 1 ] || echo ''FAILED to find image
+    for qkd_app'''
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - 'SUCCESS=0; for v in qos_profile qos_profileservice qos-profile; do echo ''Trying
+    ETSI variant: $v''; if docker pull labs.etsi.org:5050/tfs/controller/$v:latest;
+    then docker tag labs.etsi.org:5050/tfs/controller/$v:latest us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/qos_profile:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/qos_profile:v3.1-customer
+    && SUCCESS=1 && break; fi; done; [ $SUCCESS -eq 1 ] || echo ''FAILED to find image
+    for qos_profile'''
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - docker pull questdb/questdb:7.3.3 && docker tag questdb/questdb:7.3.3 us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/questdb:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/questdb:v3.1-customer
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - 'SUCCESS=0; for v in serviceservice ; do echo ''Trying ETSI variant: $v''; if
+    docker pull labs.etsi.org:5050/tfs/controller/$v:latest; then docker tag labs.etsi.org:5050/tfs/controller/$v:latest
+    us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/serviceservice:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/serviceservice:v3.1-customer
+    && SUCCESS=1 && break; fi; done; [ $SUCCESS -eq 1 ] || echo ''FAILED to find image
+    for serviceservice'''
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - 'SUCCESS=0; for v in simap_connector simap_connectorservice simap-connector; do
+    echo ''Trying ETSI variant: $v''; if docker pull labs.etsi.org:5050/tfs/controller/$v:latest;
+    then docker tag labs.etsi.org:5050/tfs/controller/$v:latest us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/simap_connector:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/simap_connector:v3.1-customer
+    && SUCCESS=1 && break; fi; done; [ $SUCCESS -eq 1 ] || echo ''FAILED to find image
+    for simap_connector'''
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - 'SUCCESS=0; for v in sliceservice slice; do echo ''Trying ETSI variant: $v'';
+    if docker pull labs.etsi.org:5050/tfs/controller/$v:latest; then docker tag labs.etsi.org:5050/tfs/controller/$v:latest
+    us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/sliceservice:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/sliceservice:v3.1-customer
+    && SUCCESS=1 && break; fi; done; [ $SUCCESS -eq 1 ] || echo ''FAILED to find image
+    for sliceservice'''
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - 'SUCCESS=0; for v in te teservice; do echo ''Trying ETSI variant: $v''; if docker
+    pull labs.etsi.org:5050/tfs/controller/$v:latest; then docker tag labs.etsi.org:5050/tfs/controller/$v:latest
+    us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/te:v3.1-customer && docker
+    push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/te:v3.1-customer
+    && SUCCESS=1 && break; fi; done; [ $SUCCESS -eq 1 ] || echo ''FAILED to find image
+    for te'''
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - 'SUCCESS=0; for v in telemetry-backend telemetry-backendservice telemetry_backend;
+    do echo ''Trying ETSI variant: $v''; if docker pull labs.etsi.org:5050/tfs/controller/$v:latest;
+    then docker tag labs.etsi.org:5050/tfs/controller/$v:latest us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/telemetry-backend:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/telemetry-backend:v3.1-customer
+    && SUCCESS=1 && break; fi; done; [ $SUCCESS -eq 1 ] || echo ''FAILED to find image
+    for telemetry-backend'''
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - 'SUCCESS=0; for v in telemetry-frontend telemetry-frontendservice telemetry_frontend;
+    do echo ''Trying ETSI variant: $v''; if docker pull labs.etsi.org:5050/tfs/controller/$v:latest;
+    then docker tag labs.etsi.org:5050/tfs/controller/$v:latest us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/telemetry-frontend:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/telemetry-frontend:v3.1-customer
+    && SUCCESS=1 && break; fi; done; [ $SUCCESS -eq 1 ] || echo ''FAILED to find image
+    for telemetry-frontend'''
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - 'SUCCESS=0; for v in vnt_manager vnt_managerservice vnt-manager; do echo ''Trying
+    ETSI variant: $v''; if docker pull labs.etsi.org:5050/tfs/controller/$v:latest;
+    then docker tag labs.etsi.org:5050/tfs/controller/$v:latest us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/vnt_manager:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/vnt_manager:v3.1-customer
+    && SUCCESS=1 && break; fi; done; [ $SUCCESS -eq 1 ] || echo ''FAILED to find image
+    for vnt_manager'''
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - 'SUCCESS=0; for v in webui webuiservice; do echo ''Trying ETSI variant: $v'';
+    if docker pull labs.etsi.org:5050/tfs/controller/$v:latest; then docker tag labs.etsi.org:5050/tfs/controller/$v:latest
+    us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/webui:v3.1-customer &&
+    docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/webui:v3.1-customer
+    && SUCCESS=1 && break; fi; done; [ $SUCCESS -eq 1 ] || echo ''FAILED to find image
+    for webui'''
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - 'SUCCESS=0; for v in ztp ztpservice; do echo ''Trying ETSI variant: $v''; if docker
+    pull labs.etsi.org:5050/tfs/controller/$v:latest; then docker tag labs.etsi.org:5050/tfs/controller/$v:latest
+    us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/ztp:v3.1-customer && docker
+    push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/ztp:v3.1-customer
+    && SUCCESS=1 && break; fi; done; [ $SUCCESS -eq 1 ] || echo ''FAILED to find image
+    for ztp'''
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker
+- args:
+  - -c
+  - 'SUCCESS=0; for v in ztp_server ztp_serverservice ztp-server; do echo ''Trying
+    ETSI variant: $v''; if docker pull labs.etsi.org:5050/tfs/controller/$v:latest;
+    then docker tag labs.etsi.org:5050/tfs/controller/$v:latest us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/ztp_server:v3.1-customer
+    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/ztp_server:v3.1-customer
+    && SUCCESS=1 && break; fi; done; [ $SUCCESS -eq 1 ] || echo ''FAILED to find image
+    for ztp_server'''
+  entrypoint: bash
+  name: gcr.io/cloud-builders/docker

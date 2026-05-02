@@ -1,0 +1,107 @@
+# SOVEREIGN GENESIS: REMOTE INFRASTRUCTURE IGNITION (THE CLEAN ROOM)
+# Executes STAGES 1-8 of the Sovereign Fabric creation in a hermetic environment.
+
+steps:
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  id: 'setup-network'
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - |
+      set -ex
+      VPC_NAME="sovereign-vpc-${_ID}"
+      SUBNET_NAME="sovereign-subnet-${_ID}"
+      
+      echo "[STAGE 3] Building Immutable VPC: $VPC_NAME..."
+      gcloud compute networks create "$VPC_NAME" \
+          --subnet-mode=custom \
+          --project="${PROJECT_ID}"
+
+      echo "[STAGE 4] Building Subnet Fabric..."
+      gcloud compute networks subnets create "$SUBNET_NAME" \
+          --network="$VPC_NAME" \
+          --range=10.10.0.0/24 \
+          --secondary-range=gke-pods=10.100.0.0/16,gke-services=10.101.0.0/20 \
+          --region="${_REGION}" \
+          --enable-private-ip-google-access \
+          --project="${PROJECT_ID}"
+
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  id: 'setup-egress'
+  waitFor: ['setup-network']
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - |
+      set -ex
+      VPC_NAME="sovereign-vpc-${_ID}"
+      ROUTER_NAME="sovereign-router-${_ID}"
+      NAT_NAME="sovereign-nat-${_ID}"
+
+      echo "[STAGE 5] Provisioning Cloud NAT..."
+      gcloud compute routers create "$ROUTER_NAME" \
+          --network="$VPC_NAME" \
+          --region="${_REGION}" \
+          --project="${PROJECT_ID}"
+
+      gcloud compute routers nats create "$NAT_NAME" \
+          --router="$ROUTER_NAME" \
+          --region="${_REGION}" \
+          --auto-allocate-nat-external-ips \
+          --nat-all-subnet-ip-ranges \
+          --project="${PROJECT_ID}"
+
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  id: 'setup-firewall'
+  waitFor: ['setup-network']
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - |
+      set -ex
+      VPC_NAME="sovereign-vpc-${_ID}"
+      
+      echo "[STAGE 7] Establishing Security Perimeter..."
+      gcloud compute firewall-rules create "sovereign-allow-internal-${_ID}" \
+          --network="$VPC_NAME" \
+          --allow=tcp,udp,icmp \
+          --source-ranges=10.10.0.0/16 \
+          --project="${PROJECT_ID}"
+
+      gcloud compute firewall-rules create "sovereign-allow-public-web-${_ID}" \
+          --network="$VPC_NAME" \
+          --allow=tcp:80,tcp:443 \
+          --source-ranges=0.0.0.0/0 \
+          --project="${PROJECT_ID}"
+
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  id: 'setup-cluster'
+  waitFor: ['setup-egress', 'setup-firewall']
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - |
+      set -ex
+      VPC_NAME="sovereign-vpc-${_ID}"
+      SUBNET_NAME="sovereign-subnet-${_ID}"
+      CLUSTER_NAME="sovereign-genesis-${_ID}"
+
+      echo "[STAGE 8] Ignition - Creating Hardened Zonal Cluster..."
+      gcloud container clusters create "$CLUSTER_NAME" \
+          --zone "${_REGION}-a" \
+          --num-nodes 1 \
+          --machine-type e2-standard-4 \
+          --disk-size 50GB \
+          --network "$VPC_NAME" \
+          --subnetwork "$SUBNET_NAME" \
+          --cluster-secondary-range-name gke-pods \
+          --services-secondary-range-name gke-services \
+          --enable-ip-alias \
+          --project="${PROJECT_ID}"
+
+substitutions:
+  _ID: "manual"
+  _REGION: "us-central1"
+
+options:
+  logging: CLOUD_LOGGING_ONLY

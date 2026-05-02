@@ -1,0 +1,26 @@
+# SOVEREIGN GENESIS: REMOTE TERRAFORM ORCHESTRATION
+# Executes infrastructure state changes in a controlled HashiCorp container.
+
+steps:
+- name: 'hashicorp/terraform:latest'
+  id: 'tf-init'
+  entrypoint: 'sh'
+  args:
+    - '-c'
+    - |
+      cd infra/terraform && terraform init
+
+- name: 'hashicorp/terraform:latest'
+  id: 'tf-apply'
+  waitFor: ['tf-init']
+  entrypoint: 'sh'
+  args:
+    - '-c'
+    - |
+      cd infra/terraform && terraform ${_TF_ACTION} -auto-approve
+
+substitutions:
+  _TF_ACTION: "apply" # or "destroy"
+
+options:
+  logging: CLOUD_LOGGING_ONLY

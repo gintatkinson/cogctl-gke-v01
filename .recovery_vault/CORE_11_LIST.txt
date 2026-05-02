@@ -1,0 +1,14 @@
+infra/manifests/backbone/05-crdb-crds.yaml
+infra/manifests/backbone/04-crdb-operator.yaml
+infra/manifests/backbone/06-crdb-cluster.yaml
+infra/manifests/backbone/02-kafka.yaml
+infra/manifests/backbone/03-questdb.yaml
+infra/manifests/backbone/01-nats.yaml
+infra/manifests/services/contextservice.yaml
+infra/manifests/services/deviceservice.yaml
+infra/manifests/services/serviceservice.yaml
+infra/manifests/services/pathcompservice.yaml
+infra/manifests/services/webuiservice.yaml
+infra/manifests/services/nbiservice.yaml
+infra/manifests/services/monitoringservice.yaml
+infra/manifests/services/analyticsservice.yaml

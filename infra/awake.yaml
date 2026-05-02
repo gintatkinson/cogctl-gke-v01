@@ -1,0 +1,52 @@
+# SOVEREIGN GENESIS: REMOTE IGNITION ENGINE
+# Rebuilds compute and deploys the full service stack from within the cloud.
+
+steps:
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  id: 'create-cluster'
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - |
+      set -ex
+      echo "[IGNITION] Creating Cluster: ${_CLUSTER_NAME}..."
+      gcloud container clusters create "${_CLUSTER_NAME}" \
+          --zone "${_ZONE}" \
+          --num-nodes 3 \
+          --machine-type n1-standard-4 \
+          --project "${PROJECT_ID}" \
+          --quiet
+
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  id: 'deploy-backbone'
+  waitFor: ['create-cluster']
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - |
+      set -ex
+      gcloud container clusters get-credentials "${_CLUSTER_NAME}" --zone "${_ZONE}" --project "${PROJECT_ID}"
+      echo "[IGNITION] Deploying backbone infrastructure..."
+      kubectl apply -f infra/manifests/backbone/
+      sleep 10
+
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  id: 'deploy-services'
+  waitFor: ['deploy-backbone']
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - |
+      set -ex
+      gcloud container clusters get-credentials "${_CLUSTER_NAME}" --zone "${_ZONE}" --project "${PROJECT_ID}"
+      echo "[IGNITION] Deploying application services..."
+      kubectl apply -f infra/manifests/services/
+      kubectl apply -f infra/gce_ingress.yaml
+      echo "[SUCCESS] Enclave is operational."
+
+substitutions:
+  _CLUSTER_NAME: "sovereign-genesis"
+  _ZONE: "us-central1-a"
+
+options:
+  logging: CLOUD_LOGGING_ONLY

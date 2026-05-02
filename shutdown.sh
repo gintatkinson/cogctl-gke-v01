@@ -1,5 +1,6 @@
 #!/bin/bash
-CLUSTER_NAME="sovereign-genesis"
-ZONE="us-central1-a"
-echo "Initiating total infrastructure purge..."
-gcloud container clusters delete $CLUSTER_NAME --zone $ZONE --quiet
+# SOVEREIGN SHUTDOWN INDUCTION
+# Portal to the Remote Hibernation Engine.
+
+echo "--- INDUCTING REMOTE INFRASTRUCTURE PURGE ---"
+./hibernate.sh

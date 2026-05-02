@@ -1,24 +1,37 @@
-# Sovereign "Wisdom Harvest" Master Index 
+# Sovereign "Wisdom Harvest" (Cognitive Controller)
 
-**Domain:** GKE Genesis v3.0 Infrastructure 
-**Status:** Reconciled / Hardened 
+**Mandate:** Zero-Local Contamination.
+**Execution Engine:** GKE / Cloud Build.
+**Source of Truth:** GitHub (gintatkinson/cogctl-gke-v01).
 
-This index serves as the primary gateway to the Sovereign implementation plans and forensic artifacts. 
+This repository is an **Induction Staging Area**. The local environment (Workstation) contains NO operational logic. All infrastructure lifecycle events are managed via Remote Induction.
 
-## 1. Solution Briefs (`/docs/solutions/`) 
-Core architectural hardening and bug-fix specifications. 
-*   [SPEC_CRDB_RESOLUTION.md](solutions/SPEC_CRDB_RESOLUTION.md) - **Authoritative:** NATS/Context gRPC identity and NATS_NAMESPACE resolution. 
-*   [solution_spec_crdb_operator_genesis.md](solutions/solution_spec_crdb_operator_genesis.md) - CRDB persistence and operator stabilization. 
-*   [solution_spec_foundation_fidelity_correction.md](solutions/solution_spec_foundation_fidelity_correction.md) - Kafka broker (nbiservice) reconciliation. 
-*   [solution_spec_readiness_relaxation.md](solutions/solution_spec_readiness_relaxation.md) - GKE Autopilot readiness probe bypassing protocol. 
-*   [audit_foundation_fidelity.md](solutions/audit_foundation_fidelity.md) - Baseline image mirror and registry audit. 
+---
 
-## 2. Forensic Records (`/docs/incidents/`) 
-Logs and audits from the Genesis v3.0 birth cycle. 
-*   [13_SCREEN_AUDIT.md](incidents/13_SCREEN_AUDIT.md) - Detailed UI/UX compliance verification. 
-*   [RECOVERY_ANCHOR.md](incidents/RECOVERY_ANCHOR.md) - Post-reconciliation operational state. 
-*   [SUCCESSION_LOG.md](incidents/SUCCESSION_LOG.md) - Timeline of infrastructure birthing. 
+## 🚀 Core Induction Gateways
+These scripts are the ONLY authorized entry points for the system. They perform zero local execution and hand off all logic to stable, cloud-managed containers.
 
-## 3. Standard Operating Procedures (SOPs) 
-Sequential execution paths for infrastructure management. 
-*   [SOP-01 through SOP-06](solutions/) - Standard restoration workflows.
+| Script | Purpose | Remote Manifest |
+| :--- | :--- | :--- |
+| `./awake.sh` | **Total Ignition**: Provisions GKE and deploys all services. | `infra/awake.yaml` |
+| `./hibernate.sh`| **Total Purge**: Deletes cluster and disks (Zero-Debt). | `infra/hibernate.yaml` |
+| `./lifecycle.sh`| **Orchestrator**: Unified Restart/Shutdown control. | (Delegates to above) |
+| `./sovereign-control.sh`| **Control Plane**: Terraform-based state management. | `infra/terraform.yaml` |
+
+---
+
+## 🛡️ Sovereign Build Law
+1.  **NO LOCAL TOOLS**: Never execute `gcloud container`, `kubectl`, or `terraform` directly from the workstation.
+2.  **OS IMMUNITY**: The system must remain operational regardless of the workstation's OS version, CPU architecture, or local Python state.
+3.  **HERMETIC BUILD**: All build steps must run in containerized environments (Cloud Build) using verified images (`cloud-sdk`, `terraform`).
+
+---
+
+## 📂 Documentation Structure
+*   [`SOP_OPERATIONS.md`](SOP_OPERATIONS.md): The authoritative operational manual.
+*   [`docs/solutions/`](docs/solutions/): Hardened architectural specifications.
+*   [`infra/`](infra/): Remote Induction Manifests (The Reality).
+*   [`baseline/`](baseline/): Project source code (TFS-Controller).
+
+---
+**Status:** All local logic has been EXCISED. The system is now IMMUNE to local environment drift.
