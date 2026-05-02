@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ztpservice
+  name: ztp-server-service
   namespace: sovereign-genesis
 spec:
   selector:
     matchLabels:
-      app: ztpservice
+      app: ztp-server-service
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: ztpservice
+        app: ztp-server-service
     spec:
       containers:
       - env:
@@ -56,8 +56,8 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: ztpservice
-  name: ztpservice
+    app: ztp-server-service
+  name: ztp-server-service
   namespace: sovereign-genesis
 spec:
   ports:
@@ -74,5 +74,5 @@ spec:
     protocol: TCP
     targetPort: 9192
   selector:
-    app: ztpservice
+    app: ztp-server-service
   type: ClusterIP
