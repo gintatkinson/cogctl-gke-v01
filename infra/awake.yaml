@@ -50,7 +50,7 @@ steps:
       kubectl create namespace "${_NAMESPACE}" --dry-run=client -o yaml | kubectl apply -f -
 
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-  id: 'deploy-backbone'
+  id: 'deploy-crds-and-operator'
   waitFor: ['create-namespace']
   entrypoint: 'bash'
   args:
@@ -58,13 +58,31 @@ steps:
     - |
       set -ex
       gcloud container clusters get-credentials "${_CLUSTER_NAME}" --zone "${_ZONE}" --project "${PROJECT_ID}"
-      echo "[IGNITION] Deploying backbone infrastructure onto ${_NAMESPACE}..."
-      kubectl apply -f infra/manifests/backbone/ -n "${_NAMESPACE}"
+      echo "[IGNITION] Registering CRDs and Operators..."
+      kubectl apply -f infra/manifests/backbone/04-crdb-operator.yaml -n "${_NAMESPACE}"
+      kubectl apply -f infra/manifests/backbone/05-crdb-crds.yaml -n "${_NAMESPACE}"
+      echo "Waiting for CRD reconciliation..."
+      sleep 30
+
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  id: 'deploy-backbone-instances'
+  waitFor: ['deploy-crds-and-operator']
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - |
+      set -ex
+      gcloud container clusters get-credentials "${_CLUSTER_NAME}" --zone "${_ZONE}" --project "${PROJECT_ID}"
+      echo "[IGNITION] Inducting Backbone Software Instances..."
+      kubectl apply -f infra/manifests/backbone/01-nats.yaml -n "${_NAMESPACE}"
+      kubectl apply -f infra/manifests/backbone/02-kafka.yaml -n "${_NAMESPACE}"
+      kubectl apply -f infra/manifests/backbone/03-questdb.yaml -n "${_NAMESPACE}"
+      kubectl apply -f infra/manifests/backbone/06-crdb-cluster.yaml -n "${_NAMESPACE}"
       sleep 15
 
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   id: 'deploy-services'
-  waitFor: ['deploy-backbone']
+  waitFor: ['deploy-backbone-instances']
   entrypoint: 'bash'
   args:
     - '-c'
