@@ -10,7 +10,6 @@ steps:
     - |
       set -ex
       echo "[IGNITION] Creating Cluster: ${_CLUSTER_NAME}..."
-      # Use --no-enable-basic-auth and other best practices for aarch64 compatibility
       gcloud container clusters create "${_CLUSTER_NAME}" \
           --zone "${_ZONE}" \
           --num-nodes 3 \
@@ -28,7 +27,6 @@ steps:
       set -ex
       gcloud container clusters get-credentials "${_CLUSTER_NAME}" --zone "${_ZONE}" --project "${PROJECT_ID}"
       echo "[IGNITION] Waiting for cluster nodes to achieve 'Ready' status..."
-      # Polling loop to ensure the API server is reachable and nodes are online
       for i in {1..20}; do
         if kubectl get nodes | grep -q " Ready"; then
           echo "[SUCCESS] Cluster is responsive."
@@ -37,11 +35,10 @@ steps:
         echo "Waiting for nodes... ($i/20)"
         sleep 15
       done
-      echo "TIMEOUT: Cluster failed to achieve readiness."
       exit 1
 
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-  id: 'deploy-backbone'
+  id: 'create-namespace'
   waitFor: ['wait-for-readiness']
   entrypoint: 'bash'
   args:
@@ -49,8 +46,20 @@ steps:
     - |
       set -ex
       gcloud container clusters get-credentials "${_CLUSTER_NAME}" --zone "${_ZONE}" --project "${PROJECT_ID}"
-      echo "[IGNITION] Deploying backbone infrastructure..."
-      kubectl apply -f infra/manifests/backbone/
+      echo "[IGNITION] Creating Sovereign Namespace: ${_NAMESPACE}..."
+      kubectl create namespace "${_NAMESPACE}" --dry-run=client -o yaml | kubectl apply -f -
+
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  id: 'deploy-backbone'
+  waitFor: ['create-namespace']
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - |
+      set -ex
+      gcloud container clusters get-credentials "${_CLUSTER_NAME}" --zone "${_ZONE}" --project "${PROJECT_ID}"
+      echo "[IGNITION] Deploying backbone infrastructure onto ${_NAMESPACE}..."
+      kubectl apply -f infra/manifests/backbone/ -n "${_NAMESPACE}"
       sleep 15
 
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
@@ -62,14 +71,15 @@ steps:
     - |
       set -ex
       gcloud container clusters get-credentials "${_CLUSTER_NAME}" --zone "${_ZONE}" --project "${PROJECT_ID}"
-      echo "[IGNITION] Deploying application services..."
-      kubectl apply -f infra/manifests/services/
-      kubectl apply -f infra/gce_ingress.yaml
+      echo "[IGNITION] Deploying application services onto ${_NAMESPACE}..."
+      kubectl apply -f infra/manifests/services/ -n "${_NAMESPACE}"
+      kubectl apply -f infra/gce_ingress.yaml -n "${_NAMESPACE}"
       echo "[SUCCESS] Enclave is operational."
 
 substitutions:
   _CLUSTER_NAME: "sovereign-genesis"
   _ZONE: "us-central1-a"
+  _NAMESPACE: "sovereign-genesis"
 
 options:
   logging: CLOUD_LOGGING_ONLY
