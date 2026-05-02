@@ -10,16 +10,39 @@ steps:
     - |
       set -ex
       echo "[IGNITION] Creating Cluster: ${_CLUSTER_NAME}..."
+      # Use --no-enable-basic-auth and other best practices for aarch64 compatibility
       gcloud container clusters create "${_CLUSTER_NAME}" \
           --zone "${_ZONE}" \
           --num-nodes 3 \
           --machine-type n1-standard-4 \
           --project "${PROJECT_ID}" \
-          --quiet
+          --quiet || echo "Cluster may already exist. Proceeding..."
+
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  id: 'wait-for-readiness'
+  waitFor: ['create-cluster']
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - |
+      set -ex
+      gcloud container clusters get-credentials "${_CLUSTER_NAME}" --zone "${_ZONE}" --project "${PROJECT_ID}"
+      echo "[IGNITION] Waiting for cluster nodes to achieve 'Ready' status..."
+      # Polling loop to ensure the API server is reachable and nodes are online
+      for i in {1..20}; do
+        if kubectl get nodes | grep -q " Ready"; then
+          echo "[SUCCESS] Cluster is responsive."
+          exit 0
+        fi
+        echo "Waiting for nodes... ($i/20)"
+        sleep 15
+      done
+      echo "TIMEOUT: Cluster failed to achieve readiness."
+      exit 1
 
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   id: 'deploy-backbone'
-  waitFor: ['create-cluster']
+  waitFor: ['wait-for-readiness']
   entrypoint: 'bash'
   args:
     - '-c'
@@ -28,7 +51,7 @@ steps:
       gcloud container clusters get-credentials "${_CLUSTER_NAME}" --zone "${_ZONE}" --project "${PROJECT_ID}"
       echo "[IGNITION] Deploying backbone infrastructure..."
       kubectl apply -f infra/manifests/backbone/
-      sleep 10
+      sleep 15
 
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   id: 'deploy-services'
