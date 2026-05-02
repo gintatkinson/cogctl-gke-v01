@@ -62,11 +62,23 @@ Use this procedure to achieve **$0.00/month** consumption. This deletes the clus
 ## 4. Resurrection (Restoring from Zero)
 Use this procedure to re-birth the system after a Total Termination.
 
-### Procedure
-1. Execute the hardened graduation pipeline:
-   ```bash
-   gcloud builds submit --config infra/cloudbuild_graduation_final.yaml .
-   ```
+### Phase 1: Infra-Provisioning (Re-building the Foundation)
+Execute the command to provision the "Hardened Cottage" cluster:
+```bash
+gcloud container clusters create sovereign-genesis \
+    --zone us-central1-a \
+    --machine-type e2-standard-4 \
+    --num-nodes 3 \
+    --disk-type pd-balanced \
+    --disk-size 100 \
+    --project cogctl-gke-v01
+```
+
+### Phase 2: Software Induction (Restoring the Enclave)
+Once the cluster is healthy, execute the graduation pipeline:
+```bash
+gcloud builds submit --config infra/cloudbuild_graduation_final.yaml .
+```
 
 ### Status
 - **Success Criteria**: All 11 services reach `Running` on a fresh cluster.
