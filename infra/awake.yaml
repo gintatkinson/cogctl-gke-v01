@@ -38,7 +38,7 @@ steps:
       exit 1
 
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-  id: 'create-namespace'
+  id: 'sanitize-environment'
   waitFor: ['wait-for-readiness']
   entrypoint: 'bash'
   args:
@@ -46,12 +46,25 @@ steps:
     - |
       set -ex
       gcloud container clusters get-credentials "${_CLUSTER_NAME}" --zone "${_ZONE}" --project "${PROJECT_ID}"
-      echo "[IGNITION] Creating Sovereign Namespace: ${_NAMESPACE}..."
-      kubectl create namespace "${_NAMESPACE}" --dry-run=client -o yaml | kubectl apply -f -
+      echo "[IGNITION] Performing Forced Sanitization of ${_NAMESPACE}..."
+      # Delete the namespace if it exists to clear immutable selector conflicts
+      kubectl delete namespace "${_NAMESPACE}" --ignore-not-found=true
+      
+      # Wait for termination to complete
+      for i in {1..10}; do
+        if ! kubectl get namespace "${_NAMESPACE}"; then
+          echo "[CLEAN] Environment sanitized."
+          break
+        fi
+        sleep 10
+      done
+      
+      echo "[IGNITION] Recreating Sovereign Namespace..."
+      kubectl create namespace "${_NAMESPACE}"
 
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   id: 'deploy-crds-and-operator'
-  waitFor: ['create-namespace']
+  waitFor: ['sanitize-environment']
   entrypoint: 'bash'
   args:
     - '-c'
@@ -59,7 +72,6 @@ steps:
       set -ex
       gcloud container clusters get-credentials "${_CLUSTER_NAME}" --zone "${_ZONE}" --project "${PROJECT_ID}"
       echo "[IGNITION] Registering CRDs and Operators..."
-      # CRDs MUST be applied before the Operator
       kubectl apply -f infra/manifests/backbone/05-crdb-crds.yaml
       kubectl apply -f infra/manifests/backbone/04-crdb-operator.yaml -n "${_NAMESPACE}"
       echo "Waiting for CRD reconciliation..."
