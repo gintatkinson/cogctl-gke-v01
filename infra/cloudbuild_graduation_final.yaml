@@ -139,7 +139,7 @@ steps:
   id: 'forge-pathcomp-backend'
   waitFor: ['foundation']
   entrypoint: 'bash'
-  args: ['-c', 'docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/pathcomp-backend:$_TAG -f baseline/tfs-controller/src/pathcomp/backend/Dockerfile baseline/tfs-controller/src/pathcomp/backend/ && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/pathcomp-backend:$_TAG']
+  args: ['-c', 'docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/pathcomp-backend:$_TAG -f baseline/tfs-controller/src/pathcomp/backend/Dockerfile baseline/tfs-controller/ && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/pathcomp-backend:$_TAG']
 
 - name: 'gcr.io/cloud-builders/docker'
   id: 'forge-monitoring'
