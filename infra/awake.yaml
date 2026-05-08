@@ -98,8 +98,8 @@ steps:
       gcloud container clusters get-credentials "${_CLUSTER_NAME}" --zone "${_ZONE}" --project "${PROJECT_ID}"
       echo "[IGNITION] Inducting Application Services from Baseline..."
       # [Rule 4.1] Source of Truth is baseline/
-      # [REC-050] Filter out servicemonitors.yaml to avoid CRD deadlocks
-      find baseline/tfs-controller/manifests/ -name "*.yaml" ! -name "servicemonitors.yaml" -maxdepth 1 | xargs -I {} kubectl apply -f {} -n "${_NAMESPACE}"
+      # [REC-050] Filter out all manifests containing ServiceMonitor kind to avoid CRD deadlocks
+      grep -L "kind: ServiceMonitor" baseline/tfs-controller/manifests/*.yaml | xargs -I {} kubectl apply -f {} -n "${_NAMESPACE}"
       kubectl apply -f infra/gce_ingress.yaml -n "${_NAMESPACE}"
       echo "[SUCCESS] Sovereign Enclave is operational."
 
