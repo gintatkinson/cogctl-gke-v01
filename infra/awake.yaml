@@ -99,7 +99,16 @@ steps:
       echo "[IGNITION] Inducting Application Services from Baseline..."
       # [Rule 4.1] Source of Truth is baseline/
       # [REC-050, REC-052] Filter out manifests requiring missing CRDs (Monitoring, MetalLB)
-      grep -LE "kind: (ServiceMonitor|IPAddressPool|L2Advertisement)" baseline/tfs-controller/manifests/*.yaml | xargs -I {} kubectl apply -f {} -n "${_NAMESPACE}"
+      # [Core 11 Whitelist] Strictly induct only the graduation-critical services
+      SERVICES=(
+        "contextservice" "deviceservice" "serviceservice"
+        "pathcompservice" "sliceservice" "interdomainservice"
+        "monitoringservice" "automationservice" "policyservice"
+        "teservice" "webuiservice"
+      )
+      for SERVICE in "${SERVICES[@]}"; do
+        kubectl apply -f "baseline/tfs-controller/manifests/${SERVICE}.yaml" -n "${_NAMESPACE}"
+      done
       kubectl apply -f infra/gce_ingress.yaml -n "${_NAMESPACE}"
       echo "[SUCCESS] Sovereign Enclave is operational."
 
