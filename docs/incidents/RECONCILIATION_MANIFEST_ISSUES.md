@@ -144,3 +144,5 @@ Build #74 failed after workspace reset because Dockerfiles could not resolve sou
 
 ### 3. Authorized Solution
 [SOP-02: Directory Anchoring](../solutions/SOP-02.md)
+| REC-049 | Namespace Leak (Default Scoping) | Deployment of services without explicit `-n` flag in `awake.yaml` caused resources to leak into the `default` namespace. | Explicitly scope all `kubectl apply` commands with `${_NAMESPACE}` in ignition scripts. |
+| REC-050 | Monitoring CRD Deadlock | Attempting to induct `ServiceMonitor` resources from `baseline/` failed because Prometheus Operator was not pre-installed. | Filter out `servicemonitors.yaml` during initial graduation; install operator as a post-graduation step. |
