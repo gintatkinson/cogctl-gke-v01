@@ -71,7 +71,7 @@ spec:
         - name: ALLOW_EXPLICIT_ADD_LINK_TO_TOPOLOGY
           value: "TRUE"
         - name: CRDB_NAMESPACE
-          value: "default"
+          value: "sovereign-genesis"
         envFrom:
         - secretRef:
             name: crdb-data

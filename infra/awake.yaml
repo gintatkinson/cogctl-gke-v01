@@ -1,32 +1,31 @@
-# SOVEREIGN GENESIS: REMOTE IGNITION ENGINE
+# SOVEREIGN GENESIS: REMOTE IGNITION ENGINE (SIP-01)
 # Rebuilds compute and deploys the full service stack from within the cloud.
 
 steps:
-- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-  id: 'create-cluster'
-  entrypoint: 'bash'
+- name: 'hashicorp/terraform:1.5.0'
+  id: 'terraform-ignition'
+  entrypoint: 'sh'
   args:
     - '-c'
     - |
       set -ex
-      echo "[IGNITION] Creating Cluster: ${_CLUSTER_NAME}..."
-      gcloud container clusters create "${_CLUSTER_NAME}" \
-          --zone "${_ZONE}" \
-          --num-nodes 3 \
-          --machine-type n1-standard-4 \
-          --project "${PROJECT_ID}" \
-          --quiet || echo "Cluster may already exist. Proceeding..."
+      cd infra/terraform
+      terraform init -upgrade
+      terraform apply -auto-approve \
+        -var="project_id=${PROJECT_ID}" \
+        -var="cluster_name=${_CLUSTER_NAME}" \
+        -var="zone=${_ZONE}"
 
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-  id: 'wait-for-readiness'
-  waitFor: ['create-cluster']
+  id: 'wait-for-foundation'
+  waitFor: ['terraform-ignition']
   entrypoint: 'bash'
   args:
     - '-c'
     - |
       set -ex
       gcloud container clusters get-credentials "${_CLUSTER_NAME}" --zone "${_ZONE}" --project "${PROJECT_ID}"
-      echo "[IGNITION] Waiting for cluster nodes to achieve 'Ready' status..."
+      echo "[IGNITION] Waiting for cluster nodes..."
       for i in {1..20}; do
         if kubectl get nodes | grep -q " Ready"; then
           echo "[SUCCESS] Cluster is responsive."
@@ -39,31 +38,30 @@ steps:
 
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   id: 'sanitize-environment'
-  waitFor: ['wait-for-readiness']
+  waitFor: ['wait-for-foundation']
   entrypoint: 'bash'
   args:
     - '-c'
     - |
       set -ex
       gcloud container clusters get-credentials "${_CLUSTER_NAME}" --zone "${_ZONE}" --project "${PROJECT_ID}"
-      echo "[IGNITION] Performing Forced Sanitization of ${_NAMESPACE}..."
-      # Delete the namespace if it exists to clear immutable selector conflicts
+      echo "[IGNITION] Performing Tabula Rasa Sanitization of ${_NAMESPACE}..."
       kubectl delete namespace "${_NAMESPACE}" --ignore-not-found=true
       
       # Wait for termination to complete
-      for i in {1..10}; do
+      for i in {1..20}; do
         if ! kubectl get namespace "${_NAMESPACE}"; then
           echo "[CLEAN] Environment sanitized."
           break
         fi
+        echo "Waiting for namespace cleanup... ($i/20)"
         sleep 10
       done
-      
       echo "[IGNITION] Recreating Sovereign Namespace..."
       kubectl create namespace "${_NAMESPACE}"
 
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-  id: 'deploy-crds-and-operator'
+  id: 'induct-backbone'
   waitFor: ['sanitize-environment']
   entrypoint: 'bash'
   args:
@@ -71,41 +69,38 @@ steps:
     - |
       set -ex
       gcloud container clusters get-credentials "${_CLUSTER_NAME}" --zone "${_ZONE}" --project "${PROJECT_ID}"
-      echo "[IGNITION] Registering CRDs and Operators..."
-      kubectl apply -f infra/manifests/backbone/05-crdb-crds.yaml
-      kubectl apply -f infra/manifests/backbone/04-crdb-operator.yaml -n "${_NAMESPACE}"
-      echo "Waiting for CRD reconciliation..."
-      sleep 45
+      echo "[IGNITION] Inducting Hardened Persistence Fabric from Baseline..."
+      
+      # [SOP-08] Deterministic Backbone Induction
+      kubectl apply -f baseline/tfs-controller/manifests/cockroachdb/crds.yaml
+      kubectl apply -f baseline/tfs-controller/manifests/cockroachdb/operator.yaml
+      
+      echo "Waiting for Cockroach Operator Readiness..."
+      kubectl rollout status deployment/cockroach-operator-manager -n cockroach-operator-system --timeout=120s
+      
+      # [SPEC: Orchestration Race Condition] - Mandatory settling delay to avoid webhook deadlocks
+      echo "[IGNITION] Webhook Settling (30s)..."
+      sleep 30
+      
+      kubectl apply -f baseline/tfs-controller/manifests/cockroachdb/cluster.yaml
+      kubectl apply -f baseline/tfs-controller/manifests/nats/nats_fidelity.yaml
+      kubectl apply -f baseline/tfs-controller/manifests/kafka/single-node.yaml
+      kubectl apply -f baseline/tfs-controller/manifests/questdb/manifest.yaml
 
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-  id: 'deploy-backbone-instances'
-  waitFor: ['deploy-crds-and-operator']
+  id: 'induct-services'
+  waitFor: ['induct-backbone']
   entrypoint: 'bash'
   args:
     - '-c'
     - |
       set -ex
       gcloud container clusters get-credentials "${_CLUSTER_NAME}" --zone "${_ZONE}" --project "${PROJECT_ID}"
-      echo "[IGNITION] Inducting Backbone Software Instances..."
-      kubectl apply -f infra/manifests/backbone/01-nats.yaml -n "${_NAMESPACE}"
-      kubectl apply -f infra/manifests/backbone/02-kafka.yaml -n "${_NAMESPACE}"
-      kubectl apply -f infra/manifests/backbone/03-questdb.yaml -n "${_NAMESPACE}"
-      kubectl apply -f infra/manifests/backbone/06-crdb-cluster.yaml -n "${_NAMESPACE}"
-      sleep 15
-
-- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-  id: 'deploy-services'
-  waitFor: ['deploy-backbone-instances']
-  entrypoint: 'bash'
-  args:
-    - '-c'
-    - |
-      set -ex
-      gcloud container clusters get-credentials "${_CLUSTER_NAME}" --zone "${_ZONE}" --project "${PROJECT_ID}"
-      echo "[IGNITION] Deploying application services onto ${_NAMESPACE}..."
-      kubectl apply -f infra/manifests/services/ -n "${_NAMESPACE}"
+      echo "[IGNITION] Inducting Application Services from Baseline..."
+      # [Rule 4.1] Source of Truth is baseline/
+      kubectl apply -f baseline/tfs-controller/manifests/
       kubectl apply -f infra/gce_ingress.yaml -n "${_NAMESPACE}"
-      echo "[SUCCESS] Enclave is operational."
+      echo "[SUCCESS] Sovereign Enclave is operational."
 
 substitutions:
   _CLUSTER_NAME: "sovereign-genesis"

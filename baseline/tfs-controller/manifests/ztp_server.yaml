@@ -15,18 +15,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ztpservice
+  name: ztp-server-service
 spec:
   strategy:
     type: Recreate
   selector:
     matchLabels:
-      app: ztpservice
+      app: ztp-server-service
   #replicas: 1
   template:
     metadata:
       labels:
-        app: ztpservice
+        app: ztp-server-service
     spec:
       terminationGracePeriodSeconds: 5
       containers:
@@ -43,14 +43,14 @@ spec:
           value: "INFO"
         resources:
           requests:
-            cpu: 250m
+            cpu: 50m
             memory: 128Mi
           limits:
-            cpu: 1000m
-            memory: 1024Mi
+            cpu: 200m
+            memory: 512Mi
       initContainers:
       - name: init-dependencies
-        image: busybox:1.36
+        image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/busybox:v3.1-customer
         command:
         - sh
         - -c
@@ -60,13 +60,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: ztpservice
+  name: ztp-server-service
   labels:
-    app: ztpservice
+    app: ztp-server-service
 spec:
   type: ClusterIP
   selector:
-    app: ztpservice
+    app: ztp-server-service
   ports:
   - name: http
     protocol: TCP
@@ -80,4 +80,3 @@ spec:
     protocol: TCP
     port: 9192
     targetPort: 9192
-
