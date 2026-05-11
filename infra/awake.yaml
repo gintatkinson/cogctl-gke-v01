@@ -123,6 +123,8 @@ substitutions:
   _CUSTOMER_REGISTRY: "REGISTRY_PENDING"
   _TARGET_REGION: "us-central1"
   _TARGET_ZONE: "us-central1-a"
+  _REGION: "us-central1"
+  _ZONE: "us-central1-a"
   _CLUSTER_NAME: "sovereign-genesis"
   _NAMESPACE: "sovereign-genesis"
 options:
