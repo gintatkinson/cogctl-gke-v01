@@ -18,5 +18,5 @@ cd $(dirname $0)/../../../../
 
 # Build image for NCE-FAN Controller
 docker buildx build -t nce-fan-ctrl:test -f ./src/tests/tools/mock_nce_fan_ctrl/Dockerfile .
-#docker tag nce-fan-ctrl:test localhost:32000/tfs/nce-fan-ctrl:test
-#docker push localhost:32000/tfs/nce-fan-ctrl:test
+#docker tag nce-fan-ctrl:test ${_CUSTOMER_REGISTRY}/tfs/nce-fan-ctrl:test
+#docker push ${_CUSTOMER_REGISTRY}/tfs/nce-fan-ctrl:test

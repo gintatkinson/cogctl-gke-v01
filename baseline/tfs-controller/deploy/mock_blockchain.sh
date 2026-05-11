@@ -19,7 +19,7 @@
 ########################################################################################################################
 
 # Set the URL of your local Docker registry where the images will be uploaded to.
-REGISTRY_IMAGE="http://localhost:32000/tfs/"
+REGISTRY_IMAGE="http://${_CUSTOMER_REGISTRY}/tfs/"
 
 # Set the tag you want to use for your images.
 IMAGE_TAG="dev"

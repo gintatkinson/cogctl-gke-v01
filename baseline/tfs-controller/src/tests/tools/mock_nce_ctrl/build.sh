@@ -17,5 +17,5 @@
 cd $(dirname $0)
 
 docker build -t mock-nce-ctrl:test -f Dockerfile .
-docker tag mock-nce-ctrl:test localhost:32000/tfs/mock-nce-ctrl:test
-docker push localhost:32000/tfs/mock-nce-ctrl:test
+docker tag mock-nce-ctrl:test ${_CUSTOMER_REGISTRY}/tfs/mock-nce-ctrl:test
+docker push ${_CUSTOMER_REGISTRY}/tfs/mock-nce-ctrl:test

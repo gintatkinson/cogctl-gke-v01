@@ -3,7 +3,7 @@ steps:
   args:
   - build
   - -t
-  - us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:2026-04-20
+  - ${_CUSTOMER_REGISTRY}/python-base:2026-04-20
   - -f
   - baseline/tfs-controller/src/common/Dockerfile.base
   - .
@@ -12,7 +12,7 @@ steps:
   args:
   - build
   - -t
-  - us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/context:2026-04-20
+  - ${_CUSTOMER_REGISTRY}/context:2026-04-20
   - -f
   - baseline/tfs-controller/src/context/Dockerfile
   - .
@@ -23,7 +23,7 @@ steps:
   args:
   - build
   - -t
-  - us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/device:2026-04-20
+  - ${_CUSTOMER_REGISTRY}/device:2026-04-20
   - -f
   - baseline/tfs-controller/src/device/Dockerfile
   - .
@@ -34,7 +34,7 @@ steps:
   args:
   - build
   - -t
-  - us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/service:2026-04-20
+  - ${_CUSTOMER_REGISTRY}/service:2026-04-20
   - -f
   - baseline/tfs-controller/src/service/Dockerfile
   - .
@@ -45,7 +45,7 @@ steps:
   args:
   - build
   - -t
-  - us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/slice:2026-04-20
+  - ${_CUSTOMER_REGISTRY}/slice:2026-04-20
   - -f
   - baseline/tfs-controller/src/slice/Dockerfile
   - .
@@ -56,7 +56,7 @@ steps:
   args:
   - build
   - -t
-  - us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/automation:2026-04-20
+  - ${_CUSTOMER_REGISTRY}/automation:2026-04-20
   - -f
   - baseline/tfs-controller/src/automation/Dockerfile
   - .
@@ -67,7 +67,7 @@ steps:
   args:
   - build
   - -t
-  - us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/monitoring:2026-04-20
+  - ${_CUSTOMER_REGISTRY}/monitoring:2026-04-20
   - -f
   - baseline/tfs-controller/src/monitoring/Dockerfile
   - .
@@ -78,7 +78,7 @@ steps:
   args:
   - build
   - -t
-  - us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/nbi:2026-04-20
+  - ${_CUSTOMER_REGISTRY}/nbi:2026-04-20
   - -f
   - baseline/tfs-controller/src/nbi/Dockerfile
   - .
@@ -89,7 +89,7 @@ steps:
   args:
   - build
   - -t
-  - us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/webui:2026-04-20
+  - ${_CUSTOMER_REGISTRY}/webui:2026-04-20
   - -f
   - baseline/tfs-controller/src/webui/Dockerfile
   - .
@@ -100,7 +100,7 @@ steps:
   args:
   - build
   - -t
-  - us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/pathcomp:2026-04-20
+  - ${_CUSTOMER_REGISTRY}/pathcomp:2026-04-20
   - -f
   - baseline/tfs-controller/src/pathcomp/Dockerfile
   - .
@@ -111,7 +111,7 @@ steps:
   args:
   - build
   - -t
-  - us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/policy:2026-04-20
+  - ${_CUSTOMER_REGISTRY}/policy:2026-04-20
   - -f
   - baseline/tfs-controller/src/policy/Dockerfile
   - .
@@ -119,16 +119,16 @@ steps:
   waitFor:
   - build-foundation
 images:
-- us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:2026-04-20
-- us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/context:2026-04-20
-- us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/device:2026-04-20
-- us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/service:2026-04-20
-- us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/slice:2026-04-20
-- us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/automation:2026-04-20
-- us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/monitoring:2026-04-20
-- us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/nbi:2026-04-20
-- us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/webui:2026-04-20
-- us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/pathcomp:2026-04-20
-- us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/policy:2026-04-20
+- ${_CUSTOMER_REGISTRY}/python-base:2026-04-20
+- ${_CUSTOMER_REGISTRY}/context:2026-04-20
+- ${_CUSTOMER_REGISTRY}/device:2026-04-20
+- ${_CUSTOMER_REGISTRY}/service:2026-04-20
+- ${_CUSTOMER_REGISTRY}/slice:2026-04-20
+- ${_CUSTOMER_REGISTRY}/automation:2026-04-20
+- ${_CUSTOMER_REGISTRY}/monitoring:2026-04-20
+- ${_CUSTOMER_REGISTRY}/nbi:2026-04-20
+- ${_CUSTOMER_REGISTRY}/webui:2026-04-20
+- ${_CUSTOMER_REGISTRY}/pathcomp:2026-04-20
+- ${_CUSTOMER_REGISTRY}/policy:2026-04-20
 options:
   machineType: E2_HIGHCPU_8

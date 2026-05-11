@@ -20,7 +20,7 @@
 
 # If not already set, set the URL of the Docker registry where the images will be uploaded to.
 # By default, assume internal MicroK8s registry is used.
-export TFS_REGISTRY_IMAGES=${TFS_REGISTRY_IMAGES:-"http://localhost:32000/tfs/"}
+export TFS_REGISTRY_IMAGES=${TFS_REGISTRY_IMAGES:-"http://${_CUSTOMER_REGISTRY}/tfs/"}
 
 TFS_COMPONENTS=$1
 

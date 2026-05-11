@@ -19,8 +19,8 @@ steps:
     echo "=== [2] GKE Cluster Authentication ==="
 
     gcloud container clusters get-credentials sovereign-genesis-1776528985 --region
-    us-central1 --project cogctl-gke-v01 || gcloud container clusters get-credentials
-    sovereign-genesis-1776528985 --zone us-central1-a --project cogctl-gke-v01
+    us-central1 --project ${_CUSTOMER_PROJECT_ID} || gcloud container clusters get-credentials
+    sovereign-genesis-1776528985 --zone us-central1-a --project ${_CUSTOMER_PROJECT_ID}
 
 
     echo "=== [3] Fidelity Bridge (Proto Extraction) ==="

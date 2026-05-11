@@ -6,7 +6,7 @@ steps:
   - -c
   - "SERVICES=(\n  \"automation\" \"context\" \"device\" \"dlt\" \"kpi_manager\" \n\
     \  \"monitoring\" \"nbi\" \"pathcomp\" \"policy\" \"service\" \n  \"slice\" \"\
-    webui\"\n)\n\nREGISTRY=\"$_REGION-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs\"\
+    webui\"\n)\n\nREGISTRY=\"$_REGION-docker.pkg.dev/${_CUSTOMER_PROJECT_ID}/sovereign-tfs\"\
     \nTAG=\"v3.0.0-sovereign-$(date +%s)\"\n\necho \"[SOVEREIGN] Starting Multi-Binary\
     \ Build from Source...\"\n\n# We build from the /baseline/tfs-controller directory\n\
     cd baseline/tfs-controller/\n\nfor SERVICE in \"$${SERVICES[@]}\"; do\n  echo\

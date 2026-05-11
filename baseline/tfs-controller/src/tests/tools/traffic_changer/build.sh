@@ -18,5 +18,5 @@ cd $(dirname $0)/../../../../
 
 # Build image for Traffic Changer
 docker buildx build -t traffic-changer:test -f ./src/tests/tools/traffic_changer/Dockerfile .
-#docker tag traffic-changer:test localhost:32000/tfs/traffic-changer:test
-#docker push localhost:32000/tfs/traffic-changer:test
+#docker tag traffic-changer:test ${_CUSTOMER_REGISTRY}/tfs/traffic-changer:test
+#docker push ${_CUSTOMER_REGISTRY}/tfs/traffic-changer:test

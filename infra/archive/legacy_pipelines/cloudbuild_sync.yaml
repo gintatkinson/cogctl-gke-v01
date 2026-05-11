@@ -29,7 +29,7 @@ steps:
     \n  \"labs.etsi.org:5050/tfs/controller/policy:latest\"\n  \"labs.etsi.org:5050/tfs/controller/automation:latest\"\
     \n  \"labs.etsi.org:5050/tfs/controller/pathcomp:latest\"\n  \"labs.etsi.org:5050/tfs/controller/dlt:latest\"\
     \n  \"labs.etsi.org:5050/tfs/controller/kpi_manager:latest\"\n)\n\nREGISTRY=\"\
-    $_REGION-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs\"\n\nfor IMAGE in \"$${IMAGES[@]}\"\
+    $_REGION-docker.pkg.dev/${_CUSTOMER_PROJECT_ID}/sovereign-tfs\"\n\nfor IMAGE in \"$${IMAGES[@]}\"\
     ; do\n  echo \"Mirroring $${IMAGE}...\"\n  TARGET=\"$${REGISTRY}/$$(basename $${IMAGE})\"\
     \n  docker pull --platform linux/amd64 $${IMAGE}\n  docker tag $${IMAGE} $${TARGET}\n\
     \  docker push $${TARGET}\ndone\n"

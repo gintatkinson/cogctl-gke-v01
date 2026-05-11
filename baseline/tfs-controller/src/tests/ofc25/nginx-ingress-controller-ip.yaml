@@ -1,17 +1,3 @@
-# Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -35,7 +21,7 @@ kind: IngressClass
 metadata:
   name: tfs-ingress-class-ip
   annotations:
-    ingressclass.kubernetes.io/is-default-class: "false"
+    ingressclass.kubernetes.io/is-default-class: 'false'
 spec:
   controller: tfs.etsi.org/controller-class-ip
 ---
@@ -90,25 +76,25 @@ spec:
           preStop:
             exec:
               command:
-                - /wait-shutdown
+              - /wait-shutdown
         securityContext:
           capabilities:
             add:
             - NET_BIND_SERVICE
             drop:
             - ALL
-          runAsUser: 101 # www-data
+          runAsUser: 101
         env:
-          - name: POD_NAME
-            valueFrom:
-              fieldRef:
-                apiVersion: v1
-                fieldPath: metadata.name
-          - name: POD_NAMESPACE
-            valueFrom:
-              fieldRef:
-                apiVersion: v1
-                fieldPath: metadata.namespace
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.name
+        - name: POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
         ports:
         - name: http
           containerPort: 80

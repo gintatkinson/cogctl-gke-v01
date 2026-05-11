@@ -3,7 +3,7 @@ steps:
   entrypoint: bash
   args:
   - -c
-  - "set -e\nPROJECT_ID=\"cogctl-gke-v01\"\nREGISTRY=\"$_REGION-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs\"\
+  - "set -e\nPROJECT_ID=\"${_CUSTOMER_PROJECT_ID}\"\nREGISTRY=\"$_REGION-docker.pkg.dev/${_CUSTOMER_PROJECT_ID}/sovereign-tfs\"\
     \n\necho \"[FOUNDATION] Authenticating to cluster...\"\ngcloud container clusters\
     \ get-credentials \"$_CLUSTER_NAME\" --region $_REGION\n\n# 1. COCKROACHDB (Single\
     \ Node)\necho \"[FOUNDATION] Deploying CockroachDB...\"\nMANIFEST=\"baseline/tfs-controller/manifests/cockroachdb/single-node.yaml\"\

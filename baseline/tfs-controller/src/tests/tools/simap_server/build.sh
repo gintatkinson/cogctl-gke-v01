@@ -18,5 +18,5 @@ cd $(dirname $0)/../../../../
 
 # Build image SIMAP Server
 docker buildx build -t simap-server:test -f ./src/tests/tools/simap_server/Dockerfile .
-#docker tag simap-server:test localhost:32000/tfs/simap-server:test
-#docker push localhost:32000/tfs/simap-server:test
+#docker tag simap-server:test ${_CUSTOMER_REGISTRY}/tfs/simap-server:test
+#docker push ${_CUSTOMER_REGISTRY}/tfs/simap-server:test

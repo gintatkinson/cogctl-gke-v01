@@ -18,5 +18,5 @@ cd $(dirname $0)/../../../../
 
 # Build image for NCE-T Controller
 docker buildx build -t nce-t-ctrl:test -f ./src/tests/tools/mock_nce_t_ctrl/Dockerfile .
-#docker tag nce-t-ctrl:test localhost:32000/tfs/nce-t-ctrl:test
-#docker push localhost:32000/tfs/nce-t-ctrl:test
+#docker tag nce-t-ctrl:test ${_CUSTOMER_REGISTRY}/tfs/nce-t-ctrl:test
+#docker push ${_CUSTOMER_REGISTRY}/tfs/nce-t-ctrl:test

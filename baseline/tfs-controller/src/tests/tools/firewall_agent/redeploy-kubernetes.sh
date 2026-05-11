@@ -17,8 +17,8 @@
 set -euo pipefail
 
 docker build --tag "firewall-agent:dev" .
-docker tag "firewall-agent:dev" "http://localhost:32000/tfs/firewall-agent:dev"
-docker push "http://localhost:32000/tfs/firewall-agent:dev"
+docker tag "firewall-agent:dev" "http://${_CUSTOMER_REGISTRY}/tfs/firewall-agent:dev"
+docker push "http://${_CUSTOMER_REGISTRY}/tfs/firewall-agent:dev"
 
 kubectl delete namespace firewall-agent
 kubectl create namespace firewall-agent

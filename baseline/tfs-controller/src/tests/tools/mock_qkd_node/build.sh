@@ -17,5 +17,5 @@
 cd $(dirname $0)
 
 docker buildx build -t mock-qkd-node:test -f Dockerfile .
-#docker tag mock-qkd-node:test localhost:32000/tfs/mock-qkd-node:test
-#docker push localhost:32000/tfs/mock-qkd-node:test
+#docker tag mock-qkd-node:test ${_CUSTOMER_REGISTRY}/tfs/mock-qkd-node:test
+#docker push ${_CUSTOMER_REGISTRY}/tfs/mock-qkd-node:test

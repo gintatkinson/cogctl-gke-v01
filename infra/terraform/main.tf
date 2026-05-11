@@ -1,6 +1,6 @@
 terraform {
   backend "gcs" {
-    bucket = "cogctl-gke-v01-tfstate"
+    bucket = "${_CUSTOMER_PROJECT_ID}-tfstate"
     prefix = "terraform/state"
   }
 }

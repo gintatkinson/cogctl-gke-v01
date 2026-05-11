@@ -17,7 +17,7 @@
 # ----- TeraFlowSDN ------------------------------------------------------------
 
 # Set the URL of the internal MicroK8s Docker registry where the images will be uploaded to.
-export TFS_REGISTRY_IMAGES="http://localhost:32000/tfs/"
+export TFS_REGISTRY_IMAGES="http://${_CUSTOMER_REGISTRY}/tfs/"
 
 # Set the list of components, separated by spaces, you want to build images for, and deploy.
 #export TFS_COMPONENTS="context device pathcomp service slice nbi webui load_generator"

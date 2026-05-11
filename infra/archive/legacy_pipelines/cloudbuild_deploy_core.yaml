@@ -14,7 +14,7 @@ steps:
     \ Floor)...\"\nkubectl apply -f baseline/tfs-controller/manifests/nats/nats_fidelity.yaml\n\
     \nCOMPONENTS=(\n  \"context\"\n  \"device\"\n  \"service\"\n  \"slice\"\n  \"\
     pathcomp\"\n  \"nbi\"\n  \"webui\"\n  \"monitoring\"\n  \"automation\"\n)\n\n\
-    REGISTRY=\"$_REGION-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs\"\n\necho \"[DEPLOY]\
+    REGISTRY=\"$_REGION-docker.pkg.dev/${_CUSTOMER_PROJECT_ID}/sovereign-tfs\"\n\necho \"[DEPLOY]\
     \ Applying Core Manifests (Baseline Fidelity)...\"\nfor COMP in \"$${COMPONENTS[@]}\"\
     ; do\n  MANIFEST=\"baseline/tfs-controller/manifests/$${COMP}service.yaml\"\n\
     \  if [ ! -f \"$$MANIFEST\" ]; then\n    echo \"Warning: Manifest $$MANIFEST not\

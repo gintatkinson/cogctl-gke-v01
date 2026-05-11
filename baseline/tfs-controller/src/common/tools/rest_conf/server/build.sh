@@ -19,5 +19,5 @@ cd $(dirname $0)
 
 
 docker buildx build -t mock-restconf-server:test -f Dockerfile .
-#docker tag mock-restconf-server:test localhost:32000/tfs/mock-restconf-server:test
-#docker push localhost:32000/tfs/mock-restconf-server:test
+#docker tag mock-restconf-server:test ${_CUSTOMER_REGISTRY}/tfs/mock-restconf-server:test
+#docker push ${_CUSTOMER_REGISTRY}/tfs/mock-restconf-server:test

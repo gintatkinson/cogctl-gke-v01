@@ -6,7 +6,7 @@ steps:
   - -c
   - "IMAGES=(\n  \"cockroachdb/cockroach:v22.2.8\"\n  \"cockroachdb/cockroach-operator:v2.10.0\"\
     \n  \"nats:2.9-alpine\"\n  \"bitnamilegacy/kafka:latest\"\n  \"bitnamilegacy/zookeeper:latest\"\
-    \n  \"questdb/questdb:7.3.3\"\n)\n\nREGISTRY=\"$_REGION-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs\"\
+    \n  \"questdb/questdb:7.3.3\"\n)\n\nREGISTRY=\"$_REGION-docker.pkg.dev/${_CUSTOMER_PROJECT_ID}/sovereign-tfs\"\
     \n\nfor IMAGE in \"$${IMAGES[@]}\"; do\n  echo \"Mirroring $${IMAGE}...\"\n  #\
     \ Extract the base name (e.g., cockroach)\n  BASE=$$(basename $${IMAGE} | cut\
     \ -d: -f1)\n  TAG=$$(echo $${IMAGE} | cut -d: -f2)\n  TARGET=\"$${REGISTRY}/$${BASE}:$${TAG}\"\

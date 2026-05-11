@@ -4,7 +4,7 @@ steps:
   args:
   - build
   - -t
-  - us-central1-docker.pkg.dev/${PROJECT_ID}/sovereign-tfs/context:${_TAG}
+  - ${_TARGET_REGION}-docker.pkg.dev/${PROJECT_ID}/sovereign-tfs/context:${_TAG}
   - -f
   - baseline/tfs-controller/src/context/Dockerfile
   - baseline/tfs-controller/
@@ -13,7 +13,7 @@ steps:
   args:
   - build
   - -t
-  - us-central1-docker.pkg.dev/${PROJECT_ID}/sovereign-tfs/device:${_TAG}
+  - ${_TARGET_REGION}-docker.pkg.dev/${PROJECT_ID}/sovereign-tfs/device:${_TAG}
   - -f
   - baseline/tfs-controller/src/device/Dockerfile
   - baseline/tfs-controller/
@@ -22,7 +22,7 @@ steps:
   args:
   - build
   - -t
-  - us-central1-docker.pkg.dev/${PROJECT_ID}/sovereign-tfs/service:${_TAG}
+  - ${_TARGET_REGION}-docker.pkg.dev/${PROJECT_ID}/sovereign-tfs/service:${_TAG}
   - -f
   - baseline/tfs-controller/src/service/Dockerfile
   - baseline/tfs-controller/
@@ -31,7 +31,7 @@ steps:
   args:
   - build
   - -t
-  - us-central1-docker.pkg.dev/${PROJECT_ID}/sovereign-tfs/pathcomp-frontend:${_TAG}
+  - ${_TARGET_REGION}-docker.pkg.dev/${PROJECT_ID}/sovereign-tfs/pathcomp-frontend:${_TAG}
   - -f
   - baseline/tfs-controller/src/pathcomp/frontend/Dockerfile
   - baseline/tfs-controller/
@@ -40,7 +40,7 @@ steps:
   args:
   - build
   - -t
-  - us-central1-docker.pkg.dev/${PROJECT_ID}/sovereign-tfs/pathcomp-backend:${_TAG}
+  - ${_TARGET_REGION}-docker.pkg.dev/${PROJECT_ID}/sovereign-tfs/pathcomp-backend:${_TAG}
   - -f
   - baseline/tfs-controller/src/pathcomp/backend/Dockerfile
   - baseline/tfs-controller/
@@ -49,7 +49,7 @@ steps:
   args:
   - build
   - -t
-  - us-central1-docker.pkg.dev/${PROJECT_ID}/sovereign-tfs/slice:${_TAG}
+  - ${_TARGET_REGION}-docker.pkg.dev/${PROJECT_ID}/sovereign-tfs/slice:${_TAG}
   - -f
   - baseline/tfs-controller/src/slice/Dockerfile
   - baseline/tfs-controller/
@@ -58,7 +58,7 @@ steps:
   args:
   - build
   - -t
-  - us-central1-docker.pkg.dev/${PROJECT_ID}/sovereign-tfs/interdomain:${_TAG}
+  - ${_TARGET_REGION}-docker.pkg.dev/${PROJECT_ID}/sovereign-tfs/interdomain:${_TAG}
   - -f
   - baseline/tfs-controller/src/interdomain/Dockerfile
   - baseline/tfs-controller/
@@ -67,7 +67,7 @@ steps:
   args:
   - build
   - -t
-  - us-central1-docker.pkg.dev/${PROJECT_ID}/sovereign-tfs/monitoring:${_TAG}
+  - ${_TARGET_REGION}-docker.pkg.dev/${PROJECT_ID}/sovereign-tfs/monitoring:${_TAG}
   - -f
   - baseline/tfs-controller/src/monitoring/Dockerfile
   - baseline/tfs-controller/
@@ -76,7 +76,7 @@ steps:
   args:
   - build
   - -t
-  - us-central1-docker.pkg.dev/${PROJECT_ID}/sovereign-tfs/automation:${_TAG}
+  - ${_TARGET_REGION}-docker.pkg.dev/${PROJECT_ID}/sovereign-tfs/automation:${_TAG}
   - -f
   - baseline/tfs-controller/src/automation/Dockerfile
   - baseline/tfs-controller/
@@ -85,7 +85,7 @@ steps:
   args:
   - build
   - -t
-  - us-central1-docker.pkg.dev/${PROJECT_ID}/sovereign-tfs/policy:${_TAG}
+  - ${_TARGET_REGION}-docker.pkg.dev/${PROJECT_ID}/sovereign-tfs/policy:${_TAG}
   - -f
   - baseline/tfs-controller/src/policy/Dockerfile
   - baseline/tfs-controller/
@@ -94,7 +94,7 @@ steps:
   args:
   - build
   - -t
-  - us-central1-docker.pkg.dev/${PROJECT_ID}/sovereign-tfs/e2e-orchestrator:${_TAG}
+  - ${_TARGET_REGION}-docker.pkg.dev/${PROJECT_ID}/sovereign-tfs/e2e-orchestrator:${_TAG}
   - -f
   - baseline/tfs-controller/src/e2e_orchestrator/Dockerfile
   - baseline/tfs-controller/
@@ -103,7 +103,7 @@ steps:
   args:
   - build
   - -t
-  - us-central1-docker.pkg.dev/${PROJECT_ID}/sovereign-tfs/vnt-manager:${_TAG}
+  - ${_TARGET_REGION}-docker.pkg.dev/${PROJECT_ID}/sovereign-tfs/vnt-manager:${_TAG}
   - -f
   - baseline/tfs-controller/src/vnt_manager/Dockerfile
   - baseline/tfs-controller/
@@ -112,24 +112,24 @@ steps:
   args:
   - build
   - -t
-  - us-central1-docker.pkg.dev/${PROJECT_ID}/sovereign-tfs/webui:${_TAG}
+  - ${_TARGET_REGION}-docker.pkg.dev/${PROJECT_ID}/sovereign-tfs/webui:${_TAG}
   - -f
   - baseline/tfs-controller/src/webui/Dockerfile
   - baseline/tfs-controller/
 images:
-- us-central1-docker.pkg.dev/${PROJECT_ID}/sovereign-tfs/context:${_TAG}
-- us-central1-docker.pkg.dev/${PROJECT_ID}/sovereign-tfs/device:${_TAG}
-- us-central1-docker.pkg.dev/${PROJECT_ID}/sovereign-tfs/service:${_TAG}
-- us-central1-docker.pkg.dev/${PROJECT_ID}/sovereign-tfs/pathcomp-frontend:${_TAG}
-- us-central1-docker.pkg.dev/${PROJECT_ID}/sovereign-tfs/pathcomp-backend:${_TAG}
-- us-central1-docker.pkg.dev/${PROJECT_ID}/sovereign-tfs/slice:${_TAG}
-- us-central1-docker.pkg.dev/${PROJECT_ID}/sovereign-tfs/interdomain:${_TAG}
-- us-central1-docker.pkg.dev/${PROJECT_ID}/sovereign-tfs/monitoring:${_TAG}
-- us-central1-docker.pkg.dev/${PROJECT_ID}/sovereign-tfs/automation:${_TAG}
-- us-central1-docker.pkg.dev/${PROJECT_ID}/sovereign-tfs/policy:${_TAG}
-- us-central1-docker.pkg.dev/${PROJECT_ID}/sovereign-tfs/e2e-orchestrator:${_TAG}
-- us-central1-docker.pkg.dev/${PROJECT_ID}/sovereign-tfs/vnt-manager:${_TAG}
-- us-central1-docker.pkg.dev/${PROJECT_ID}/sovereign-tfs/webui:${_TAG}
+- ${_TARGET_REGION}-docker.pkg.dev/${PROJECT_ID}/sovereign-tfs/context:${_TAG}
+- ${_TARGET_REGION}-docker.pkg.dev/${PROJECT_ID}/sovereign-tfs/device:${_TAG}
+- ${_TARGET_REGION}-docker.pkg.dev/${PROJECT_ID}/sovereign-tfs/service:${_TAG}
+- ${_TARGET_REGION}-docker.pkg.dev/${PROJECT_ID}/sovereign-tfs/pathcomp-frontend:${_TAG}
+- ${_TARGET_REGION}-docker.pkg.dev/${PROJECT_ID}/sovereign-tfs/pathcomp-backend:${_TAG}
+- ${_TARGET_REGION}-docker.pkg.dev/${PROJECT_ID}/sovereign-tfs/slice:${_TAG}
+- ${_TARGET_REGION}-docker.pkg.dev/${PROJECT_ID}/sovereign-tfs/interdomain:${_TAG}
+- ${_TARGET_REGION}-docker.pkg.dev/${PROJECT_ID}/sovereign-tfs/monitoring:${_TAG}
+- ${_TARGET_REGION}-docker.pkg.dev/${PROJECT_ID}/sovereign-tfs/automation:${_TAG}
+- ${_TARGET_REGION}-docker.pkg.dev/${PROJECT_ID}/sovereign-tfs/policy:${_TAG}
+- ${_TARGET_REGION}-docker.pkg.dev/${PROJECT_ID}/sovereign-tfs/e2e-orchestrator:${_TAG}
+- ${_TARGET_REGION}-docker.pkg.dev/${PROJECT_ID}/sovereign-tfs/vnt-manager:${_TAG}
+- ${_TARGET_REGION}-docker.pkg.dev/${PROJECT_ID}/sovereign-tfs/webui:${_TAG}
 options:
   machineType: E2_HIGHCPU_32
   logging: CLOUD_LOGGING_ONLY

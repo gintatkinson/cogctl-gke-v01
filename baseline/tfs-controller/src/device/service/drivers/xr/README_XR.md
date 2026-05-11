@@ -51,7 +51,7 @@ Script requires more variables than before as of February 2023.
 ```bash
 # See https://labs.etsi.org/rep/tfs/controller/-/blob/develop/my_deploy.sh
 # Use  docker run -d -p 32000:5000 --restart=always --name registry registry:2 
-export TFS_REGISTRY_IMAGE="http://localhost:32000/tfs/"
+export TFS_REGISTRY_IMAGE="http://${_CUSTOMER_REGISTRY}/tfs/"
 export TFS_COMPONENTS="context device ztp monitoring pathcomp service slice nbi webui load_generator"
 export TFS_IMAGE_TAG="dev"
 export TFS_K8S_NAMESPACE="tfs"

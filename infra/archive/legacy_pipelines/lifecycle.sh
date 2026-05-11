@@ -2,9 +2,9 @@
 set -e
 
 # THE SOVEREIGN LIFECYCLE MANAGER
-# Operations for project: cogctl-gke-v01
+# Operations for project: ${_CUSTOMER_PROJECT_ID}
 
-PROJECT_ID="cogctl-gke-v01"
+PROJECT_ID="${_CUSTOMER_PROJECT_ID}"
 CLUSTER_NAME="sovereign-genesis"
 REGION="us-central1"
 

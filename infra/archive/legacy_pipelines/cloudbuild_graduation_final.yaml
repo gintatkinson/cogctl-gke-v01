@@ -4,7 +4,7 @@ steps:
   entrypoint: bash
   args:
   - -c
-  - "set -ex\nREGISTRY=\"us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs\"\
+  - "set -ex\nREGISTRY=\"${_CUSTOMER_REGISTRY}\"\
     \n\necho \"[FOUNDATION] Birthing Python-Base (Tag: 2026-04-21)...\"\ncat <<'EOF'\
     \ > Dockerfile.base\nFROM python:3.10-slim\n# [PHASE 7.57] Source-Based Reconciliation\
     \ (libyang v2)\nRUN apt-get update && apt-get install -y --no-install-recommends\
@@ -76,10 +76,10 @@ steps:
   entrypoint: bash
   args:
   - -c
-  - sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|"
-    baseline/tfs-controller/src/context/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/contextservice:$_TAG
+  - sed -i "1s|.*|FROM ${_CUSTOMER_REGISTRY}/python-base:$_TAG|"
+    baseline/tfs-controller/src/context/Dockerfile && docker build -t ${_CUSTOMER_REGISTRY}/contextservice:$_TAG
     -f baseline/tfs-controller/src/context/Dockerfile baseline/tfs-controller/ &&
-    docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/contextservice:$_TAG
+    docker push ${_CUSTOMER_REGISTRY}/contextservice:$_TAG
 - name: gcr.io/cloud-builders/docker
   id: forge-device
   waitFor:
@@ -87,10 +87,10 @@ steps:
   entrypoint: bash
   args:
   - -c
-  - sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|"
-    baseline/tfs-controller/src/device/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/deviceservice:$_TAG
+  - sed -i "1s|.*|FROM ${_CUSTOMER_REGISTRY}/python-base:$_TAG|"
+    baseline/tfs-controller/src/device/Dockerfile && docker build -t ${_CUSTOMER_REGISTRY}/deviceservice:$_TAG
     -f baseline/tfs-controller/src/device/Dockerfile baseline/tfs-controller/ && docker
-    push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/deviceservice:$_TAG
+    push ${_CUSTOMER_REGISTRY}/deviceservice:$_TAG
 - name: gcr.io/cloud-builders/docker
   id: forge-service
   waitFor:
@@ -98,10 +98,10 @@ steps:
   entrypoint: bash
   args:
   - -c
-  - sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|"
-    baseline/tfs-controller/src/service/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/serviceservice:$_TAG
+  - sed -i "1s|.*|FROM ${_CUSTOMER_REGISTRY}/python-base:$_TAG|"
+    baseline/tfs-controller/src/service/Dockerfile && docker build -t ${_CUSTOMER_REGISTRY}/serviceservice:$_TAG
     -f baseline/tfs-controller/src/service/Dockerfile baseline/tfs-controller/ &&
-    docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/serviceservice:$_TAG
+    docker push ${_CUSTOMER_REGISTRY}/serviceservice:$_TAG
 - name: gcr.io/cloud-builders/docker
   id: forge-slice
   waitFor:
@@ -109,10 +109,10 @@ steps:
   entrypoint: bash
   args:
   - -c
-  - sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|"
-    baseline/tfs-controller/src/slice/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/sliceservice:$_TAG
+  - sed -i "1s|.*|FROM ${_CUSTOMER_REGISTRY}/python-base:$_TAG|"
+    baseline/tfs-controller/src/slice/Dockerfile && docker build -t ${_CUSTOMER_REGISTRY}/sliceservice:$_TAG
     -f baseline/tfs-controller/src/slice/Dockerfile baseline/tfs-controller/ && docker
-    push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/sliceservice:$_TAG
+    push ${_CUSTOMER_REGISTRY}/sliceservice:$_TAG
 - name: gcr.io/cloud-builders/docker
   id: forge-pathcomp
   waitFor:
@@ -120,10 +120,10 @@ steps:
   entrypoint: bash
   args:
   - -c
-  - sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|"
-    baseline/tfs-controller/src/pathcomp/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/pathcompservice:$_TAG
+  - sed -i "1s|.*|FROM ${_CUSTOMER_REGISTRY}/python-base:$_TAG|"
+    baseline/tfs-controller/src/pathcomp/Dockerfile && docker build -t ${_CUSTOMER_REGISTRY}/pathcompservice:$_TAG
     -f baseline/tfs-controller/src/pathcomp/Dockerfile baseline/tfs-controller/ &&
-    docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/pathcompservice:$_TAG
+    docker push ${_CUSTOMER_REGISTRY}/pathcompservice:$_TAG
 - name: gcr.io/cloud-builders/docker
   id: forge-pathcomp-backend
   waitFor:
@@ -131,9 +131,9 @@ steps:
   entrypoint: bash
   args:
   - -c
-  - docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/pathcomp-backend:$_TAG
+  - docker build -t ${_CUSTOMER_REGISTRY}/pathcomp-backend:$_TAG
     -f baseline/tfs-controller/src/pathcomp/backend/Dockerfile baseline/tfs-controller/
-    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/pathcomp-backend:$_TAG
+    && docker push ${_CUSTOMER_REGISTRY}/pathcomp-backend:$_TAG
 - name: gcr.io/cloud-builders/docker
   id: forge-monitoring
   waitFor:
@@ -141,10 +141,10 @@ steps:
   entrypoint: bash
   args:
   - -c
-  - sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|"
-    baseline/tfs-controller/src/monitoring/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/monitoringservice:$_TAG
+  - sed -i "1s|.*|FROM ${_CUSTOMER_REGISTRY}/python-base:$_TAG|"
+    baseline/tfs-controller/src/monitoring/Dockerfile && docker build -t ${_CUSTOMER_REGISTRY}/monitoringservice:$_TAG
     -f baseline/tfs-controller/src/monitoring/Dockerfile baseline/tfs-controller/
-    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/monitoringservice:$_TAG
+    && docker push ${_CUSTOMER_REGISTRY}/monitoringservice:$_TAG
 - name: gcr.io/cloud-builders/docker
   id: forge-automation
   waitFor:
@@ -152,10 +152,10 @@ steps:
   entrypoint: bash
   args:
   - -c
-  - sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|"
-    baseline/tfs-controller/src/automation/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/automationservice:$_TAG
+  - sed -i "1s|.*|FROM ${_CUSTOMER_REGISTRY}/python-base:$_TAG|"
+    baseline/tfs-controller/src/automation/Dockerfile && docker build -t ${_CUSTOMER_REGISTRY}/automationservice:$_TAG
     -f baseline/tfs-controller/src/automation/Dockerfile baseline/tfs-controller/
-    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/automationservice:$_TAG
+    && docker push ${_CUSTOMER_REGISTRY}/automationservice:$_TAG
 - name: gcr.io/cloud-builders/docker
   id: forge-webui
   waitFor:
@@ -163,10 +163,10 @@ steps:
   entrypoint: bash
   args:
   - -c
-  - sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|"
-    baseline/tfs-controller/src/webui/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/webui:$_TAG
+  - sed -i "1s|.*|FROM ${_CUSTOMER_REGISTRY}/python-base:$_TAG|"
+    baseline/tfs-controller/src/webui/Dockerfile && docker build -t ${_CUSTOMER_REGISTRY}/webui:$_TAG
     -f baseline/tfs-controller/src/webui/Dockerfile baseline/tfs-controller/ && docker
-    push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/webui:$_TAG
+    push ${_CUSTOMER_REGISTRY}/webui:$_TAG
 - name: gcr.io/cloud-builders/docker
   id: forge-nbi
   waitFor:
@@ -174,10 +174,10 @@ steps:
   entrypoint: bash
   args:
   - -c
-  - sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|"
-    baseline/tfs-controller/src/nbi/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/nbi:$_TAG
+  - sed -i "1s|.*|FROM ${_CUSTOMER_REGISTRY}/python-base:$_TAG|"
+    baseline/tfs-controller/src/nbi/Dockerfile && docker build -t ${_CUSTOMER_REGISTRY}/nbi:$_TAG
     -f baseline/tfs-controller/src/nbi/Dockerfile baseline/tfs-controller/ && docker
-    push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/nbi:$_TAG
+    push ${_CUSTOMER_REGISTRY}/nbi:$_TAG
 - name: gcr.io/cloud-builders/docker
   id: forge-analytics-frontend
   waitFor:
@@ -185,10 +185,10 @@ steps:
   entrypoint: bash
   args:
   - -c
-  - sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|"
-    baseline/tfs-controller/src/analytics/frontend/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/analytics-frontend:$_TAG
+  - sed -i "1s|.*|FROM ${_CUSTOMER_REGISTRY}/python-base:$_TAG|"
+    baseline/tfs-controller/src/analytics/frontend/Dockerfile && docker build -t ${_CUSTOMER_REGISTRY}/analytics-frontend:$_TAG
     -f baseline/tfs-controller/src/analytics/frontend/Dockerfile baseline/tfs-controller/
-    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/analytics-frontend:$_TAG
+    && docker push ${_CUSTOMER_REGISTRY}/analytics-frontend:$_TAG
 - name: gcr.io/cloud-builders/docker
   id: forge-analytics-backend
   waitFor:
@@ -196,10 +196,10 @@ steps:
   entrypoint: bash
   args:
   - -c
-  - sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|"
-    baseline/tfs-controller/src/analytics/backend/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/analytics-backend:$_TAG
+  - sed -i "1s|.*|FROM ${_CUSTOMER_REGISTRY}/python-base:$_TAG|"
+    baseline/tfs-controller/src/analytics/backend/Dockerfile && docker build -t ${_CUSTOMER_REGISTRY}/analytics-backend:$_TAG
     -f baseline/tfs-controller/src/analytics/backend/Dockerfile baseline/tfs-controller/
-    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/analytics-backend:$_TAG
+    && docker push ${_CUSTOMER_REGISTRY}/analytics-backend:$_TAG
 - name: gcr.io/cloud-builders/docker
   id: forge-telemetry-frontend
   waitFor:
@@ -207,10 +207,10 @@ steps:
   entrypoint: bash
   args:
   - -c
-  - sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|"
-    baseline/tfs-controller/src/telemetry/frontend/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/telemetry-frontend:$_TAG
+  - sed -i "1s|.*|FROM ${_CUSTOMER_REGISTRY}/python-base:$_TAG|"
+    baseline/tfs-controller/src/telemetry/frontend/Dockerfile && docker build -t ${_CUSTOMER_REGISTRY}/telemetry-frontend:$_TAG
     -f baseline/tfs-controller/src/telemetry/frontend/Dockerfile baseline/tfs-controller/
-    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/telemetry-frontend:$_TAG
+    && docker push ${_CUSTOMER_REGISTRY}/telemetry-frontend:$_TAG
 - name: gcr.io/cloud-builders/docker
   id: forge-telemetry-backend
   waitFor:
@@ -218,10 +218,10 @@ steps:
   entrypoint: bash
   args:
   - -c
-  - sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|"
-    baseline/tfs-controller/src/telemetry/backend/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/telemetry-backend:$_TAG
+  - sed -i "1s|.*|FROM ${_CUSTOMER_REGISTRY}/python-base:$_TAG|"
+    baseline/tfs-controller/src/telemetry/backend/Dockerfile && docker build -t ${_CUSTOMER_REGISTRY}/telemetry-backend:$_TAG
     -f baseline/tfs-controller/src/telemetry/backend/Dockerfile baseline/tfs-controller/
-    && docker push us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/telemetry-backend:$_TAG
+    && docker push ${_CUSTOMER_REGISTRY}/telemetry-backend:$_TAG
 - name: gcr.io/google.com/cloudsdktool/cloud-sdk
   id: induction
   waitFor:
@@ -243,7 +243,7 @@ steps:
   - -c
   - "set -ex\necho \"[DEPLOY] Authenticating to Hardened Cottage: $_CLUSTER_NAME...\"\
     \ngcloud container clusters get-credentials \"$_CLUSTER_NAME\" --zone \"$_ZONE\"\
-    \ --project \"$PROJECT_ID\"\n\nREGISTRY=\"us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs\"\
+    \ --project \"$PROJECT_ID\"\n\nREGISTRY=\"${_CUSTOMER_REGISTRY}\"\
     \n\nCOMPONENTS=(\n    \"contextservice:contextservice.yaml\"\n    \"deviceservice:deviceservice.yaml\"\
     \n    \"serviceservice:serviceservice.yaml\"\n    \"sliceservice:sliceservice.yaml\"\
     \n    \"pathcompservice:pathcompservice.yaml\"\n    \"nbi:nbiservice.yaml\"\n\

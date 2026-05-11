@@ -14,5 +14,5 @@
 # limitations under the License.
 
 docker build -t mock-mw-sdn-ctrl:test -f Dockerfile .
-docker tag mock-mw-sdn-ctrl:test localhost:32000/tfs/mock-mw-sdn-ctrl:test
-docker push localhost:32000/tfs/mock-mw-sdn-ctrl:test
+docker tag mock-mw-sdn-ctrl:test ${_CUSTOMER_REGISTRY}/tfs/mock-mw-sdn-ctrl:test
+docker push ${_CUSTOMER_REGISTRY}/tfs/mock-mw-sdn-ctrl:test

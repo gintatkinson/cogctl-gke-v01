@@ -17,5 +17,5 @@
 cd $(dirname $0)
 
 docker build -t mock-ietf-actn-sdn-ctrl:test -f Dockerfile .
-docker tag mock-ietf-actn-sdn-ctrl:test localhost:32000/tfs/mock-ietf-actn-sdn-ctrl:test
-docker push localhost:32000/tfs/mock-ietf-actn-sdn-ctrl:test
+docker tag mock-ietf-actn-sdn-ctrl:test ${_CUSTOMER_REGISTRY}/tfs/mock-ietf-actn-sdn-ctrl:test
+docker push ${_CUSTOMER_REGISTRY}/tfs/mock-ietf-actn-sdn-ctrl:test

@@ -6,7 +6,7 @@
 set -e
 
 export PATH="/opt/homebrew/bin:/opt/homebrew/share/google-cloud-sdk/bin:$PATH"
-export PROJECT_ID="cogctl-gke-v01"
+export PROJECT_ID="${_CUSTOMER_PROJECT_ID}"
 export REGION="us-central1"
 
 log() { echo "[PURGE] $1"; }

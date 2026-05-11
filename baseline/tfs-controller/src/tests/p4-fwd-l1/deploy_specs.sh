@@ -13,7 +13,7 @@
 # limitations under the License.
 
 # Set the URL of your local Docker registry where the images will be uploaded to.
-export TFS_REGISTRY_IMAGE="http://localhost:32000/tfs/"
+export TFS_REGISTRY_IMAGE="http://${_CUSTOMER_REGISTRY}/tfs/"
 
 # Set the list of components, separated by spaces, you want to build images for, and deploy.
 export TFS_COMPONENTS="context device ztp service nbi monitoring webui"
