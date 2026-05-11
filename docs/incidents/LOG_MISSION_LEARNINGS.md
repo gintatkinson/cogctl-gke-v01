@@ -1,25 +1,23 @@
-# MISSION LEARNINGS: Sovereign GKE Foundation Restoration
+# LOG_MISSION_LEARNINGS.md: Sovereign GKE Enclave
 
-This document archives the critical technical hurdles and solutions identified during the "Ground Zero Reset" missions (Issues #26, #27). These patterns are mandatory for all future restoration cycles.
+This ledger codifies the forensic architectural lessons learned during the v3.0 Enclave restoration.
 
-## 1. The "Blind Birth" Deadlock (Network Architecture)
-- **Problem**: GKE Autopilot clusters with Private Nodes but no Cloud NAT would "birth" a control plane but fail to provision any worker nodes. This was a "Metadata Blackout" where nodes could not call home to the GCP orchestrator.
-- **Learning**: Cloud NAT is not a "post-install" convenience; it is a Mission Prerequisite. Node pool orchestration in Private Node clusters requires outbound reachability to the GCP Metadata servers.
-- **Fix**: Provision the VPC -> Router -> Cloud NAT GATEWAY before the GKE ignition. Verified via the SOP_GENESIS.md "Hardened Start" protocol.
+## Lesson 1: The Parallel OOM Spiral
+**Symptom**: Cloud Build failures during the 10-service synthesis phase.
+**Physics**: Standard Cloud Build workers (4GB RAM) cannot sustain the parallel execution of multiple Docker builds inheriting from the same heavy Gold Master. 
+**Resolution**: Parallel builds require the `E2_HIGHCPU_8` tier. Cost optimization requires **Sequential Throttling** on standard workers to maintain a low memory footprint.
 
-## 2. The API Gateway Deadlock (Identity & Access)
-- **Problem**: Enabling "enablePrivateEndpoint: true" completely blocks external AI Agent access even if the Agent IP is added to the Master Authorized Networks.
-- **Learning**: Private Endpoints are strictly VPC-internal. For "Sovereign but Automated" missions, the Control Plane must have a Public Endpoint enabled but restricted via Master Authorized Networks to only the Agent and User IPs.
-- **Fix**: Use "Public Master / Private Nodes" architecture for automated restoration.
+## Lesson 2: The Module Isolation Gap
+**Symptom**: `ModuleNotFoundError` during service ignition.
+**Physics**: TFS microservices are not atomic binaries; they require the `common` shared logic AND the client libraries of peer services (`context`, `device`, `service`) to initialize internal collectors.
+**Resolution**: Inter-service dependencies must be explicitly ingested during the "Gold Master" synthesis phase.
 
-## 3. The "Warden" Policy Initiation Window
-- **Problem**: Immediately after a cluster hits 'RUNNING', kubectl commands are often rejected with 'GKE Warden authz [denied by required-webhooks-limitation]'.
-- **Learning**: Autopilot has a background policy propagation phase that lasts ~2-3 minutes.
-- **Fix**: Implement a 120-second Mandatory Idle in all bootstrap scripts after cluster readiness is confirmed.
+## Lesson 3: Foundation Purity (Gold Master)
+**Symptom**: Inconsistent behavior and "Blind Births" across the enclave.
+**Physics**: Shared logic drift occurs when services inherit from different foundation baselines.
+**Resolution**: All core logic and client connectivity stubs must be anchored in the `Dockerfile.base` (The Gold Master) to ensure architectural parity across all 10 services.
 
-## 4. Legacy Secret Reliance (TFS Microservices)
-- **Problem**: TFS Core services (Monitoring, KPI-Manager) threw 'CreateContainerConfigError' despite the database being alive.
-- **Learning**: The official ETSI TFS manifests rely on legacy secret names (e.g., 'qdb-data' for QuestDB) that are not automatically birthed by the standard secret sync.
-- **Fix**: Codified the legacy secret injection into infra/vault_bootstrap.sh and manually initialized the 'qdb-data' baseline.
-SUCCESS: 7 Devices, 9 Links, 1 Context loaded via tests.tools.load_scenario
-CRITICAL: Services live in 'default' namespace, not 'tfs'.
+## Lesson 4: The Local Execution Catastrophe (Python 3.14 Incident)
+**Symptom**: \`gcloud\` fails to load with Python 3.14 unsupported error; operational deadlock on local scripts.
+**Physics**: Local workstations are unstable environments subject to experimental OS upgrades and dependency drift. Direct execution of cloud commands from a workstation creates a fragile dependency on the host's runtime.
+**Resolution**: **NO SUCH THING AS LOCAL.** All operational logic must be extracted into remote Induction Gateways (Cloud Build). The local workstation must only serve as a portal for build submission, ensuring the system is immune to local environment changes.
