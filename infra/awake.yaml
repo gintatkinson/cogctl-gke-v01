@@ -86,8 +86,10 @@ steps:
 
     echo "Waiting for Cockroach Operator Readiness (SOP-03)..."
 
+    sleep 30
+
     kubectl rollout status deployment/cockroach-operator-manager -n cockroach-operator-system
-    --timeout=120s
+    --timeout=300s
 
 
     # [SPEC: Orchestration Race Condition] - Mandatory settling delay to avoid webhook
