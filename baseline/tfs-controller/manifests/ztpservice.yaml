@@ -54,8 +54,7 @@ spec:
           value: contextservice
         - name: DEVICE_SERVICE_HOST
           value: deviceservice
-        image: 
-          us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/ztp:v3.1-graduation
+        image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/ztp:rc13-verified
         imagePullPolicy: Always
         name: ztpservice
         ports:

@@ -45,8 +45,7 @@ spec:
       terminationGracePeriodSeconds: 5
       containers:
       - name: connector
-        image: 
-          us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/dlt-connector:v3.1-graduation
+        image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/dlt-connector:rc13-verified
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
@@ -67,8 +66,7 @@ spec:
             cpu: 1000m
             memory: 1024Mi
       - name: gateway
-        image: 
-          us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/dlt-gateway:v3.1-graduation
+        image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/dlt-gateway:rc13-verified
         imagePullPolicy: Always
         ports:
         - containerPort: 50051

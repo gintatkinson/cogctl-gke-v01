@@ -1,9 +1,43 @@
-# SOVEREIGN GENESIS: REMOTE IGNITION ENGINE (SIP-01)
-# Rebuilds compute and deploys the full service stack from within the cloud.
+# SOVEREIGN GENESIS: TOTAL RESURRECTION PIPELINE
+# Combines Hibernate (Purge) and Awake (Ignition) for a single-pass Tabula Rasa restoration.
 
 steps:
+# PHASE 1: THE PURGE (From hibernate.yaml)
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  id: 'purge-cluster'
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - |
+      set -ex
+      echo "[PURGE] Deleting Cluster: ${_CLUSTER_NAME}..."
+      gcloud container clusters delete "${_CLUSTER_NAME}" \
+          --zone "${_ZONE}" \
+          --project "${PROJECT_ID}" \
+          --quiet || echo "Cluster not found, proceeding..."
+
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  id: 'purge-disks'
+  waitFor: ['purge-cluster']
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - |
+      set -ex
+      echo "[PURGE] Searching for orphaned PVC disks in ${_ZONE}..."
+      PVC_DISKS=$(gcloud compute disks list --project "${PROJECT_ID}" --filter="zone:${_ZONE} AND name~pvc-.*" --format="value(name)")
+      
+      if [ -n "$$PVC_DISKS" ]; then
+          echo "[PURGE] Deleting disks: $$PVC_DISKS"
+          gcloud compute disks delete $$PVC_DISKS --zone "${_ZONE}" --project "${PROJECT_ID}" --quiet
+      else
+          echo "[PURGE] No orphaned disks found. Zero-debt achieved."
+      fi
+
+# PHASE 2: THE IGNITION (From awake.yaml)
 - name: 'hashicorp/terraform:1.5.0'
   id: 'terraform-ignition'
+  waitFor: ['purge-disks']
   entrypoint: 'sh'
   args:
     - '-c'
@@ -69,7 +103,7 @@ steps:
     - |
       set -ex
       gcloud container clusters get-credentials "${_CLUSTER_NAME}" --zone "${_ZONE}" --project "${PROJECT_ID}"
-      echo "[IGNITION] Inducting Declarative Secrets (SOP-05)..."
+      echo "[IGNITION] Inducting Declarative Secrets..."
       kubectl apply -f baseline/tfs-controller/manifests/graduation_secrets.yaml
 
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
@@ -83,14 +117,14 @@ steps:
       gcloud container clusters get-credentials "${_CLUSTER_NAME}" --zone "${_ZONE}" --project "${PROJECT_ID}"
       echo "[IGNITION] Inducting Hardened Persistence Fabric from Baseline..."
       
-      # [SOP-07] Pre-requisite Storage Class Induction (SOP-01)
+      # [SOP-07] Pre-requisite Storage Class Induction
       kubectl apply -f infra/storage-class-hardened.yaml
       
       # [SOP-08] Deterministic Backbone Induction
       kubectl apply -f baseline/tfs-controller/manifests/cockroachdb/crds.yaml
       kubectl apply -f baseline/tfs-controller/manifests/cockroachdb/operator.yaml
       
-      echo "Waiting for Cockroach Operator Readiness (SOP-03)..."
+      echo "Waiting for Cockroach Operator Readiness..."
       kubectl rollout status deployment/cockroach-operator-manager -n cockroach-operator-system --timeout=120s
       
       # [SPEC: Orchestration Race Condition] - Mandatory settling delay to avoid webhook deadlocks
@@ -111,7 +145,7 @@ steps:
     - |
       set -ex
       gcloud container clusters get-credentials "${_CLUSTER_NAME}" --zone "${_ZONE}" --project "${PROJECT_ID}"
-      echo "[IGNITION] Inducting Application Services from Baseline..."
+      echo "[IGNITION] Inducting Application Services from Stabilized Baseline..."
       SERVICES=(
         "contextservice" "deviceservice" "serviceservice"
         "pathcompservice" "sliceservice" "interdomainservice"
@@ -128,6 +162,7 @@ substitutions:
   _CLUSTER_NAME: "sovereign-genesis"
   _ZONE: "us-central1-a"
   _NAMESPACE: "sovereign-genesis"
+
 
 options:
   logging: CLOUD_LOGGING_ONLY

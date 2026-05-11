@@ -33,8 +33,7 @@ spec:
       shareProcessNamespace: true
       containers:
       - name: server
-        image: 
-          us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/te:v3.1-graduation
+        image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/te:rc13-verified
         imagePullPolicy: Always
         ports:
         - containerPort: 10030

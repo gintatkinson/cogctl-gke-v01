@@ -17,17 +17,14 @@
 - **Requirement**: Mandatory for all GKE Genesis clusters to prevent "Blind Birth" (stalled nodes).
 
 ## 5. Subprocess: GKE Cluster Provisioning
-- **Action**: Provision the target GKE cluster (Standard or Autopilot).
-<<<<<<< HEAD
-- **Current Anchor**: `$(LATEST_CLUSTER_NAME)`.
-=======
-- **Current Anchor**: `sovereign-genesis-1776197184`.
->>>>>>> 23adec0 (docs: physical migration to resolve 404 deadlocks)
+- **Action**: Provision the target GKE cluster via declarative Terraform.
+- **Reference**: `infra/terraform/main.tf`.
+- **Current Anchor**: `sovereign-genesis`.
 
 ## 6. Subprocess: Node Fabric Verification
-- **Action**: Verify that nodes are `Ready` and have registered with the control plane via `kubectl get nodes`.
-- **Constraint**: Halt if node count is zero.
+- **Action**: Verify that nodes are `Ready` and have registered with the control plane.
+- **Verification**: `kubectl get nodes` (Expected: 3 Nodes).
 
 ---
-**Status**: ACTIVE
-**Source Files**: Refactored from `SOP_BOOTSTRAP.md`, `SOP_RESET.md`.
+**Status**: ACTIVE (v4.0 Re-Forge)
+**Source Files**: Refactored from `awake.yaml` and `terraform`.

@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: nats
-        image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/nats:2.9-alpine
+        image: nats:2.9-alpine
         ports:
         - containerPort: 4222
           name: client

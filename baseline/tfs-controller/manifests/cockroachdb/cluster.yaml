@@ -16,7 +16,8 @@ spec:
           - ReadWriteOnce
         resources:
           requests:
-            storage: "60Gi"
+            storage: "10Gi"
+        storageClassName: hardened-storage
         volumeMode: Filesystem
   resources:
     requests:
@@ -27,7 +28,7 @@ spec:
       memory: "2Gi"
   tlsEnabled: false
   image:
-    name: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/cockroach:v22.2.8
+    name: cockroachdb/cockroach:v22.2.8
   # nodes refers to the number of crdb pods that are created
   # via the statefulset
   nodes: 3

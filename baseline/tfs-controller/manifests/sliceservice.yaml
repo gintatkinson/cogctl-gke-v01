@@ -31,8 +31,7 @@ spec:
       terminationGracePeriodSeconds: 5
       containers:
       - name: server
-        image: 
-          us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/sliceservice:v3.1-graduation
+        image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/slice:rc13-verified
         imagePullPolicy: Always
         ports:
         - containerPort: 4040

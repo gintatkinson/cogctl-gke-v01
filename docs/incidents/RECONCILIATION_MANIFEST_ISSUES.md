@@ -144,7 +144,10 @@ Build #74 failed after workspace reset because Dockerfiles could not resolve sou
 
 ### 3. Authorized Solution
 [SOP-02: Directory Anchoring](../solutions/SOP-02.md)
+
 | REC-049 | Namespace Leak (Default Scoping) | Deployment of services without explicit `-n` flag in `awake.yaml` caused resources to leak into the `default` namespace. | Explicitly scope all `kubectl apply` commands with `${_NAMESPACE}` in ignition scripts. |
 | REC-050 | Monitoring CRD Deadlock | Attempting to induct `ServiceMonitor` resources from `baseline/` failed because Prometheus Operator was not pre-installed. | Filter out `servicemonitors.yaml` during initial graduation; install operator as a post-graduation step. |
 | REC-051 | Prometheus YAML Syntax Error | `prometheus.yaml` contained an invalid trailing `--- null` separator, causing parser failure in `kubectl`. | Surgically removed invalid trailing characters from the baseline manifest. |
-| REC-052 | MetalLB CRD Deadlock | `metallb.yaml` requires `IPAddressPool` and `L2Advertisement` CRDs which are not present in GKE environments. | Excluded MetalLB manifests from the induction set via content-based filtering. |
+| REC-052 | MetalLB Deadlock | Excluded L2/IPPool manifests from induction | RESOLVED |
+| REC-055 | Unauthorized Deployment | Induction of 24 services instead of 11 | RESOLVED |
+| REC-057 | Whitelist Hardening | Replaced wildcard induction with Core 11 whitelist | RESOLVED |

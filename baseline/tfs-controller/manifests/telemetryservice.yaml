@@ -31,8 +31,7 @@ spec:
       terminationGracePeriodSeconds: 5
       containers:
       - name: frontend
-        image: 
-          us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/telemetry-frontend:v3.1-graduation
+        image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/telemetry-frontend:rc13-verified
         imagePullPolicy: Always
         ports:
         - containerPort: 30050
@@ -43,7 +42,7 @@ spec:
         - name: CRDB_DATABASE
           value: "tfs_telemetry"
         - name: CRDB_NAMESPACE
-          value: "default"
+          value: "sovereign-genesis"
         - name: CRDB_SQL_PORT
           value: "26257"
         - name: CRDB_HOST
@@ -65,8 +64,7 @@ spec:
             cpu: 1000m
             memory: 1024Mi
       - name: backend
-        image: 
-          us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/telemetry-backend:v3.1-graduation
+        image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/telemetry-backend:rc13-verified
         imagePullPolicy: Always
         ports:
         - containerPort: 30060
@@ -79,7 +77,7 @@ spec:
         - name: CRDB_DATABASE
           value: "tfs_telemetry"
         - name: CRDB_NAMESPACE
-          value: "default"
+          value: "sovereign-genesis"
         - name: CRDB_SQL_PORT
           value: "26257"
         - name: CRDB_HOST

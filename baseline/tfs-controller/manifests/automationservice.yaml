@@ -34,8 +34,7 @@ spec:
       terminationGracePeriodSeconds: 5
       containers:
       - name: server
-        image: 
-          us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/automationservice:v3.1-graduation
+        image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/automation:rc13-verified
         imagePullPolicy: Always
         ports:
         - containerPort: 30200
@@ -76,7 +75,7 @@ spec:
         - name: CRDB_DATABASE
           value: "tfs_automation"
         - name: CRDB_NAMESPACE
-          value: "default"
+          value: "sovereign-genesis"
         - name: CRDB_SSLMODE
           value: "disable"
         - name: CRDB_SQL_PORT

@@ -12,13 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# PHASE 2: Gold Master Refactor
-FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:rc13-verified
-
-# Add component code
+FROM maven:3.9-eclipse-temurin-17 AS builder
 WORKDIR /var/teraflow
-COPY . policy/
+COPY proto/  proto/
+COPY src/policy/  src/policy/
+RUN mvn -f src/policy/pom.xml clean package -DskipTests
 
-# Standardize logs and entrypoint
-ENV PYTHONUNBUFFERED=1
-ENTRYPOINT ["python", "-m", "policy.service"]
+FROM eclipse-temurin:17-jre-alpine
+WORKDIR /var/teraflow
+COPY --from=builder /var/teraflow/src/policy/target/quarkus-app/ /var/teraflow/quarkus-app/
+ENTRYPOINT ["java", "-jar", "/var/teraflow/quarkus-app/quarkus-run.jar"]

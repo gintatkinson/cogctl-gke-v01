@@ -35,7 +35,7 @@ spec:
     port: 9093
     protocol: TCP
     targetPort: 9093
-  - name: external    # for testing purposes (To expose Kafka outside the cluster)
+  - name: external
     port: 9094
     protocol: TCP
     targetPort: 9094
@@ -52,7 +52,6 @@ spec:
       app.kubernetes.io/name: kafka
   serviceName: "kafka-public"
   replicas: 1
-  minReadySeconds: 5
   template:
     metadata:
       labels:
@@ -60,18 +59,19 @@ spec:
         app.kubernetes.io/instance: kafka
         app.kubernetes.io/name: kafka
     spec:
+      securityContext:
+        fsGroup: 1001
       terminationGracePeriodSeconds: 10
-      restartPolicy: Always
       containers:
       - name: kafka
-        image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/kafka:latest
+        image: bitnamilegacy/kafka:latest
         imagePullPolicy: IfNotPresent
         ports:
         - name: clients
           containerPort: 9092
         - name: control-plane
           containerPort: 9093
-        - name: external    # for testing purposes
+        - name: external
           containerPort: 9094
         env:
           - name: KAFKA_CFG_NODE_ID
@@ -79,15 +79,22 @@ spec:
           - name: KAFKA_CFG_PROCESS_ROLES
             value: "controller,broker"
           - name: KAFKA_CFG_LISTENERS
-            value: "PLAINTEXT://:9092,CONTROLLER://:9093,EXTERNAL://:9094" # EXTERNAL://:9094 for testing purposes
+            value: "PLAINTEXT://:9092,CONTROLLER://:9093,EXTERNAL://:9094"
           - name: KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP
             value: "PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT,EXTERNAL:PLAINTEXT"
           - name: KAFKA_CFG_ADVERTISED_LISTENERS
-            value: "PLAINTEXT://kafka-public.kafka.svc.cluster.local:9092,EXTERNAL://localhost:9094"
+            value: "PLAINTEXT://kafka-public.sovereign-genesis.svc.cluster.local:9092,EXTERNAL://localhost:9094"
           - name: KAFKA_CFG_CONTROLLER_LISTENER_NAMES
             value: "CONTROLLER"
           - name: KAFKA_CFG_CONTROLLER_QUORUM_VOTERS
             value: "1@kafka-0:9093"
+          - name: KAFKA_CFG_CONTROLLER_ID
+            value: "1"
+          - name: KAFKA_KRAFT_CLUSTER_ID
+            value: "5L6g3nShT-eMCtK--X86sw"
+        volumeMounts:
+          - name: data
+            mountPath: /bitnami/kafka
         resources:
           requests:
             cpu: "125m"
@@ -95,3 +102,13 @@ spec:
           limits:
             cpu: "1"
             memory: 2Gi
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        storageClassName: hardened-storage
+        resources:
+          requests:
+            storage: 20Gi

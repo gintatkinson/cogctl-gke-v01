@@ -1,25 +1,24 @@
-# Sovereign "Wisdom Harvest" Master Index
-**Domain:** GKE Genesis v3.0 Infrastructure
-**Status:** Reconciled / Hardened
+# SOVEREIGN GKE GENESIS v4.0: RESURRECTION PROTOCOL
+**Status:** TABULA RASA ACHIEVED / RECLAMATION COMPLETE
 
-This index serves as the primary gateway to the Sovereign implementation plans and forensic artifacts.
+This repository is the **Sole Source of Truth** for the Sovereign GKE Genesis infrastructure. The system is currently in a state of **Zero-Debt**, awaiting Phase 3: Declarative Ignition.
 
-## 1. Solution Briefs (`/docs/solutions/`)
-Core architectural hardening and bug-fix specifications.
+## 1. OPERATIONAL AUTHORITY
+| Artifact | Role |
+| :--- | :--- |
+| [DURABILITY_CHECKLIST.md](DURABILITY_CHECKLIST.md) | **PRIMARY GATE**. Mandatory audit before any ignition. |
+| [SUCCESSION_LOG_BLACKBOX.md](incidents/SUCCESSION_LOG_BLACKBOX.md) | **FORENSIC RECORD**. All failure modes and fixes. |
+| [SOVEREIGN DIRECTIVES.MD](solutions/SOVEREIGN%20DIRECTIVES.MD) | **POLICY GOVERNANCE**. Immutable rules of the enclave. |
 
-*   [SPEC_CRDB_RESOLUTION.md](solutions/SPEC_CRDB_RESOLUTION.md) - **Authoritative:** NATS/Context gRPC identity and NATS_NAMESPACE resolution.
-*   [solution_spec_crdb_operator_genesis.md](solutions/solution_spec_crdb_operator_genesis.md) - CRDB persistence and operator stabilization.
-*   [solution_spec_foundation_fidelity_correction.md](solutions/solution_spec_foundation_fidelity_correction.md) - Kafka broker (nbiservice) reconciliation.
-*   [solution_spec_readiness_relaxation.md](solutions/solution_spec_readiness_relaxation.md) - GKE Autopilot readiness probe bypassing protocol.
-*   [audit_foundation_fidelity.md](solutions/audit_foundation_fidelity.md) - Baseline image mirror and registry audit.
+## 2. IGNITION ENGINES (`/infra/`)
+*   [resurrect.yaml](file:///home/parallels/Desktop/cogctl-gke-v01/infra/resurrect.yaml) - **TOTAL TABULA RASA**. Purge + Rebuild.
+*   [awake.yaml](file:///home/parallels/Desktop/cogctl-gke-v01/infra/awake.yaml) - **REMOTE IGNITION**. Builds the enclave from Zero.
+*   [hibernate.yaml](file:///home/parallels/Desktop/cogctl-gke-v01/infra/hibernate.yaml) - **ZERO CONSUMPTION**. Suspends the enclave.
 
-## 2. Forensic Records (`/docs/incidents/`)
-Logs and audits from the Genesis v3.0 birth cycle.
+## 3. ARCHITECTURE & SOLUTIONS (`/docs/solutions/`)
+*   [SOP-01: Foundation Provisioning](solutions/SOP-01.md)
+*   [SOP-04: Application Rollout](solutions/SOP-04.md)
+*   [SPEC_CRDB_RESOLUTION.md](solutions/SPEC_CRDB_RESOLUTION.md) - Database identity protocol.
 
-*   [13_SCREEN_AUDIT.md](incidents/13_SCREEN_AUDIT.md) - Detailed UI/UX compliance verification.
-*   [RECOVERY_ANCHOR.md](incidents/RECOVERY_ANCHOR.md) - Post-reconciliation operational state.
-*   [SUCCESSION_LOG.md](incidents/SUCCESSION_LOG.md) - Timeline of infrastructure birthing.
-
-## 3. Standard Operating Procedures (SOPs)
-Sequential execution paths for infrastructure management.
-*   [SOP-01 through SOP-06](solutions/) - Standard restoration workflows.
+---
+**Warning:** NO `sed` hacks. NO `default` namespace. NO ad-hoc patches. Follow the [DURABILITY_CHECKLIST.md](DURABILITY_CHECKLIST.md) or face Governance Breach.

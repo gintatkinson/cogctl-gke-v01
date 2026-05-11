@@ -31,8 +31,7 @@ spec:
       terminationGracePeriodSeconds: 5
       containers:
       - name: server
-        image: 
-          us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/qkd_app:v3.1-graduation
+        image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/qkd_app:rc13-verified
         imagePullPolicy: Always
         ports:
         - containerPort: 10060
@@ -43,7 +42,7 @@ spec:
         - name: CRDB_DATABASE
           value: "tfs_qkd_app"
         - name: CRDB_NAMESPACE
-          value: "default"
+          value: "sovereign-genesis"
         - name: CRDB_SQL_PORT
           value: "26257"
         envFrom:
