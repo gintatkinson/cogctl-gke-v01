@@ -119,8 +119,11 @@ steps:
     \ -n \"${_NAMESPACE}\"\ndone\nkubectl apply -f infra/tfs_ingress.yaml -n \"${_NAMESPACE}\"\
     \necho \"[SUCCESS] Sovereign Enclave is operational.\"\n"
 substitutions:
-  _CLUSTER_NAME: sovereign-genesis
-  _ZONE: us-central1-a
-  _NAMESPACE: sovereign-genesis
+  _CUSTOMER_PROJECT_ID: "PROJECT_ID_PENDING"
+  _CUSTOMER_REGISTRY: "REGISTRY_PENDING"
+  _TARGET_REGION: "us-central1"
+  _TARGET_ZONE: "us-central1-a"
+  _CLUSTER_NAME: "sovereign-genesis"
+  _NAMESPACE: "sovereign-genesis"
 options:
   logging: CLOUD_LOGGING_ONLY
