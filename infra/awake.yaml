@@ -4,7 +4,7 @@ steps:
   entrypoint: bash
   args:
   - -c
-  - "echo 'Ignition Validated for: ${_CUSTOMER_PROJECT_ID} | ${_CUSTOMER_REGISTRY} | ${_TARGET_REGION} | ${_TARGET_ZONE}'"
+  - "echo 'Ignition Validated for: ${_CUSTOMER_PROJECT_ID} | ${_CUSTOMER_REGISTRY} | ${_TARGET_REGION} | ${_TARGET_ZONE} | ${_REGION} | ${_ZONE} | ${_CLUSTER_NAME} | ${_NAMESPACE}'"
 - name: hashicorp/terraform:1.5.0
   id: terraform-ignition
   entrypoint: sh
