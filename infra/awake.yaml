@@ -121,7 +121,7 @@ steps:
       "webuiservice"
     )
     for SERVICE in "${SERVICES[@]}"; do
-      kubectl apply -f "baseline/tfs-controller/manifests/${SERVICE}.yaml" -n "${_NAMESPACE}"
+      kubectl apply -f "baseline/tfs-controller/manifests/$${SERVICE}.yaml" -n "${_NAMESPACE}"
     done
     kubectl apply -f infra/tfs_ingress.yaml -n "${_NAMESPACE}"
     echo "[SUCCESS] Sovereign Enclave is operational."
