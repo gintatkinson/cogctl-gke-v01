@@ -1,6 +1,6 @@
 terraform {
   backend "gcs" {
-    bucket = "${_CUSTOMER_PROJECT_ID}-tfstate"
+    bucket = "sov-gen-v32-86684-tfstate"
     prefix = "terraform/state"
   }
 }
