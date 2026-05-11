@@ -113,10 +113,10 @@ steps:
   - |
     set -ex
     gcloud container clusters get-credentials "${_CLUSTER_NAME}" --zone "${_ZONE}" --project "${PROJECT_ID}"
-    echo "[IGNITION] Hydrating Kustomize Overlay..."
-    sed -i "s|REGISTRY_PLACEHOLDER|${_CUSTOMER_REGISTRY}|g" baseline/tfs-controller/manifests/kustomization.yaml
-    echo "[IGNITION] Inducting Application Services via Kustomize (Hydrated)..."
-    kubectl apply -k baseline/tfs-controller/manifests/ -n "${_NAMESPACE}"
+    echo "[IGNITION] Running Hydration Engine..."
+    python3 scripts/hydrate_blueprints.py "${_CUSTOMER_REGISTRY}" "${_CUSTOMER_PROJECT_ID}"
+    echo "[IGNITION] Inducting Application Services (Hydrated)..."
+    kubectl apply -f baseline/tfs-controller/manifests/ -n "${_NAMESPACE}"
     kubectl apply -f infra/tfs_ingress.yaml -n "${_NAMESPACE}"
     echo "[SUCCESS] Sovereign Enclave is operational."
 substitutions:
