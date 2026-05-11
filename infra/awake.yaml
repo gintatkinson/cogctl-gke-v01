@@ -86,7 +86,7 @@ steps:
 
     # [SOP-08] Deterministic Backbone Induction
     echo "[IGNITION] Inducting Cert-Manager (Webhook TLS Provider)..."
-    kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.14.4/cert-manager.yaml
+    kubectl apply -f baseline/tfs-controller/manifests/cert-manager/operator.yaml
     kubectl rollout status deployment/cert-manager-webhook -n cert-manager --timeout=300s
 
     kubectl apply -f baseline/tfs-controller/manifests/cockroachdb/crds.yaml
