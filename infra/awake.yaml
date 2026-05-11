@@ -12,7 +12,7 @@ steps:
   - -c
   - "set -ex\ncd infra/terraform\nterraform init -upgrade\nterraform apply -auto-approve\
     \ \\\n  -var=\"project_id=${PROJECT_ID}\" \\\n  -var=\"cluster_name=${_CLUSTER_NAME}\"\
-    \ \\\n  -var=\"zone=${_ZONE}\"\n"
+    \ \\\n  -var=\"region=${_REGION}\" \\\n  -var=\"zone=${_ZONE}\"\n"
 - name: gcr.io/google.com/cloudsdktool/cloud-sdk
   id: wait-for-foundation
   waitFor:
