@@ -1,0 +1,16 @@
+steps:
+- name: hashicorp/terraform:1.5.0
+  id: terraform-destroy
+  entrypoint: sh
+  args:
+  - -c
+  - "set -ex\ncd infra/terraform\nterraform init -upgrade\nterraform destroy -auto-approve\
+    \ \\\n  -var=\"project_id=${PROJECT_ID}\" \\\n  -var=\"cluster_name=${_CLUSTER_NAME}\"\
+    \ \\\n  -var=\"region=${_REGION}\" \\\n  -var=\"zone=${_ZONE}\"\n"
+substitutions:
+  _CLUSTER_NAME: sovereign-genesis
+  _REGION: us-central1
+  _ZONE: us-central1-a
+timeout: 3600s
+options:
+  logging: CLOUD_LOGGING_ONLY
