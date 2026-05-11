@@ -1,58 +1,54 @@
-# CLOUD BUILD: STAGED SEQUENTIAL RECONCILIATION (Cost-Optimized)
-# This manifest ensures architectural parity while maintaining a low memory footprint.
-
 steps:
-  # Phase 1: Birth the Universal Foundation (With Resuscitated DNA)
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '--no-cache', '-t', '$_REGISTRY/python-base:2026-04-21', '-f', 'baseline/tfs-controller/src/common/Dockerfile.base', '.']
-    id: 'build-foundation'
+- name: gcr.io/cloud-builders/docker
+  args:
+  - build
+  - --no-cache
+  - -t
+  - $_REGISTRY/python-base:2026-04-21
+  - -f
+  - baseline/tfs-controller/src/common/Dockerfile.base
+  - .
+  id: build-foundation
+- name: gcr.io/cloud-builders/docker
+  id: sequential-synth
+  env:
+  - SERVICES=$_SERVICES
+  - TAG=$_TAG
+  - REGISTRY=$_REGISTRY
+  entrypoint: bash
+  args:
+  - -c
+  - "# Phase 7.35: Final Graduation Forge (Build #48)\nset -ex\nIFS=',' read -ra ADDR\
+    \ <<< \"$$SERVICES\"\nfor S in \"$${ADDR[@]}\"; do\n  echo \"THRUST INITIATED:\
+    \ Surgical Re-Synthesis for -> $$S\"\n  S_IMG=\"$$S\"\n  # Topographic alignment:\
+    \ Append 'service' suffix where required\n  [[ \"$$S\" != \"webui\" && \"$$S\"\
+    \ != \"nbi\" ]] && S_IMG=\"$${S}service\"\n  docker build -t \"$_REGISTRY/$$S_IMG:$_TAG\"\
+    \ -f \"baseline/tfs-controller/src/$$S/Dockerfile\" .\n  docker push \"$_REGISTRY/$$S_IMG:$_TAG\"\
+    \ndone\n"
+  waitFor:
+  - build-foundation
+- name: gcr.io/google.com/cloudsdktool/cloud-sdk
+  entrypoint: bash
+  args:
+  - -c
+  - 'gcloud builds submit --config infra/cloudbuild_deploy_core.yaml .
 
-  # Phase 2: Sequential Throttling (Low Memory Footprint)
-  - name: 'gcr.io/cloud-builders/docker'
-    id: 'sequential-synth'
-    env:
-      - 'SERVICES=$_SERVICES'
-      - 'TAG=$_TAG'
-      - 'REGISTRY=$_REGISTRY'
-    entrypoint: 'bash'
-    args:
-      - '-c'
-      - |
-        # Phase 7.35: Final Graduation Forge (Build #48)
-        set -ex
-        IFS=',' read -ra ADDR <<< "$$SERVICES"
-        for S in "$${ADDR[@]}"; do
-          echo "THRUST INITIATED: Surgical Re-Synthesis for -> $$S"
-          S_IMG="$$S"
-          # Topographic alignment: Append 'service' suffix where required
-          [[ "$$S" != "webui" && "$$S" != "nbi" ]] && S_IMG="$${S}service"
-          docker build -t "$_REGISTRY/$$S_IMG:$_TAG" -f "baseline/tfs-controller/src/$$S/Dockerfile" .
-          docker push "$_REGISTRY/$$S_IMG:$_TAG"
-        done
-    waitFor: ['build-foundation']
+    '
+  waitFor:
+  - sequential-synth
+- name: gcr.io/google.com/cloudsdktool/cloud-sdk
+  entrypoint: bash
+  args:
+  - -c
+  - 'gcloud builds submit --config infra/cloudbuild_final_verify.yaml --substitutions=_CLUSTER_NAME="sovereign-genesis-1776701765"
+    .
 
-  # Phase 3: Declarative Deployment (Sync)
-  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    entrypoint: 'bash'
-    args:
-      - '-c'
-      - |
-        gcloud builds submit --config infra/cloudbuild_deploy_core.yaml .
-    waitFor: ['sequential-synth']
-
-  # Phase 4: Automated Verification (Audit)
-  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    entrypoint: 'bash'
-    args:
-      - '-c'
-      - |
-        gcloud builds submit --config infra/cloudbuild_final_verify.yaml --substitutions=_CLUSTER_NAME="sovereign-genesis-1776701765" .
-    waitFor: ['sequential-synth']
-
+    '
+  waitFor:
+  - sequential-synth
 images:
-  - 'us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:2026-04-21'
-
+- us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:2026-04-21
 substitutions:
-  _SERVICES: "context,device,service,slice,automation,monitoring,nbi,webui,pathcomp,policy"
-  _TAG: "2026-04-21-rc4"
-  _REGISTRY: "us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs"
+  _SERVICES: context,device,service,slice,automation,monitoring,nbi,webui,pathcomp,policy
+  _TAG: 2026-04-21-rc4
+  _REGISTRY: ${_CUSTOMER_REGISTRY}

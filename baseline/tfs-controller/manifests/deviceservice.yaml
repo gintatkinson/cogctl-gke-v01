@@ -1,17 +1,3 @@
-# Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#      http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -26,35 +12,36 @@ spec:
   template:
     metadata:
       annotations:
-        # Required for IETF L2VPN SBI when both parent and child run in same K8s cluster with Linkerd
-        config.linkerd.io/skip-outbound-ports: "8002"
+        config.linkerd.io/skip-outbound-ports: '8002'
       labels:
         app: deviceservice
     spec:
       terminationGracePeriodSeconds: 5
       containers:
       - name: server
-        image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/device:rc13-verified
+        image: ${_CUSTOMER_REGISTRY}/device:rc13-verified
         imagePullPolicy: Always
         ports:
         - containerPort: 2020
         - containerPort: 9192
-        command: ["/bin/sh", "-c"]
+        command:
+        - /bin/sh
+        - -c
         args:
-        - "pip install macaddress p4runtime==1.3.0 && python -m device.service"
+        - pip install macaddress p4runtime==1.3.0 && python -m device.service
         env:
         - name: LOG_LEVEL
-          value: "INFO"
+          value: INFO
         - name: CONTEXTSERVICE_HOST
-          value: "contextservice"
+          value: contextservice
         - name: CONTEXTSERVICE_PORT
-          value: "1010"
+          value: '1010'
         - name: CRDB_NAMESPACE
-          value: "sovereign-genesis"
+          value: sovereign-genesis
         - name: KAFKA_API_VERSION
-          value: "3.7.0"
+          value: 3.7.0
         - name: PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION
-          value: "python"
+          value: python
         startupProbe:
           grpc:
             port: 2020
@@ -74,8 +61,8 @@ spec:
         command:
         - sh
         - -c
-        - until nc -z cockroachdb-public 26257 && nc -z nats-client 4222; do 
-          echo "waiting for stateful dependencies..."; sleep 2; done;
+        - until nc -z cockroachdb-public 26257 && nc -z nats-client 4222; do echo
+          "waiting for stateful dependencies..."; sleep 2; done;
 ---
 apiVersion: v1
 kind: Service
@@ -96,5 +83,3 @@ spec:
     protocol: TCP
     port: 9192
     targetPort: 9192
-
-

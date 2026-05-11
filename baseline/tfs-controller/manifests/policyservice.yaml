@@ -58,7 +58,7 @@ spec:
           value: contextservice
         - name: MONITORING_SERVICE_HOST
           value: monitoringservice
-        image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/policy:rc13-verified
+        image: ${_CUSTOMER_REGISTRY}/policy:rc13-verified
         imagePullPolicy: Always
         name: policyservice
         ports:
@@ -75,31 +75,11 @@ spec:
           limits:
             cpu: 2000m
             memory: 2048Mi
-#---
-#apiVersion: autoscaling/v2
-#kind: HorizontalPodAutoscaler
-#metadata:
-#  name: policyservice-hpa
-#spec:
-#  scaleTargetRef:
-#    apiVersion: apps/v1
-#    kind: Deployment
-#    name: policyservice
-#  minReplicas: 1
-#  maxReplicas: 10
-#  metrics:
-#    - type: Resource
-#      resource:
-#        name: cpu
-#        target:
-#          type: Utilization
-#          averageUtilization: 80
-
       initContainers:
       - name: init-dependencies
         image: busybox:1.36
         command:
         - sh
         - -c
-        - until nc -z cockroachdb-public 26257 && nc -z nats-client 4222; do 
-          echo "waiting for stateful dependencies..."; sleep 2; done;
+        - until nc -z cockroachdb-public 26257 && nc -z nats-client 4222; do echo
+          "waiting for stateful dependencies..."; sleep 2; done;

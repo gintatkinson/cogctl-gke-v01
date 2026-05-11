@@ -1,41 +1,27 @@
-# SOVEREIGN GENESIS: REMOTE HIBERNATION ENGINE
-# Performs a zero-debt purge of the infrastructure context.
-
 steps:
-- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-  id: 'purge-cluster'
-  entrypoint: 'bash'
+- name: gcr.io/google.com/cloudsdktool/cloud-sdk
+  id: purge-cluster
+  entrypoint: bash
   args:
-    - '-c'
-    - |
-      set -ex
-      echo "[PURGE] Deleting Cluster: ${_CLUSTER_NAME}..."
-      gcloud container clusters delete "${_CLUSTER_NAME}" \
-          --zone "${_ZONE}" \
-          --project "${PROJECT_ID}" \
-          --quiet
-
-- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-  id: 'purge-disks'
-  waitFor: ['purge-cluster']
-  entrypoint: 'bash'
+  - -c
+  - "set -ex\necho \"[PURGE] Deleting Cluster: ${_CLUSTER_NAME}...\"\ngcloud container\
+    \ clusters delete \"${_CLUSTER_NAME}\" \\\n    --zone \"${_ZONE}\" \\\n    --project\
+    \ \"${PROJECT_ID}\" \\\n    --quiet\n"
+- name: gcr.io/google.com/cloudsdktool/cloud-sdk
+  id: purge-disks
+  waitFor:
+  - purge-cluster
+  entrypoint: bash
   args:
-    - '-c'
-    - |
-      set -ex
-      echo "[PURGE] Searching for orphaned PVC disks in ${_ZONE}..."
-      PVC_DISKS=$(gcloud compute disks list --project "${PROJECT_ID}" --filter="zone:${_ZONE} AND name~pvc-.*" --format="value(name)")
-      
-      if [ -n "$$PVC_DISKS" ]; then
-          echo "[PURGE] Deleting disks: $$PVC_DISKS"
-          gcloud compute disks delete $$PVC_DISKS --zone "${_ZONE}" --project "${PROJECT_ID}" --quiet
-      else
-          echo "[PURGE] No orphaned disks found. Zero-debt achieved."
-      fi
-
+  - -c
+  - "set -ex\necho \"[PURGE] Searching for orphaned PVC disks in ${_ZONE}...\"\nPVC_DISKS=$(gcloud\
+    \ compute disks list --project \"${PROJECT_ID}\" --filter=\"zone:${_ZONE} AND\
+    \ name~pvc-.*\" --format=\"value(name)\")\n\nif [ -n \"$$PVC_DISKS\" ]; then\n\
+    \    echo \"[PURGE] Deleting disks: $$PVC_DISKS\"\n    gcloud compute disks delete\
+    \ $$PVC_DISKS --zone \"${_ZONE}\" --project \"${PROJECT_ID}\" --quiet\nelse\n\
+    \    echo \"[PURGE] No orphaned disks found. Zero-debt achieved.\"\nfi\n"
 substitutions:
-  _CLUSTER_NAME: "sovereign-genesis"
-  _ZONE: "us-central1-a"
-
+  _CLUSTER_NAME: sovereign-genesis
+  _ZONE: us-central1-a
 options:
   logging: CLOUD_LOGGING_ONLY

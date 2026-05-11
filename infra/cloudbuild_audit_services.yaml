@@ -1,24 +1,34 @@
 steps:
-- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-  entrypoint: 'bash'
+- name: gcr.io/google.com/cloudsdktool/cloud-sdk
+  entrypoint: bash
   args:
-    - '-c'
-    - |
-      set -e
-      gcloud container clusters get-credentials "$_CLUSTER_NAME" --region $_REGION
-      
-      echo "[AUDIT] FULL POD STATUS:"
-      kubectl get pods -A
-      
-      echo "[AUDIT] FULL SERVICE ENDPOINTS:"
-      kubectl get endpoints -A
-      
-      echo "[AUDIT] DESCRIBING INGRESS RESOURCE:"
-      kubectl describe ingress tfs-ingress-opt
-      
-      echo "[AUDIT] CHECKING NGINX CONTROLLER LOGS (SPECIFIC ERRORS):"
-      kubectl logs -l name=nginx-ingress-microk8s-opt -n ingress --tail=200 | grep -E "error|fail" || echo "No errors found in logs"
+  - -c
+  - 'set -e
 
+    gcloud container clusters get-credentials "$_CLUSTER_NAME" --region $_REGION
+
+
+    echo "[AUDIT] FULL POD STATUS:"
+
+    kubectl get pods -A
+
+
+    echo "[AUDIT] FULL SERVICE ENDPOINTS:"
+
+    kubectl get endpoints -A
+
+
+    echo "[AUDIT] DESCRIBING INGRESS RESOURCE:"
+
+    kubectl describe ingress tfs-ingress-opt
+
+
+    echo "[AUDIT] CHECKING NGINX CONTROLLER LOGS (SPECIFIC ERRORS):"
+
+    kubectl logs -l name=nginx-ingress-microk8s-opt -n ingress --tail=200 | grep -E
+    "error|fail" || echo "No errors found in logs"
+
+    '
 substitutions:
-  _CLUSTER_NAME: "REPLACE_ME"
-  _REGION: "us-central1"
+  _CLUSTER_NAME: REPLACE_ME
+  _REGION: us-central1

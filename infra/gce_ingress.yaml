@@ -3,7 +3,7 @@ kind: Ingress
 metadata:
   name: tfs-gce-ingress
   annotations:
-    kubernetes.io/ingress.global-static-ip-name: "tfs-static-ip"
+    kubernetes.io/ingress.global-static-ip-name: tfs-static-ip
 spec:
   defaultBackend:
     service:

@@ -1,23 +1,32 @@
 steps:
-- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-  entrypoint: 'bash'
+- name: gcr.io/google.com/cloudsdktool/cloud-sdk
+  entrypoint: bash
   args:
-    - '-c'
-    - |
-      set -e
-      echo "[AUDIT] Authenticating to Cluster..."
-      gcloud container clusters get-credentials "$_CLUSTER_NAME" --region $_REGION
-      
-      echo "[DIAG] INGRESS PODS WITH LABELS:"
-      kubectl get pods -n ingress --show-labels
-      
-      echo "[DIAG] SERVICE SELECTORS:"
-      kubectl get svc -n ingress nginx-ingress-sovereign -o jsonpath='{.spec.selector}'
-      echo ""
+  - -c
+  - 'set -e
 
-      echo "[DIAG] ENDPOINTS LIST:"
-      kubectl get endpoints -n ingress
+    echo "[AUDIT] Authenticating to Cluster..."
 
+    gcloud container clusters get-credentials "$_CLUSTER_NAME" --region $_REGION
+
+
+    echo "[DIAG] INGRESS PODS WITH LABELS:"
+
+    kubectl get pods -n ingress --show-labels
+
+
+    echo "[DIAG] SERVICE SELECTORS:"
+
+    kubectl get svc -n ingress nginx-ingress-sovereign -o jsonpath=''{.spec.selector}''
+
+    echo ""
+
+
+    echo "[DIAG] ENDPOINTS LIST:"
+
+    kubectl get endpoints -n ingress
+
+    '
 substitutions:
-  _CLUSTER_NAME: "REPLACE_ME"
-  _REGION: "us-central1"
+  _CLUSTER_NAME: REPLACE_ME
+  _REGION: us-central1

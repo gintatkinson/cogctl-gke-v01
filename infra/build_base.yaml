@@ -1,8 +1,14 @@
 steps:
-- name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'us-central1-docker.pkg.dev/${PROJECT_ID}/sovereign-tfs/python-base:rc13-verified', '-f', 'baseline/tfs-controller/src/common/Dockerfile.base', '.']
+- name: gcr.io/cloud-builders/docker
+  args:
+  - build
+  - -t
+  - us-central1-docker.pkg.dev/${PROJECT_ID}/sovereign-tfs/python-base:rc13-verified
+  - -f
+  - baseline/tfs-controller/src/common/Dockerfile.base
+  - .
 images:
-- 'us-central1-docker.pkg.dev/${PROJECT_ID}/sovereign-tfs/python-base:rc13-verified'
+- us-central1-docker.pkg.dev/${PROJECT_ID}/sovereign-tfs/python-base:rc13-verified
 options:
-  machineType: 'E2_HIGHCPU_8'
+  machineType: E2_HIGHCPU_8
   logging: CLOUD_LOGGING_ONLY

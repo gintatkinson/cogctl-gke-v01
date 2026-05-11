@@ -1,70 +1,103 @@
-# SOVEREIGN GENESIS: FINAL DEPLOYMENT STACK
-# Purpose: Orchestrates the birth of the NGINX Ingress Controller and routing fabric.
-# Reference: SOP-01, SOP-05
-# Parameters:
-#   _CLUSTER_NAME: The target GKE cluster (Provisioned in Stage 1)
-#   _REGION: The GCP region for the cluster context
-
 steps:
-- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-  entrypoint: 'bash'
+- name: gcr.io/google.com/cloudsdktool/cloud-sdk
+  entrypoint: bash
   args:
-    - '-c'
-    - |
-      set -e
-      # The following variable is populated by sed in master_ignition.sh
-      echo "[FINAL] Authenticating to cluster: $_CLUSTER_NAME..."
-      gcloud container clusters get-credentials "$_CLUSTER_NAME" --region "$_REGION"
-      
-      echo "[FINAL] Ensuring Ingress Namespace exists..."
-      kubectl create namespace ingress --dry-run=client -o yaml | kubectl apply -f -
-      
-      echo "[FINAL] Applying Ingress RBAC and Service Bridge..."
-      kubectl apply -f infra/nginx_ingress_rbac.yaml
-      kubectl apply -f infra/nginx_ingress_service.yaml
-      
-      echo "[FINAL] Applying Hardened Ingress Controller..."
-      # This manifest was refactored for Autopilot compliance (Deployment vs DaemonSet)
-      kubectl apply -f baseline/tfs-controller/src/tests/ofc25/nginx-ingress-controller-opt.yaml
-      
-      echo "[FINAL] Applying Foundational Database Floor (CRDs & Operator)..."
-      kubectl apply -f baseline/tfs-controller/manifests/cockroachdb/crds.yaml
-      kubectl apply -f baseline/tfs-controller/manifests/cockroachdb/operator.yaml
-      
-      echo "[FINAL] Waiting for CRD Stability..."
-      kubectl wait --for=condition=established --timeout=60s crd/crdbclusters.crdb.cockroachlabs.com
-      
-      echo "[FINAL] Waiting for Operator Manager Readiness..."
-      kubectl rollout status deployment/cockroach-operator-manager -n cockroach-operator-system --timeout=300s
-      
-      echo "[FINAL] Birthing Database Cluster..."
-      kubectl apply -f baseline/tfs-controller/manifests/cockroachdb/cluster.yaml
-      kubectl apply -f baseline/tfs-controller/manifests/nats/
-      kubectl apply -f baseline/tfs-controller/manifests/kafka/
-      
-      echo "[FINAL] Injecting 11-Service Application Stack..."
-      # Ordered for dependency alignment (Context -> Device -> Service -> ...)
-      kubectl apply -f baseline/tfs-controller/manifests/contextservice.yaml
-      kubectl apply -f baseline/tfs-controller/manifests/deviceservice.yaml
-      kubectl apply -f baseline/tfs-controller/manifests/serviceservice.yaml
-      kubectl apply -f baseline/tfs-controller/manifests/sliceservice.yaml
-      kubectl apply -f baseline/tfs-controller/manifests/nbiservice.yaml
-      kubectl apply -f baseline/tfs-controller/manifests/webuiservice.yaml
-      kubectl apply -f baseline/tfs-controller/manifests/automationservice.yaml
-      kubectl apply -f baseline/tfs-controller/manifests/monitoringservice.yaml
-      kubectl apply -f baseline/tfs-controller/manifests/policyservice.yaml
-      kubectl apply -f baseline/tfs-controller/manifests/pathcompservice.yaml
-      kubectl apply -f baseline/tfs-controller/manifests/analyticsservice.yaml
+  - -c
+  - 'set -e
 
-      echo "[FINAL] Applying Ingress Routing..."
-      kubectl apply -f baseline/tfs-controller/src/tests/ofc25/tfs-ingress-opt.yaml
-      
-      echo "[FINAL] Verification of fabric existence..."
-      kubectl get nodes --no-headers
-      
-      echo "[FINAL] Deployment sequence complete. Pending Ingress IP birth."
+    # The following variable is populated by sed in master_ignition.sh
 
+    echo "[FINAL] Authenticating to cluster: $_CLUSTER_NAME..."
+
+    gcloud container clusters get-credentials "$_CLUSTER_NAME" --region "$_REGION"
+
+
+    echo "[FINAL] Ensuring Ingress Namespace exists..."
+
+    kubectl create namespace ingress --dry-run=client -o yaml | kubectl apply -f -
+
+
+    echo "[FINAL] Applying Ingress RBAC and Service Bridge..."
+
+    kubectl apply -f infra/nginx_ingress_rbac.yaml
+
+    kubectl apply -f infra/nginx_ingress_service.yaml
+
+
+    echo "[FINAL] Applying Hardened Ingress Controller..."
+
+    # This manifest was refactored for Autopilot compliance (Deployment vs DaemonSet)
+
+    kubectl apply -f baseline/tfs-controller/src/tests/ofc25/nginx-ingress-controller-opt.yaml
+
+
+    echo "[FINAL] Applying Foundational Database Floor (CRDs & Operator)..."
+
+    kubectl apply -f baseline/tfs-controller/manifests/cockroachdb/crds.yaml
+
+    kubectl apply -f baseline/tfs-controller/manifests/cockroachdb/operator.yaml
+
+
+    echo "[FINAL] Waiting for CRD Stability..."
+
+    kubectl wait --for=condition=established --timeout=60s crd/crdbclusters.crdb.cockroachlabs.com
+
+
+    echo "[FINAL] Waiting for Operator Manager Readiness..."
+
+    kubectl rollout status deployment/cockroach-operator-manager -n cockroach-operator-system
+    --timeout=300s
+
+
+    echo "[FINAL] Birthing Database Cluster..."
+
+    kubectl apply -f baseline/tfs-controller/manifests/cockroachdb/cluster.yaml
+
+    kubectl apply -f baseline/tfs-controller/manifests/nats/
+
+    kubectl apply -f baseline/tfs-controller/manifests/kafka/
+
+
+    echo "[FINAL] Injecting 11-Service Application Stack..."
+
+    # Ordered for dependency alignment (Context -> Device -> Service -> ...)
+
+    kubectl apply -f baseline/tfs-controller/manifests/contextservice.yaml
+
+    kubectl apply -f baseline/tfs-controller/manifests/deviceservice.yaml
+
+    kubectl apply -f baseline/tfs-controller/manifests/serviceservice.yaml
+
+    kubectl apply -f baseline/tfs-controller/manifests/sliceservice.yaml
+
+    kubectl apply -f baseline/tfs-controller/manifests/nbiservice.yaml
+
+    kubectl apply -f baseline/tfs-controller/manifests/webuiservice.yaml
+
+    kubectl apply -f baseline/tfs-controller/manifests/automationservice.yaml
+
+    kubectl apply -f baseline/tfs-controller/manifests/monitoringservice.yaml
+
+    kubectl apply -f baseline/tfs-controller/manifests/policyservice.yaml
+
+    kubectl apply -f baseline/tfs-controller/manifests/pathcompservice.yaml
+
+    kubectl apply -f baseline/tfs-controller/manifests/analyticsservice.yaml
+
+
+    echo "[FINAL] Applying Ingress Routing..."
+
+    kubectl apply -f baseline/tfs-controller/src/tests/ofc25/tfs-ingress-opt.yaml
+
+
+    echo "[FINAL] Verification of fabric existence..."
+
+    kubectl get nodes --no-headers
+
+
+    echo "[FINAL] Deployment sequence complete. Pending Ingress IP birth."
+
+    '
 substitutions:
-  # The Cluster Name must be provided by the master ignition script to avoid stale anchors.
-  _CLUSTER_NAME: "REPLACE_ME"
-  _REGION: "us-central1"
+  _CLUSTER_NAME: REPLACE_ME
+  _REGION: us-central1

@@ -1,83 +1,35 @@
 steps:
-- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-  entrypoint: 'bash'
+- name: gcr.io/google.com/cloudsdktool/cloud-sdk
+  entrypoint: bash
   args:
-    - '-c'
-    - |
-      set -e
-      PROJECT_ID="cogctl-gke-v01"
-      REGISTRY="$_REGION-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs"
-      
-      echo "[FOUNDATION] Authenticating to cluster..."
-      gcloud container clusters get-credentials "$_CLUSTER_NAME" --region $_REGION
-      
-      # 1. COCKROACHDB (Single Node)
-      echo "[FOUNDATION] Deploying CockroachDB..."
-      MANIFEST="baseline/tfs-controller/manifests/cockroachdb/single-node.yaml"
-      # Patch image
-      sed -i "s|image: cockroachdb/cockroach:.*|image: $${REGISTRY}/cockroach:v22.2.8|g" "$$MANIFEST"
-      # Patch secrets (placeholders used in manifest)
-      sed -i "s/%CRDB_USERNAME%/tfs/g" "$$MANIFEST"
-      sed -i "s/%CRDB_PASSWORD%/tfs123/g" "$$MANIFEST"
-      kubectl apply -f "$$MANIFEST"
-      
-      # 2. QUESTDB
-      echo "[FOUNDATION] Deploying QuestDB..."
-      MANIFEST="baseline/tfs-controller/manifests/questdb/manifest.yaml"
-      sed -i "s|image: questdb/questdb:latest|image: $${REGISTRY}/questdb:7.3.3|g" "$$MANIFEST"
-      kubectl apply -f "$$MANIFEST"
-      
-      # 3. KAFKA (Single Node)
-      echo "[FOUNDATION] Deploying Kafka..."
-      MANIFEST="baseline/tfs-controller/manifests/kafka/single-node.yaml"
-      sed -i "s|image: bitnami/kafka:.*|image: $${REGISTRY}/kafka:latest|g" "$$MANIFEST"
-      sed -i "s|image: bitnami/zookeeper:.*|image: $${REGISTRY}/zookeeper:latest|g" "$$MANIFEST"
-      kubectl apply -f "$$MANIFEST"
-
-      # 4. NATS (Simple Deployment fallback for recovery)
-      # Since baseline only has Helm config, we'll apply a minimal NATS deployment
-      echo "[FOUNDATION] Deploying NATS (Recovery Manifest)..."
-      cat <<EOF > nats_recovery.yaml
-      apiVersion: apps/v1
-      kind: Deployment
-      metadata:
-        name: nats
-      spec:
-        replicas: 1
-        selector:
-          matchLabels:
-            app: nats
-        template:
-          metadata:
-            labels:
-              app: nats
-          spec:
-            containers:
-            - name: nats
-              image: $${REGISTRY}/nats:2.9-alpine
-              ports:
-              - containerPort: 4222
-                name: client
-              - containerPort: 8222
-                name: monitor
-      ---
-      apiVersion: v1
-      kind: Service
-      metadata:
-        name: nats
-      spec:
-        selector:
-          app: nats
-        ports:
-        - name: client
-          port: 4222
-        - name: monitor
-          port: 8222
-      EOF
-      kubectl apply -f nats_recovery.yaml
-
-      echo "[FOUNDATION] Mission Success: All foundations applied."
-
+  - -c
+  - "set -e\nPROJECT_ID=\"cogctl-gke-v01\"\nREGISTRY=\"$_REGION-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs\"\
+    \n\necho \"[FOUNDATION] Authenticating to cluster...\"\ngcloud container clusters\
+    \ get-credentials \"$_CLUSTER_NAME\" --region $_REGION\n\n# 1. COCKROACHDB (Single\
+    \ Node)\necho \"[FOUNDATION] Deploying CockroachDB...\"\nMANIFEST=\"baseline/tfs-controller/manifests/cockroachdb/single-node.yaml\"\
+    \n# Patch image\nsed -i \"s|image: cockroachdb/cockroach:.*|image: $${REGISTRY}/cockroach:v22.2.8|g\"\
+    \ \"$$MANIFEST\"\n# Patch secrets (placeholders used in manifest)\nsed -i \"s/%CRDB_USERNAME%/tfs/g\"\
+    \ \"$$MANIFEST\"\nsed -i \"s/%CRDB_PASSWORD%/tfs123/g\" \"$$MANIFEST\"\nkubectl\
+    \ apply -f \"$$MANIFEST\"\n\n# 2. QUESTDB\necho \"[FOUNDATION] Deploying QuestDB...\"\
+    \nMANIFEST=\"baseline/tfs-controller/manifests/questdb/manifest.yaml\"\nsed -i\
+    \ \"s|image: questdb/questdb:latest|image: $${REGISTRY}/questdb:7.3.3|g\" \"$$MANIFEST\"\
+    \nkubectl apply -f \"$$MANIFEST\"\n\n# 3. KAFKA (Single Node)\necho \"[FOUNDATION]\
+    \ Deploying Kafka...\"\nMANIFEST=\"baseline/tfs-controller/manifests/kafka/single-node.yaml\"\
+    \nsed -i \"s|image: bitnami/kafka:.*|image: $${REGISTRY}/kafka:latest|g\" \"$$MANIFEST\"\
+    \nsed -i \"s|image: bitnami/zookeeper:.*|image: $${REGISTRY}/zookeeper:latest|g\"\
+    \ \"$$MANIFEST\"\nkubectl apply -f \"$$MANIFEST\"\n\n# 4. NATS (Simple Deployment\
+    \ fallback for recovery)\n# Since baseline only has Helm config, we'll apply a\
+    \ minimal NATS deployment\necho \"[FOUNDATION] Deploying NATS (Recovery Manifest)...\"\
+    \ncat <<EOF > nats_recovery.yaml\napiVersion: apps/v1\nkind: Deployment\nmetadata:\n\
+    \  name: nats\nspec:\n  replicas: 1\n  selector:\n    matchLabels:\n      app:\
+    \ nats\n  template:\n    metadata:\n      labels:\n        app: nats\n    spec:\n\
+    \      containers:\n      - name: nats\n        image: $${REGISTRY}/nats:2.9-alpine\n\
+    \        ports:\n        - containerPort: 4222\n          name: client\n     \
+    \   - containerPort: 8222\n          name: monitor\n---\napiVersion: v1\nkind:\
+    \ Service\nmetadata:\n  name: nats\nspec:\n  selector:\n    app: nats\n  ports:\n\
+    \  - name: client\n    port: 4222\n  - name: monitor\n    port: 8222\nEOF\nkubectl\
+    \ apply -f nats_recovery.yaml\n\necho \"[FOUNDATION] Mission Success: All foundations\
+    \ applied.\"\n"
 substitutions:
-  _CLUSTER_NAME: "REPLACE_ME"
-  _REGION: "us-central1"
+  _CLUSTER_NAME: REPLACE_ME
+  _REGION: us-central1

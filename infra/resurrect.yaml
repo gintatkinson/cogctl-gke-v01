@@ -1,168 +1,151 @@
-# SOVEREIGN GENESIS: TOTAL RESURRECTION PIPELINE
-# Combines Hibernate (Purge) and Awake (Ignition) for a single-pass Tabula Rasa restoration.
-
 steps:
-# PHASE 1: THE PURGE (From hibernate.yaml)
-- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-  id: 'purge-cluster'
-  entrypoint: 'bash'
+- name: gcr.io/google.com/cloudsdktool/cloud-sdk
+  id: purge-cluster
+  entrypoint: bash
   args:
-    - '-c'
-    - |
-      set -ex
-      echo "[PURGE] Deleting Cluster: ${_CLUSTER_NAME}..."
-      gcloud container clusters delete "${_CLUSTER_NAME}" \
-          --zone "${_ZONE}" \
-          --project "${PROJECT_ID}" \
-          --quiet || echo "Cluster not found, proceeding..."
-
-- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-  id: 'purge-disks'
-  waitFor: ['purge-cluster']
-  entrypoint: 'bash'
+  - -c
+  - "set -ex\necho \"[PURGE] Deleting Cluster: ${_CLUSTER_NAME}...\"\ngcloud container\
+    \ clusters delete \"${_CLUSTER_NAME}\" \\\n    --zone \"${_ZONE}\" \\\n    --project\
+    \ \"${PROJECT_ID}\" \\\n    --quiet || echo \"Cluster not found, proceeding...\"\
+    \n"
+- name: gcr.io/google.com/cloudsdktool/cloud-sdk
+  id: purge-disks
+  waitFor:
+  - purge-cluster
+  entrypoint: bash
   args:
-    - '-c'
-    - |
-      set -ex
-      echo "[PURGE] Searching for orphaned PVC disks in ${_ZONE}..."
-      PVC_DISKS=$(gcloud compute disks list --project "${PROJECT_ID}" --filter="zone:${_ZONE} AND name~pvc-.*" --format="value(name)")
-      
-      if [ -n "$$PVC_DISKS" ]; then
-          echo "[PURGE] Deleting disks: $$PVC_DISKS"
-          gcloud compute disks delete $$PVC_DISKS --zone "${_ZONE}" --project "${PROJECT_ID}" --quiet
-      else
-          echo "[PURGE] No orphaned disks found. Zero-debt achieved."
-      fi
-
-# PHASE 2: THE IGNITION (From awake.yaml)
-- name: 'hashicorp/terraform:1.5.0'
-  id: 'terraform-ignition'
-  waitFor: ['purge-disks']
-  entrypoint: 'sh'
+  - -c
+  - "set -ex\necho \"[PURGE] Searching for orphaned PVC disks in ${_ZONE}...\"\nPVC_DISKS=$(gcloud\
+    \ compute disks list --project \"${PROJECT_ID}\" --filter=\"zone:${_ZONE} AND\
+    \ name~pvc-.*\" --format=\"value(name)\")\n\nif [ -n \"$$PVC_DISKS\" ]; then\n\
+    \    echo \"[PURGE] Deleting disks: $$PVC_DISKS\"\n    gcloud compute disks delete\
+    \ $$PVC_DISKS --zone \"${_ZONE}\" --project \"${PROJECT_ID}\" --quiet\nelse\n\
+    \    echo \"[PURGE] No orphaned disks found. Zero-debt achieved.\"\nfi\n"
+- name: hashicorp/terraform:1.5.0
+  id: terraform-ignition
+  waitFor:
+  - purge-disks
+  entrypoint: sh
   args:
-    - '-c'
-    - |
-      set -ex
-      cd infra/terraform
-      terraform init -upgrade
-      terraform apply -auto-approve \
-        -var="project_id=${PROJECT_ID}" \
-        -var="cluster_name=${_CLUSTER_NAME}" \
-        -var="zone=${_ZONE}"
-
-- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-  id: 'wait-for-foundation'
-  waitFor: ['terraform-ignition']
-  entrypoint: 'bash'
+  - -c
+  - "set -ex\ncd infra/terraform\nterraform init -upgrade\nterraform apply -auto-approve\
+    \ \\\n  -var=\"project_id=${PROJECT_ID}\" \\\n  -var=\"cluster_name=${_CLUSTER_NAME}\"\
+    \ \\\n  -var=\"zone=${_ZONE}\"\n"
+- name: gcr.io/google.com/cloudsdktool/cloud-sdk
+  id: wait-for-foundation
+  waitFor:
+  - terraform-ignition
+  entrypoint: bash
   args:
-    - '-c'
-    - |
-      set -ex
-      gcloud container clusters get-credentials "${_CLUSTER_NAME}" --zone "${_ZONE}" --project "${PROJECT_ID}"
-      echo "[IGNITION] Waiting for cluster nodes..."
-      for i in {1..20}; do
-        if kubectl get nodes | grep -q " Ready"; then
-          echo "[SUCCESS] Cluster is responsive."
-          exit 0
-        fi
-        echo "Waiting for nodes... ($i/20)"
-        sleep 15
-      done
-      exit 1
-
-- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-  id: 'sanitize-environment'
-  waitFor: ['wait-for-foundation']
-  entrypoint: 'bash'
+  - -c
+  - "set -ex\ngcloud container clusters get-credentials \"${_CLUSTER_NAME}\" --zone\
+    \ \"${_ZONE}\" --project \"${PROJECT_ID}\"\necho \"[IGNITION] Waiting for cluster\
+    \ nodes...\"\nfor i in {1..20}; do\n  if kubectl get nodes | grep -q \" Ready\"\
+    ; then\n    echo \"[SUCCESS] Cluster is responsive.\"\n    exit 0\n  fi\n  echo\
+    \ \"Waiting for nodes... ($i/20)\"\n  sleep 15\ndone\nexit 1\n"
+- name: gcr.io/google.com/cloudsdktool/cloud-sdk
+  id: sanitize-environment
+  waitFor:
+  - wait-for-foundation
+  entrypoint: bash
   args:
-    - '-c'
-    - |
-      set -ex
-      gcloud container clusters get-credentials "${_CLUSTER_NAME}" --zone "${_ZONE}" --project "${PROJECT_ID}"
-      echo "[IGNITION] Performing Tabula Rasa Sanitization of ${_NAMESPACE}..."
-      kubectl delete namespace "${_NAMESPACE}" --ignore-not-found=true
-      
-      # Wait for termination to complete
-      for i in {1..20}; do
-        if ! kubectl get namespace "${_NAMESPACE}"; then
-          echo "[CLEAN] Environment sanitized."
-          break
-        fi
-        echo "Waiting for namespace cleanup... ($i/20)"
-        sleep 10
-      done
-      echo "[IGNITION] Recreating Sovereign Namespace..."
-      kubectl create namespace "${_NAMESPACE}"
-
-- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-  id: 'induct-secrets'
-  waitFor: ['sanitize-environment']
-  entrypoint: 'bash'
+  - -c
+  - "set -ex\ngcloud container clusters get-credentials \"${_CLUSTER_NAME}\" --zone\
+    \ \"${_ZONE}\" --project \"${PROJECT_ID}\"\necho \"[IGNITION] Performing Tabula\
+    \ Rasa Sanitization of ${_NAMESPACE}...\"\nkubectl delete namespace \"${_NAMESPACE}\"\
+    \ --ignore-not-found=true\n\n# Wait for termination to complete\nfor i in {1..20};\
+    \ do\n  if ! kubectl get namespace \"${_NAMESPACE}\"; then\n    echo \"[CLEAN]\
+    \ Environment sanitized.\"\n    break\n  fi\n  echo \"Waiting for namespace cleanup...\
+    \ ($i/20)\"\n  sleep 10\ndone\necho \"[IGNITION] Recreating Sovereign Namespace...\"\
+    \nkubectl create namespace \"${_NAMESPACE}\"\n"
+- name: gcr.io/google.com/cloudsdktool/cloud-sdk
+  id: induct-secrets
+  waitFor:
+  - sanitize-environment
+  entrypoint: bash
   args:
-    - '-c'
-    - |
-      set -ex
-      gcloud container clusters get-credentials "${_CLUSTER_NAME}" --zone "${_ZONE}" --project "${PROJECT_ID}"
-      echo "[IGNITION] Inducting Declarative Secrets..."
-      kubectl apply -f baseline/tfs-controller/manifests/graduation_secrets.yaml
+  - -c
+  - 'set -ex
 
-- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-  id: 'induct-backbone'
-  waitFor: ['induct-secrets']
-  entrypoint: 'bash'
+    gcloud container clusters get-credentials "${_CLUSTER_NAME}" --zone "${_ZONE}"
+    --project "${PROJECT_ID}"
+
+    echo "[IGNITION] Inducting Declarative Secrets..."
+
+    kubectl apply -f baseline/tfs-controller/manifests/graduation_secrets.yaml
+
+    '
+- name: gcr.io/google.com/cloudsdktool/cloud-sdk
+  id: induct-backbone
+  waitFor:
+  - induct-secrets
+  entrypoint: bash
   args:
-    - '-c'
-    - |
-      set -ex
-      gcloud container clusters get-credentials "${_CLUSTER_NAME}" --zone "${_ZONE}" --project "${PROJECT_ID}"
-      echo "[IGNITION] Inducting Hardened Persistence Fabric from Baseline..."
-      
-      # [SOP-07] Pre-requisite Storage Class Induction
-      kubectl apply -f infra/storage-class-hardened.yaml
-      
-      # [SOP-08] Deterministic Backbone Induction
-      kubectl apply -f baseline/tfs-controller/manifests/cockroachdb/crds.yaml
-      kubectl apply -f baseline/tfs-controller/manifests/cockroachdb/operator.yaml
-      
-      echo "Waiting for Cockroach Operator Readiness..."
-      kubectl rollout status deployment/cockroach-operator-manager -n cockroach-operator-system --timeout=120s
-      
-      # [SPEC: Orchestration Race Condition] - Mandatory settling delay to avoid webhook deadlocks
-      echo "[IGNITION] Webhook Settling (30s)..."
-      sleep 30
-      
-      kubectl apply -f baseline/tfs-controller/manifests/cockroachdb/cluster.yaml -n "${_NAMESPACE}"
-      kubectl apply -f baseline/tfs-controller/manifests/nats/nats_fidelity.yaml -n "${_NAMESPACE}"
-      kubectl apply -f baseline/tfs-controller/manifests/kafka/single-node.yaml -n "${_NAMESPACE}"
-      kubectl apply -f baseline/tfs-controller/manifests/questdb/manifest.yaml -n "${_NAMESPACE}"
+  - -c
+  - 'set -ex
 
-- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-  id: 'induct-services'
-  waitFor: ['induct-backbone']
-  entrypoint: 'bash'
+    gcloud container clusters get-credentials "${_CLUSTER_NAME}" --zone "${_ZONE}"
+    --project "${PROJECT_ID}"
+
+    echo "[IGNITION] Inducting Hardened Persistence Fabric from Baseline..."
+
+
+    # [SOP-07] Pre-requisite Storage Class Induction
+
+    kubectl apply -f infra/storage-class-hardened.yaml
+
+
+    # [SOP-08] Deterministic Backbone Induction
+
+    kubectl apply -f baseline/tfs-controller/manifests/cockroachdb/crds.yaml
+
+    kubectl apply -f baseline/tfs-controller/manifests/cockroachdb/operator.yaml
+
+
+    echo "Waiting for Cockroach Operator Readiness..."
+
+    kubectl rollout status deployment/cockroach-operator-manager -n cockroach-operator-system
+    --timeout=120s
+
+
+    # [SPEC: Orchestration Race Condition] - Mandatory settling delay to avoid webhook
+    deadlocks
+
+    echo "[IGNITION] Webhook Settling (30s)..."
+
+    sleep 30
+
+
+    kubectl apply -f baseline/tfs-controller/manifests/cockroachdb/cluster.yaml -n
+    "${_NAMESPACE}"
+
+    kubectl apply -f baseline/tfs-controller/manifests/nats/nats_fidelity.yaml -n
+    "${_NAMESPACE}"
+
+    kubectl apply -f baseline/tfs-controller/manifests/kafka/single-node.yaml -n "${_NAMESPACE}"
+
+    kubectl apply -f baseline/tfs-controller/manifests/questdb/manifest.yaml -n "${_NAMESPACE}"
+
+    '
+- name: gcr.io/google.com/cloudsdktool/cloud-sdk
+  id: induct-services
+  waitFor:
+  - induct-backbone
+  entrypoint: bash
   args:
-    - '-c'
-    - |
-      set -ex
-      gcloud container clusters get-credentials "${_CLUSTER_NAME}" --zone "${_ZONE}" --project "${PROJECT_ID}"
-      echo "[IGNITION] Inducting Application Services from Stabilized Baseline..."
-      SERVICES=(
-        "contextservice" "deviceservice" "serviceservice"
-        "pathcompservice" "sliceservice" "interdomainservice"
-        "monitoringservice" "automationservice" "policyservice"
-        "webuiservice"
-      )
-      for SERVICE in "$${SERVICES[@]}"; do
-        kubectl apply -f "baseline/tfs-controller/manifests/$${SERVICE}.yaml" -n "${_NAMESPACE}"
-      done
-      kubectl apply -f infra/tfs_ingress.yaml -n "${_NAMESPACE}"
-      echo "[SUCCESS] Sovereign Enclave is operational."
-
+  - -c
+  - "set -ex\ngcloud container clusters get-credentials \"${_CLUSTER_NAME}\" --zone\
+    \ \"${_ZONE}\" --project \"${PROJECT_ID}\"\necho \"[IGNITION] Inducting Application\
+    \ Services from Stabilized Baseline...\"\nSERVICES=(\n  \"contextservice\" \"\
+    deviceservice\" \"serviceservice\"\n  \"pathcompservice\" \"sliceservice\" \"\
+    interdomainservice\"\n  \"monitoringservice\" \"automationservice\" \"policyservice\"\
+    \n  \"webuiservice\"\n)\nfor SERVICE in \"$${SERVICES[@]}\"; do\n  kubectl apply\
+    \ -f \"baseline/tfs-controller/manifests/$${SERVICE}.yaml\" -n \"${_NAMESPACE}\"\
+    \ndone\nkubectl apply -f infra/tfs_ingress.yaml -n \"${_NAMESPACE}\"\necho \"\
+    [SUCCESS] Sovereign Enclave is operational.\"\n"
 substitutions:
-  _CLUSTER_NAME: "sovereign-genesis"
-  _ZONE: "us-central1-a"
-  _NAMESPACE: "sovereign-genesis"
-
-
+  _CLUSTER_NAME: sovereign-genesis
+  _ZONE: us-central1-a
+  _NAMESPACE: sovereign-genesis
 options:
   logging: CLOUD_LOGGING_ONLY

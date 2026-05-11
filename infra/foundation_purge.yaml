@@ -1,26 +1,16 @@
-# SOVEREIGN GENESIS: REMOTE FOUNDATION PURGE
-# Sanitizes orphaned storage resources from within the cloud context.
-
 steps:
-- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-  id: 'purge-orphans'
-  entrypoint: 'bash'
+- name: gcr.io/google.com/cloudsdktool/cloud-sdk
+  id: purge-orphans
+  entrypoint: bash
   args:
-    - '-c'
-    - |
-      set -ex
-      echo "[PURGE] Hunting for orphaned Sovereign disks..."
-      ORPHAN_DISKS=$(gcloud compute disks list --filter="name ~ gke-sovereign-genesis AND users ~ none" --format="value(name)")
-
-      if [ -n "$$ORPHAN_DISKS" ]; then
-          echo "[PURGE] Found orphans: $$ORPHAN_DISKS"
-          gcloud compute disks delete $$ORPHAN_DISKS --zone "${_ZONE}" --project "${PROJECT_ID}" --quiet
-      else
-          echo "[PURGE] No orphaned disks found. Clean state verified."
-      fi
-
+  - -c
+  - "set -ex\necho \"[PURGE] Hunting for orphaned Sovereign disks...\"\nORPHAN_DISKS=$(gcloud\
+    \ compute disks list --filter=\"name ~ gke-sovereign-genesis AND users ~ none\"\
+    \ --format=\"value(name)\")\n\nif [ -n \"$$ORPHAN_DISKS\" ]; then\n    echo \"\
+    [PURGE] Found orphans: $$ORPHAN_DISKS\"\n    gcloud compute disks delete $$ORPHAN_DISKS\
+    \ --zone \"${_ZONE}\" --project \"${PROJECT_ID}\" --quiet\nelse\n    echo \"[PURGE]\
+    \ No orphaned disks found. Clean state verified.\"\nfi\n"
 substitutions:
-  _ZONE: "us-central1-a"
-
+  _ZONE: us-central1-a
 options:
   logging: CLOUD_LOGGING_ONLY

@@ -1,4 +1,6 @@
 steps:
-- name: "us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:2026-04-20"
-  entrypoint: "ls"
-  args: ["-l", "/var/teraflow/common/Constants.py"]
+- name: ${_CUSTOMER_REGISTRY}/python-base:2026-04-20
+  entrypoint: ls
+  args:
+  - -l
+  - /var/teraflow/common/Constants.py

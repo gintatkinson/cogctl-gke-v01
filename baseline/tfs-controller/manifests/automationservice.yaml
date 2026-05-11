@@ -1,17 +1,3 @@
-# Copyright 2022-2025 ETSI SDG TeraFlowSDN (TFS) (https://tfs.etsi.org/)
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#      http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -26,70 +12,71 @@ spec:
   template:
     metadata:
       annotations:
-        # Required for IETF L2VPN SBI when both parent and child run in same K8s cluster with Linkerd
-        config.linkerd.io/skip-outbound-ports: "2002"
+        config.linkerd.io/skip-outbound-ports: '2002'
       labels:
         app: automationservice
     spec:
       terminationGracePeriodSeconds: 5
       containers:
       - name: server
-        image: us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/automation:rc13-verified
+        image: ${_CUSTOMER_REGISTRY}/automation:rc13-verified
         imagePullPolicy: Always
         ports:
         - containerPort: 30200
         - containerPort: 9192
-        command: ["/bin/sh", "-c"]
+        command:
+        - /bin/sh
+        - -c
         args:
-        - "sed -i 's/wait_for_environment_variables(/if False: wait_for_environment_variables(/g'
-          /var/teraflow/automation/service/__main__.py && python -m automation.service"
+        - 'sed -i ''s/wait_for_environment_variables(/if False: wait_for_environment_variables(/g''
+          /var/teraflow/automation/service/__main__.py && python -m automation.service'
         env:
         - name: CONTEXT_SERVICE_HOST
-          value: "contextservice"
+          value: contextservice
         - name: CONTEXT_SERVICE_PORT_GRPC
-          value: "1010"
+          value: '1010'
         - name: DEVICE_SERVICE_HOST
-          value: "deviceservice"
+          value: deviceservice
         - name: DEVICE_SERVICE_PORT_GRPC
-          value: "2020"
+          value: '2020'
         - name: KPI_MANAGER_SERVICE_HOST
-          value: "127.0.0.1"
+          value: 127.0.0.1
         - name: KPI_MANAGER_SERVICE_PORT_GRPC
-          value: "0"
+          value: '0'
         - name: TELEMETRY_SERVICE_HOST
-          value: "telemetryservice"
+          value: telemetryservice
         - name: TELEMETRY_SERVICE_PORT_GRPC
-          value: "30050"
+          value: '30050'
         - name: ANALYTICS_SERVICE_HOST
-          value: "analyticsservice"
+          value: analyticsservice
         - name: ANALYTICS_SERVICE_PORT_GRPC
-          value: "30080"
+          value: '30080'
         - name: POLICY_SERVICE_HOST
-          value: "127.0.0.1"
+          value: 127.0.0.1
         - name: POLICY_SERVICE_PORT_GRPC
-          value: "0"
+          value: '0'
         - name: LOG_LEVEL
-          value: "INFO"
+          value: INFO
         - name: PYTHONUNBUFFERED
-          value: "1"
+          value: '1'
         - name: CRDB_DATABASE
-          value: "tfs_automation"
+          value: tfs_automation
         - name: CRDB_NAMESPACE
-          value: "sovereign-genesis"
+          value: sovereign-genesis
         - name: CRDB_SSLMODE
-          value: "disable"
+          value: disable
         - name: CRDB_SQL_PORT
-          value: "26257"
+          value: '26257'
         - name: KAFKA_API_VERSION
-          value: "3.7.0"
+          value: 3.7.0
         - name: KPI_MANAGER_SERVICE_HOST
-          value: "127.0.0.1"
+          value: 127.0.0.1
         - name: KPI_MANAGER_SERVICE_PORT_GRPC
-          value: "0"
+          value: '0'
         - name: POLICYSERVICE_SERVICE_HOST
-          value: "127.0.0.1"
+          value: 127.0.0.1
         - name: POLICYSERVICE_SERVICE_PORT_GRPC
-          value: "0"
+          value: '0'
         envFrom:
         - secretRef:
             name: crdb-data
@@ -112,8 +99,8 @@ spec:
         command:
         - sh
         - -c
-        - until nc -z cockroachdb-public 26257 && nc -z nats-client 4222; do 
-          echo "waiting for stateful dependencies..."; sleep 2; done;
+        - until nc -z cockroachdb-public 26257 && nc -z nats-client 4222; do echo
+          "waiting for stateful dependencies..."; sleep 2; done;
 ---
 apiVersion: v1
 kind: Service
@@ -134,5 +121,3 @@ spec:
     protocol: TCP
     port: 9192
     targetPort: 9192
-
-

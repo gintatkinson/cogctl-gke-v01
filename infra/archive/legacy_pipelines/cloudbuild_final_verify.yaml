@@ -1,50 +1,26 @@
 steps:
-- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-  entrypoint: 'bash'
+- name: gcr.io/google.com/cloudsdktool/cloud-sdk
+  entrypoint: bash
   args:
-    - '-c'
-    - |
-      set -e
-      echo "[AUDIT] Authenticating to Cluster..."
-      gcloud container clusters get-credentials "$_CLUSTER_NAME" --region $_REGION
-      
-      echo "[AUDIT] POD STATUS SUMMARY:"
-      kubectl get pods -A
-      
-      echo "[AUDIT] PERIMETER IP ALIGNMENT CHECK..."
-      LIVE_IP=$(kubectl get svc nginx-ingress-main -n default -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
-      ANCHOR_IP=$(cat infra/persistence.json | grep "ingress_ip" | cut -d '"' -f 4)
-      
-      echo "Live LoadBalancer IP: $$LIVE_IP"
-      echo "Persistence Anchor IP: $$ANCHOR_IP"
-      
-      if [ "$$LIVE_IP" != "$$ANCHOR_IP" ]; then
-        echo "[WARNING] Perimeter Drift Detected! Aligning probe to Live IP..."
-      fi
-
-      echo "[AUDIT] WEBUI IGNITION PROBE (Werkzeug Resolution)..."
-      # Handling GKE 'Warden' Latency: 30 retries with 10s sleep = 5 min window
-      MAX_RETRIES=30
-      SUCCESS=0
-      for i in $$(seq 1 $$MAX_RETRIES); do
-        echo "Probe Attempt $$i/$$MAX_RETRIES..."
-        if curl -s -o /dev/null -w "%%{http_code}" -m 10 http://webuiservice.default.svc.cluster.local:8004/ | grep -q "200"; then
-          echo "WebUI Ignition VERIFIED: 200 OK"
-          SUCCESS=1
-          break
-        fi
-        echo "WebUI not ready yet. Sleeping 10s..."
-        sleep 10
-      done
-
-      if [ $$SUCCESS -eq 0 ]; then
-        echo "Error: WebUI Health Check FAILED after 5 minutes."
-        exit 1
-      fi
-
-      echo "[AUDIT] FINAL EXTERNAL CONNECTIVITY PROBE (STATIC IP)..."
-      curl -Ivvv -m 10 http://$$LIVE_IP/webui/ || echo "Connectivity Check FAILED (Expected if LB is still updating)"
-
+  - -c
+  - "set -e\necho \"[AUDIT] Authenticating to Cluster...\"\ngcloud container clusters\
+    \ get-credentials \"$_CLUSTER_NAME\" --region $_REGION\n\necho \"[AUDIT] POD STATUS\
+    \ SUMMARY:\"\nkubectl get pods -A\n\necho \"[AUDIT] PERIMETER IP ALIGNMENT CHECK...\"\
+    \nLIVE_IP=$(kubectl get svc nginx-ingress-main -n default -o jsonpath='{.status.loadBalancer.ingress[0].ip}')\n\
+    ANCHOR_IP=$(cat infra/persistence.json | grep \"ingress_ip\" | cut -d '\"' -f\
+    \ 4)\n\necho \"Live LoadBalancer IP: $$LIVE_IP\"\necho \"Persistence Anchor IP:\
+    \ $$ANCHOR_IP\"\n\nif [ \"$$LIVE_IP\" != \"$$ANCHOR_IP\" ]; then\n  echo \"[WARNING]\
+    \ Perimeter Drift Detected! Aligning probe to Live IP...\"\nfi\n\necho \"[AUDIT]\
+    \ WEBUI IGNITION PROBE (Werkzeug Resolution)...\"\n# Handling GKE 'Warden' Latency:\
+    \ 30 retries with 10s sleep = 5 min window\nMAX_RETRIES=30\nSUCCESS=0\nfor i in\
+    \ $$(seq 1 $$MAX_RETRIES); do\n  echo \"Probe Attempt $$i/$$MAX_RETRIES...\"\n\
+    \  if curl -s -o /dev/null -w \"%%{http_code}\" -m 10 http://webuiservice.default.svc.cluster.local:8004/\
+    \ | grep -q \"200\"; then\n    echo \"WebUI Ignition VERIFIED: 200 OK\"\n    SUCCESS=1\n\
+    \    break\n  fi\n  echo \"WebUI not ready yet. Sleeping 10s...\"\n  sleep 10\n\
+    done\n\nif [ $$SUCCESS -eq 0 ]; then\n  echo \"Error: WebUI Health Check FAILED\
+    \ after 5 minutes.\"\n  exit 1\nfi\n\necho \"[AUDIT] FINAL EXTERNAL CONNECTIVITY\
+    \ PROBE (STATIC IP)...\"\ncurl -Ivvv -m 10 http://$$LIVE_IP/webui/ || echo \"\
+    Connectivity Check FAILED (Expected if LB is still updating)\"\n"
 substitutions:
-  _CLUSTER_NAME: "REPLACE_ME"
-  _REGION: "us-central1"
+  _CLUSTER_NAME: REPLACE_ME
+  _REGION: us-central1

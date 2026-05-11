@@ -1,43 +1,24 @@
-# SOVEREIGN GENESIS: READINESS PROBE RELAXATION
-# Purpose: Bridges the GKE Autopilot startup deadlock by loosening probe thresholds.
-# Strategy: Replaces sidecar probes with high-latency variants instead of deletion.
-# Reference: DOCS/solution_spec_readiness_relaxation.md
-
 steps:
-- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-  entrypoint: 'bash'
+- name: gcr.io/google.com/cloudsdktool/cloud-sdk
+  entrypoint: bash
   args:
-    - '-c'
-    - |
-      set -e
-      echo "[PATCH] Authenticating to cluster: $_CLUSTER_NAME..."
-      gcloud container clusters get-credentials "$_CLUSTER_NAME" --region "$_REGION"
-      
-      COMPONENTS=(
-        "contextservice"
-        "deviceservice"
-        "serviceservice"
-        "sliceservice"
-        "nbiservice"
-        "webuiservice"
-        "monitoringservice"
-        "automationservice"
-      )
-      
-      echo "[PATCH] APPLYING RELAXATION PATCH (High-Timeout Probes)..."
-      for COMP in "${COMPONENTS[@]}"; do
-        echo "Patching $$COMP..."
-        # Replace sidecar probes with long-timeout variants to bridge Autopilot latency
-        RELAX_PROBE='{"initialDelaySeconds": 300, "periodSeconds": 10, "timeoutSeconds": 5, "failureThreshold": 30, "tcpSocket": {"port": 80}}'
-        kubectl patch deployment "$$COMP" --type='json' -p="[
-          {\"op\": \"replace\", \"path\": \"/spec/template/spec/containers/1/readinessProbe\", \"value\": $$RELAX_PROBE},
-          {\"op\": \"replace\", \"path\": \"/spec/template/spec/containers/1/livenessProbe\", \"value\": $$RELAX_PROBE}
-        ]" --namespace=default || echo "Warning: Could not patch $$COMP (maybe no sidecar?)"
-      done
-      
-      echo "[PATCH] Verification of Pod Readiness..."
-      kubectl get pods -A
-      
+  - -c
+  - "set -e\necho \"[PATCH] Authenticating to cluster: $_CLUSTER_NAME...\"\ngcloud\
+    \ container clusters get-credentials \"$_CLUSTER_NAME\" --region \"$_REGION\"\n\
+    \nCOMPONENTS=(\n  \"contextservice\"\n  \"deviceservice\"\n  \"serviceservice\"\
+    \n  \"sliceservice\"\n  \"nbiservice\"\n  \"webuiservice\"\n  \"monitoringservice\"\
+    \n  \"automationservice\"\n)\n\necho \"[PATCH] APPLYING RELAXATION PATCH (High-Timeout\
+    \ Probes)...\"\nfor COMP in \"${COMPONENTS[@]}\"; do\n  echo \"Patching $$COMP...\"\
+    \n  # Replace sidecar probes with long-timeout variants to bridge Autopilot latency\n\
+    \  RELAX_PROBE='{\"initialDelaySeconds\": 300, \"periodSeconds\": 10, \"timeoutSeconds\"\
+    : 5, \"failureThreshold\": 30, \"tcpSocket\": {\"port\": 80}}'\n  kubectl patch\
+    \ deployment \"$$COMP\" --type='json' -p=\"[\n    {\\\"op\\\": \\\"replace\\\"\
+    , \\\"path\\\": \\\"/spec/template/spec/containers/1/readinessProbe\\\", \\\"\
+    value\\\": $$RELAX_PROBE},\n    {\\\"op\\\": \\\"replace\\\", \\\"path\\\": \\\
+    \"/spec/template/spec/containers/1/livenessProbe\\\", \\\"value\\\": $$RELAX_PROBE}\n\
+    \  ]\" --namespace=default || echo \"Warning: Could not patch $$COMP (maybe no\
+    \ sidecar?)\"\ndone\n\necho \"[PATCH] Verification of Pod Readiness...\"\nkubectl\
+    \ get pods -A\n"
 substitutions:
-  _CLUSTER_NAME: "REPLACE_ME"
-  _REGION: "us-central1"
+  _CLUSTER_NAME: REPLACE_ME
+  _REGION: us-central1

@@ -1,49 +1,27 @@
-# SOVEREIGN GENESIS: GROUND TRUTH AUDIT
-# Purpose: Deep forensic inspection of the cluster state, pods, and ingress health.
-# Path: infra/cloudbuild_audit_all.yaml
-# Verification: Run after Phase 5 to confirm environment stability.
-
 steps:
-- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-  entrypoint: 'bash'
+- name: gcr.io/google.com/cloudsdktool/cloud-sdk
+  entrypoint: bash
   args:
-    - '-c'
-    - |
-      set -e
-      echo "[AUDIT] Authenticating to Cluster: $_CLUSTER_NAME..."
-      gcloud container clusters get-credentials "$_CLUSTER_NAME" --region "$_REGION"
-      
-      echo "[AUDIT] Infrastructure Health (Nodes)..."
-      kubectl get nodes -o wide
-      
-      echo "[AUDIT] Namespace Inventory..."
-      kubectl get namespaces
-      
-      echo "[AUDIT] POD FORENSICS (All Namespaces)..."
-      kubectl get pods -A
-      
-      echo "[AUDIT] SERVICE INVENTORY..."
-      kubectl get svc -A
-      
-      echo "[AUDIT] INGRESS BACKEND HEALTH..."
-      # Describe ingress to check for backend health from GKE perspective
-      kubectl describe ingress -A
-      
-      echo "[AUDIT] CORE LOG ANALYSIS (Checking for Silent Failures)..."
-      COMPONENTS=("context" "device" "service" "slice" "pathcomp" "nbi" "webui" "monitoring" "automation")
-      for COMP in "$${COMPONENTS[@]}"; do
-        echo "--- Logs for $${COMP}service ---"
-        kubectl logs --tail=50 -l app=$${COMP}service --all-containers=true || echo "No logs found for $${COMP}service"
-      done
-      
-      echo "[AUDIT] CONNECTIVITY VERIFICATION (Public Endpoint)..."
-      # Try to curl the ingress IP to verify perimeter access
-      INGRESS_IP=$$(kubectl get ingress tfs-ingress-opt -o jsonpath='{.status.loadBalancer.ingress[0].ip}' || echo "$_INGRESS_IP_FALLBACK")
-      echo "Testing Connectivity to: $$INGRESS_IP"
-      curl -Ivvv -m 10 http://$$INGRESS_IP || echo "Connectivity Check FAILED (Timeout or Connection Refused)"
-      
-      echo "[AUDIT] Audit Complete."
+  - -c
+  - "set -e\necho \"[AUDIT] Authenticating to Cluster: $_CLUSTER_NAME...\"\ngcloud\
+    \ container clusters get-credentials \"$_CLUSTER_NAME\" --region \"$_REGION\"\n\
+    \necho \"[AUDIT] Infrastructure Health (Nodes)...\"\nkubectl get nodes -o wide\n\
+    \necho \"[AUDIT] Namespace Inventory...\"\nkubectl get namespaces\n\necho \"[AUDIT]\
+    \ POD FORENSICS (All Namespaces)...\"\nkubectl get pods -A\n\necho \"[AUDIT] SERVICE\
+    \ INVENTORY...\"\nkubectl get svc -A\n\necho \"[AUDIT] INGRESS BACKEND HEALTH...\"\
+    \n# Describe ingress to check for backend health from GKE perspective\nkubectl\
+    \ describe ingress -A\n\necho \"[AUDIT] CORE LOG ANALYSIS (Checking for Silent\
+    \ Failures)...\"\nCOMPONENTS=(\"context\" \"device\" \"service\" \"slice\" \"\
+    pathcomp\" \"nbi\" \"webui\" \"monitoring\" \"automation\")\nfor COMP in \"$${COMPONENTS[@]}\"\
+    ; do\n  echo \"--- Logs for $${COMP}service ---\"\n  kubectl logs --tail=50 -l\
+    \ app=$${COMP}service --all-containers=true || echo \"No logs found for $${COMP}service\"\
+    \ndone\n\necho \"[AUDIT] CONNECTIVITY VERIFICATION (Public Endpoint)...\"\n# Try\
+    \ to curl the ingress IP to verify perimeter access\nINGRESS_IP=$$(kubectl get\
+    \ ingress tfs-ingress-opt -o jsonpath='{.status.loadBalancer.ingress[0].ip}' ||\
+    \ echo \"$_INGRESS_IP_FALLBACK\")\necho \"Testing Connectivity to: $$INGRESS_IP\"\
+    \ncurl -Ivvv -m 10 http://$$INGRESS_IP || echo \"Connectivity Check FAILED (Timeout\
+    \ or Connection Refused)\"\n\necho \"[AUDIT] Audit Complete.\"\n"
 substitutions:
-  _CLUSTER_NAME: "REPLACE_ME"
-  _REGION: "us-central1"
-  _INGRESS_IP_FALLBACK: "REPLACE_ME"
+  _CLUSTER_NAME: REPLACE_ME
+  _REGION: us-central1
+  _INGRESS_IP_FALLBACK: REPLACE_ME

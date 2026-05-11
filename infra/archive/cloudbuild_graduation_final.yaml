@@ -1,296 +1,283 @@
-# SOVEREIGN GENESIS: TERMINAL GRADUATION INDUCTION (BUILD #76 - PHASE 7.62)
-# Universal Tag: rc13-verified
-# Topology: Reconciled 'Controller-Root' context with Surgical Prefix Removal.
-
 steps:
-- name: 'gcr.io/cloud-builders/docker'
-  id: 'foundation'
-  entrypoint: 'bash'
+- name: gcr.io/cloud-builders/docker
+  id: foundation
+  entrypoint: bash
   args:
-    - '-c'
-    - |
-      set -ex
-      REGISTRY="us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs"
-      
-      echo "[FOUNDATION] Birthing Python-Base (Tag: 2026-04-21)..."
-      cat <<'EOF' > Dockerfile.base
-      FROM python:3.10-slim
-      # [PHASE 7.57] Source-Based Reconciliation (libyang v2)
-      RUN apt-get update && apt-get install -y --no-install-recommends \
-          build-essential git libssl-dev libffi-dev python3-dev \
-          cmake libpcre2-dev && \
-          rm -rf /var/lib/apt/lists/*
-          
-      RUN git clone https://github.com/CESNET/libyang.git && \
-          cd libyang && git checkout v2.1.128 && \
-          mkdir build && cd build && \
-          cmake -D CMAKE_INSTALL_PREFIX:PATH=/usr .. && \
-          make -j$(nproc) && make install && \
-          ldconfig
-      
-      # [PHASE 7.53] Manifest-Based Dependency Ingestion
-      WORKDIR /var/teraflow
-      COPY baseline/tfs-controller/src/common/requirements_unified.in /var/teraflow/common/
-      RUN echo "deepdiff" >> /var/teraflow/common/requirements_unified.in && \
-          echo "requests" >> /var/teraflow/common/requirements_unified.in && \
-          echo "pyyaml" >> /var/teraflow/common/requirements_unified.in && \
-          echo "geopy" >> /var/teraflow/common/requirements_unified.in && \
-          echo "paramiko" >> /var/teraflow/common/requirements_unified.in && \
-          echo "pandas" >> /var/teraflow/common/requirements_unified.in && \
-          echo "matplotlib" >> /var/teraflow/common/requirements_unified.in && \
-          echo "ncclient" >> /var/teraflow/common/requirements_unified.in && \
-          echo "netifaces" >> /var/teraflow/common/requirements_unified.in && \
-          echo "onnxruntime" >> /var/teraflow/common/requirements_unified.in && \
-          echo "pydantic" >> /var/teraflow/common/requirements_unified.in && \
-          echo "pygnmi" >> /var/teraflow/common/requirements_unified.in && \
-          echo "tabulate" >> /var/teraflow/common/requirements_unified.in && \
-          echo "yattag" >> /var/teraflow/common/requirements_unified.in && \
-          echo "websockets" >> /var/teraflow/common/requirements_unified.in && \
-          echo "elasticsearch" >> /var/teraflow/common/requirements_unified.in && \
-          echo "confluent-kafka" >> /var/teraflow/common/requirements_unified.in && \
-          echo "deepmerge" >> /var/teraflow/common/requirements_unified.in && \
-          echo "cryptography" >> /var/teraflow/common/requirements_unified.in && \
-          echo "scikit-learn" >> /var/teraflow/common/requirements_unified.in && \
-          echo "flask-httpauth" >> /var/teraflow/common/requirements_unified.in && \
-          echo "netaddr" >> /var/teraflow/common/requirements_unified.in && \
-          echo "pyang" >> /var/teraflow/common/requirements_unified.in && \
-          echo "pyangbind" >> /var/teraflow/common/requirements_unified.in && \
-          pip install --no-cache-dir -r /var/teraflow/common/requirements_unified.in
-      
-      # [SPEC] Ingesting Total Inter-Service Client Fabric
-      COPY baseline/tfs-controller/proto/ /var/teraflow/proto/
-      COPY baseline/tfs-controller/src/ /var/teraflow/src_tmp/
-      
-      # [PHASE 7.63] Deep Client Ingestion (Total Mesh Saturation)
-      # We hunt for all client directories (excluding common) and anchor them to their service root.
-      RUN find /var/teraflow/src_tmp -type d -name "client" ! -path "*/common/*" | while read client_dir; do \
-            service_root=$(dirname "$client_dir"); \
-            while [ "$(basename $(dirname "$service_root"))" != "src_tmp" ] && [ "$service_root" != "/var/teraflow/src_tmp" ]; do \
-              service_root=$(dirname "$service_root"); \
-            done; \
-            service_name=$(basename "$service_root"); \
-            dest_dir="/var/teraflow/$service_name/$(echo "$client_dir" | sed "s|.*$service_name/||")"; \
-            mkdir -p "$dest_dir"; \
-            cp -r "$client_dir/." "$dest_dir/"; \
-            # Anchor all intermediate namespaces
-            curr_dir="$dest_dir"; \
-            while [ "$curr_dir" != "/var/teraflow" ] && [ "$curr_dir" != "/" ]; do \
-              touch "$curr_dir/__init__.py"; \
-              curr_dir=$(dirname "$curr_dir"); \
-            done; \
-          done && \
-          cp -r /var/teraflow/src_tmp/common/* /var/teraflow/common/ && \
-          rm -rf /var/teraflow/src_tmp && \
-          touch /var/teraflow/common/__init__.py
-      
-      # [PHASE 7.51] Code Generation Recovery (The Kill Shot)
-      RUN rm -rf /var/teraflow/common/proto && mkdir -p /var/teraflow/common/proto && \
-          python3 -m grpc_tools.protoc -I/var/teraflow/proto --python_out=/var/teraflow/common/proto \
-          --grpc_python_out=/var/teraflow/common/proto /var/teraflow/proto/*.proto && \
-          find /var/teraflow/common/proto -type f -name "*_pb2*.py" -exec sed -i -E 's/^import ([^ ]*)_pb2/from . import \1_pb2/g' {} + && \
-          touch /var/teraflow/common/proto/__init__.py /var/teraflow/common/__init__.py
-          
-      # [PHASE 7.74] Final Component Ingestion (Load Generator)
-      RUN mkdir -p /var/teraflow/load_generator
-      COPY baseline/tfs-controller/src/load_generator/ /var/teraflow/load_generator/
-      
-      # [PHASE 7.66] Total Namespace Saturation
-      RUN find /var/teraflow -type d -exec touch {}/__init__.py \;
-      RUN echo "[DEBUG] Gold Master Structure:" && find /var/teraflow -maxdepth 3
-      
-      WORKDIR /var/teraflow
-      ENV PYTHONPATH=/var/teraflow
-      EOF
-      
-      docker build -t "$${REGISTRY}/python-base:$_TAG" -f Dockerfile.base .
-      docker push "$${REGISTRY}/python-base:$_TAG"
-
-- name: 'gcr.io/cloud-builders/docker'
-  id: 'forge-context'
-  waitFor: ['foundation']
-  entrypoint: 'bash'
-  args: ['-c', 'sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|" baseline/tfs-controller/src/context/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/contextservice:$_TAG -f baseline/tfs-controller/src/context/Dockerfile baseline/tfs-controller/']
-
-- name: 'gcr.io/cloud-builders/docker'
-  id: 'forge-device'
-  waitFor: ['foundation']
-  entrypoint: 'bash'
-  args: ['-c', 'sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|" baseline/tfs-controller/src/device/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/deviceservice:$_TAG -f baseline/tfs-controller/src/device/Dockerfile baseline/tfs-controller/']
-
-- name: 'gcr.io/cloud-builders/docker'
-  id: 'forge-service'
-  waitFor: ['foundation']
-  entrypoint: 'bash'
-  args: ['-c', 'sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|" baseline/tfs-controller/src/service/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/serviceservice:$_TAG -f baseline/tfs-controller/src/service/Dockerfile baseline/tfs-controller/']
-
-- name: 'gcr.io/cloud-builders/docker'
-  id: 'forge-slice'
-  waitFor: ['foundation']
-  entrypoint: 'bash'
-  args: ['-c', 'sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|" baseline/tfs-controller/src/slice/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/sliceservice:$_TAG -f baseline/tfs-controller/src/slice/Dockerfile baseline/tfs-controller/']
-
-- name: 'gcr.io/cloud-builders/docker'
-  id: 'forge-pathcomp'
-  waitFor: ['foundation']
-  entrypoint: 'bash'
-  args: ['-c', 'sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|" baseline/tfs-controller/src/pathcomp/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/pathcompservice:$_TAG -f baseline/tfs-controller/src/pathcomp/Dockerfile baseline/tfs-controller/']
-
-- name: 'gcr.io/cloud-builders/docker'
-  id: 'forge-monitoring'
-  waitFor: ['foundation']
-  entrypoint: 'bash'
-  args: ['-c', 'sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|" baseline/tfs-controller/src/monitoring/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/monitoringservice:$_TAG -f baseline/tfs-controller/src/monitoring/Dockerfile baseline/tfs-controller/']
-
-- name: 'gcr.io/cloud-builders/docker'
-  id: 'forge-automation'
-  waitFor: ['foundation']
-  entrypoint: 'bash'
-  args: ['-c', 'sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|" baseline/tfs-controller/src/automation/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/automationservice:$_TAG -f baseline/tfs-controller/src/automation/Dockerfile baseline/tfs-controller/']
-
-- name: 'gcr.io/cloud-builders/docker'
-  id: 'forge-webui'
-  waitFor: ['foundation']
-  entrypoint: 'bash'
-  args: ['-c', 'sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|" baseline/tfs-controller/src/webui/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/webui:$_TAG -f baseline/tfs-controller/src/webui/Dockerfile baseline/tfs-controller/']
-
-- name: 'gcr.io/cloud-builders/docker'
-  id: 'forge-nbi'
-  waitFor: ['foundation']
-  entrypoint: 'bash'
-  args: ['-c', 'sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|" baseline/tfs-controller/src/nbi/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/nbi:$_TAG -f baseline/tfs-controller/src/nbi/Dockerfile baseline/tfs-controller/']
-
-- name: 'gcr.io/cloud-builders/docker'
-  id: 'forge-analytics-frontend'
-  waitFor: ['foundation']
-  entrypoint: 'bash'
-  args: ['-c', 'sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|" baseline/tfs-controller/src/analytics/frontend/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/analytics-frontend:$_TAG -f baseline/tfs-controller/src/analytics/frontend/Dockerfile baseline/tfs-controller/']
-
-- name: 'gcr.io/cloud-builders/docker'
-  id: 'forge-analytics-backend'
-  waitFor: ['foundation']
-  entrypoint: 'bash'
-  args: ['-c', 'sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|" baseline/tfs-controller/src/analytics/backend/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/analytics-backend:$_TAG -f baseline/tfs-controller/src/analytics/backend/Dockerfile baseline/tfs-controller/']
-
-- name: 'gcr.io/cloud-builders/docker'
-  id: 'forge-telemetry-frontend'
-  waitFor: ['foundation']
-  entrypoint: 'bash'
-  args: ['-c', 'sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|" baseline/tfs-controller/src/telemetry/frontend/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/telemetry-frontend:$_TAG -f baseline/tfs-controller/src/telemetry/frontend/Dockerfile baseline/tfs-controller/']
-
-- name: 'gcr.io/cloud-builders/docker'
-  id: 'forge-telemetry-backend'
-  waitFor: ['foundation']
-  entrypoint: 'bash'
-  args: ['-c', 'sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|" baseline/tfs-controller/src/telemetry/backend/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/telemetry-backend:$_TAG -f baseline/tfs-controller/src/telemetry/backend/Dockerfile baseline/tfs-controller/']
-
-- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-  id: 'induction'
-  waitFor: ['forge-context', 'forge-device', 'forge-service', 'forge-slice', 'forge-pathcomp', 'forge-monitoring', 'forge-automation', 'forge-webui', 'forge-nbi', 'forge-analytics-frontend', 'forge-analytics-backend', 'forge-telemetry-frontend', 'forge-telemetry-backend']
-  entrypoint: 'bash'
+  - -c
+  - "set -ex\nREGISTRY=\"us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs\"\
+    \n\necho \"[FOUNDATION] Birthing Python-Base (Tag: 2026-04-21)...\"\ncat <<'EOF'\
+    \ > Dockerfile.base\nFROM python:3.10-slim\n# [PHASE 7.57] Source-Based Reconciliation\
+    \ (libyang v2)\nRUN apt-get update && apt-get install -y --no-install-recommends\
+    \ \\\n    build-essential git libssl-dev libffi-dev python3-dev \\\n    cmake\
+    \ libpcre2-dev && \\\n    rm -rf /var/lib/apt/lists/*\n    \nRUN git clone https://github.com/CESNET/libyang.git\
+    \ && \\\n    cd libyang && git checkout v2.1.128 && \\\n    mkdir build && cd\
+    \ build && \\\n    cmake -D CMAKE_INSTALL_PREFIX:PATH=/usr .. && \\\n    make\
+    \ -j$(nproc) && make install && \\\n    ldconfig\n\n# [PHASE 7.53] Manifest-Based\
+    \ Dependency Ingestion\nWORKDIR /var/teraflow\nCOPY baseline/tfs-controller/src/common/requirements_unified.in\
+    \ /var/teraflow/common/\nRUN echo \"deepdiff\" >> /var/teraflow/common/requirements_unified.in\
+    \ && \\\n    echo \"requests\" >> /var/teraflow/common/requirements_unified.in\
+    \ && \\\n    echo \"pyyaml\" >> /var/teraflow/common/requirements_unified.in &&\
+    \ \\\n    echo \"geopy\" >> /var/teraflow/common/requirements_unified.in && \\\
+    \n    echo \"paramiko\" >> /var/teraflow/common/requirements_unified.in && \\\n\
+    \    echo \"pandas\" >> /var/teraflow/common/requirements_unified.in && \\\n \
+    \   echo \"matplotlib\" >> /var/teraflow/common/requirements_unified.in && \\\n\
+    \    echo \"ncclient\" >> /var/teraflow/common/requirements_unified.in && \\\n\
+    \    echo \"netifaces\" >> /var/teraflow/common/requirements_unified.in && \\\n\
+    \    echo \"onnxruntime\" >> /var/teraflow/common/requirements_unified.in && \\\
+    \n    echo \"pydantic\" >> /var/teraflow/common/requirements_unified.in && \\\n\
+    \    echo \"pygnmi\" >> /var/teraflow/common/requirements_unified.in && \\\n \
+    \   echo \"tabulate\" >> /var/teraflow/common/requirements_unified.in && \\\n\
+    \    echo \"yattag\" >> /var/teraflow/common/requirements_unified.in && \\\n \
+    \   echo \"websockets\" >> /var/teraflow/common/requirements_unified.in && \\\n\
+    \    echo \"elasticsearch\" >> /var/teraflow/common/requirements_unified.in &&\
+    \ \\\n    echo \"confluent-kafka\" >> /var/teraflow/common/requirements_unified.in\
+    \ && \\\n    echo \"deepmerge\" >> /var/teraflow/common/requirements_unified.in\
+    \ && \\\n    echo \"cryptography\" >> /var/teraflow/common/requirements_unified.in\
+    \ && \\\n    echo \"scikit-learn\" >> /var/teraflow/common/requirements_unified.in\
+    \ && \\\n    echo \"flask-httpauth\" >> /var/teraflow/common/requirements_unified.in\
+    \ && \\\n    echo \"netaddr\" >> /var/teraflow/common/requirements_unified.in\
+    \ && \\\n    echo \"pyang\" >> /var/teraflow/common/requirements_unified.in &&\
+    \ \\\n    echo \"pyangbind\" >> /var/teraflow/common/requirements_unified.in &&\
+    \ \\\n    pip install --no-cache-dir -r /var/teraflow/common/requirements_unified.in\n\
+    \n# [SPEC] Ingesting Total Inter-Service Client Fabric\nCOPY baseline/tfs-controller/proto/\
+    \ /var/teraflow/proto/\nCOPY baseline/tfs-controller/src/ /var/teraflow/src_tmp/\n\
+    \n# [PHASE 7.63] Deep Client Ingestion (Total Mesh Saturation)\n# We hunt for\
+    \ all client directories (excluding common) and anchor them to their service root.\n\
+    RUN find /var/teraflow/src_tmp -type d -name \"client\" ! -path \"*/common/*\"\
+    \ | while read client_dir; do \\\n      service_root=$(dirname \"$client_dir\"\
+    ); \\\n      while [ \"$(basename $(dirname \"$service_root\"))\" != \"src_tmp\"\
+    \ ] && [ \"$service_root\" != \"/var/teraflow/src_tmp\" ]; do \\\n        service_root=$(dirname\
+    \ \"$service_root\"); \\\n      done; \\\n      service_name=$(basename \"$service_root\"\
+    ); \\\n      dest_dir=\"/var/teraflow/$service_name/$(echo \"$client_dir\" | sed\
+    \ \"s|.*$service_name/||\")\"; \\\n      mkdir -p \"$dest_dir\"; \\\n      cp\
+    \ -r \"$client_dir/.\" \"$dest_dir/\"; \\\n      # Anchor all intermediate namespaces\n\
+    \      curr_dir=\"$dest_dir\"; \\\n      while [ \"$curr_dir\" != \"/var/teraflow\"\
+    \ ] && [ \"$curr_dir\" != \"/\" ]; do \\\n        touch \"$curr_dir/__init__.py\"\
+    ; \\\n        curr_dir=$(dirname \"$curr_dir\"); \\\n      done; \\\n    done\
+    \ && \\\n    cp -r /var/teraflow/src_tmp/common/* /var/teraflow/common/ && \\\n\
+    \    rm -rf /var/teraflow/src_tmp && \\\n    touch /var/teraflow/common/__init__.py\n\
+    \n# [PHASE 7.51] Code Generation Recovery (The Kill Shot)\nRUN rm -rf /var/teraflow/common/proto\
+    \ && mkdir -p /var/teraflow/common/proto && \\\n    python3 -m grpc_tools.protoc\
+    \ -I/var/teraflow/proto --python_out=/var/teraflow/common/proto \\\n    --grpc_python_out=/var/teraflow/common/proto\
+    \ /var/teraflow/proto/*.proto && \\\n    find /var/teraflow/common/proto -type\
+    \ f -name \"*_pb2*.py\" -exec sed -i -E 's/^import ([^ ]*)_pb2/from . import \\\
+    1_pb2/g' {} + && \\\n    touch /var/teraflow/common/proto/__init__.py /var/teraflow/common/__init__.py\n\
+    \    \n# [PHASE 7.74] Final Component Ingestion (Load Generator)\nRUN mkdir -p\
+    \ /var/teraflow/load_generator\nCOPY baseline/tfs-controller/src/load_generator/\
+    \ /var/teraflow/load_generator/\n\n# [PHASE 7.66] Total Namespace Saturation\n\
+    RUN find /var/teraflow -type d -exec touch {}/__init__.py \\;\nRUN echo \"[DEBUG]\
+    \ Gold Master Structure:\" && find /var/teraflow -maxdepth 3\n\nWORKDIR /var/teraflow\n\
+    ENV PYTHONPATH=/var/teraflow\nEOF\n\ndocker build -t \"$${REGISTRY}/python-base:$_TAG\"\
+    \ -f Dockerfile.base .\ndocker push \"$${REGISTRY}/python-base:$_TAG\"\n"
+- name: gcr.io/cloud-builders/docker
+  id: forge-context
+  waitFor:
+  - foundation
+  entrypoint: bash
   args:
-    - '-c'
-    - |
-      set -ex
-      echo "[DEPLOY] Authenticating to Hardened Cottage: $_CLUSTER_NAME..."
-      gcloud container clusters get-credentials "$_CLUSTER_NAME" --zone "$_ZONE" --project "$PROJECT_ID"
-      
-      REGISTRY="us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs"
-      
-      COMPONENTS=(
-          "context:contextservice.yaml"
-          "device:deviceservice.yaml"
-          "service:serviceservice.yaml"
-          "slice:sliceservice.yaml"
-          "pathcomp:pathcompservice.yaml"
-          "nbi:nbiservice.yaml"
-          "webui:webuiservice.yaml"
-          "monitoring:monitoringservice.yaml"
-          "automation:automationservice.yaml"
-          "analytics-frontend:analyticsservice.yaml" "analytics-backend:analyticsservice.yaml"
-          "telemetry-frontend:telemetryservice.yaml"
-          "telemetry-backend:telemetryservice.yaml"
-      )
-
-      # [PHASE 7.XX] Birthing Manifest Hardener (Architectural Truth Orchestrator)
-      # Installing PyYAML for structural integrity (Overriding PEP 668 for ephemeral env)
-      pip3 install --user PyYAML --break-system-packages
-      
-      cat <<'EOF' | sed 's/^      //' > harden_manifest.py
-      import sys, yaml
-
-      def harden():
-          if len(sys.argv) < 5:
-              sys.exit(1)
-          file_path, service_name, tag, registry = sys.argv[1:]
-          try:
-              with open(file_path, 'r') as f:
-                  data = list(yaml.load_all(f, Loader=yaml.FullLoader))
-              for doc in data:
-                  if not doc or 'kind' not in doc:
-                      continue
-                  if doc['kind'] in ['Deployment', 'StatefulSet']:
-                      for container in doc['spec']['template']['spec']['containers']:
-                          container['image'] = f"{registry}/{service_name}:{tag}"
-                          container['imagePullPolicy'] = 'Always'
-              with open(file_path, 'w') as f:
-                  yaml.dump_all(data, f)
-          except Exception as e:
-              sys.exit(1)
-
-      if __name__ == "__main__":
-          harden()
-      EOF
-
-      echo "[INDUCTION] Creating Orchestration Secrets..."
-      kubectl create secret generic kfk-kpi-data --from-literal=KFK_SERVER_ADDRESS=kafka-public.default.svc.cluster.local:9092 --from-literal=KAFKA_API_VERSION=3.7.0 --dry-run=client -o yaml | kubectl apply -f -
-      kubectl create secret generic qdb-data --from-literal=username=admin --from-literal=password=quest --from-literal=METRICSDB_USER=admin --from-literal=METRICSDB_PASS=quest --from-literal=METRICSDB_HOSTNAME=questdb-public --dry-run=client -o yaml | kubectl apply -f -
-      kubectl create secret generic crdb-data --from-literal=CRDB_USERNAME=admin --from-literal=CRDB_PASSWORD=quest --from-literal=CRDB_DATABASE=tfs_context --from-literal=CRDB_NAMESPACE=default --dry-run=client -o yaml | kubectl apply -f -
-      kubectl create secret generic nats-data --from-literal=NATS_USERNAME=admin --from-literal=NATS_PASSWORD=quest --dry-run=client -o yaml | kubectl apply -f -
-
-      echo "[INDUCTION] Executing Terminal Induction (Universal Tag: $_TAG)..."
-      
-      echo "[BACKBONE] Purging Ghost Resources..."
-      kubectl delete statefulset kafka questdb --ignore-not-found=true
-      kubectl delete service kafka-public questdb-public --ignore-not-found=true
-      
-      echo "[BACKBONE] Inducing Fresh Persistence Fabric..."
-      sed -i 's/kafka-public.kafka.svc.cluster.local/kafka-public.default.svc.cluster.local/' baseline/tfs-controller/manifests/kafka/single-node.yaml
-      kubectl apply -f infra/storage-class-hardened.yaml
-      kubectl apply -f baseline/tfs-controller/manifests/cockroachdb/crds.yaml
-      kubectl wait --for=condition=established --timeout=60s crd/crdbclusters.crdb.cockroachlabs.com
-      kubectl apply -f baseline/tfs-controller/manifests/cockroachdb/operator.yaml
-      kubectl rollout status deployment/cockroach-operator-manager -n cockroach-operator-system --timeout=120s
-      sleep 10
-      kubectl apply -f baseline/tfs-controller/manifests/cockroachdb/cluster.yaml
-      kubectl apply -f baseline/tfs-controller/manifests/nats/nats_fidelity.yaml
-      kubectl apply -f baseline/tfs-controller/manifests/kafka/single-node.yaml
-      kubectl apply -f baseline/tfs-controller/manifests/questdb/manifest.yaml
-      
-      sleep 30
-
-      for COMP_DATA in "${COMPONENTS[@]}"; do
-          IFS=':' read -r S_NAME MANIFEST_FILE <<< "$$COMP_DATA"
-          MANIFEST="baseline/tfs-controller/manifests/$$MANIFEST_FILE"
-          if [ ! -f "$$MANIFEST" ]; then continue; fi
-          
-          python3 harden_manifest.py "$$MANIFEST" "$$S_NAME" "$_TAG" "$_REGISTRY"
-          
-          echo "[INDUCTION] Inducing $$S_NAME onto cluster..."
-          kubectl apply -f "$$MANIFEST"
-      done
-      
-      echo "[GATEWAY] Inducting NGINX Ingress..."
-      kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.10.0/deploy/static/provider/cloud/deploy.yaml
-      sleep 60
-      kubectl apply -f infra/tfs_ingress.yaml
-      echo "[GRADUATION] Mission Success."
-
+  - -c
+  - sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|"
+    baseline/tfs-controller/src/context/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/contextservice:$_TAG
+    -f baseline/tfs-controller/src/context/Dockerfile baseline/tfs-controller/
+- name: gcr.io/cloud-builders/docker
+  id: forge-device
+  waitFor:
+  - foundation
+  entrypoint: bash
+  args:
+  - -c
+  - sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|"
+    baseline/tfs-controller/src/device/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/deviceservice:$_TAG
+    -f baseline/tfs-controller/src/device/Dockerfile baseline/tfs-controller/
+- name: gcr.io/cloud-builders/docker
+  id: forge-service
+  waitFor:
+  - foundation
+  entrypoint: bash
+  args:
+  - -c
+  - sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|"
+    baseline/tfs-controller/src/service/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/serviceservice:$_TAG
+    -f baseline/tfs-controller/src/service/Dockerfile baseline/tfs-controller/
+- name: gcr.io/cloud-builders/docker
+  id: forge-slice
+  waitFor:
+  - foundation
+  entrypoint: bash
+  args:
+  - -c
+  - sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|"
+    baseline/tfs-controller/src/slice/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/sliceservice:$_TAG
+    -f baseline/tfs-controller/src/slice/Dockerfile baseline/tfs-controller/
+- name: gcr.io/cloud-builders/docker
+  id: forge-pathcomp
+  waitFor:
+  - foundation
+  entrypoint: bash
+  args:
+  - -c
+  - sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|"
+    baseline/tfs-controller/src/pathcomp/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/pathcompservice:$_TAG
+    -f baseline/tfs-controller/src/pathcomp/Dockerfile baseline/tfs-controller/
+- name: gcr.io/cloud-builders/docker
+  id: forge-monitoring
+  waitFor:
+  - foundation
+  entrypoint: bash
+  args:
+  - -c
+  - sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|"
+    baseline/tfs-controller/src/monitoring/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/monitoringservice:$_TAG
+    -f baseline/tfs-controller/src/monitoring/Dockerfile baseline/tfs-controller/
+- name: gcr.io/cloud-builders/docker
+  id: forge-automation
+  waitFor:
+  - foundation
+  entrypoint: bash
+  args:
+  - -c
+  - sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|"
+    baseline/tfs-controller/src/automation/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/automationservice:$_TAG
+    -f baseline/tfs-controller/src/automation/Dockerfile baseline/tfs-controller/
+- name: gcr.io/cloud-builders/docker
+  id: forge-webui
+  waitFor:
+  - foundation
+  entrypoint: bash
+  args:
+  - -c
+  - sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|"
+    baseline/tfs-controller/src/webui/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/webui:$_TAG
+    -f baseline/tfs-controller/src/webui/Dockerfile baseline/tfs-controller/
+- name: gcr.io/cloud-builders/docker
+  id: forge-nbi
+  waitFor:
+  - foundation
+  entrypoint: bash
+  args:
+  - -c
+  - sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|"
+    baseline/tfs-controller/src/nbi/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/nbi:$_TAG
+    -f baseline/tfs-controller/src/nbi/Dockerfile baseline/tfs-controller/
+- name: gcr.io/cloud-builders/docker
+  id: forge-analytics-frontend
+  waitFor:
+  - foundation
+  entrypoint: bash
+  args:
+  - -c
+  - sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|"
+    baseline/tfs-controller/src/analytics/frontend/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/analytics-frontend:$_TAG
+    -f baseline/tfs-controller/src/analytics/frontend/Dockerfile baseline/tfs-controller/
+- name: gcr.io/cloud-builders/docker
+  id: forge-analytics-backend
+  waitFor:
+  - foundation
+  entrypoint: bash
+  args:
+  - -c
+  - sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|"
+    baseline/tfs-controller/src/analytics/backend/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/analytics-backend:$_TAG
+    -f baseline/tfs-controller/src/analytics/backend/Dockerfile baseline/tfs-controller/
+- name: gcr.io/cloud-builders/docker
+  id: forge-telemetry-frontend
+  waitFor:
+  - foundation
+  entrypoint: bash
+  args:
+  - -c
+  - sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|"
+    baseline/tfs-controller/src/telemetry/frontend/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/telemetry-frontend:$_TAG
+    -f baseline/tfs-controller/src/telemetry/frontend/Dockerfile baseline/tfs-controller/
+- name: gcr.io/cloud-builders/docker
+  id: forge-telemetry-backend
+  waitFor:
+  - foundation
+  entrypoint: bash
+  args:
+  - -c
+  - sed -i "1s|.*|FROM us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/python-base:$_TAG|"
+    baseline/tfs-controller/src/telemetry/backend/Dockerfile && docker build -t us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs/telemetry-backend:$_TAG
+    -f baseline/tfs-controller/src/telemetry/backend/Dockerfile baseline/tfs-controller/
+- name: gcr.io/google.com/cloudsdktool/cloud-sdk
+  id: induction
+  waitFor:
+  - forge-context
+  - forge-device
+  - forge-service
+  - forge-slice
+  - forge-pathcomp
+  - forge-monitoring
+  - forge-automation
+  - forge-webui
+  - forge-nbi
+  - forge-analytics-frontend
+  - forge-analytics-backend
+  - forge-telemetry-frontend
+  - forge-telemetry-backend
+  entrypoint: bash
+  args:
+  - -c
+  - "set -ex\necho \"[DEPLOY] Authenticating to Hardened Cottage: $_CLUSTER_NAME...\"\
+    \ngcloud container clusters get-credentials \"$_CLUSTER_NAME\" --zone \"$_ZONE\"\
+    \ --project \"$PROJECT_ID\"\n\nREGISTRY=\"us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs\"\
+    \n\nCOMPONENTS=(\n    \"context:contextservice.yaml\"\n    \"device:deviceservice.yaml\"\
+    \n    \"service:serviceservice.yaml\"\n    \"slice:sliceservice.yaml\"\n    \"\
+    pathcomp:pathcompservice.yaml\"\n    \"nbi:nbiservice.yaml\"\n    \"webui:webuiservice.yaml\"\
+    \n    \"monitoring:monitoringservice.yaml\"\n    \"automation:automationservice.yaml\"\
+    \n    \"analytics-frontend:analyticsservice.yaml\" \"analytics-backend:analyticsservice.yaml\"\
+    \n    \"telemetry-frontend:telemetryservice.yaml\"\n    \"telemetry-backend:telemetryservice.yaml\"\
+    \n)\n\n# [PHASE 7.XX] Birthing Manifest Hardener (Architectural Truth Orchestrator)\n\
+    # Installing PyYAML for structural integrity (Overriding PEP 668 for ephemeral\
+    \ env)\npip3 install --user PyYAML --break-system-packages\n\ncat <<'EOF' | sed\
+    \ 's/^      //' > harden_manifest.py\nimport sys, yaml\n\ndef harden():\n    if\
+    \ len(sys.argv) < 5:\n        sys.exit(1)\n    file_path, service_name, tag, registry\
+    \ = sys.argv[1:]\n    try:\n        with open(file_path, 'r') as f:\n        \
+    \    data = list(yaml.load_all(f, Loader=yaml.FullLoader))\n        for doc in\
+    \ data:\n            if not doc or 'kind' not in doc:\n                continue\n\
+    \            if doc['kind'] in ['Deployment', 'StatefulSet']:\n              \
+    \  for container in doc['spec']['template']['spec']['containers']:\n         \
+    \           container['image'] = f\"{registry}/{service_name}:{tag}\"\n      \
+    \              container['imagePullPolicy'] = 'Always'\n        with open(file_path,\
+    \ 'w') as f:\n            yaml.dump_all(data, f)\n    except Exception as e:\n\
+    \        sys.exit(1)\n\nif __name__ == \"__main__\":\n    harden()\nEOF\n\necho\
+    \ \"[INDUCTION] Creating Orchestration Secrets...\"\nkubectl create secret generic\
+    \ kfk-kpi-data --from-literal=KFK_SERVER_ADDRESS=kafka-public.default.svc.cluster.local:9092\
+    \ --from-literal=KAFKA_API_VERSION=3.7.0 --dry-run=client -o yaml | kubectl apply\
+    \ -f -\nkubectl create secret generic qdb-data --from-literal=username=admin --from-literal=password=quest\
+    \ --from-literal=METRICSDB_USER=admin --from-literal=METRICSDB_PASS=quest --from-literal=METRICSDB_HOSTNAME=questdb-public\
+    \ --dry-run=client -o yaml | kubectl apply -f -\nkubectl create secret generic\
+    \ crdb-data --from-literal=CRDB_USERNAME=admin --from-literal=CRDB_PASSWORD=quest\
+    \ --from-literal=CRDB_DATABASE=tfs_context --from-literal=CRDB_NAMESPACE=default\
+    \ --dry-run=client -o yaml | kubectl apply -f -\nkubectl create secret generic\
+    \ nats-data --from-literal=NATS_USERNAME=admin --from-literal=NATS_PASSWORD=quest\
+    \ --dry-run=client -o yaml | kubectl apply -f -\n\necho \"[INDUCTION] Executing\
+    \ Terminal Induction (Universal Tag: $_TAG)...\"\n\necho \"[BACKBONE] Purging\
+    \ Ghost Resources...\"\nkubectl delete statefulset kafka questdb --ignore-not-found=true\n\
+    kubectl delete service kafka-public questdb-public --ignore-not-found=true\n\n\
+    echo \"[BACKBONE] Inducing Fresh Persistence Fabric...\"\nsed -i 's/kafka-public.kafka.svc.cluster.local/kafka-public.default.svc.cluster.local/'\
+    \ baseline/tfs-controller/manifests/kafka/single-node.yaml\nkubectl apply -f infra/storage-class-hardened.yaml\n\
+    kubectl apply -f baseline/tfs-controller/manifests/cockroachdb/crds.yaml\nkubectl\
+    \ wait --for=condition=established --timeout=60s crd/crdbclusters.crdb.cockroachlabs.com\n\
+    kubectl apply -f baseline/tfs-controller/manifests/cockroachdb/operator.yaml\n\
+    kubectl rollout status deployment/cockroach-operator-manager -n cockroach-operator-system\
+    \ --timeout=120s\nsleep 10\nkubectl apply -f baseline/tfs-controller/manifests/cockroachdb/cluster.yaml\n\
+    kubectl apply -f baseline/tfs-controller/manifests/nats/nats_fidelity.yaml\nkubectl\
+    \ apply -f baseline/tfs-controller/manifests/kafka/single-node.yaml\nkubectl apply\
+    \ -f baseline/tfs-controller/manifests/questdb/manifest.yaml\n\nsleep 30\n\nfor\
+    \ COMP_DATA in \"${COMPONENTS[@]}\"; do\n    IFS=':' read -r S_NAME MANIFEST_FILE\
+    \ <<< \"$$COMP_DATA\"\n    MANIFEST=\"baseline/tfs-controller/manifests/$$MANIFEST_FILE\"\
+    \n    if [ ! -f \"$$MANIFEST\" ]; then continue; fi\n    \n    python3 harden_manifest.py\
+    \ \"$$MANIFEST\" \"$$S_NAME\" \"$_TAG\" \"$_REGISTRY\"\n    \n    echo \"[INDUCTION]\
+    \ Inducing $$S_NAME onto cluster...\"\n    kubectl apply -f \"$$MANIFEST\"\ndone\n\
+    \necho \"[GATEWAY] Inducting NGINX Ingress...\"\nkubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.10.0/deploy/static/provider/cloud/deploy.yaml\n\
+    sleep 60\nkubectl apply -f infra/tfs_ingress.yaml\necho \"[GRADUATION] Mission\
+    \ Success.\"\n"
 options:
-  machineType: 'E2_HIGHCPU_8'
-  substitution_option: 'ALLOW_LOOSE'
-
+  machineType: E2_HIGHCPU_8
+  substitution_option: ALLOW_LOOSE
 substitutions:
-  _CLUSTER_NAME: "sovereign-genesis"
-  _ZONE: "us-central1-a"
-  _TAG: "rc13-verified"
-  _REGISTRY: "us-central1-docker.pkg.dev/cogctl-gke-v01/sovereign-tfs"
+  _CLUSTER_NAME: sovereign-genesis
+  _ZONE: us-central1-a
+  _TAG: rc13-verified
+  _REGISTRY: ${_CUSTOMER_REGISTRY}

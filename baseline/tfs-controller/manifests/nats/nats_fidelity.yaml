@@ -1,8 +1,3 @@
-# SOVEREIGN GENESIS: NATS MESSAGING FOUNDATION
-# Purpose: High-performance messaging layer for ETSI TFS service bus.
-# Configuration: Fixed to single-node for stability in GKE Genesis.
-# Reference: SOP-03, Blueprint Law Rule 8.2
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -62,4 +57,3 @@ spec:
   ports:
   - name: client
     port: 4222
-
